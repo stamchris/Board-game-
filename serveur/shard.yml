@@ -1,0 +1,10 @@
+name: cerber-serveur
+version: 0.1.0
+
+dependencies:
+  kemal:
+    github: sdogruyol/kemal
+
+targets:
+  serveur:
+    main: src/main.cr
