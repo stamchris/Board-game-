@@ -1,38 +1,20 @@
 require "json"
 require "kemal"
 
-class Player
-	getter name : String
+require "./requests.cr"
+require "./game.cr"
 
-	def initialize(@name)
-	end
-end
-
-class Payload::Login
-	include JSON::Serializable
-
-	property login : String
-end
-
-players = [] of Player
+game = Cerbere::Game.new
 
 ws "/" do |socket|
-	login = false
 
-	socket.on_message do |message_as_s|
-		msg = JSON.parse(message_as_s).as_h?
-		pp! msg
+	player = Cerbere::Player.new "", socket
 
-		if msg.nil?
-			next
-		end
+	socket.on_message do |message|
+		request = Cerbere::Request.from_json message
+		pp! request
 
-		if msg["type"] == "login"
-			payload = Payload::Login.from_json(msg["payload"].as_s)
-			players << Player.new(payload.login)
-
-			socket.send "Ok"
-		end
+		request.handle(game, player)
 	end
 end
 
