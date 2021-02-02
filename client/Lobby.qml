@@ -12,16 +12,16 @@ ColumnLayout {
 		ListView {
 			model:game.players
 			delegate:Text {
-				text: modelData.name + " est un joueur"
+				text: modelData.name + " est connecté"
 				Layout.alignment: Qt.AlignHCenter
 			}
 		}
 	}
 
-	Button {
-		text: "Add un truc, KEK"
-		onClicked: {
-			socket.switchMessage({type:"newPlayer",name:"KAPPA"})
+	CheckBox {
+		text : "Je suis prêt !"
+		onClicked : {
+			socket.send({type: "ready"})
 		}
 	}
 }

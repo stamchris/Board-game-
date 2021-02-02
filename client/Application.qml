@@ -15,10 +15,22 @@ ApplicationWindow {
 		property bool waiting4Connect: false
 		property string login: ""
 		
+		function send(message) {
+			socket.sendTextMessage(JSON.stringify(message))
+		}
+
 		function switchMessage(message) {
 			switch(message.type) {
 				case "newPlayer":
 					game.players.push({name:message.name})
+					break
+				case "welcome":
+					game.players = message.players
+					game.visible = true
+					loader.push(game)
+					break
+				case "starter":
+					game.state = "start"
 					break
 			}
 			game.players = game.players
@@ -48,7 +60,6 @@ ApplicationWindow {
 		onTextMessageReceived: {
 			console.log(message)
 			switchMessage(JSON.parse(message))
-			loader.push(game)
 		}
 	}
 
@@ -79,5 +90,6 @@ ApplicationWindow {
 
 	Game {
 		id: game
+		visible: false
 	}
 }

@@ -3,8 +3,6 @@ import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
 
 Item {
-	anchors.fill: parent
-
 	ColumnLayout {
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.verticalCenter: parent.verticalCenter
