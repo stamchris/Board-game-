@@ -3,12 +3,10 @@ import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
 
 Item {
-	anchors.fill: parent
+	id: game
 
-	Label {
-		anchors.horizontalCenter: parent.horizontalCenter
-		anchors.verticalCenter: parent.verticalCenter
-
-		text: "Le Jeu ici"
+	property var players: [{name:"KEK"}]
+	Lobby {
+		anchors.fill: parent
 	}
 }

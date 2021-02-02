@@ -14,6 +14,15 @@ ApplicationWindow {
 
 		property bool waiting4Connect: false
 		property string login: ""
+		
+		function switchMessage(message) {
+			switch(message.type) {
+				case "newPlayer":
+					game.players.push({name:message.name})
+					break
+			}
+			game.players = game.players
+		}
 
 		function connect(serveur, login) {
 			socket.url = "ws://" + serveur
@@ -31,14 +40,15 @@ ApplicationWindow {
 			if (status == WebSocket.Open && socket.waiting4Connect) {
 				socket.sendTextMessage(JSON.stringify({
 				type: "login",
-				payload: JSON.stringify({login: socket.login})
+				name:socket.login
 				}))
 			}
 		}
 		
 		onTextMessageReceived: {
 			console.log(message)
-			loader.push("Game.qml")
+			switchMessage(JSON.parse(message))
+			loader.push(game)
 		}
 	}
 
@@ -65,5 +75,9 @@ ApplicationWindow {
 		}
 
 		initialItem: "Login.qml"
+	}
+
+	Game {
+		id: game
 	}
 }
