@@ -71,11 +71,13 @@ CARTES_SURVIE=[
             Choix.new(Effet.new(Evenement::DEFAUSSER_PARTAGE,1),
                [Effet.new(Evenement::COUARDISE,0)])]),
 
-    CarteSurvie.new("Opportunisme",
+   CarteSurvie.new("Opportunisme",
     	    [Choix.new(Effet.new(Evenement::RIEN,0),
     		  [Effet.new(Evenement::DEPLACER_MOI,1),Effet.new(Evenement::DEPLACER_AUTRE,-1)]),
             Choix.new(Effet.new(Evenement::DEFAUSSER_PARTAGE,1),
-          	  [Effet.new(Evenement::DEPLACER_AUTRE,-2),Effet.new(Evenement::DEPLACER_AUTRE,2),Effet.new(Evenement::DEPLACER_MOI,1)])]),
+          	  [Effet.new(Evenement::DEPLACER_AUTRE,-2),Effet.new(Evenement::DEPLACER_MOI,1)]),
+          	Choix.new(Effet.new(Evenement::DEFAUSSER_PARTAGE,1),
+          	   [Effet.new(Evenement::DEPLACER_AUTRE,2),Effet.new(Evenement::DEPLACER_MOI,1)])]),
     	
     CarteSurvie.new("Arrogance",
             [Choix.new(Effet.new(Evenement::RIEN,0),
@@ -196,13 +198,4 @@ CARTES_ACTION_CERBERE = [
 			[Effet.new(Evenement::PIOCHER_MOI,1),Effet.new(Evenement::RECUPERER_CARTE,0)])])
 ] of CarteActionCerbere
 
-sacrifice : CarteSurvie = CarteSurvie.new("Sacrifice",
-	[Choix.new(Effet.new(Evenement::RIEN,0),
-		[Effet.new(Evenement::CHANGER_COLERE,-1),Effet.new(Evenement::DEPLACER_AUTRE,-1)]),
-	Choix.new(Effet.new(Evenement::DEFAUSSER_PARTAGE,1),
-		[Effet.new(Evenement::CHANGER_COLERE,-2),Effet.new(Evenement::DEPLACER_AUTRE,-2)])])
-survivant1 : CarteActionSurvivant = CarteActionSurvivant.new(
-	[Choix.new(Effet.new(Evenement::CHANGER_COLERE,1),
-		[Effet.new(Evenement::PIOCHER_MOI,2)]),
-	Choix.new(Effet.new(Evenement::CHANGER_COLERE,1),
-		[Effet.new(Evenement::PIOCHER_MOI,1),Effet.new(Evenement::PIOCHER_ALLIE,2)])])
+
