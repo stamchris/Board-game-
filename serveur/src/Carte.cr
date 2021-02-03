@@ -99,6 +99,29 @@ CARTES_TRAHISON = [
 			[Effet.new(Evenement::DEPLACER_CERBERE,2)])])
 ] of CarteTrahison
 
+CARTES_ACTION_CERBERE = [
+	CarteActionCerbere.new(
+		[Choix.new(Effet.new(Evenement::RIEN,0),
+			[Effet.new(Evenement::CHANGER_VITESSE,1)]),
+		Choix.new(Effet.new(Evenement::CHANGER_VITESSE,-1),
+			[Effet.new(Evenement::PIOCHER_MOI,2),Effet.new(Evenement::PIOCHER_ALLIE,1)])]),
+	CarteActionCerbere.new(
+		[Choix.new(Effet.new(Evenement::DEPLACER_AUTRE,1),
+			[Effet.new(Evenement::DEPLACER_AUTRE,-1),Effet.new(Evenement::DEPLACER_AUTRE,-1),Effet.new(Evenement::DEPLACER_AUTRE,-1)]),
+		Choix.new(Effet.new(Evenement::RIEN,0),
+			[Effet.new(Evenement::CHANGER_VITESSE,1)])]),
+	CarteActionCerbere.new(
+		[Choix.new(Effet.new(Evenement::RIEN,0),
+			[Effet.new(Evenement::DEPLACER_CERBERE,1)]),
+		Choix.new(Effet.new(Evenement::RIEN,0),
+			[Effet.new(Evenement::PIOCHER_MOI,1)])]),
+	CarteActionCerbere.new(
+		[Choix.new(Effet.new(Evenement::RIEN,0),
+			[Effet.new(Evenement::RECUPERER_CARTE,0)]),
+		Choix.new(Effet.new(Evenement::DEPLACER_AUTRE,2),
+			[Effet.new(Evenement::PIOCHER_MOI,1),Effet.new(Evenement::RECUPERER_CARTE,0)])])
+] of CarteActionCerbere
+
 sacrifice : CarteSurvie = CarteSurvie.new("Sacrifice",
 	[Choix.new(Effet.new(Evenement::RIEN,0),
 		[Effet.new(Evenement::CHANGER_COLERE,-1),Effet.new(Evenement::DEPLACER_AUTRE,-1)]),
@@ -109,8 +132,3 @@ survivant1 : CarteActionSurvivant = CarteActionSurvivant.new(
 		[Effet.new(Evenement::PIOCHER_MOI,2)]),
 	Choix.new(Effet.new(Evenement::CHANGER_COLERE,1),
 		[Effet.new(Evenement::PIOCHER_MOI,1),Effet.new(Evenement::PIOCHER_ALLIE,2)])])
-cerbere1 : CarteActionCerbere = CarteActionCerbere.new(
-	[Choix.new(Effet.new(Evenement::RIEN,0),
-		[Effet.new(Evenement::CHANGER_VITESSE,1)]),
-	Choix.new(Effet.new(Evenement::CHANGER_VITESSE,1),
-		[Effet.new(Evenement::PIOCHER_MOI,2),Effet.new(Evenement::PIOCHER_ALLIE,1)])])
