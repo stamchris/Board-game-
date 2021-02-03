@@ -65,37 +65,37 @@ end
 
 CARTES_SURVIE=[
    
-    CarteSurvie.new("Courardise",
+    CarteSurvie.new("Couardise",
             [Choix.new(Effet.new(Evenement::RIEN,0),
                [Effet.new(Evenement::BARQUE,0)]),
             Choix.new(Effet.new(Evenement::DEFAUSSER_SURVIE,1),
-               [Effet.new(Evenement::Couardise,0)])]),
+               [Effet.new(Evenement::COUARDISE,0)])]),
 
-    CarteSurvie.new("Oportunisme",
-    	    [Chois.new(Effet.new(Evenement::RIEN,0),
+    CarteSurvie.new("Opportunisme",
+    	    [Choix.new(Effet.new(Evenement::RIEN,0),
     		  [Effet.new(Evenement::DEPLACER_SURVIVANTS,1),Effet.new(Evenement::DEPLACER_AUTRE,-1)]),
             Choix.new(Effet.new(Evenement::DEFAUSSER_SURVIE,1),
           	  [Effet.new(Evenement::DEPLACER_AUTRE,-2),Effet.new(Evenement::DEPLACER_AUTRE,2),Effet.new(Evenement::DEPLACER_SURVIVANTS,1)])]),
     	
-    CARTES_SURVIE.new("Arrogance",
+    CarteSurvie.new("Arrogance",
             [Choix.new(Effet.new(Evenement::RIEN,0),
               [Effet.new(Evenement::DEPLACER_AUTRE,1),Effet.new(Evenement::DEPLACER_AUTRE,1)]),
             Choix.new(Effet.new(Evenement::DEFAUSSER_PARTAGE,1),
           	  [Effet.new(Evenement::DEPLACER_AUTRE,3),Effet.new(Evenement::CHANGER_COLERE,-1)])]),
       
-    CARTES_SURVIE.new("Favoritisme",
+    CarteSurvie.new("Favoritisme",
             [Choix.new(Effet.new(Evenement::RIEN,0),
        	       [Effet.new(Evenement::DEPLACER_SURVIVANTS,1),Effet.new(Evenement::DEPLACER_AUTRE,1)]),
             Choix.new(Effet.new(Evenement::DEFAUSSER_SURVIE,3),
                [Effet.new(Evenement::DEPLACER_SURVIVANTS,3),Effet.new(Evenement::DEPLACER_AUTRE,2),Effet.new(Evenement::DEPLACER_AUTRE,1)])]),
 
-    CARTES_SURVIE.new("Sacrifice",
+    CarteSurvie.new("Sacrifice",
             [Choix.new(Effet.new(Evenement::RIEN,0),
           	   [Effet.new(Evenement::CHANGER_COLERE,-1),Effet.new(Evenement::DEPLACER_AUTRE,-1)]),
             Choix.new(Effet.new(Evenement::DEFAUSSER_SURVIE,1),
               [Effet.new(Evenement::CHANGER_COLERE,-2),Effet.new(Evenement::DEPLACER_AUTRE,-2)])]),
         
-   CarteSurvie.new("Egoisme",
+   CarteSurvie.new("Egoïsme",
         	[Choix.new(Effet.new(Evenement::RIEN,0),
                [Effet.new(Evenement::DEPLACER_SURVIVANTS,1)]),
             Choix.new(Effet.new(Evenement::DEFAUSSER_SURVIE,1),
@@ -145,33 +145,33 @@ CARTES_TRAHISON = [
 			[Effet.new(Evenement::DEPLACER_CERBERE,2)])])
 ] of CarteTrahison
 
-CARTE_ACTION_AVENTURIER = [
+CARTES_ACTION_SURVIVANT = [
 
-	CarteActionCerbere.new(
+	CarteActionSurvivant.new(
 		[Choix.new(Effet.new(Evenement::CHANGER_COLERE,1),
 			[Effet.new(Evenement::RECUPERER_CARTE,0),Effet.new(Evenement::PIOCHER_MOI,1)]),
 		Choix.new(Effet.new(Evenement::CHANGER_COLERE,1),
 			[Effet.new(Evenement::BARQUE,0),Effet.new(Evenement::RECUPERER_CARTE,0)])]),
 		
-	CarteActionCerbere.new(
+	CarteActionSurvivant.new(
 		[Choix.new(Effet.new(Evenement::CHANGER_COLERE,1),
 			[Effet.new(Evenement::PIOCHER_MOI,2)]),
 		Choix.new(Effet.new(Evenement::CHANGER_COLERE,1),
 			[Effet.new(Evenement::PIOCHER_MOI,1),Effet.new(Evenement::PIOCHER_ALLIE,1),Effet.new(Evenement::PIOCHER_ALLIE,1)])]),
 		
-	CarteActionCerbere.new(
+	CarteActionSurvivant.new(
 		[Choix.new(Effet.new(Evenement::CHANGER_COLERE,1),
 			[Effet.new(Evenement::DEPLACER_SURVIVANTS,2)]),
 		Choix.new(Effet.new(Evenement::CHANGER_COLERE,1),
 			[Effet.new(Evenement::DEPLACER_AUTRE,3),Effet.new(Evenement::DEPLACER_AUTRE,1)])]),
 		
-	CarteActionCerbere.new(
+	CarteActionSurvivant.new(
 		[Choix.new(Effet.new(Evenement::CHANGER_VITESSE,1),
-			[Effet.new(Evenement::DEPLACER_SURVIVANTS,2),Effet.nem(Evenement::DEPLACER_AUTRE,1)]),
+			[Effet.new(Evenement::DEPLACER_SURVIVANTS,2),Effet.new(Evenement::DEPLACER_AUTRE,1)]),
 		Choix.new(Effet.new(Evenement::DEFAUSSER_SURVIE,1),
 			[Effet.new(Evenement::DEPLACER_AUTRE,2),Effet.new(Evenement::DEPLACER_SURVIVANTS,1)])]),
   
-] of CarteActionAventurier
+] of CarteActionSurvivant
 
 
 CARTES_ACTION_CERBERE = [
