@@ -68,14 +68,14 @@ CARTES_SURVIE=[
     CarteSurvie.new("Couardise",
             [Choix.new(Effet.new(Evenement::RIEN,0),
                [Effet.new(Evenement::BARQUE,0)]),
-            Choix.new(Effet.new(Evenement::DEFAUSSER_SURVIE,1),
+            Choix.new(Effet.new(Evenement::DEFAUSSER_PARTAGE,1),
                [Effet.new(Evenement::COUARDISE,0)])]),
 
     CarteSurvie.new("Opportunisme",
     	    [Choix.new(Effet.new(Evenement::RIEN,0),
-    		  [Effet.new(Evenement::DEPLACER_SURVIVANTS,1),Effet.new(Evenement::DEPLACER_AUTRE,-1)]),
-            Choix.new(Effet.new(Evenement::DEFAUSSER_SURVIE,1),
-          	  [Effet.new(Evenement::DEPLACER_AUTRE,-2),Effet.new(Evenement::DEPLACER_AUTRE,2),Effet.new(Evenement::DEPLACER_SURVIVANTS,1)])]),
+    		  [Effet.new(Evenement::DEPLACER_MOI,1),Effet.new(Evenement::DEPLACER_AUTRE,-1)]),
+            Choix.new(Effet.new(Evenement::DEFAUSSER_PARTAGE,1),
+          	  [Effet.new(Evenement::DEPLACER_AUTRE,-2),Effet.new(Evenement::DEPLACER_AUTRE,2),Effet.new(Evenement::DEPLACER_MOI,1)])]),
     	
     CarteSurvie.new("Arrogance",
             [Choix.new(Effet.new(Evenement::RIEN,0),
@@ -85,26 +85,26 @@ CARTES_SURVIE=[
       
     CarteSurvie.new("Favoritisme",
             [Choix.new(Effet.new(Evenement::RIEN,0),
-       	       [Effet.new(Evenement::DEPLACER_SURVIVANTS,1),Effet.new(Evenement::DEPLACER_AUTRE,1)]),
-            Choix.new(Effet.new(Evenement::DEFAUSSER_SURVIE,3),
-               [Effet.new(Evenement::DEPLACER_SURVIVANTS,3),Effet.new(Evenement::DEPLACER_AUTRE,2),Effet.new(Evenement::DEPLACER_AUTRE,1)])]),
+       	       [Effet.new(Evenement::DEPLACER_MOI,1),Effet.new(Evenement::DEPLACER_AUTRE,1)]),
+            Choix.new(Effet.new(Evenement::DEFAUSSER_PARTAGE,3),
+               [Effet.new(Evenement::DEPLACER_MOI,3),Effet.new(Evenement::DEPLACER_AUTRE,2),Effet.new(Evenement::DEPLACER_AUTRE,1)])]),
 
     CarteSurvie.new("Sacrifice",
             [Choix.new(Effet.new(Evenement::RIEN,0),
           	   [Effet.new(Evenement::CHANGER_COLERE,-1),Effet.new(Evenement::DEPLACER_AUTRE,-1)]),
-            Choix.new(Effet.new(Evenement::DEFAUSSER_SURVIE,1),
+            Choix.new(Effet.new(Evenement::DEFAUSSER_PARTAGE,1),
               [Effet.new(Evenement::CHANGER_COLERE,-2),Effet.new(Evenement::DEPLACER_AUTRE,-2)])]),
         
    CarteSurvie.new("Egoïsme",
         	[Choix.new(Effet.new(Evenement::RIEN,0),
-               [Effet.new(Evenement::DEPLACER_SURVIVANTS,1)]),
-            Choix.new(Effet.new(Evenement::DEFAUSSER_SURVIE,1),
-               [Effet.new(Evenement::DEPLACER_SURVIVANTS,2)])]),
+               [Effet.new(Evenement::DEPLACER_MOI,1)]),
+            Choix.new(Effet.new(Evenement::DEFAUSSER_PARTAGE,1),
+               [Effet.new(Evenement::DEPLACER_MOI,2)])]),
  
    CarteSurvie.new("Fatalisme",
 	        [Choix.new(Effet.new(Evenement::RIEN,0),
-		       [Effet.new(Evenement::DEPLACER_SURVIVANTS,-2)]),
-            Choix.new(Effet.new(Evenement::DEPLACER_SURVIVANTS,-1),
+		       [Effet.new(Evenement::DEPLACER_MOI,-2)]),
+            Choix.new(Effet.new(Evenement::DEPLACER_MOI,-1),
                [Effet.new(Evenement::DEPLACER_AUTRE,3)])]),
 
 ] of CarteSurvie
@@ -161,18 +161,17 @@ CARTES_ACTION_SURVIVANT = [
 		
 	CarteActionSurvivant.new(
 		[Choix.new(Effet.new(Evenement::CHANGER_COLERE,1),
-			[Effet.new(Evenement::DEPLACER_SURVIVANTS,2)]),
+			[Effet.new(Evenement::DEPLACER_MOI,2)]),
 		Choix.new(Effet.new(Evenement::CHANGER_COLERE,1),
 			[Effet.new(Evenement::DEPLACER_AUTRE,3),Effet.new(Evenement::DEPLACER_AUTRE,1)])]),
 		
 	CarteActionSurvivant.new(
 		[Choix.new(Effet.new(Evenement::CHANGER_VITESSE,1),
-			[Effet.new(Evenement::DEPLACER_SURVIVANTS,2),Effet.new(Evenement::DEPLACER_AUTRE,1)]),
-		Choix.new(Effet.new(Evenement::DEFAUSSER_SURVIE,1),
-			[Effet.new(Evenement::DEPLACER_AUTRE,2),Effet.new(Evenement::DEPLACER_SURVIVANTS,1)])]),
+			[Effet.new(Evenement::DEPLACER_MOI,2),Effet.new(Evenement::DEPLACER_AUTRE,1)]),
+		Choix.new(Effet.new(Evenement::DEFAUSSER_MOI,1),
+			[Effet.new(Evenement::DEPLACER_AUTRE,2),Effet.new(Evenement::DEPLACER_MOI,1)])]),
   
 ] of CarteActionSurvivant
-
 
 CARTES_ACTION_CERBERE = [
 	CarteActionCerbere.new(
