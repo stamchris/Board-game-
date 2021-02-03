@@ -66,16 +66,44 @@ end
 class CarteTrahison < CarteBonus
 end
 
+CARTES_TRAHISON = [
+	CarteTrahison.new("Rancune",
+		[Choix.new(Effet.new(Evenement::RIEN,0),
+			[Effet.new(Evenement::DEPLACER_AUTRE,-2)]),
+		Choix.new(Effet.new(Evenement::DEFAUSSER_PARTAGE,2),
+			[Effet.new(Evenement::DEPLACER_SURVIVANTS,-2)])]),
+	CarteTrahison.new("Violence",
+		[Choix.new(Effet.new(Evenement::RIEN,0),
+			[Effet.new(Evenement::CHANGER_COLERE,1)]),
+		Choix.new(Effet.new(Evenement::DEFAUSSER_PARTAGE,2),
+			[Effet.new(Evenement::CHANGER_VITESSE,2)])]),
+	CarteTrahison.new("Sabotage",
+		[Choix.new(Effet.new(Evenement::RIEN,0),
+			[Effet.new(Evenement::DEFAUSSER_SURVIE,2)]),
+		Choix.new(Effet.new(Evenement::DEFAUSSER_PARTAGE,1),
+			[Effet.new(Evenement::SABOTAGE,0)])]),
+	CarteTrahison.new("Perfidie",
+		[Choix.new(Effet.new(Evenement::RIEN,0),
+			[Effet.new(Evenement::CHANGER_VITESSE,1)]),
+		Choix.new(Effet.new(Evenement::DEFAUSSER_PARTAGE,1),
+			[Effet.new(Evenement::CHANGER_COLERE,2)])]),
+	CarteTrahison.new("Fourberie",
+		[Choix.new(Effet.new(Evenement::RIEN,0),
+			[Effet.new(Evenement::BARQUE,0)]),
+		Choix.new(Effet.new(Evenement::DEPLACER_AUTRE,1),
+			[Effet.new(Evenement::DEPLACER_AUTRE,-3)])]),
+	CarteTrahison.new("Embuscade",
+		[Choix.new(Effet.new(Evenement::RIEN,0),
+			[Effet.new(Evenement::DEPLACER_CERBERE,1)]),
+		Choix.new(Effet.new(Evenement::DEFAUSSER_PARTAGE,1),
+			[Effet.new(Evenement::DEPLACER_CERBERE,2)])])
+] of CarteTrahison
+
 sacrifice : CarteSurvie = CarteSurvie.new("Sacrifice",
 	[Choix.new(Effet.new(Evenement::RIEN,0),
 		[Effet.new(Evenement::CHANGER_COLERE,-1),Effet.new(Evenement::DEPLACER_AUTRE,-1)]),
 	Choix.new(Effet.new(Evenement::DEFAUSSER_PARTAGE,1),
 		[Effet.new(Evenement::CHANGER_COLERE,-2),Effet.new(Evenement::DEPLACER_AUTRE,-2)])])
-embuscade : CarteTrahison = CarteTrahison.new("Embuscade",
-	[Choix.new(Effet.new(Evenement::RIEN,0),
-		[Effet.new(Evenement::DEPLACER_CERBERE,1)]),
-	Choix.new(Effet.new(Evenement::DEFAUSSER_PARTAGE,1),
-		[Effet.new(Evenement::DEPLACER_CERBERE,2)])])
 survivant1 : CarteActionSurvivant = CarteActionSurvivant.new(
 	[Choix.new(Effet.new(Evenement::CHANGER_COLERE,1),
 		[Effet.new(Evenement::PIOCHER_MOI,2)]),
