@@ -63,6 +63,9 @@ end
 class CarteSurvie < CarteBonus
 end
 
+class CarteTrahison < CarteBonus
+end
+
 CARTES_SURVIE=[
    
     CarteSurvie.new("Couardise",
@@ -110,9 +113,6 @@ CARTES_SURVIE=[
                [Effet.new(Evenement::DEPLACER_AUTRE,3)])]),
 
 ] of CarteSurvie
-
-class CarteTrahison < CarteBonus
-end
 
 CARTES_TRAHISON = [
 	CarteTrahison.new("Rancune",
