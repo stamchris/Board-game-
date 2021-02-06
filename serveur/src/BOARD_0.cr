@@ -1,6 +1,6 @@
 require "./Node.cr"
 
-BOARD_0 = [
+BOARD_0 : Array(Node) = [
 
     Node.new(0,                 # Id de la case
             Effet.new(RIEN,0),  # Effet

@@ -11,6 +11,7 @@ class DeckSurvie < Deck
 
         while i != 0
             @cards.concat(CARTES_SURVIE)
+            i = i -1
         end
 
         @cards.shuffle!()
@@ -26,6 +27,7 @@ class DeckTrahison < Deck
 
         while i != 0
             @cards.concat(CARTES_TRAHISON)
+            i = i -1 
         end
 
         @cards.shuffle!()
