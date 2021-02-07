@@ -19,6 +19,8 @@ enum Evenement
 	ACTIVER_PORTAIL # Active le portail
 	REVELER_BARQUE # Revele les barques
 	VERIFIER_BARQUE # Verifie le nombre de joueur sur la barque
+	ENTREE_PONT # Entree du pont
+	SORTIE_PONT # Sortie du pont
 end
 
 class Effet

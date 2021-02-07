@@ -42,7 +42,7 @@ BOARD_0 = [
             [6],
             [8]),
     
-    Node.new(Effet.new(Evenement::RIEN,0),
+    Node.new(Effet.new(Evenement::ENTREE_PONT,0),
             false,
             [7],
             [9, 12]),
@@ -57,9 +57,9 @@ BOARD_0 = [
             [9],
             [11]),
 
-    Node.new(Effet.new(Evenement::RIEN,0),
+    Node.new(Effet.new(Evenement::SORTIE_PONT,0),
             false,
-            [10],
+            [9, 10],
             [12]),
 
     Node.new(Effet.new(Evenement::RIEN,0),

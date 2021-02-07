@@ -53,8 +53,8 @@ class Test
         a = 1
         myGame.cerbereBoard.players.each do |player|
             puts "PLAYER_ID : #{a}"
-            puts "  Le joueur a #{player.myHandAventurier.mesCartesAction.size} cartes Action"
-            puts "  Le joueur a #{player.myHandAventurier.mesCartesBonus.size} cartes Survie"
+            puts "  Le joueur a #{player.myHand.cartesAction.size} cartes Action"
+            puts "  Le joueur a #{player.myHand.cartesBonus.size} cartes Survie"
             puts "  Le joueur est de type #{player.typeJoueur}"
             puts "  Le joueur est a la case #{player.position}"
             puts

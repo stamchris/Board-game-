@@ -1,14 +1,13 @@
 require "./Carte.cr"
 
 class Hand
+    property cartesAction = [] of CarteAction
+    property cartesBonus = [] of CarteBonus
+      
+    def initialize
+        @cartesAction = CARTES_ACTION_SURVIVANT
+    end
+    
 end
 
-class HandAventurier < Hand
-    property mesCartesAction : Array(CarteActionSurvivant) = CARTES_ACTION_SURVIVANT
-    property mesCartesBonus = [] of CarteSurvie
-end
 
-class HandCerbere < Hand
-    property mesCartesAction : Array(CarteActionCerbere) = CARTES_ACTION_CERBERE
-    property mesCartesBonus = [] of CarteTrahison
-end
