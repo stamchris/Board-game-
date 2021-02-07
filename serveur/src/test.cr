@@ -5,30 +5,32 @@ class Test
     def self.run
         puts "Test de creation de joueur + main"
         jean : Player = Player.new(354,1)
-        puts jean.myHandAventurier.mesCartesAction.size
-        puts jean.myHandAventurier.mesCartesBonus.size
-        puts jean.myHandCerbere.mesCartesAction.size
-        puts jean.myHandCerbere.mesCartesBonus.size
-        puts jean.typeJoueur
-        puts jean.position
+        puts "  Le joueur a #{jean.myHandAventurier.mesCartesAction.size} cartes Action"
+        puts "  Le joueur a #{jean.myHandAventurier.mesCartesBonus.size} cartes Survie"
+        puts "  Le joueur est de type #{jean.typeJoueur}"
+        puts "  Le joueur est a la case #{jean.position}"
 
         puts
         puts "Test de creation de Cerbere"
         cerbere : Player = Player.new(0,0)
-        puts cerbere.myHandAventurier.mesCartesAction.size
-        puts cerbere.myHandAventurier.mesCartesBonus.size
-        puts cerbere.myHandCerbere.mesCartesAction.size
-        puts cerbere.myHandCerbere.mesCartesBonus.size
-        puts cerbere.typeJoueur
-        puts cerbere.position
+        puts "  Cerbere est de type #{cerbere.typeJoueur}"
+        puts "  Cerbere commence a la case #{cerbere.position}"
 
         puts
-        puts "Test de la creation de deck"
+        puts "Test de la creation de la pioche Survie"
         testSurvie : DeckSurvie = DeckSurvie.new()
         a = 1
         testSurvie.cards.each do |card|
-            puts a
-            puts card.name
+            puts "  #{a} : #{card.name}"
+            a = a + 1
+        end
+
+        puts
+        puts "Test de la creation de la pioche Trahison"
+        testTrahison : DeckTrahison = DeckTrahison.new()
+        a = 1
+        testTrahison.cards.each do |card|
+            puts "  #{a} : #{card.name}"
             a = a + 1
         end
     end

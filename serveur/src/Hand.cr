@@ -10,5 +10,5 @@ end
 
 class HandCerbere < Hand
     property mesCartesAction : Array(CarteActionCerbere) = CARTES_ACTION_CERBERE
-    property mesCartesBonus = [] of CarteBonus
+    property mesCartesBonus = [] of CarteTrahison
 end
