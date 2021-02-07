@@ -19,6 +19,6 @@ class Game
 
     def initialize(@difficulty, @users)
         @numberOfPlayers = users.size
-        @cerbereBoard.new(users, difficulty)
+        @cerbereBoard = Board.new(@difficulty, @users)
     end
 end
