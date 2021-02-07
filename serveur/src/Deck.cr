@@ -12,6 +12,3 @@ class DeckTrahison < Deck
     property cards : Array(CarteTrahison) = (CARTES_TRAHISON*3).shuffle
     property discard : Array(CarteTrahison) = [] of CarteTrahison
 end
-
-
-            

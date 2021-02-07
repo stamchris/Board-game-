@@ -59,7 +59,7 @@ BOARD_0 = [
 
     Node.new(Effet.new(Evenement::SORTIE_PONT,0),
             false,
-            [9, 10],
+            [8, 10],
             [12]),
 
     Node.new(Effet.new(Evenement::RIEN,0),
