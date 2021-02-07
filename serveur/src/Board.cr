@@ -4,9 +4,10 @@ require "./BOARD_0.cr"
 
 class Board
     getter nodes : Array(Node)
-    property barques : Array(Int32) = [1, 2, 3].shuffle!
+    property barques : Array(Int32) = [1, 2, 3].shuffle
     property rageCerbere : Int32
     property vitesseCerbere : Int32
+    property positionCerbere : Int32 = 0
     property players : Array(Player) = [] of Player
     property piocheSurvie : DeckSurvie = DeckSurvie.new
     property piocheTrahison : DeckTrahison  = DeckTrahison.new
@@ -30,9 +31,6 @@ class Board
         users.each do |user|
             @players << Player.new(user.userId)
         end
-
-        # Ajout de Cerbere en fin de tableau
-        @players << Player.new(0,0)
 
         # Initialisation des variables de jeu
         @rageCerbere = 8 - users.size

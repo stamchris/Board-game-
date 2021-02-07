@@ -28,7 +28,7 @@ class Test
         # Affichage des cases
         puts "  Les cases du plateau :"
         myGame.cerbereBoard.nodes.each do |node|
-            puts "#{node.previousNodes} <- [#{node.number}, #{node.checkpointCerbere}, #{node.effect.evenement}] -> #{node.nextNodes}"
+            puts "#{node.previousNodes} <- [#{node.checkpointCerbere}, #{node.effect.evenement}] -> #{node.nextNodes}"
         end
         puts
 
@@ -50,13 +50,15 @@ class Test
         puts
 
         puts "  Les joueurs sont :"
+        a = 1
         myGame.cerbereBoard.players.each do |player|
-            puts "PLAYER_ID : #{player.lobbyId}"
+            puts "PLAYER_ID : #{a}"
             puts "  Le joueur a #{player.myHandAventurier.mesCartesAction.size} cartes Action"
             puts "  Le joueur a #{player.myHandAventurier.mesCartesBonus.size} cartes Survie"
             puts "  Le joueur est de type #{player.typeJoueur}"
             puts "  Le joueur est a la case #{player.position}"
             puts
+            a + 1
         end
 
         puts "  Les attributs du plateau sont :"
