@@ -10,5 +10,6 @@ cerbere_serveur.commands = cd serveur; \
 	cp bin/cerbere-serveur ..
 cerbere_serveur.depends = serveur/src/
 
-QMAKE_EXTRA_TARGETS += cerbere_serveur
+all.depends += cerbere_serveur
+QMAKE_EXTRA_TARGETS += cerbere_serveur all
 
