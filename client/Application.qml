@@ -35,6 +35,7 @@ ApplicationWindow {
 					break
 			}
 			game.players = game.players
+			//Used to update the var status
 		}
 
 		function connect(serveur, login) {
