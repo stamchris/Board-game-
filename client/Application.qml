@@ -8,7 +8,8 @@ ApplicationWindow {
 
 	minimumWidth: 800
 	minimumHeight: 400
-
+	
+	visible: true
 	WebSocket {
 		id: socket
 
