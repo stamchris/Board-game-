@@ -2,4 +2,4 @@
 ./serveur/lib
 ./Makefile
 ./*.o
-cerbere
+./serveur/bin/cerbere-serveur
