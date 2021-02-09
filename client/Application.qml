@@ -8,12 +8,35 @@ ApplicationWindow {
 
 	minimumWidth: 800
 	minimumHeight: 400
-
+	
+	visible: true
 	WebSocket {
 		id: socket
 
 		property bool waiting4Connect: false
 		property string login: ""
+		
+		function send(message) {
+			socket.sendTextMessage(JSON.stringify(message))
+		}
+
+		function switchMessage(message) {
+			switch(message.type) {
+				case "newPlayer":
+					game.players.push({name:message.name})
+					break
+				case "welcome":
+					game.players = message.players
+					game.visible = true
+					loader.push(game)
+					break
+				case "starter":
+					game.state = "start"
+					break
+			}
+			game.players = game.players
+			//Used to update the var status
+		}
 
 		function connect(serveur, login) {
 			socket.url = "ws://" + serveur
@@ -31,14 +54,14 @@ ApplicationWindow {
 			if (status == WebSocket.Open && socket.waiting4Connect) {
 				socket.sendTextMessage(JSON.stringify({
 				type: "login",
-				payload: JSON.stringify({login: socket.login})
+				name:socket.login
 				}))
 			}
 		}
 		
 		onTextMessageReceived: {
 			console.log(message)
-			loader.push("Game.qml")
+			switchMessage(JSON.parse(message))
 		}
 	}
 
@@ -65,5 +88,10 @@ ApplicationWindow {
 		}
 
 		initialItem: "Login.qml"
+	}
+
+	Game {
+		id: game
+		visible: false
 	}
 }
