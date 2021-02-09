@@ -1,7 +1,7 @@
+require "./Carte.cr"
+
 require "json"
 require "kemal"
-
-require "./Carte.cr"
 
 class Player
 	getter name : String
