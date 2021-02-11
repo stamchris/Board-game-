@@ -6,5 +6,5 @@ dependencies:
     github: sdogruyol/kemal
 
 targets:
-  serveur:
-    main: src/serveur.cr
+  cerbere-serveur:
+    main: src/test.cr
