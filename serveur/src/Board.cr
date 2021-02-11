@@ -37,11 +37,59 @@ class Board
         @vitesseCerbere = 3 + difficulty # A redefinir
     end
 
+    def demander(qui : Player,quoi : String) : String
+        # Demande une entrée supplémentaire à un joueur particulier
+        # Pour le moment, on demande via la ligne de commande, plus tard, il
+        # faudra contacter le client
+        puts "Joueur "+qui.lobbyId.to_s()+": "+quoi
+        res : String? = gets
+        return res == Nil ? "" : res.to_s
+    end
+
+    def envoyer(qui : Player,quoi : String)
+        # Envoie une information qui n'est destiné qu'à un joueur particulier
+        # Pour le moment, on parle via la ligne de commande, plus tard, il
+        # faudra contacter le client
+        puts "Joueur "+qui.lobbyId.to_s()+": "+quoi
+    end
+
+    def demander(qui : Player,quoi : String) : String
+        # Demande une entrée supplémentaire à un joueur particulier
+        # Pour le moment, on demande via la ligne de commande, plus tard, il
+        # faudra contacter le client
+        puts "Joueur "+qui.lobbyId.to_s()+": "+quoi
+        res : String? = gets
+        return res == Nil ? "" : res.to_s
+    end
+
+    def envoyer(qui : Player,quoi : String)
+        # Envoie une information qui n'est destiné qu'à un joueur particulier
+        # Pour le moment, on parle via la ligne de commande, plus tard, il
+        # faudra contacter le client
+        puts "Joueur "+qui.lobbyId.to_s()+": "+quoi
+    end
+
+    def demander(qui : Player,quoi : String) : String
+        # Demande une entrée supplémentaire à un joueur particulier
+        # Pour le moment, on demande via la ligne de commande, plus tard, il
+        # faudra contacter le client
+        puts "Joueur "+qui.lobbyId.to_s()+": "+quoi
+        res : String? = gets
+        return res == Nil ? "" : res.to_s
+    end
+
+    def envoyer(qui : Player,quoi : String)
+        # Envoie une information qui n'est destiné qu'à un joueur particulier
+        # Pour le moment, on parle via la ligne de commande, plus tard, il
+        # faudra contacter le client
+        puts "Joueur "+qui.lobbyId.to_s()+": "+quoi
+    end
+
     def faire_action(moi : Player,effet : Effet)
         case effet.evenement
         when Evenement::RIEN
             # ...
-        when Evenement::RECUPERER_CARTES
+        when Evenement::RECUPERER_CARTE
             # ...
         when Evenement::PIOCHER_MOI
             # ...
@@ -79,7 +127,7 @@ class Board
             # ...
         when Evenement::ENTREE_PONT
             # ...
-        when Evenement::SORTIE_POINT
+        when Evenement::SORTIE_PONT
             # ...
         end
     end
