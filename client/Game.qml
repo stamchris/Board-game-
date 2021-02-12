@@ -13,7 +13,10 @@ Window {
             id: imgEffetDeCarteId
             //setVisible: false
     }
-
+    ImagePopUp{
+           id: imgRegleId
+            //setVisible: false
+    }
 
     Rectangle {
         id: menuBarId
@@ -40,32 +43,22 @@ Window {
             id:logoId
             width: 80
             height: 40
-            color: "#48c6ef"
+            color: "#1a5f1a"
             border.width: 2
             anchors {top: parent.top ; topMargin: 10 ; left:parent.left ; leftMargin: 10 }
-            gradient: Gradient {
-                GradientStop {
-                    position: 0
-                    color: "#48c6ef"
-                }
+          
+             Image {
+                id: imglogoId
+                anchors.rightMargin: 0
+                anchors.bottomMargin: 0
+                anchors.leftMargin: 0
+                anchors.topMargin: 0
+                anchors.fill: parent
+                horizontalAlignment: Image.AlignHCenter
+                source: "cerbere_logo.png"
+                z: 1
+                fillMode: Image.Stretch
 
-                GradientStop {
-                    position: 0.49419
-                    color: "#f23f1e"
-                }
-
-                GradientStop {
-                    position: 1
-                    color: "#6f86d6"
-                }
-
-            }
-            Text {
-                id: logoTextId
-                text: qsTr("Logo")
-                anchors.centerIn: parent
-                font.pixelSize: 12
-                horizontalAlignment: Text.AlignHCenter
             }
         }
 
@@ -175,6 +168,18 @@ Window {
                 anchors.centerIn: parent
                 font.pixelSize: 12
                 fontSizeMode: Text.FixedSize
+            }
+            MouseArea{
+                visible: true
+                anchors.fill: parent
+                onClicked:{
+                               if (imgRegleId.visible == false)
+                                {
+                                   imgReglesId.visible = true
+                                } else {
+                                   imgReglesId.visible = false
+                               }
+                    }
             }
 
         }
