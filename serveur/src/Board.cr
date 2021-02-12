@@ -53,7 +53,7 @@ class Board
         puts "Joueur "+qui.lobbyId.to_s()+": "+quoi
     end
 
-    def faire_action(moi : Player,effet : Effet)
+    def faire_action(moi : Player,effet : Effet,args : Array(Int32))
         case effet.evenement
         when Evenement::RIEN
             # ...
