@@ -9,6 +9,12 @@ Window {
     property alias plateauImageId: plateauImageId
     title: qsTr("Cerbere")
 
+    ImagePopUp{
+            id: imgEffetDeCarteId
+            //setVisible: false
+    }
+
+
     Rectangle {
         id: menuBarId
         height: 60
@@ -138,6 +144,18 @@ Window {
                 font.pixelSize: 12
                 horizontalAlignment: Text.AlignHCenter
                 fontSizeMode: Text.FixedSize
+            }
+
+            MouseArea{
+                    anchors.fill: parent
+                    onClicked:{
+                               if (imgEffetDeCarteId.visible == false)
+                                {
+                                   imgEffetDeCarteId.visible = true
+                                } else {
+                                   imgEffetDeCarteId.visible = false
+                               }
+                    }
             }
 
         }
