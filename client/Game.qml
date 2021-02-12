@@ -18,41 +18,36 @@ Window {
             //setVisible: false
     }
 
-    Rectangle {
+       Rectangle {
         id: menuBarId
         height: 60
-        color: "#53bee4"
-        border{color: "#e51111" ; width:2;}
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top : parent.top
+        color: "#0ba360"
         gradient: Gradient {
             GradientStop {
                 position: 0
-                color: "#53bee4"
+                color: "#30cfd0"
             }
 
             GradientStop {
                 position: 1
-                color: "#c9e7f1"
+                color: "#330867"
             }
         }
+        anchors.rightMargin: 0
+        anchors.leftMargin: 0
+        anchors.topMargin: 0
+        border{color: "#e51111" ; width:2;}
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top : parent.top
 
 
-        Rectangle {
-            id:logoId
-            width: 80
-            height: 40
-            color: "#1a5f1a"
-            border.width: 2
-            anchors {top: parent.top ; topMargin: 10 ; left:parent.left ; leftMargin: 10 }
-          
-             Image {
+          Image {
                 id: imglogoId
-                anchors.rightMargin: 0
-                anchors.bottomMargin: 0
-                anchors.leftMargin: 0
-                anchors.topMargin: 0
+                anchors.rightMargin: 1384
+                anchors.bottomMargin: 5
+                anchors.leftMargin: 8
+                anchors.topMargin: -5
                 anchors.fill: parent
                 horizontalAlignment: Image.AlignHCenter
                 source: "cerbere_logo.png"
@@ -60,7 +55,6 @@ Window {
                 fillMode: Image.Stretch
 
             }
-        }
 
        Rectangle {
            id: loginId
