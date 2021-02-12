@@ -69,4 +69,57 @@ class Test
     end
 end
 
+class TestDeck
+    def self.afficher_les_cartes_de(joueur : Player)
+        puts "Cartes de Joueur #{joueur.lobbyId}:"
+        joueur.myHand.myCartesBonus.each_index do |index|
+            puts "\t#{index} : #{joueur.myHand.myCartesBonus[index].name}"
+        end
+    end
+
+    def self.run()
+        survie : DeckSurvie = DeckSurvie.new
+        trahison : DeckTrahison = DeckTrahison.new
+
+        i : Int32 = 0
+        while(i < 100)
+            carteSurvie : CarteSurvie = survie.drawCard()
+            puts "Carte Survie piochée: #{carteSurvie.name}"
+            carteTrahison : CarteTrahison = trahison.drawCard()
+            puts "Carte Trahison piochée: #{carteTrahison.name}"
+            survie.disCard(carteSurvie)
+            trahison.disCard(carteTrahison)
+            i += 1
+        end
+
+        users = [
+            User.new(1),
+            User.new(2)
+        ] of User
+
+        game : Game = Game.new(0,users)
+        game.cerbereBoard.players[1].typeJoueur = 2
+
+        i = 0
+        while(i < 7)
+            game.cerbereBoard.players[0].myHand.myCartesBonus.push(game.cerbereBoard.piocheSurvie.drawCard())
+            game.cerbereBoard.players[1].myHand.myCartesBonus.push(game.cerbereBoard.piocheTrahison.drawCard())
+            i += 1
+        end
+
+        afficher_les_cartes_de(game.cerbereBoard.players[0])
+        afficher_les_cartes_de(game.cerbereBoard.players[1])
+
+        i = 0
+        while(i < 7)
+            game.cerbereBoard.defausser(game.cerbereBoard.players[0],0)
+            game.cerbereBoard.defausser(game.cerbereBoard.players[1],0)
+            afficher_les_cartes_de(game.cerbereBoard.players[0])
+            afficher_les_cartes_de(game.cerbereBoard.players[1])
+            i += 1
+        end
+    end
+end
+
 Test.run
+TestDeck.run

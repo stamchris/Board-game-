@@ -37,6 +37,18 @@ class Board
         @vitesseCerbere = 3 + difficulty # A redefinir
     end
 
+    def defausser(joueur : Player,num_carte : Int32)
+        if(num_carte < 0 || num_carte >= joueur.myHand.myCartesBonus.size())
+            raise "Le joueur #{joueur.lobbyId} ne peut pas défausser la carte #{num_carte} !"
+        end
+        carte : CarteBonus = joueur.myHand.myCartesBonus.delete_at(num_carte)
+        if(joueur.typeJoueur == 2) # Cerbère
+            piocheTrahison.disCard(carte.as(CarteTrahison))
+        else # Aventurier ou Eliminé (était Aventurier)
+            piocheSurvie.disCard(carte.as(CarteSurvie))
+        end
+    end
+
     def demander(qui : Player,quoi : String) : String
         # Demande une entrée supplémentaire à un joueur particulier
         # Pour le moment, on demande via la ligne de commande, plus tard, il
