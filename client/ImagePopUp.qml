@@ -10,4 +10,13 @@ import QtQuick 2.12
               anchors.centerIn: parent
               z: 10
           }
+     Image {
+          id: imgReglesId
+          width: window.width / 3
+          height: window.height* 2/3
+          source:"images/Regles.jpg"
+          visible: false //hidden by default
+          anchors.centerIn: parent
+          z: 10
+       }      
 
