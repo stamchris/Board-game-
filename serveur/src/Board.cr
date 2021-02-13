@@ -65,6 +65,68 @@ class Board
         puts "Joueur "+qui.lobbyId.to_s()+": "+quoi
     end
 
+    def action_barque(moi : Player,args : Array(Int32)) : Int32
+        if(args.size() == 0)
+            return 1
+        end
+        choix : Int32 = args[0]
+        if(choix == 0)
+            infos_barques : String = "#{barques[0]},#{barques[1]},#{barques[2]}"
+            envoyer(moi,infos_barques)
+        elsif(choix == 1)
+            if(args.size() < 3)
+                return 1
+            end
+            tmp : Int32 = barques[args[1]]
+            barques[args[1]] = barques[args[2]]
+            barques[args[2]] = tmp
+        end
+        return 0
+    end
+
+    def action_couardise(moi : Player) : Int32
+        nbJoueursDevant : Int32 = 0
+        players.each do |player|
+            if(player.position > moi.position)
+                nbJoueursDevant += 1
+            end
+        end
+        moi.position += Math.min(nbJoueursDevant,3)
+        return 0
+    end
+
+    def action_sabotage() : Int32
+        players.each do |player|
+            if(player.typeJoueur == 1) # Aventurier
+                if(player.myHand.myCartesBonus.size() == 0)
+                    player.position -= 2
+                else
+                    str_demander_choix : String = "Defausser une carte (0) ou reculer (1) ?"
+                    choix : Int32 = demander(player,str_demander_choix).to_i32()
+                    while(([choix] & [0,1]).size() == 0)
+                        choix = demander(player,str_demander_choix).to_i32()
+                    end
+                    if(choix == 0)
+                        carte : Int32 = 0
+                        if(player.myHand.myCartesBonus.size() == 1)
+                            carte = 0
+                        else
+                            str_demander_carte : String = "Quelle carte défausser ? [0,#{player.myHand.myCartesBonus.size()-1}]"
+                            carte = demander(player,str_demander_carte).to_i32()
+                            while(carte < 0 || carte >= player.myHand.myCartesBonus.size())
+                                carte = demander(player,str_demander_carte).to_i32()
+                            end
+                        end
+                        player.myHand.myCartesBonus.delete_at(carte)
+                    elsif(choix == 1)
+                        player.position -= 2
+                    end
+                end
+            end
+        end
+        return 0
+    end
+
     def faire_action(moi : Player,effet : Effet,args : Array(Int32))
         case effet.evenement
         when Evenement::RIEN
@@ -94,11 +156,11 @@ class Board
         when Evenement::DEPLACER_CERBERE
             # ...
         when Evenement::BARQUE
-            # ...
+            action_barque(moi,args)
         when Evenement::COUARDISE
-            # ...
+            action_couardise(moi)
         when Evenement::SABOTAGE
-            # ...
+            action_sabotage()
         when Evenement::ACTIVER_PORTAIL
             # ...
         when Evenement::REVELER_BARQUE
