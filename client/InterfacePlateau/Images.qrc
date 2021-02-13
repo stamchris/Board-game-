@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/plateau.png</file>
+        <file>images/effetDeCarte.jpg</file>
+        <file>images/cerbere_logo.png</file>
+    </qresource>
+</RCC>

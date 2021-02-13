@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>ImagePopUp.qml</file>
+    </qresource>
+    <qresource prefix="/MenuBar"/>
+    <qresource prefix="/menuBar"/>
+</RCC>
