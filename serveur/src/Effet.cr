@@ -15,7 +15,6 @@ enum Evenement
 	BARQUE # Le joueur peut soit consulter les barques, soit les changer de place
 	COUARDISE # Deuxième effet de Couardise: le joueur avance d'autant de cases qu'il n'y a d'aventurier devant lui (max 3)
 	SABOTAGE # Deuxième effet de Sabotage: tous les survivants choisissent soit de défausser une carte, soit de reculer de 2 cases
-
 	ACTIVER_PORTAIL # Active le portail
 	REVELER_BARQUE # Revele les barques
 	VERIFIER_BARQUE # Verifie le nombre de joueur sur la barque
