@@ -58,12 +58,103 @@ class Board
         return res == Nil ? "" : res.to_s
     end
 
+    def deplacer_moi(player : Player, force : Int32)
+        nb_moves = force.abs
+
+        while (nb_moves > 0)
+          # Si l'effet de la case n'a pas changé la position du joueur et qu'il n'essaye pas d'avancer ou reculer hors du plateau
+          if !faire_action(player, nodes[player.position].effect, [nb_moves, force]) && (player.position > 1 && force < 0 || player.position < nodes.size - 1 && force > 0)
+            player.position = force > 0 ? player.position + 1 : player.position - 1
+          end
+
+          if (player.position <= positionCerbere)
+            # appel à une fonction capture pour changer le rôle du joueur et renvoyer Cerbère au dernier checkpoint
+            puts "Le joueur #{player.lobbyId} s'est fait attrapé par Cerbère !"
+            return
+          end
+
+          nb_moves -= 1
+        end
+
+        faire_action(player, nodes[player.position].effect, [nb_moves, force]) # appliquer l'effet de la case d'arrivée
+    end
+
     def envoyer(qui : Player,quoi : String)
         # Envoie une information qui n'est destiné qu'à un joueur particulier
         # Pour le moment, on parle via la ligne de commande, plus tard, il
         # faudra contacter le client
         puts "Joueur "+qui.lobbyId.to_s()+": "+quoi
     end
+
+    def reveler_barque(player : Player)
+        @barques.pop(2)
+        nodes[player.position].effect.evenement = Evenement::RIEN # L'action ne peut être effectuée qu'une fois, on réinitialise donc l'effet
+        puts "La barque à #{barques[0]} place(s) a été révélée !"
+    end
+
+    def verifier_barque()
+      nb_assis = 0
+      barque = nodes.size - 1 # Position de la barque (dernière case)
+
+      @players.each do |player|
+        if(player.position == barque) # On compte le nombre de joueurs sur la dernière case représentant la barque
+          nb_assis += 1
+        end
+      end
+
+      if(nb_assis == barques[0]) # Barque pleine
+        puts "Fin de partie, la barque s'en va !"
+      else
+        puts "Il manque #{barques[0] - nb_assis} personne(s) pour partir !"
+      end
+    end
+
+    def pont(player : Player, force : Int32) : Bool
+      emprunte = true # permet d'indiquer si on a emprunté le pont à la fonction deplacer_moi
+      res = demander(player, "Prendre le pont ? O/N")
+      # Si un joueur prend le pont de cordes, il s'écroule et n'est plus utilisable
+      if(res == "O")
+        nodes[player.position].effect.evenement = Evenement::RIEN
+        player.position = force == 1 ? player.position - 4 : player.position + 4 #On se sert de la force pour déterminer de quel côté du pont on se trouve
+        nodes[player.position].effect.evenement = Evenement::RIEN
+      else
+        puts "Refus"
+        emprunte = false
+      end
+
+      return emprunte
+    end
+
+    def portail(player : Player, force : Int32) : Bool
+      stele = force == 1 ? (player.position - 1) : (player.position + 2) # Position de la stèle qui active le portail
+      actif = false
+      emprunte = true # permet d'indiquer si on a emprunté le portail à la fonction deplacer_moi
+
+      players.each do |player|
+        if(player.position == stele) # Si un joueur se trouve sur la stèle, le portail est actif
+          actif = true
+          break
+        end
+      end
+
+      if(actif)
+        res = demander(player, "Prendre le portail ? O/N")
+        if(res != "O")
+          puts "Refus"
+          emprunte = false
+        elsif(force == 1) # On se sert de la force pour déterminer de quel portail il s'agit
+          player.position -= 3
+        else
+          player.position += 3
+        end
+      else
+        puts "Portail non disponible !"
+        emprunte = false
+      end
+
+      return emprunte
+    end
+
 
     def faire_action(moi : Player,effet : Effet,args : Array(Int32))
         case effet.evenement
@@ -99,16 +190,19 @@ class Board
             # ...
         when Evenement::SABOTAGE
             # ...
-        when Evenement::ACTIVER_PORTAIL
-            # ...
+        when Evenement::PORTAIL
+            if (args[0] != 0) && (effet.force == 0 && args[1] > 0 || effet.force == 1 && args[1] < 0)
+              return portail(moi, effet.force)
+            end
         when Evenement::REVELER_BARQUE
-            # ...
+            reveler_barque(moi)
         when Evenement::VERIFIER_BARQUE
-            # ...
-        when Evenement::ENTREE_PONT
-            # ...
-        when Evenement::SORTIE_PONT
-            # ...
+            verifier_barque
+        when Evenement::PONT
+            if (args[0] != 0) && (effet.force == 0 && args[1] > 0 || effet.force == 1 && args[1] < 0)
+              return pont(moi, effet.force)
+            end
         end
+        return false
     end
 end

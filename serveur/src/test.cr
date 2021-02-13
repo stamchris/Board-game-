@@ -28,7 +28,7 @@ class Test
         # Affichage des cases
         puts "  Les cases du plateau :"
         myGame.cerbereBoard.nodes.each do |node|
-            puts "#{node.previousNodes} <- [#{node.checkpointCerbere}, #{node.effect.evenement}] -> #{node.nextNodes}"
+            puts "[#{node.checkpointCerbere}, #{node.effect.evenement}]"
         end
         puts
 
@@ -113,5 +113,46 @@ class TestDeck
     end
 end
 
+class TestPlateau
+    def self.afficher_positions(joueurs : Array(Player))
+        puts "Positions des joueurs :"
+        joueurs.each do |joueur|
+            puts "\t#{joueur.lobbyId} : #{joueur.position}"
+        end
+    end
+
+    def self.run()
+        users = [
+            User.new(1),
+            User.new(2),
+            User.new(3),
+            User.new(4)
+        ] of User
+
+        game : Game = Game.new(0,users)
+        game.cerbereBoard.players[0].position = 11
+        game.cerbereBoard.players[1].position = 18
+        game.cerbereBoard.players[2].position = 17
+        game.cerbereBoard.players[3].position = 9
+        game.cerbereBoard.positionCerbere = 8
+
+        game.cerbereBoard.deplacer_moi(game.cerbereBoard.players[0], -3)
+        afficher_positions(game.cerbereBoard.players)
+
+        game.cerbereBoard.deplacer_moi(game.cerbereBoard.players[1], -2)
+        afficher_positions(game.cerbereBoard.players)
+
+        game.cerbereBoard.deplacer_moi(game.cerbereBoard.players[2], 3)
+        afficher_positions(game.cerbereBoard.players)
+
+        game.cerbereBoard.deplacer_moi(game.cerbereBoard.players[3], 3)
+        afficher_positions(game.cerbereBoard.players)
+
+        game.cerbereBoard.deplacer_moi(game.cerbereBoard.players[1], 2)
+        afficher_positions(game.cerbereBoard.players)
+    end
+end
+
 Test.run
 TestDeck.run
+TestPlateau.run

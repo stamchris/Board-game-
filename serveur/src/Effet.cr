@@ -16,17 +16,16 @@ enum Evenement
 	COUARDISE # Deuxième effet de Couardise: le joueur avance d'autant de cases qu'il n'y a d'aventurier devant lui (max 3)
 	SABOTAGE # Deuxième effet de Sabotage: tous les survivants choisissent soit de défausser une carte, soit de reculer de 2 cases
 
-	ACTIVER_PORTAIL # Active le portail
-	REVELER_BARQUE # Revele les barques
-	VERIFIER_BARQUE # Verifie le nombre de joueur sur la barque
-	ENTREE_PONT # Entree du pont
-	SORTIE_PONT # Sortie du pont
+	PORTAIL # Portail actif lorsqu'il y a un joueur sur la stèle
+	REVELER_BARQUE # Révèle la barque active
+	VERIFIER_BARQUE # Vérifie le nombre de joueurs sur la barque active
+	PONT # Pont de cordes, utilisable une fois dans la partie
 end
 
 class Effet
-	getter evenement : Evenement
+	property evenement : Evenement
 	getter force : Int32
-	
+
 	def initialize(@evenement,@force)
 	end
 end
