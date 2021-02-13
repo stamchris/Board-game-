@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.14.0, 2021-02-13T14:14:32. -->
+<!-- Written by QtCreator 4.14.0, 2021-02-13T18:55:44. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -292,9 +292,8 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">InterfacePlateau2</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/christos/Documents/L3/s6/Projet Integrateur/InterfacePlateau/InterfacePlateau.pro</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/christos/Documents/L3/s6/Projet Integrateur/InterfacePlateau/InterfacePlateau.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/christos/Documents/L3/s6/Projet Integrateur/git_project/projet-integrateur-s5-rs/client/InterfacePlateau/InterfacePlateau.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/christos/Documents/L3/s6/Projet Integrateur/git_project/projet-integrateur-s5-rs/client/InterfacePlateau/InterfacePlateau.pro</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>

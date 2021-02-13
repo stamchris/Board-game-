@@ -11,11 +11,11 @@ Window {
 
     ImagePopUp{
             id: imgEffetDeCarteId
-            //setVisible: false
+            source:"images/effetDeCarte.jpg"
     }
     ImagePopUp{
            id: imgRegleId
-            //setVisible: false
+           source:"images/effetDeCarte.jpg"
     }
 
        Rectangle {
@@ -160,9 +160,9 @@ Window {
                 onClicked:{
                                if (imgRegleId.visible == false)
                                 {
-                                   imgReglesId.visible = true
+                                   imgRegleId.visible = true
                                 } else {
-                                   imgReglesId.visible = false
+                                   imgRegleId.visible = false
                                }
                     }
             }
