@@ -69,18 +69,20 @@ class Board
         if(args.size() == 0)
             return 1
         end
-        choix : Int32 = args[0]
-        if(choix == 0)
-            infos_barques : String = "#{barques[0]},#{barques[1]},#{barques[2]}"
-            envoyer(moi,infos_barques)
-        elsif(choix == 1)
-            if(args.size() < 3)
-                return 1
+        if(barques.size() == 3) # Les barques n'ont pas encore été révélées
+            choix : Int32 = args[0]
+            if(choix == 0)
+                infos_barques : String = "#{barques[0]},#{barques[1]},#{barques[2]}"
+                envoyer(moi,infos_barques)
+            elsif(choix == 1)
+                if(args.size() < 3)
+                    return 1
+                end
+                tmp : Int32 = barques[args[1]]
+                barques[args[1]] = barques[args[2]]
+                barques[args[2]] = tmp
             end
-            tmp : Int32 = barques[args[1]]
-            barques[args[1]] = barques[args[2]]
-            barques[args[2]] = tmp
-        end
+	end
         return 0
     end
 
