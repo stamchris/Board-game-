@@ -158,13 +158,11 @@ Window {
                 visible: true
                 anchors.fill: parent
                 onClicked:{
-                               if (imgRegleId.visible == false)
-                                {
-                                   imgRegleId.visible = true
-                                } else {
-                                   imgRegleId.visible = false
-                               }
-                    }
+                    var component = Qt.createComponent("ReglesDuJeu.qml")
+                    var window    = component.createObject("window2")
+                    window.show()
+                }
+
             }
 
         }

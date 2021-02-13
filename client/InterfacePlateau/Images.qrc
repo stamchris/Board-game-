@@ -3,5 +3,8 @@
         <file>images/plateau.png</file>
         <file>images/effetDeCarte.jpg</file>
         <file>images/cerbere_logo.png</file>
+        <file>images/Regle1.jpg</file>
+        <file>images/Regle3.jpg</file>
+        <file>images/Regle2.jpg</file>
     </qresource>
 </RCC>
