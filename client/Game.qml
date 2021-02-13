@@ -42,18 +42,14 @@ Window {
         anchors.top : parent.top
 
 
-          Image {
+        Image {
                 id: imglogoId
-                anchors.rightMargin: 1384
-                anchors.bottomMargin: 5
-                anchors.leftMargin: 8
-                anchors.topMargin: -5
-                anchors.fill: parent
+                width: 120
+                height: 50
+                anchors { bottom: parent.bottom; left:parent.left; top: parent.top; leftMargin: 8; topMargin: 5 }
                 horizontalAlignment: Image.AlignHCenter
-                source: "cerbere_logo.png"
-                z: 1
+                source: "images/cerbere_logo.png"
                 fillMode: Image.Stretch
-
             }
 
        Rectangle {
