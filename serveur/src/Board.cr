@@ -65,24 +65,34 @@ class Board
         puts "Joueur "+qui.lobbyId.to_s()+": "+quoi
     end
 
-    def action_barque(moi : Player,args : Array(Int32)) : Int32
-        if(args.size() == 0)
-            return 1
+    def broadcast(quoi : String)
+        players.each do |joueur|
+            envoyer(joueur,quoi)
         end
+    end
+
+    def action_barque(moi : Player,args : Array(Int32)) : Int32
         if(barques.size() == 3) # Les barques n'ont pas encore été révélées
+            if(args.size() == 0)
+                return 1
+            end
             choix : Int32 = args[0]
             if(choix == 0)
-                infos_barques : String = "#{barques[0]},#{barques[1]},#{barques[2]}"
-                envoyer(moi,infos_barques)
+                if(args.size() < 2 || args[1] < 0 || args[1] > 2)
+                    return 1
+                end
+                info_barque : String = "Capacité de la barque #{args[1]}: #{barques[args[1]]}"
+                envoyer(moi,info_barque)
             elsif(choix == 1)
-                if(args.size() < 3)
+                if(args.size() < 3 || args[1] < 0 || args[1] > 2 || args[2] < 0 || args[2] > 2)
                     return 1
                 end
                 tmp : Int32 = barques[args[1]]
                 barques[args[1]] = barques[args[2]]
                 barques[args[2]] = tmp
+                broadcast("Les barques #{args[1]} et #{args[2]} ont été échangées.")
             end
-	end
+        end
         return 0
     end
 
@@ -93,15 +103,19 @@ class Board
                 nbJoueursDevant += 1
             end
         end
-        moi.position += Math.min(nbJoueursDevant,3)
+        deplacement : Int32 = Math.min(nbJoueursDevant,3)
+        moi.position += deplacement
+        broadcast("Le joueur #{moi.lobbyId} a avancé de #{deplacement} cases.")
         return 0
     end
 
     def action_sabotage() : Int32
+        compte_rendu : Array({Int32,Int32}) = [] of {Int32,Int32}
         players.each do |player|
             if(player.typeJoueur == 1) # Aventurier
                 if(player.myHand.myCartesBonus.size() == 0)
                     player.position -= 2
+                    compte_rendu.push({player.lobbyId,0})
                 else
                     str_demander_choix : String = "Defausser une carte (0) ou reculer (1) ?"
                     choix : Int32 = demander(player,str_demander_choix).to_i32()
@@ -120,12 +134,23 @@ class Board
                             end
                         end
                         player.myHand.myCartesBonus.delete_at(carte)
+                        compte_rendu.push({player.lobbyId,1})
                     elsif(choix == 1)
                         player.position -= 2
+                        compte_rendu.push({player.lobbyId,0})
                     end
                 end
             end
         end
+        resultat : String = ""
+        compte_rendu.each do |ligne|
+            if(ligne[1] == 0)
+                resultat += "Le joueur #{ligne[0]} a reculé. "
+            elsif(ligne[1] == 1)
+                resultat += "Le joueur #{ligne[0]} a défaussé une carte. "
+            end
+        end
+        broadcast(resultat)
         return 0
     end
 

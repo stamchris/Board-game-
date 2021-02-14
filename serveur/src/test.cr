@@ -121,8 +121,10 @@ class TestBarque
         ] of User
         myGame : Game = Game.new(0,myUsers)
 
-        myGame.cerbereBoard.faire_action(myGame.cerbereBoard.players[0],Effet.new(Evenement::BARQUE,0),[0])
-        myGame.cerbereBoard.faire_action(myGame.cerbereBoard.players[1],Effet.new(Evenement::BARQUE,0),[0,0,1])
+        puts "Barques : #{myGame.cerbereBoard.barques}"
+
+        myGame.cerbereBoard.faire_action(myGame.cerbereBoard.players[0],Effet.new(Evenement::BARQUE,0),[0,0])
+        myGame.cerbereBoard.faire_action(myGame.cerbereBoard.players[1],Effet.new(Evenement::BARQUE,0),[1,0,1])
 
         puts "Barques : #{myGame.cerbereBoard.barques}"
     end
