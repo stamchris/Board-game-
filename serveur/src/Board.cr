@@ -58,13 +58,13 @@ class Board
         return res == Nil ? "" : res.to_s
     end
 
-    def deplacer_moi(moi : Player, force : Int32)
-        nb_moves = force.abs
+    def action_deplacer_moi(moi : Player, force : Int32)
+        nb_moves = force.abs # Nombre de déplacements restants à effectuer
 
         while (nb_moves > 0)
           # Si l'effet de la case n'a pas changé la position du joueur et qu'il n'essaye pas d'avancer ou reculer hors du plateau
-          if !faire_action(moi, nodes[moi.position].effect, [nb_moves, force]) && (moi.position > 1 && force < 0 || moi.position < nodes.size - 1 && force > 0)
-            moi.position = force > 0 ? moi.position + 1 : moi.position - 1
+          if !faire_action(moi, nodes[moi.position].effect, [nb_moves, force]) && (moi.position > 1 || moi.position < nodes.size - 1)
+            moi.position = force > 0 ? moi.position + 1 : moi.position - 1 # Déplacement vers la gauche ou la droite
           end
 
           if (moi.position <= positionCerbere)
@@ -79,7 +79,7 @@ class Board
         faire_action(moi, nodes[moi.position].effect, [nb_moves, force]) # appliquer l'effet de la case d'arrivée
     end
 
-    def envoyer(qui : Player,quoi : String)
+    def envoyer(qui : Player, quoi : String)
         # Envoie une information qui n'est destiné qu'à un joueur particulier
         # Pour le moment, on parle via la ligne de commande, plus tard, il
         # faudra contacter le client
@@ -87,13 +87,14 @@ class Board
     end
 
     def action_reveler_barque(moi : Player)
-        @barques.pop(2)
-        nodes[moi.position].effect.evenement = Evenement::RIEN # L'action ne peut être effectuée qu'une fois, on réinitialise donc l'effet
+        if(@barques.size == 3)
+          @barques.pop(2)
+        end
         puts "La barque à #{barques[0]} place(s) a été révélée !"
     end
 
     def action_verif_barque()
-      nb_assis = 0
+      nb_assis = 0 # Nombre de personnes assises dans la barque
       barque = nodes.size - 1 # Position de la barque (dernière case)
 
       @players.each do |player|
@@ -110,7 +111,10 @@ class Board
     end
 
     def action_pont(moi : Player, id_pont : Int32, args : Array(Int32)) : Bool
-      if (args[0] == 0) || (id_pont == 0 && args[1] < 0 || id_pont == 1 && args[1] > 0)
+      nb_moves = args[0] # Nombre de déplacement restants pour le joueur
+      force = args[1]
+      # Si on a fini de se déplacer
+      if (nb_moves == 0) || (id_pont == 0 && force < 0 || id_pont == 1 && force > 0)
         return false
       end
       emprunte = true # permet d'indiquer si on a emprunté le pont à la fonction deplacer_moi
@@ -129,7 +133,10 @@ class Board
     end
 
     def action_funiculaire(moi : Player, id_funi : Int32, args : Array(Int32)) : Bool
-      if (args[0] != args[1].abs) || (id_funi == 0 && args[1] < 0 || id_funi == 1 && args[1] > 0)
+      nb_moves = args[0] # Nombre de déplacement restants pour le joueur
+      force = args[1]
+      # S'il ne s'agit pas du premier déplacement
+      if (nb_moves != force.abs) || (id_funi == 0 && force < 0 || id_funi == 1 && force > 0)
         return false
       end
       emprunte = true # permet d'indiquer si on a emprunté le funiculaire à la fonction deplacer_moi
@@ -146,10 +153,12 @@ class Board
     end
 
     def action_portail(moi : Player, id_portail : Int32, args : Array(Int32)) : Bool
-      if (args[0] == 0) || (id_portail == 0 && args[1] < 0 || id_portail == 1 && args[1] > 0)
+      nb_moves = args[0] # Nombre de déplacement restants pour le joueur
+      force = args[1]
+      # Si on a fini de se déplacer
+      if (nb_moves == 0) || (id_portail == 0 && force < 0 || id_portail == 1 && force > 0)
         return false
       end
-
 
       stele = id_portail == 1 ? (moi.position - 1) : (moi.position + 2) # Position de la stèle qui active le portail
       actif = false
@@ -181,7 +190,9 @@ class Board
     end
 
     def action_promontoire(moi : Player, args : Array(Int32))
-      if args[0] != 0
+      nb_moves = args[0] # Nombre de déplacement restants pour le joueur
+      # Si on ne s'arrête pas sur la case
+      if nb_moves != 0
         return 1
       end
       requete = [] of Int32
@@ -212,7 +223,10 @@ class Board
     end
 
     def action_pilotis(moi : Player, args : Array(Int32))
-      if args[0] == args[1].abs
+      nb_moves = args[0] # Nombre de déplacement restants pour le joueur
+      force = args[1]
+      # Si on commence le déplacement
+      if nb_moves == force.abs
         return 1
       end
       players.each do |player|
@@ -245,7 +259,7 @@ class Board
         when Evenement::CHANGER_COLERE
             # ...
         when Evenement::DEPLACER_MOI
-            # ...
+            action_deplacer_moi(moi, effet.force)
         when Evenement::DEPLACER_AUTRE
             # ...
         when Evenement::DEPLACER_SURVIVANTS
