@@ -33,11 +33,11 @@ class Board
             @players << Player.new(user.user_id)
         end
 
-       # Initialisation des variables de jeu
-       @rage_cerbere = 8 - users.size
-       @vitesse_cerbere = 3 + difficulty
-       @nombre_pions_jauge = 7 - users.size
-       @difficulty = difficulty
+        # Initialisation des variables de jeu
+        @rage_cerbere = 8 - users.size
+        @vitesse_cerbere = 3 + difficulty
+        @nombre_pions_jauge = 7 - users.size
+        @difficulty = difficulty
     end
 
     def demander(qui : Player,quoi : String) : String
@@ -94,6 +94,93 @@ class Board
         end
     end
 
+    def action_piocher_moi(joueur : Player, nombre : Int32) : Nil
+        nombre.times do 
+            if joueur.type == TypeJoueur::AVENTURIER
+                joueur.hand.bonus << pioche_survie.draw_card()
+            else
+                joueur.hand.bonus << pioche_trahison.draw_card()
+            end
+        end
+    end
+
+    def action_piocher_allie(joueur : Player, nombre : Int32, args : Array(Int32)) : Nil
+        args.each do |id|
+            if id == joueur.lobby_id
+                raise "Vous ne pouvez pas vous choisir vous même !"
+            end
+
+            if args.size != args.uniq.size
+                raise "Vous ne pouvez pas choisir de fois le même joueur !"
+            end
+
+            @players.each do |player|
+                if player.lobby_id == id
+                    if player.type != joueur.type
+                        raise "Ce joueur n'est pas votre allié !"
+                    end
+                    action_piocher_moi(player, 1)
+                end
+            end
+        end                 
+    end
+
+    def action_defausser_moi(joueur : Player, nombre : Int32) : Nil
+        nombre.times do
+            puts "Vous avez #{joueur.hand.bonus.size} cartes."
+            num_carte = demander(joueur, "Quelle carte défausser ?").to_i
+            defausser(joueur, num_carte)
+        end
+    end
+
+    def action_defausser_survie(joueur : Player, nombre : Int32, args : Array(Int32)) : Nil
+        args.each do |id|
+            if id == joueur.lobby_id
+                raise "Vous ne pouvez pas vous choisir vous même !"
+            end
+
+            if args.size != args.uniq.size
+                raise "Vous ne pouvez pas choisir de fois le même joueur !"
+            end
+
+            @players.each do |player|
+                if player.lobby_id == id
+                    if player.type != joueur.type
+                        raise "Ce joueur n'est pas un aventurier !"
+                    end
+                    action_defausser_moi(player, 1)
+                end
+            end
+        end                 
+    end
+
+    def action_defausser_partage(joueur : Player, nombre : Int32) : Int32
+        id_allie = demander(joueur, "A qui demander un partage (Id du joueur) ?").to_i
+
+        if id_allie == joueur.lobby_id
+            raise "Vous ne pouvez pas vous choisir vous même !"
+        end
+
+        @players.each do |player|
+            if player.lobby_id == id_allie
+                if player.type != joueur.type
+                    raise "Ce joueur n'est pas votre allié !"
+                end
+                    
+                # Demande du partage
+                envoyer(player, "Le joueur #{joueur.lobby_id} demande un partage de #{nombre} cartes.")
+                nb_cartes = demander(player, "Combien voulez-vous en partager ? [0, #{nombre}]").to_is
+
+                # Si partage accepté
+                if nb_cartes > 0
+                    action_defausser_moi(player, nb_cartes)
+                end
+            end
+        end
+
+        return nombre - nb_cartes
+    end
+
     def faire_action(moi : Player, effet : Effet, args : Array(Int32))
         case effet.evenement
         when Evenement::RIEN
@@ -101,15 +188,15 @@ class Board
         when Evenement::RECUPERER_CARTE
             action_recuperer_carte(moi)
         when Evenement::PIOCHER_MOI
-            # ...
+            action_piocher_moi(moi, effet.force)
         when Evenement::PIOCHER_ALLIE
-            # ...
+            action_piocher_allie(moi, effet.force)
         when Evenement::DEFAUSSER_MOI
-            # ...
+            action_defausser_moi(moi, effet.force)
         when Evenement::DEFAUSSER_SURVIE
-            # ...
+            action_defausser_survie(moi, effet.force)
         when Evenement::DEFAUSSER_PARTAGE
-            # ...
+            action_defausser_partage(moi, effet.force)
         when Evenement::CHANGER_VITESSE
             action_changer_vitesse(effet.force)
         when Evenement::CHANGER_RAGE
