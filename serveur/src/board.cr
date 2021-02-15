@@ -10,6 +10,7 @@ class Board
     property vitesse_cerbere : Int32
     property position_cerbere : Int32 = 0
     property players : Array(Player) = [] of Player
+    property nombre_pions_jauge : Int32
     property pioche_survie : DeckSurvie = DeckSurvie.new
     property pioche_trahison : DeckTrahison = DeckTrahison.new
 
@@ -32,10 +33,11 @@ class Board
             @players << Player.new(user.user_id)
         end
 
-        # Initialisation des variables de jeu
-        @rage_cerbere = 8 - users.size
-        @vitesse_cerbere = 3 + difficulty
-        @difficulty = difficulty
+       # Initialisation des variables de jeu
+       @rage_cerbere = 8 - users.size
+       @vitesse_cerbere = 3 + difficulty
+       @nombre_pions_jauge = 7 - users.size
+       @difficulty = difficulty
     end
 
     def demander(qui : Player,quoi : String) : String
@@ -68,12 +70,36 @@ class Board
         end
     end
 
+    def action_recuperer_carte(joueur : Player) : Nil
+        joueur.hand.reset()
+    end
+
+    def action_changer_rage(valeur : Int32) : Nil
+        @rage_cerbere += valeur
+
+        if @rage_cerbere > 10
+            @rage_cerbere = 10
+        elsif @rage_cerbere < (1 + @nombre_pions_jauge)
+            @rage_cerbere = 1 + @nombre_pions_jauge
+        end
+    end
+
+    def action_changer_vitesse(valeur : Int32) : Nil
+        @vitesse_cerbere += valeur
+
+        if @vitesse_cerbere > 8
+            @vitesse_cerbere = 8
+        elsif @vitesse_cerbere < 3
+            @vitesse_cerbere = 3
+        end
+    end
+
     def faire_action(moi : Player, effet : Effet, args : Array(Int32))
         case effet.evenement
         when Evenement::RIEN
             # RIEN
         when Evenement::RECUPERER_CARTE
-            # ...
+            action_recuperer_carte(moi)
         when Evenement::PIOCHER_MOI
             # ...
         when Evenement::PIOCHER_ALLIE
@@ -85,9 +111,9 @@ class Board
         when Evenement::DEFAUSSER_PARTAGE
             # ...
         when Evenement::CHANGER_VITESSE
-            # ...
+            action_changer_vitesse(effet.force)
         when Evenement::CHANGER_RAGE
-            # ...
+            action_changer_rage(effet.force)
         when Evenement::DEPLACER_MOI
             # ...
         when Evenement::DEPLACER_AUTRE
