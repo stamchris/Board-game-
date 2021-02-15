@@ -34,19 +34,11 @@ class Test
 
         # Affichage des pioches
         puts "  Les cartes de la pioche Survie :"
-        a = 1
-        myGame.cerbereBoard.piocheSurvie.cards.each do |card|
-            puts "#{a} : #{card.name}"
-            a = a + 1
-        end
+        myGame.cerbereBoard.piocheSurvie.dump()
         puts
 
         puts "  Les cartes de la pioche Trahison :"
-        a = 1
-        myGame.cerbereBoard.piocheTrahison.cards.each do |card|
-            puts "#{a} : #{card.name}"
-            a = a + 1
-        end
+        myGame.cerbereBoard.piocheTrahison.dump()
         puts
 
         puts "  Les joueurs sont :"
@@ -83,12 +75,12 @@ class TestDeck
 
         i : Int32 = 0
         while(i < 100)
-            carteSurvie : CarteSurvie = survie.drawCard()
+            carteSurvie : CarteSurvie = survie.draw_card()
             puts "Carte Survie piochée: #{carteSurvie.name}"
-            carteTrahison : CarteTrahison = trahison.drawCard()
+            carteTrahison : CarteTrahison = trahison.draw_card()
             puts "Carte Trahison piochée: #{carteTrahison.name}"
-            survie.disCard(carteSurvie)
-            trahison.disCard(carteTrahison)
+            survie.dis_card(carteSurvie)
+            trahison.dis_card(carteTrahison)
             i += 1
         end
 
@@ -102,8 +94,8 @@ class TestDeck
 
         i = 0
         while(i < 7)
-            game.cerbereBoard.players[0].myHand.myCartesBonus.push(game.cerbereBoard.piocheSurvie.drawCard())
-            game.cerbereBoard.players[1].myHand.myCartesBonus.push(game.cerbereBoard.piocheTrahison.drawCard())
+            game.cerbereBoard.players[0].myHand.myCartesBonus.push(game.cerbereBoard.piocheSurvie.draw_card())
+            game.cerbereBoard.players[1].myHand.myCartesBonus.push(game.cerbereBoard.piocheTrahison.draw_card())
             i += 1
         end
 

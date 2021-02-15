@@ -1,10 +1,11 @@
 require "./Carte.cr"
 
 abstract class Deck
-	abstract def cards() : Array(CarteBonus)
-	abstract def discard() : Array(CarteBonus)
+	abstract def cards() : Array
+	abstract def discard() : Array
+	abstract def dump() : Nil
 
-	def drawCard() : CarteBonus
+	def draw_card() : CarteBonus
 		if(cards().size() == 0)
 			discard().shuffle!()
 			discard().each do |card|
@@ -15,49 +16,45 @@ abstract class Deck
 		return cards().pop()
 	end
 
-	def disCard(card : CarteBonus) : Nil
+	def dis_card(card : CarteBonus) : Nil
 		discard().push(card)
 	end
 end
 
 class DeckSurvie < Deck
-	@cards : Array(CarteSurvie) = (CARTES_SURVIE*4).shuffle
-	@discard : Array(CarteSurvie) = [] of CarteSurvie
+	private getter cards : Array(CarteSurvie) = (CARTES_SURVIE*4).shuffle
+	private getter discard : Array(CarteSurvie) = [] of CarteSurvie
 
-	def cards() : Array(CarteSurvie)
-		return @cards
-	end
-
-	def discard() : Array(CarteSurvie)
-		return @discard
-	end
-
-	def drawCard() : CarteSurvie
+	def draw_card() : CarteSurvie
 		return super().as(CarteSurvie)
 	end
 
-	def disCard(card : CarteSurvie) : Nil
+	def dis_card(card : CarteSurvie) : Nil
 		super(card)
+	end
+
+	def dump() : Nil
+		cards.each_index do |index|
+			puts "#{index} : #{cards[index].name}"
+		end
 	end
 end
 
 class DeckTrahison < Deck
-	@cards : Array(CarteTrahison) = (CARTES_TRAHISON*3).shuffle
-	@discard : Array(CarteTrahison) = [] of CarteTrahison
+	private getter cards : Array(CarteTrahison) = (CARTES_TRAHISON*3).shuffle
+	private getter discard : Array(CarteTrahison) = [] of CarteTrahison
 
-	def cards() : Array(CarteTrahison)
-		return @cards
-	end
-
-	def discard() : Array(CarteTrahison)
-		return @discard
-	end
-
-	def drawCard() : CarteTrahison
+	def draw_card() : CarteTrahison
 		return super().as(CarteTrahison)
 	end
 
-	def disCard(card : CarteTrahison) : Nil
+	def dis_card(card : CarteTrahison) : Nil
 		super(card)
+	end
+
+	def dump() : Nil
+		cards.each_index do |index|
+			puts "#{index} : #{cards[index].name}"
+		end
 	end
 end

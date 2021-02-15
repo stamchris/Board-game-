@@ -43,9 +43,9 @@ class Board
         end
         carte : CarteBonus = joueur.myHand.myCartesBonus.delete_at(num_carte)
         if(joueur.typeJoueur == 2) # Cerbère
-            piocheTrahison.disCard(carte.as(CarteTrahison))
+            piocheTrahison.dis_card(carte.as(CarteTrahison))
         else # Aventurier ou Eliminé (était Aventurier)
-            piocheSurvie.disCard(carte.as(CarteSurvie))
+            piocheSurvie.dis_card(carte.as(CarteSurvie))
         end
     end
 
