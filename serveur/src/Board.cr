@@ -119,27 +119,24 @@ end
 
     #DEPLACER_MOI # Le joueur se déplace
 
-    def mouv_player(player : Player,force : Int32)
+    def action_mouv_player(player : Player,force : Int32)
         size_board = nodes.size
         tmp =  player.position + force
         pos_max = 0
 
-        if(player.typeJoueur != 0) #lever d'erreur
+        if (player.typeJoueur != 1) #lever d'erreur
+            raise "Pas un survivant"
         end
        
-        if ((force > 0) && (tmp < size_board) && (player.typeJoueur == 1)) # si on estime que l'on peut rattraper cerbere (donc être derrière lui )
+        if ((force > 0) && (tmp < size_board) && (player.typeJoueur == 1)) 
             pos_max = tmp
             i = player.position 
             while ((i < pos_max) && (i != @positionCerbere))
                 i +=  1
             end
-            if (i < pos_max)
-                #case cerbere
-                player.typeJoueur = 2
-                player.position = 0 
-            else
-                player.position = i
-            end
+               
+            player.position = i
+    
 
         elsif ((force < 0)  && (player.typeJoueur == 1))
             pox_max = tmp
@@ -166,22 +163,14 @@ end
        
         final = finalpos
         first_pos = pos_cer
-        "if(finalpos < pos_cer)
-            final = pos_cer
-            first_pos = finalpos
-        end"
 
-       
-
-        tab = [] of Int32
-        size = tab_players.size
         i = 0 
-        min = nodes.size
+        min = nodes.size - 1
         capture = 0
-        while i < size
-            if ((final >= tab_players[i].position) && (first_pos < tab_players[i].position))
-                if(tab_players[i].position < min )
-                    min = tab_players[i].position
+        tab_players.each do |p|
+            if ((final >= p.position) && (first_pos < p.position))
+                if(p.position < min )
+                    min = p.position
                     capture = 1
                 end
             end
@@ -208,7 +197,7 @@ end
 
     end
 
-    def mouv_cerbere(force : Int32)
+    def action_mouv_cerbere(force : Int32)
         size_board = nodes.size
         tmp = @positionCerbere + force
         pos_max = 0
@@ -218,7 +207,7 @@ end
         elsif ((force < 0) && (tmp >= 0))
             pox_max = tmp
         else
-            puts "error"
+            raise "Sortie du plateau !!"
         end
         #Si on a avance de 1 et qu'on a des joueurs sur la case alors on lance la fonction
         #capture ('new cerbere = aventurier sur case')
@@ -226,12 +215,11 @@ end
         capturable = index_capture(@players,@positionCerbere,pos_max)
         
         if(capturable != -1)
-            joueurs_size = players.size - 1 #on enleve cerbere 
             i = 0 
-            while i < joueurs_size
-                if (players[i].position == capturable) #on va capturer les joueurs 
-                    @players[i].typeJoueur = 2 #cerbere
-                    @players[i].position = 0 #on met les joueurs a 0 
+            @players.each do |p|
+                if (p.position == capturable) #on va capturer les joueurs 
+                    p.typeJoueur = 2 #cerbere
+                    p.position = 0 #on met les joueurs a 0 
                 end
                 i += 1
             end
@@ -246,7 +234,7 @@ end
     #DEPLACER_AUTRE # Le joueur déplace d'autres survivants
 	
 
-    def mouv_other_player(mouv_player : Player, mouving_players : Array(Player),
+    def action_mouv_other_player(mouv_player : Player, mouving_players : Array(Player),
                             forces : Array(Int32))
         #Le premier Player du tableau mouving_players , 
         #correspond à la première force du tableau forces
@@ -254,7 +242,7 @@ end
         i = 0
         mouving_players.each do |plyr|
             if (plyr.typeJoueur == 1) && (plyr.lobbyId != not_touch_id)
-                mouv_player(mouving_players[i],forces[i])
+                mouv_player(mouving_players[i],forces[i]) #remplacer par deplacer_moi
             end
             i += 1
         end
@@ -264,10 +252,10 @@ end
 
     #DEPLACER_SURVIVANTS # Tous les survivants se déplacent
 
-    def mouv_all_survivors(force : Int32)
+    def action_mouv_all_survivors(force : Int32)
         @players.each do |plyr|
             if (plyr.typeJoueur == 1)
-                mouv_player(plyr,force)
+                mouv_player(plyr,force) #remplacer par deplacer_moi
             end
         end
     end
