@@ -39,7 +39,6 @@ class Board
         @vitesseCerbere = 3 + difficulty # A redefinir
     end
 
-<<<<<<< HEAD
     def defausser(joueur : Player,num_carte : Int32)
         if(num_carte < 0 || num_carte >= joueur.myHand.myCartesBonus.size())
             raise "Le joueur #{joueur.lobbyId} ne peut pas défausser la carte #{num_carte} !"
@@ -115,7 +114,6 @@ class Board
         end
     end
 end
-=======
 
     #DEPLACER_MOI # Le joueur se déplace
 
@@ -265,4 +263,3 @@ end
     
 
 end
->>>>>>> Deplacer *
