@@ -197,6 +197,63 @@ class TestRageVitesse
     end
 end
 
+class TestPiocheDefausse
+    def self.afficher_les_cartes_de(joueur : Player)
+        puts "Cartes de Joueur #{joueur.lobby_id}:"
+        joueur.hand.bonus.each_index do |index|
+            puts "\t#{index} : #{joueur.hand.bonus[index].name}"
+        end
+        puts
+    end
+
+    def self.run 
+        users5 = [
+            User.new(13),
+            User.new(21),
+            User.new(34),
+            User.new(55),
+            User.new(89)
+        ] of User
+
+        puts "[Test des actions de pioche et défausse]
+        "
+        my_game : Game = Game.new(0, users5)
+
+        my_game.board.players[2].type = TypeJoueur::CERBERE
+        my_game.board.players[3].type = TypeJoueur::CERBERE
+        my_game.board.players[4].type = TypeJoueur::MORT
+
+        puts "  Etat courant de la partie de 5 joueurs :"
+        my_game.board.players.each do |player|
+            puts "Joueur #{player.lobby_id} est #{player.type}."
+            afficher_les_cartes_de(player)
+        end
+
+        puts "  Joueur #{my_game.board.players[0].lobby_id} pioche 2 cartes"
+        puts "  Joueur #{my_game.board.players[1].lobby_id} pioche 1 cartes"
+        puts "  Joueur #{my_game.board.players[2].lobby_id} pioche 3 cartes"
+        puts "  Joueur #{my_game.board.players[3].lobby_id} pioche 5 cartes"
+        my_game.board.action_piocher_moi(my_game.board.players[0], 2)
+        my_game.board.action_piocher_moi(my_game.board.players[1], 1)
+        my_game.board.action_piocher_moi(my_game.board.players[2], 3)
+        my_game.board.action_piocher_moi(my_game.board.players[3], 5)
+
+        puts "  Etat courant de la partie de 5 joueurs :"
+        my_game.board.players.each do |player|
+            afficher_les_cartes_de(player)
+        end
+
+        puts "  Joueur #{my_game.board.players[0].lobby_id} fait piocher 1 carte à 1 allié" 
+        my_game.board.action_piocher_allie(my_game.board.players[0], 1, [21]) 
+
+        puts "  Etat courant de la partie de 5 joueurs :"
+        my_game.board.players.each do |player|
+            afficher_les_cartes_de(player)
+        end
+    end
+end
+
 Test.run
 TestDeck.run
 TestRageVitesse.run
+TestPiocheDefausse.run
