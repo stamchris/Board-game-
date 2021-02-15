@@ -69,9 +69,6 @@ class Board
     end
 
     def faire_action(moi : Player,effet : Effet,args : Array(Int32))
-=======
-    def faire_action(moi : Player,effet : Effet)
->>>>>>> ...What happened?
         case effet.evenement
         when Evenement::RIEN
             # ...
@@ -188,7 +185,6 @@ end
         return min  # on retourne la position la plus petite possible
     end
 
-<<<<<<< HEAD
     def lastcheckpoint(pos_cerb : Int32)
         cases = @nodes
         case_cerb_pos = cases[pos_cerb]
