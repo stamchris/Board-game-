@@ -115,5 +115,88 @@ class TestDeck
     end
 end
 
+class TestRageVitesse
+    def self.afficher_piste(board : Board) : Nil
+        s : String = " "
+
+        10.times do |i|
+            if i < board.nombre_pions_jauge
+                s = s + "[X]"
+            elsif (i + 1) == board.rage_cerbere
+                s = s + "[#{board.vitesse_cerbere}]"
+            else
+                s = s + "[ ]"
+            end
+        end
+
+        puts s
+    end
+
+    def self.run() : Nil
+        users5 = [
+            User.new(2),
+            User.new(48),
+            User.new(59),
+            User.new(420),
+            User.new(69)
+        ] of User
+
+        puts "[Test des actions modifier rage et vitesse]
+        "
+
+        game15 : Game = Game.new(1, users5)
+
+        puts "  Creation de partie avec 5 joueurs et difficulté 1 :"
+        afficher_piste(game15.board)
+        puts
+
+        puts "  Un joueur fait augmenter la rage de 2 !"
+        game15.board.action_changer_rage(2)
+        afficher_piste(game15.board)
+        puts
+
+        puts "  Un joueur fait diminuer la rage de 1 !"
+        game15.board.action_changer_rage(-1)
+        afficher_piste(game15.board)
+        puts
+
+        puts "  Un joueur fait augmenter la vitesse de 3 !"
+        game15.board.action_changer_vitesse(3)
+        afficher_piste(game15.board)
+        puts
+
+        puts "  Un joueur fait augmenter la rage de 51914 !"
+        game15.board.action_changer_rage(51914)
+        afficher_piste(game15.board)
+        puts
+
+        puts "La chasse commence, un joueur passe dans le camp de cerbère !"
+        # Simulation de capture de joueur
+        # A ne pas faire manuellement, il faut des méthodes de réinititalisation
+        # a appellées après une chasse
+        game15.board.nombre_pions_jauge += 1
+        game15.board.rage_cerbere = game15.board.nombre_pions_jauge + 1
+        game15.board.vitesse_cerbere = 3 + game15.board.difficulty
+        afficher_piste(game15.board)
+        puts
+
+        puts "  Un joueur fait diminuer la vitesse de 1 !"
+        game15.board.action_changer_vitesse(-1)
+        afficher_piste(game15.board)
+        puts
+
+        puts "  Un joueur fait augmenter la rage de 2 !"
+        game15.board.action_changer_rage(2)
+        afficher_piste(game15.board)
+        puts
+
+        puts "  Un joueur fait diminuer la rage de 57005 !"
+        game15.board.action_changer_rage(-57005)
+        afficher_piste(game15.board)
+        puts
+    end
+end
+
 Test.run
 TestDeck.run
+TestRageVitesse.run
