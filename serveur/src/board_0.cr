@@ -1,11 +1,11 @@
-require "./Node.cr"
+require "./node.cr"
 
 BOARD_0 = [
 
     Node.new(Effet.new(Evenement::RIEN,0),       # Effet
-            false,                              # Checkpoint pour Cerbere ?
-            [] of Int32,                        # Cases precedentes
-            [1]),                               # Cases suivantes
+            false,                               # Checkpoint pour Cerbere ?
+            [] of Int32,                         # Cases precedentes
+            [1]),                                # Cases suivantes
 
     Node.new(Effet.new(Evenement::RIEN,0),
             true,
@@ -41,7 +41,7 @@ BOARD_0 = [
             true,
             [6],
             [8]),
-    
+
     Node.new(Effet.new(Evenement::ENTREE_PONT,0),
             false,
             [7],
@@ -91,7 +91,7 @@ BOARD_0 = [
             false,
             [16],
             [18]),
-    
+
     Node.new(Effet.new(Evenement::REVELER_BARQUE,0),
             true,
             [17],

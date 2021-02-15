@@ -1,4 +1,4 @@
-require "./Carte.cr"
+require "./carte.cr"
 
 abstract class Deck
 	abstract def cards() : Array
