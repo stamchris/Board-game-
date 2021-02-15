@@ -113,7 +113,6 @@ class Board
             # ...
         end
     end
-end
 
     #DEPLACER_MOI # Le joueur se déplace
 
