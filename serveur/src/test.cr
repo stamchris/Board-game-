@@ -130,11 +130,13 @@ class TestPlateau
         ] of User
 
         game : Game = Game.new(0,users)
-        game.cerbereBoard.players[0].position = 11
+        game.cerbereBoard.players[0].position = 10
         game.cerbereBoard.players[1].position = 18
         game.cerbereBoard.players[2].position = 17
         game.cerbereBoard.players[3].position = 9
         game.cerbereBoard.positionCerbere = 8
+
+        game.cerbereBoard.action_promontoire(game.cerbereBoard.players[0], [0])
 
         game.cerbereBoard.deplacer_moi(game.cerbereBoard.players[0], -3)
         afficher_positions(game.cerbereBoard.players)

@@ -16,6 +16,9 @@ enum Evenement
 	COUARDISE # Deuxième effet de Couardise: le joueur avance d'autant de cases qu'il n'y a d'aventurier devant lui (max 3)
 	SABOTAGE # Deuxième effet de Sabotage: tous les survivants choisissent soit de défausser une carte, soit de reculer de 2 cases
 
+	PROMONTOIRE # Lorsqu'un joueur arrive sur la case promontoire, il peut voir une barque ou échanger 2 barques
+	PILOTIS # Si un joueur se trouve sur une case pilotis, on ne peut pas passer par cette case ou s'y arrêter
+	FUNICULAIRE # Si un joueur commence son déplacement sur une case funiculaire, il peut aller à l'autre case funiculaire en 1 déplacement
 	PORTAIL # Portail actif lorsqu'il y a un joueur sur la stèle
 	REVELER_BARQUE # Révèle la barque active
 	VERIFIER_BARQUE # Vérifie le nombre de joueurs sur la barque active
