@@ -73,15 +73,13 @@ class TestDeck
         survie : DeckSurvie = DeckSurvie.new
         trahison : DeckTrahison = DeckTrahison.new
 
-        i : Int32 = 0
-        while(i < 100)
+        100.times do
             carteSurvie : CarteSurvie = survie.draw_card()
             puts "Carte Survie piochée: #{carteSurvie.name}"
             carteTrahison : CarteTrahison = trahison.draw_card()
             puts "Carte Trahison piochée: #{carteTrahison.name}"
             survie.dis_card(carteSurvie)
             trahison.dis_card(carteTrahison)
-            i += 1
         end
 
         users = [
@@ -92,23 +90,19 @@ class TestDeck
         game : Game = Game.new(0,users)
         game.cerbereBoard.players[1].typeJoueur = 2
 
-        i = 0
-        while(i < 7)
+        7.times do
             game.cerbereBoard.players[0].myHand.myCartesBonus.push(game.cerbereBoard.piocheSurvie.draw_card())
             game.cerbereBoard.players[1].myHand.myCartesBonus.push(game.cerbereBoard.piocheTrahison.draw_card())
-            i += 1
         end
 
         afficher_les_cartes_de(game.cerbereBoard.players[0])
         afficher_les_cartes_de(game.cerbereBoard.players[1])
 
-        i = 0
-        while(i < 7)
+        7.times do
             game.cerbereBoard.defausser(game.cerbereBoard.players[0],0)
             game.cerbereBoard.defausser(game.cerbereBoard.players[1],0)
             afficher_les_cartes_de(game.cerbereBoard.players[0])
             afficher_les_cartes_de(game.cerbereBoard.players[1])
-            i += 1
         end
     end
 end
@@ -154,12 +148,10 @@ class TestCouardise
         end
         afficherPositions(myGame.cerbereBoard.players)
 
-        i = 0
-        while(i < myUsers.size())
+        myUsers.each_index do |i|
             puts "Joueur #{myGame.cerbereBoard.players[i].lobbyId} utilise Couardise"
             myGame.cerbereBoard.faire_action(myGame.cerbereBoard.players[i],Effet.new(Evenement::COUARDISE,0),[] of Int32)
             afficherPositions(myGame.cerbereBoard.players)
-            i += 1
         end
     end
 end
@@ -185,10 +177,8 @@ class TestSabotage
 
         myGame.cerbereBoard.players.each do |player|
             player.position = 3
-            i = 0
-            while(i < player.lobbyId-1)
-                player.myHand.myCartesBonus << myGame.cerbereBoard.piocheSurvie.cards.pop()
-                i += 1
+            (player.lobbyId-1).times do
+                player.myHand.myCartesBonus << myGame.cerbereBoard.piocheSurvie.draw_card()
             end
         end
 

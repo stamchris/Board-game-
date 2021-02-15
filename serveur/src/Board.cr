@@ -71,32 +71,29 @@ class Board
         end
     end
 
-    def action_barque(moi : Player,args : Array(Int32)) : Int32
+    def action_barque(moi : Player,args : Array(Int32))
         if(barques.size() == 3) # Les barques n'ont pas encore été révélées
             if(args.size() == 0)
-                return 1
+                raise "Argument choix manquant pour BARQUE"
             end
             choix : Int32 = args[0]
-            if(choix == 0)
+            if(choix == 0) # Consulter une barque
                 if(args.size() < 2 || args[1] < 0 || args[1] > 2)
-                    return 1
+                    raise "Argument barque manquant ou invalide pour BARQUE consulter"
                 end
                 info_barque : String = "Capacité de la barque #{args[1]}: #{barques[args[1]]}"
                 envoyer(moi,info_barque)
-            elsif(choix == 1)
-                if(args.size() < 3 || args[1] < 0 || args[1] > 2 || args[2] < 0 || args[2] > 2)
-                    return 1
+            elsif(choix == 1) # Echanger deux barques
+                if(args.size() < 3 || args[1] < 0 || args[1] > 2 || args[2] < 0 || args[2] > 2 || args[1] == args[2])
+                    raise "Arguments barques manquants ou invalides pour BARQUE échanger"
                 end
-                tmp : Int32 = barques[args[1]]
-                barques[args[1]] = barques[args[2]]
-                barques[args[2]] = tmp
+                barques.swap(args[1],args[2])
                 broadcast("Les barques #{args[1]} et #{args[2]} ont été échangées.")
             end
         end
-        return 0
     end
 
-    def action_couardise(moi : Player) : Int32
+    def action_couardise(moi : Player)
         nbJoueursDevant : Int32 = 0
         players.each do |player|
             if(player.position > moi.position)
@@ -104,9 +101,8 @@ class Board
             end
         end
         deplacement : Int32 = Math.min(nbJoueursDevant,3)
-        moi.position += deplacement
+        faire_action(moi,Effet.new(Evenement::DEPLACER_MOI,deplacement))
         broadcast("Le joueur #{moi.lobbyId} a avancé de #{deplacement} cases.")
-        return 0
     end
 
     def action_sabotage() : Int32
@@ -114,29 +110,28 @@ class Board
         players.each do |player|
             if(player.typeJoueur == 1) # Aventurier
                 if(player.myHand.myCartesBonus.size() == 0)
-                    player.position -= 2
+                    faire_action(player,Effet.new(Evenement::DEPLACER_MOI,-2))
                     compte_rendu.push({player.lobbyId,0})
                 else
-                    str_demander_choix : String = "Defausser une carte (0) ou reculer (1) ?"
-                    choix : Int32 = demander(player,str_demander_choix).to_i32()
-                    while(([choix] & [0,1]).size() == 0)
-                        choix = demander(player,str_demander_choix).to_i32()
+                    choix : Int32 = 0
+                    loop do
+                        choix = demander(player,"Defausser une carte (0) ou reculer (1) ?").to_i32()
+                        break if(choix.in?(0,1))
                     end
-                    if(choix == 0)
+                    if(choix == 0) # Défausser une carte
                         carte : Int32 = 0
                         if(player.myHand.myCartesBonus.size() == 1)
                             carte = 0
                         else
-                            str_demander_carte : String = "Quelle carte défausser ? [0,#{player.myHand.myCartesBonus.size()-1}]"
-                            carte = demander(player,str_demander_carte).to_i32()
-                            while(carte < 0 || carte >= player.myHand.myCartesBonus.size())
-                                carte = demander(player,str_demander_carte).to_i32()
+                            loop do
+                                carte = demander(player,"Quelle carte défausser ? [0,#{player.myHand.myCartesBonus.size()-1}]").to_i32()
+                                break if(choix >= 0 && choix < player.myHand.myCartesBonus.size())
                             end
                         end
-                        player.myHand.myCartesBonus.delete_at(carte)
+                        defausser(player,carte)
                         compte_rendu.push({player.lobbyId,1})
-                    elsif(choix == 1)
-                        player.position -= 2
+                    elsif(choix == 1) # Reculer
+                        faire_action(player,Effet.new(Evenement::DEPLACER_MOI,-2))
                         compte_rendu.push({player.lobbyId,0})
                     end
                 end
@@ -154,7 +149,7 @@ class Board
         return 0
     end
 
-    def faire_action(moi : Player,effet : Effet,args : Array(Int32))
+    def faire_action(moi : Player,effet : Effet,args : Array(Int32) = [] of Int32)
         case effet.evenement
         when Evenement::RIEN
             # ...
