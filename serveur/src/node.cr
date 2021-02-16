@@ -1,11 +1,11 @@
-require "./Effet.cr"
+require "./effet.cr"
 
 class Node
     getter effect : Effet
-    getter checkpointCerbere : Bool
-    property previousNodes : Array(Int32)
-    property nextNodes : Array(Int32)
+    getter checkpoint_cerbere : Bool
+    property previous_nodes : Array(Int32)
+    property next_nodes : Array(Int32)
 
-    def initialize(@effect, @checkpointCerbere, @previousNodes, @nextNodes)
+    def initialize(@effect, @checkpoint_cerbere, @previous_nodes, @next_nodes)
     end
 end

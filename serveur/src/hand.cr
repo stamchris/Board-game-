@@ -1,8 +1,6 @@
-require "./Carte.cr"
+require "./carte.cr"
 
 class Hand
-    property myCartesAction = CARTES_ACTION_SURVIVANT 
-    property myCartesBonus = [] of CarteBonus
+    property action = CARTES_ACTION_SURVIVANT
+    property bonus = [] of CarteBonus
 end
-
-

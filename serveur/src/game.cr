@@ -1,24 +1,24 @@
-require "./Board.cr"
-require "./Player.cr"
-require "./Deck.cr"
-require "./Carte.cr"
+require "./board.cr"
+require "./player.cr"
+require "./deck.cr"
+require "./carte.cr"
 
 # Classe temporaire representant les utilisateurs provenant du lobby
 class User
-    property userId : Int32
+    property user_id : Int32
 
-    def initialize(@userId)
+    def initialize(@user_id)
     end
 end
 
 class Game
-    property cerbereBoard : Board
+    property board : Board
     getter difficulty : Int32
     getter users : Array(User)
-    getter numberOfPlayers : Int32
+    getter number_players : Int32
 
     def initialize(@difficulty, @users)
-        @numberOfPlayers = users.size
-        @cerbereBoard = Board.new(@difficulty, @users)
+        @number_players = users.size
+        @board = Board.new(@difficulty, @users)
     end
 end
