@@ -71,16 +71,19 @@ class Board
     end
 
     def action_recuperer_carte(joueur : Player) : Nil
-        joueur.hand.reset(joueur.type)
+        if joueur.type != TypeJoueur::MORT
+            joueur.hand.reset(joueur.type)
+        else raise "Vous êtes mort !"
     end
 
     def action_piocher_moi(joueur : Player, nombre : Int32) : Nil
         nombre.times do 
             if joueur.type == TypeJoueur::AVENTURIER
                 joueur.hand.bonus << pioche_survie.draw_card()
-            else
+            elsif joueur.type == TypeJoueur::CERBERE
                 joueur.hand.bonus << pioche_trahison.draw_card()
-            end
+            else
+                raise "Vous êtes mort !"
         end
     end
 
