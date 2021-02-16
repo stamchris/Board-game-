@@ -74,26 +74,6 @@ class Board
         joueur.hand.reset()
     end
 
-    def action_changer_rage(valeur : Int32) : Nil
-        @rage_cerbere += valeur
-
-        if @rage_cerbere > 10
-            @rage_cerbere = 10
-        elsif @rage_cerbere < (1 + @nombre_pions_jauge)
-            @rage_cerbere = 1 + @nombre_pions_jauge
-        end
-    end
-
-    def action_changer_vitesse(valeur : Int32) : Nil
-        @vitesse_cerbere += valeur
-
-        if @vitesse_cerbere > 8
-            @vitesse_cerbere = 8
-        elsif @vitesse_cerbere < 3
-            @vitesse_cerbere = 3
-        end
-    end
-
     def action_piocher_moi(joueur : Player, nombre : Int32) : Nil
         nombre.times do 
             if joueur.type == TypeJoueur::AVENTURIER
@@ -111,7 +91,7 @@ class Board
             end
 
             if args.size != args.uniq.size
-                raise "Vous ne pouvez pas choisir de fois le même joueur !"
+                raise "Vous ne pouvez pas choisir deux fois le même joueur !"
             end
 
             @players.each do |player|
@@ -125,11 +105,13 @@ class Board
         end                 
     end
 
-    def action_defausser_moi(joueur : Player, nombre : Int32) : Nil
-        nombre.times do
-            puts "Vous avez #{joueur.hand.bonus.size} cartes."
-            num_carte = demander(joueur, "Quelle carte défausser ?").to_i
-            defausser(joueur, num_carte)
+    def action_defausser_moi(joueur : Player, nombre : Int32, args : Array(Int32)) : Nil
+        # Supprimer les cartes dans l'ordre croissant des indices :
+        # Les cartes après la carte supprimée voir leur indice baisser de 1
+        decalage = 0
+        args.sort.each do |carte_index|
+            defausser(joueur, carte_index - decalage)
+            decalage += 1
         end
     end
 
@@ -140,15 +122,16 @@ class Board
             end
 
             if args.size != args.uniq.size
-                raise "Vous ne pouvez pas choisir de fois le même joueur !"
+                raise "Vous ne pouvez pas choisir deux fois le même joueur !"
             end
 
             @players.each do |player|
                 if player.lobby_id == id
-                    if player.type != joueur.type
+                    if player.type != TypeJoueur::AVENTURIER
                         raise "Ce joueur n'est pas un aventurier !"
                     end
-                    action_defausser_moi(player, 1)
+                    index = demander(player, "Quelle carte défausser ?").to_i
+                    action_defausser_moi(player, 1, [index])
                 end
             end
         end                 
@@ -161,6 +144,8 @@ class Board
             raise "Vous ne pouvez pas vous choisir vous même !"
         end
 
+        nb_cartes = 0
+        
         @players.each do |player|
             if player.lobby_id == id_allie
                 if player.type != joueur.type
@@ -169,16 +154,39 @@ class Board
                     
                 # Demande du partage
                 envoyer(player, "Le joueur #{joueur.lobby_id} demande un partage de #{nombre} cartes.")
-                nb_cartes = demander(player, "Combien voulez-vous en partager ? [0, #{nombre}]").to_is
+                nb_cartes = demander(player, "Combien voulez-vous en partager ? [0, #{nombre}]").to_i
 
                 # Si partage accepté
                 if nb_cartes > 0
-                    action_defausser_moi(player, nb_cartes)
+                    nb_cartes.times do
+                        index = demander(player, "Quelle carte défausser ?").to_i
+                        action_defausser_moi(player, 1, [index])
+                    end
                 end
             end
         end
 
-        return nombre - nb_cartes
+        return nb_cartes
+    end
+
+    def action_changer_vitesse(valeur : Int32) : Nil
+        @vitesse_cerbere += valeur
+
+        if @vitesse_cerbere > 8
+            @vitesse_cerbere = 8
+        elsif @vitesse_cerbere < 3
+            @vitesse_cerbere = 3
+        end
+    end
+
+    def action_changer_rage(valeur : Int32) : Nil
+        @rage_cerbere += valeur
+
+        if @rage_cerbere > 10
+            @rage_cerbere = 10
+        elsif @rage_cerbere < (1 + @nombre_pions_jauge)
+            @rage_cerbere = 1 + @nombre_pions_jauge
+        end
     end
 
     def faire_action(moi : Player, effet : Effet, args : Array(Int32))
@@ -190,11 +198,11 @@ class Board
         when Evenement::PIOCHER_MOI
             action_piocher_moi(moi, effet.force)
         when Evenement::PIOCHER_ALLIE
-            action_piocher_allie(moi, effet.force)
+            action_piocher_allie(moi, effet.force, args)
         when Evenement::DEFAUSSER_MOI
-            action_defausser_moi(moi, effet.force)
+            action_defausser_moi(moi, effet.force, args)
         when Evenement::DEFAUSSER_SURVIE
-            action_defausser_survie(moi, effet.force)
+            action_defausser_survie(moi, effet.force, args)
         when Evenement::DEFAUSSER_PARTAGE
             action_defausser_partage(moi, effet.force)
         when Evenement::CHANGER_VITESSE

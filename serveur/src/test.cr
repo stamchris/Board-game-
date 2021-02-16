@@ -12,7 +12,7 @@ class Test
         ] of User
 
         # Creation d'une partie
-        puts "[Test de creation d'une partie]
+        puts "[Test de creation d'une partie]-------------------------
              "
 
         myGame : Game = Game.new(0, my_users)
@@ -67,7 +67,7 @@ class TestDeck
     end
 
     def self.run()
-        puts "[Test de la classe Deck]
+        puts "[Test de la classe Deck]-------------------------
         "
 
         survie : DeckSurvie = DeckSurvie.new
@@ -141,7 +141,7 @@ class TestRageVitesse
             User.new(69)
         ] of User
 
-        puts "[Test des actions modifier rage et vitesse]
+        puts "[Test des actions modifier rage et vitesse]-------------------------
         "
 
         game15 : Game = Game.new(1, users5)
@@ -215,7 +215,7 @@ class TestPiocheDefausse
             User.new(89)
         ] of User
 
-        puts "[Test des actions de pioche et défausse]
+        puts "[Test des actions de pioche et défausse]-------------------------
         "
         my_game : Game = Game.new(0, users5)
 
@@ -229,22 +229,49 @@ class TestPiocheDefausse
             afficher_les_cartes_de(player)
         end
 
-        puts "  Joueur #{my_game.board.players[0].lobby_id} pioche 2 cartes"
-        puts "  Joueur #{my_game.board.players[1].lobby_id} pioche 1 cartes"
-        puts "  Joueur #{my_game.board.players[2].lobby_id} pioche 3 cartes"
-        puts "  Joueur #{my_game.board.players[3].lobby_id} pioche 5 cartes"
-        my_game.board.action_piocher_moi(my_game.board.players[0], 2)
-        my_game.board.action_piocher_moi(my_game.board.players[1], 1)
-        my_game.board.action_piocher_moi(my_game.board.players[2], 3)
-        my_game.board.action_piocher_moi(my_game.board.players[3], 5)
+        puts "  Joueur #{my_game.board.players[0].lobby_id} pioche 5 cartes"
+        puts "  Joueur #{my_game.board.players[1].lobby_id} pioche 3 cartes"
+        puts "  Joueur #{my_game.board.players[2].lobby_id} pioche 2 cartes"
+        puts "  Joueur #{my_game.board.players[3].lobby_id} pioche 1 cartes"
+        puts
+        my_game.board.action_piocher_moi(my_game.board.players[0], 5)
+        my_game.board.action_piocher_moi(my_game.board.players[1], 3)
+        my_game.board.action_piocher_moi(my_game.board.players[2], 2)
+        my_game.board.action_piocher_moi(my_game.board.players[3], 1)
 
         puts "  Etat courant de la partie de 5 joueurs :"
         my_game.board.players.each do |player|
             afficher_les_cartes_de(player)
         end
 
-        puts "  Joueur #{my_game.board.players[0].lobby_id} fait piocher 1 carte à 1 allié" 
-        my_game.board.action_piocher_allie(my_game.board.players[0], 1, [21]) 
+        puts "  Joueur #{my_game.board.players[0].lobby_id} fait piocher 1 carte à 1 allié !" 
+        my_game.board.action_piocher_allie(my_game.board.players[0], 1, [21])
+
+        puts "  Joueur #{my_game.board.players[0].lobby_id} défausse 2 cartes !" 
+        my_game.board.action_defausser_moi(my_game.board.players[0], 2, [0, 1])
+        puts
+        
+        puts "  Etat courant de la partie de 5 joueurs :"
+        my_game.board.players.each do |player|
+            afficher_les_cartes_de(player)
+        end
+
+        puts "  Le joueur #{my_game.board.players[3].lobby_id} fait défausser 1 carte à 2 aventuriers !"
+        my_game.board.action_defausser_survie(my_game.board.players[3], 2, [13, 21])
+        puts
+
+        puts "  Etat courant de la partie de 5 joueurs :"
+        my_game.board.players.each do |player|
+            afficher_les_cartes_de(player)
+        end
+
+        puts "  Le joueur #{my_game.board.players[0].lobby_id} souhaite partager le coût d'une carte.
+        Il demande 2 carte."
+        cartes_partagees = my_game.board.action_defausser_partage(my_game.board.players[0], 2)
+        puts
+
+        puts " Le joueur a accepté de partager #{cartes_partagees} !"
+        puts
 
         puts "  Etat courant de la partie de 5 joueurs :"
         my_game.board.players.each do |player|
