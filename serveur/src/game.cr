@@ -1,24 +1,43 @@
-require "./board.cr"
-require "./player.cr"
-require "./deck.cr"
-require "./carte.cr"
+class Cerbere::Player
+	include JSON::Serializable
 
-# Classe temporaire representant les utilisateurs provenant du lobby
-class User
-    property user_id : Int32
+	property ready = false
+	property name : String
+	@[JSON::Field(ignore: true)]
+	getter socket : HTTP::WebSocket
+	
+	def send(response : Response)
+		@socket.send(response.to_json)
+	end
 
-    def initialize(@user_id)
-    end
+	def initialize(@name, @socket)
+	end
 end
 
-class Game
-    property board : Board
-    getter difficulty : Int32
-    getter users : Array(User)
-    getter number_players : Int32
+class Cerbere::Game
+	getter players : Array(Player)
+	getter active = false
 
-    def initialize(@difficulty, @users)
-        @number_players = users.size
-        @board = Board.new(@difficulty, @users)
-    end
+	def initialize()
+		@players = [] of Player
+	end
+
+	def <<(player : Player)
+		@players << player
+	end
+
+	def send_all(response : Response)
+		@players.each do |player|
+			player.send response
+		end
+	end
+
+	def check_players()
+		if @players.size>=3
+			if @players.all? &.ready == true
+				@active = true
+			end
+		end
+		@active
+	end
 end
