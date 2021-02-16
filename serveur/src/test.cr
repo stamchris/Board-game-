@@ -280,7 +280,48 @@ class TestPiocheDefausse
     end
 end
 
+class TestCartesAction
+    def self.run
+        users = [User.new(1), User.new(2)] of User
+
+        my_game : Game = Game.new(0, users)
+        my_game.board.players[1].type = TypeJoueur::CERBERE
+        my_game.board.players[1].hand.reset(TypeJoueur::CERBERE)
+        
+        puts "[Test de la récupération des cartes actions]-------------------------
+        "
+
+        my_game.board.players.each do |player|
+            puts "PLAYER_ID : #{player.lobby_id}"
+            puts "  Le joueur est de type #{player.type}"
+            player.hand.action.each do |carte|
+                puts carte
+            end
+            puts
+        end
+
+        puts "Les joueurs 1 et 2 utilise une carte action !"
+        my_game.board.players[0].hand.action.pop
+        my_game.board.players[1].hand.action.pop
+
+        puts "Le joueur 2 récupère ces cartes !"
+        my_game.board.action_recuperer_carte(my_game.board.players[1])
+        puts
+
+        my_game.board.players.each do |player|
+            puts "PLAYER_ID : #{player.lobby_id}"
+            puts "  Le joueur est de type #{player.type}"
+            player.hand.action.each do |carte|
+                puts carte
+            end
+            puts
+        end
+
+    end
+end
+
 Test.run
 TestDeck.run
 TestRageVitesse.run
+TestCartesAction.run
 TestPiocheDefausse.run

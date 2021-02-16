@@ -71,7 +71,7 @@ class Board
     end
 
     def action_recuperer_carte(joueur : Player) : Nil
-        joueur.hand.reset()
+        joueur.hand.reset(joueur.type)
     end
 
     def action_piocher_moi(joueur : Player, nombre : Int32) : Nil
