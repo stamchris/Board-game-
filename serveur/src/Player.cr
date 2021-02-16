@@ -1,6 +1,5 @@
 require "./Hand.cr"
 
-"_P : fonction que je rajoute en plus : idée "
 
 class Player
     property lobbyId : Int32 = 0    # A definir
@@ -15,7 +14,4 @@ class Player
 
 
 
-    def mouv_Pplayer(num : Int32)
-        
-    end
 end
