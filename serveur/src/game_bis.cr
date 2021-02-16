@@ -1,6 +1,3 @@
-require "json"
-require "http"
-
 class Cerbere::Player
 	include JSON::Serializable
 
@@ -8,7 +5,7 @@ class Cerbere::Player
 	property name : String
 	@[JSON::Field(ignore: true)]
 	getter socket : HTTP::WebSocket
-
+	
 	def send(response : Response)
 		@socket.send(response.to_json)
 	end
