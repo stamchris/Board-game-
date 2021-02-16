@@ -61,10 +61,10 @@ class Test
 
 
         " Bouger joueur simplement "
-        puts myGame.cerbereBoard.players[0].position
-        myGame.cerbereBoard.mouv_player(myGame.cerbereBoard.players[0],1)
-        myGame.cerbereBoard.mouv_player(myGame.cerbereBoard.players[2],2)
-        puts myGame.cerbereBoard.players[0].position
+        puts "La position du joueur 1  : #{myGame.cerbereBoard.players[0].position}"
+        myGame.cerbereBoard.action_mouv_player(myGame.cerbereBoard.players[0],1)
+        myGame.cerbereBoard.action_mouv_player(myGame.cerbereBoard.players[2],2)
+        puts "La position du joueur  1 apres mouv : #{myGame.cerbereBoard.players[0].position}"
 
 
         " Bouger cerbere simplement"
@@ -74,7 +74,8 @@ class Test
         puts "La position du joueur 2 est #{myGame.cerbereBoard.players[1].position} 
                 et son statut : #{myGame.cerbereBoard.players[1].typeJoueur} "
 
-        myGame.cerbereBoard.mouv_cerbere(1)
+        myGame.cerbereBoard.action_mouv_cerbere(1)
+        puts "Mouvement de Cerbere de une position vers l'avant"
         puts "La position de Cerbere est #{myGame.cerbereBoard.positionCerbere}"
         puts "La position du joueur 1 est #{myGame.cerbereBoard.players[0].position} 
                 et son statut : #{myGame.cerbereBoard.players[0].typeJoueur} "
@@ -87,7 +88,7 @@ class Test
         puts "La position du joueur 2 est #{myGame.cerbereBoard.players[1].position}"  # cerbere
         puts "La position du joueur 4 est #{myGame.cerbereBoard.players[3].position}"  # cerbere
 
-        myGame.cerbereBoard.mouv_all_survivors(2)
+        myGame.cerbereBoard.action_mouv_all_survivors(2)
         puts "La position du joueur 1 est #{myGame.cerbereBoard.players[0].position}"  #survivant
         puts "La position du joueur 3 est #{myGame.cerbereBoard.players[2].position}"  #survivant
         # il n'y a que 2 survivant
@@ -95,7 +96,7 @@ class Test
 
 
         "Un joueur fait bouger un autre joueur ou plusieurs"
-        myGame.cerbereBoard.mouv_other_player(
+        myGame.cerbereBoard.action_mouv_other_player(
             myGame.cerbereBoard.players[0],[myGame.cerbereBoard.players[2]],[2]
         )
 
@@ -107,11 +108,9 @@ class Test
 
         
 
-
-
-
     end
 end 
+
 class TestDeck
     def self.afficher_les_cartes_de(joueur : Player)
         puts "Cartes de Joueur #{joueur.lobbyId}:"
