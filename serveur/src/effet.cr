@@ -7,10 +7,10 @@ enum Evenement
 	DEFAUSSER_SURVIE # X survivants sont obligés de défausser une carte
 	DEFAUSSER_PARTAGE # X cartes Survie/Trahison doivent être défaussés, ce coût est partageable parmi les alliés
 	CHANGER_VITESSE # La vitesse (valeur du dé) change
-	CHANGER_COLERE # La colère (jauge) change
+	CHANGER_RAGE # La colère (jauge) change
 	DEPLACER_MOI # Le joueur se déplace
 	DEPLACER_AUTRE # Le joueur déplace d'autres joueurs
-	DEPLACER_SURVIVANTS # Tous les survivants se déplacent
+	DEPLACER_AVENTURIERS # Tous les aventuriers se déplacent
 	DEPLACER_CERBERE # Cerbère se déplace sur le plateau
 	BARQUE # Le joueur peut soit consulter les barques, soit les changer de place
 	COUARDISE # Deuxième effet de Couardise: le joueur avance d'autant de cases qu'il n'y a d'aventurier devant lui (max 3)

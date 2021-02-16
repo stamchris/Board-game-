@@ -68,7 +68,7 @@ BOARD_0 = [
     Node.new(Effet.new(Evenement::RIEN,0),
             false),
 
-    Node.new(Effet.new(Evenement::CHANGER_COLERE,1),
+    Node.new(Effet.new(Evenement::CHANGER_RAGE,1),
             false),
 
     Node.new(Effet.new(Evenement::VERIFIER_BARQUE,0),

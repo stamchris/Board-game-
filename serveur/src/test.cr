@@ -1,125 +1,75 @@
 require "./Player.cr"
-require "./Deck.cr"
+require "./deck.cr"
 require "./Game.cr"
 
 class Test
     def self.run
-    # Tableau d'utilisateurs fictifs provenant du lobby
-    myUsers = [
-        User.new(2),
-        User.new(48),
-        User.new(59),
-        User.new(227),
-        User.new(35),
-        User.new(1000),
-        User.new(4785)
-    ] of User
+        # Tableau d'utilisateurs fictifs provenant du lobby
+        my_users = [
+            User.new(2),
+            User.new(48),
+            User.new(59),
+        ] of User
 
         # Creation d'une partie
-        puts "[Test de creation d'une partie]
+        puts "[Test de creation d'une partie]-------------------------
              "
 
-        myGame : Game = Game.new(0, myUsers)
+        myGame : Game = Game.new(0, my_users)
 
-        puts "  La partie a #{myGame.numberOfPlayers} joueurs"
+        puts "  La partie a #{myGame.number_players} joueurs"
         puts "  La partie est en difficulte #{myGame.difficulty}
              "
 
         # Affichage des cases
         puts "  Les cases du plateau :"
-        myGame.cerbereBoard.nodes.each do |node|
-            puts "[#{node.checkpointCerbere}, #{node.effect.evenement}]"
+        myGame.board.nodes.each do |node|
+            puts "[#{node.checkpoint_cerbere}, #{node.effect.evenement}]"
         end
         puts
 
         # Affichage des pioches
         puts "  Les cartes de la pioche Survie :"
-        myGame.cerbereBoard.piocheSurvie.dump()
+        myGame.board.pioche_survie.dump()
         puts
 
         puts "  Les cartes de la pioche Trahison :"
-        myGame.cerbereBoard.piocheTrahison.dump()
+        myGame.board.pioche_trahison.dump()
         puts
 
         puts "  Les joueurs sont :"
         a = 1
-        myGame.cerbereBoard.players.each do |player|
+        myGame.board.players.each do |player|
             puts "PLAYER_ID : #{a}"
-            puts "  Le joueur a #{player.myHand.myCartesAction.size} cartes Action"
-            puts "  Le joueur a #{player.myHand.myCartesBonus.size} cartes Survie"
-            puts "  Le joueur est de type #{player.typeJoueur}"
+            puts "  Le joueur a #{player.hand.action.size} cartes Action"
+            puts "  Le joueur a #{player.hand.bonus.size} cartes Survie"
+            puts "  Le joueur est de type #{player.type}"
             puts "  Le joueur est a la case #{player.position}"
             puts
             a = a + 1
         end
 
         puts "  Les attributs du plateau sont :"
-        puts "Barques : #{myGame.cerbereBoard.barques}"
-        puts "La vitesse est #{myGame.cerbereBoard.vitesseCerbere}"
-        puts "La rage est #{myGame.cerbereBoard.rageCerbere}"
-        puts "La position de Cerbere est #{myGame.cerbereBoard.positionCerbere}"
-
-
-        " Bouger joueur simplement "
-        puts "La position du joueur 1  : #{myGame.cerbereBoard.players[0].position}"
-        myGame.cerbereBoard.action_mouv_player(myGame.cerbereBoard.players[0],1)
-        myGame.cerbereBoard.action_mouv_player(myGame.cerbereBoard.players[2],2)
-        puts "La position du joueur  1 apres mouv : #{myGame.cerbereBoard.players[0].position}"
-
-
-        " Bouger cerbere simplement"
-        puts "La position de Cerbere est #{myGame.cerbereBoard.positionCerbere}"
-        puts "La position du joueur 1 est #{myGame.cerbereBoard.players[0].position} 
-                et son statut : #{myGame.cerbereBoard.players[0].typeJoueur} "
-        puts "La position du joueur 2 est #{myGame.cerbereBoard.players[1].position} 
-                et son statut : #{myGame.cerbereBoard.players[1].typeJoueur} "
-
-        myGame.cerbereBoard.action_mouv_cerbere(1)
-        puts "Mouvement de Cerbere de une position vers l'avant"
-        puts "La position de Cerbere est #{myGame.cerbereBoard.positionCerbere}"
-        puts "La position du joueur 1 est #{myGame.cerbereBoard.players[0].position} 
-                et son statut : #{myGame.cerbereBoard.players[0].typeJoueur} "
-        puts "La position du joueur 2 est #{myGame.cerbereBoard.players[1].position} 
-                et son statut : #{myGame.cerbereBoard.players[1].typeJoueur} "
-        #capture effectué
-
-        "Bouger tout les survivants "
-
-        puts "La position du joueur 2 est #{myGame.cerbereBoard.players[1].position}"  # cerbere
-        puts "La position du joueur 4 est #{myGame.cerbereBoard.players[3].position}"  # cerbere
-
-        myGame.cerbereBoard.action_mouv_all_survivors(2)
-        puts "La position du joueur 1 est #{myGame.cerbereBoard.players[0].position}"  #survivant
-        puts "La position du joueur 3 est #{myGame.cerbereBoard.players[2].position}"  #survivant
-        # il n'y a que 2 survivant
-
-
-
-        "Un joueur fait bouger un autre joueur ou plusieurs"
-        myGame.cerbereBoard.action_mouv_other_player(
-            myGame.cerbereBoard.players[0],[myGame.cerbereBoard.players[2]],[2]
-        )
-
-        puts "La position du joueur 3 est #{myGame.cerbereBoard.players[2].position}"  #survivant
-
-            
-
-
-
-        
-
+        puts "Barques : #{myGame.board.barques}"
+        puts "La vitesse est #{myGame.board.vitesse_cerbere}"
+        puts "La rage est #{myGame.board.rage_cerbere}"
+        puts "La position de Cerbere est #{myGame.board.position_cerbere}"
+        puts
     end
 end 
 
 class TestDeck
     def self.afficher_les_cartes_de(joueur : Player)
-        puts "Cartes de Joueur #{joueur.lobbyId}:"
-        joueur.myHand.myCartesBonus.each_index do |index|
-            puts "\t#{index} : #{joueur.myHand.myCartesBonus[index].name}"
+        puts "Cartes de Joueur #{joueur.lobby_id}:"
+        joueur.hand.bonus.each_index do |index|
+            puts "\t#{index} : #{joueur.hand.bonus[index].name}"
         end
     end
 
     def self.run()
+        puts "[Test de la classe Deck]-------------------------
+        "
+
         survie : DeckSurvie = DeckSurvie.new
         trahison : DeckTrahison = DeckTrahison.new
 
@@ -138,22 +88,233 @@ class TestDeck
         ] of User
 
         game : Game = Game.new(0,users)
-        game.cerbereBoard.players[1].typeJoueur = 2
+        game.board.players[1].type = TypeJoueur::CERBERE
 
-        7.times do
-            game.cerbereBoard.players[0].myHand.myCartesBonus.push(game.cerbereBoard.piocheSurvie.draw_card())
-            game.cerbereBoard.players[1].myHand.myCartesBonus.push(game.cerbereBoard.piocheTrahison.draw_card())
+        i = 0
+        while(i < 7)
+            game.board.players[0].hand.bonus.push(game.board.pioche_survie.draw_card())
+            game.board.players[1].hand.bonus.push(game.board.pioche_trahison.draw_card())
+            i += 1
         end
 
-        afficher_les_cartes_de(game.cerbereBoard.players[0])
-        afficher_les_cartes_de(game.cerbereBoard.players[1])
+        afficher_les_cartes_de(game.board.players[0])
+        afficher_les_cartes_de(game.board.players[1])
 
-        7.times do
-            game.cerbereBoard.defausser(game.cerbereBoard.players[0],0)
-            game.cerbereBoard.defausser(game.cerbereBoard.players[1],0)
-            afficher_les_cartes_de(game.cerbereBoard.players[0])
-            afficher_les_cartes_de(game.cerbereBoard.players[1])
+        i = 0
+        while(i < 7)
+            game.board.defausser(game.board.players[0],0)
+            game.board.defausser(game.board.players[1],0)
+            afficher_les_cartes_de(game.board.players[0])
+            afficher_les_cartes_de(game.board.players[1])
+            i += 1
         end
+
+        puts
+    end
+end
+
+class TestRageVitesse
+    def self.afficher_piste(board : Board) : Nil
+        s : String = " "
+
+        10.times do |i|
+            if i < board.nombre_pions_jauge
+                s = s + "[X]"
+            elsif (i + 1) == board.rage_cerbere
+                s = s + "[#{board.vitesse_cerbere}]"
+            else
+                s = s + "[ ]"
+            end
+        end
+
+        puts s
+    end
+
+    def self.run() : Nil
+        users5 = [
+            User.new(2),
+            User.new(48),
+            User.new(59),
+            User.new(420),
+            User.new(69)
+        ] of User
+
+        puts "[Test des actions modifier rage et vitesse]-------------------------
+        "
+
+        game15 : Game = Game.new(1, users5)
+
+        puts "  Creation de partie avec 5 joueurs et difficulté 1 :"
+        afficher_piste(game15.board)
+        puts
+
+        puts "  Un joueur fait augmenter la rage de 2 !"
+        game15.board.action_changer_rage(2)
+        afficher_piste(game15.board)
+        puts
+
+        puts "  Un joueur fait diminuer la rage de 1 !"
+        game15.board.action_changer_rage(-1)
+        afficher_piste(game15.board)
+        puts
+
+        puts "  Un joueur fait augmenter la vitesse de 3 !"
+        game15.board.action_changer_vitesse(3)
+        afficher_piste(game15.board)
+        puts
+
+        puts "  Un joueur fait augmenter la rage de 51914 !"
+        game15.board.action_changer_rage(51914)
+        afficher_piste(game15.board)
+        puts
+
+        puts "La chasse commence, un joueur passe dans le camp de cerbère !"
+        # Simulation de capture de joueur
+        # A ne pas faire manuellement, il faut des méthodes de réinititalisation
+        # a appellées après une chasse
+        game15.board.nombre_pions_jauge += 1
+        game15.board.rage_cerbere = game15.board.nombre_pions_jauge + 1
+        game15.board.vitesse_cerbere = 3 + game15.board.difficulty
+        afficher_piste(game15.board)
+        puts
+
+        puts "  Un joueur fait diminuer la vitesse de 1 !"
+        game15.board.action_changer_vitesse(-1)
+        afficher_piste(game15.board)
+        puts
+
+        puts "  Un joueur fait augmenter la rage de 2 !"
+        game15.board.action_changer_rage(2)
+        afficher_piste(game15.board)
+        puts
+
+        puts "  Un joueur fait diminuer la rage de 57005 !"
+        game15.board.action_changer_rage(-57005)
+        afficher_piste(game15.board)
+        puts
+    end
+end
+
+class TestPiocheDefausse
+    def self.afficher_les_cartes_de(joueur : Player)
+        puts "Cartes de Joueur #{joueur.lobby_id}:"
+        joueur.hand.bonus.each_index do |index|
+            puts "\t#{index} : #{joueur.hand.bonus[index].name}"
+        end
+        puts
+    end
+
+    def self.run 
+        users5 = [
+            User.new(13),
+            User.new(21),
+            User.new(34),
+            User.new(55),
+            User.new(89)
+        ] of User
+
+        puts "[Test des actions de pioche et défausse]-------------------------
+        "
+        my_game : Game = Game.new(0, users5)
+
+        my_game.board.players[2].type = TypeJoueur::CERBERE
+        my_game.board.players[3].type = TypeJoueur::CERBERE
+        my_game.board.players[4].type = TypeJoueur::MORT
+
+        puts "  Etat courant de la partie de 5 joueurs :"
+        my_game.board.players.each do |player|
+            puts "Joueur #{player.lobby_id} est #{player.type}."
+            afficher_les_cartes_de(player)
+        end
+
+        puts "  Joueur #{my_game.board.players[0].lobby_id} pioche 5 cartes"
+        puts "  Joueur #{my_game.board.players[1].lobby_id} pioche 3 cartes"
+        puts "  Joueur #{my_game.board.players[2].lobby_id} pioche 2 cartes"
+        puts "  Joueur #{my_game.board.players[3].lobby_id} pioche 1 cartes"
+        puts
+        my_game.board.action_piocher_moi(my_game.board.players[0], 5)
+        my_game.board.action_piocher_moi(my_game.board.players[1], 3)
+        my_game.board.action_piocher_moi(my_game.board.players[2], 2)
+        my_game.board.action_piocher_moi(my_game.board.players[3], 1)
+
+        puts "  Etat courant de la partie de 5 joueurs :"
+        my_game.board.players.each do |player|
+            afficher_les_cartes_de(player)
+        end
+
+        puts "  Joueur #{my_game.board.players[0].lobby_id} fait piocher 1 carte à 1 allié !" 
+        my_game.board.action_piocher_allie(my_game.board.players[0], 1, [21])
+
+        puts "  Joueur #{my_game.board.players[0].lobby_id} défausse 2 cartes !" 
+        my_game.board.action_defausser_moi(my_game.board.players[0], 2, [0, 1])
+        puts
+        
+        puts "  Etat courant de la partie de 5 joueurs :"
+        my_game.board.players.each do |player|
+            afficher_les_cartes_de(player)
+        end
+
+        puts "  Le joueur #{my_game.board.players[3].lobby_id} fait défausser 1 carte à 2 aventuriers !"
+        my_game.board.action_defausser_survie(my_game.board.players[3], 2, [13, 21])
+        puts
+
+        puts "  Etat courant de la partie de 5 joueurs :"
+        my_game.board.players.each do |player|
+            afficher_les_cartes_de(player)
+        end
+
+        puts "  Le joueur #{my_game.board.players[0].lobby_id} souhaite partager le coût d'une carte.
+        Il demande 2 carte."
+        cartes_partagees = my_game.board.action_defausser_partage(my_game.board.players[0], 2)
+        puts
+
+        puts " Le joueur a accepté de partager #{cartes_partagees} !"
+        puts
+
+        puts "  Etat courant de la partie de 5 joueurs :"
+        my_game.board.players.each do |player|
+            afficher_les_cartes_de(player)
+        end
+    end
+end
+
+class TestCartesAction
+    def self.run
+        users = [User.new(1), User.new(2)] of User
+
+        my_game : Game = Game.new(0, users)
+        my_game.board.players[1].type = TypeJoueur::CERBERE
+        my_game.board.players[1].hand.reset(TypeJoueur::CERBERE)
+        
+        puts "[Test de la récupération des cartes actions]-------------------------
+        "
+
+        my_game.board.players.each do |player|
+            puts "PLAYER_ID : #{player.lobby_id}"
+            puts "  Le joueur est de type #{player.type}"
+            player.hand.action.each do |carte|
+                puts carte
+            end
+            puts
+        end
+
+        puts "Les joueurs 1 et 2 utilise une carte action !"
+        my_game.board.players[0].hand.action.pop
+        my_game.board.players[1].hand.action.pop
+
+        puts "Le joueur 2 récupère ces cartes !"
+        my_game.board.action_recuperer_carte(my_game.board.players[1])
+        puts
+
+        my_game.board.players.each do |player|
+            puts "PLAYER_ID : #{player.lobby_id}"
+            puts "  Le joueur est de type #{player.type}"
+            player.hand.action.each do |carte|
+                puts carte
+            end
+            puts
+        end
+
     end
 end
 
@@ -165,19 +326,19 @@ class TestBarque
         ] of User
         myGame : Game = Game.new(0,myUsers)
 
-        puts "Barques : #{myGame.cerbereBoard.barques}"
+        puts "Barques : #{myGame.board.barques}"
 
-        myGame.cerbereBoard.faire_action(myGame.cerbereBoard.players[0],Effet.new(Evenement::BARQUE,0),[0,0])
-        myGame.cerbereBoard.faire_action(myGame.cerbereBoard.players[1],Effet.new(Evenement::BARQUE,0),[1,0,1])
+        myGame.board.faire_action(myGame.board.players[0],Effet.new(Evenement::BARQUE,0),[0,0])
+        myGame.board.faire_action(myGame.board.players[1],Effet.new(Evenement::BARQUE,0),[1,0,1])
 
-        puts "Barques : #{myGame.cerbereBoard.barques}"
+        puts "Barques : #{myGame.board.barques}"
     end
 end
 
 class TestCouardise
     def self.afficherPositions(players : Array(Player))
         players.each do |player|
-            puts "Joueur #{player.lobbyId}: #{player.position}"
+            puts "Joueur #{player.lobby_id}: #{player.position}"
         end
     end
 
@@ -193,15 +354,15 @@ class TestCouardise
         ] of User
         myGame : Game = Game.new(0,myUsers)
 
-        myGame.cerbereBoard.players.each do |player|
-            player.position = player.lobbyId
+        myGame.board.players.each do |player|
+            player.position = player.lobby_id
         end
-        afficherPositions(myGame.cerbereBoard.players)
+        afficherPositions(myGame.board.players)
 
         myUsers.each_index do |i|
-            puts "Joueur #{myGame.cerbereBoard.players[i].lobbyId} utilise Couardise"
-            myGame.cerbereBoard.faire_action(myGame.cerbereBoard.players[i],Effet.new(Evenement::COUARDISE,0),[] of Int32)
-            afficherPositions(myGame.cerbereBoard.players)
+            puts "Joueur #{myGame.board.players[i].lobby_id} utilise Couardise"
+            myGame.board.faire_action(myGame.board.players[i],Effet.new(Evenement::COUARDISE,0),[] of Int32)
+            afficherPositions(myGame.board.players)
         end
     end
 end
@@ -210,7 +371,7 @@ class TestPlateau
     def self.afficher_positions(joueurs : Array(Player))
         puts "Positions des joueurs :"
         joueurs.each do |joueur|
-            puts "\t#{joueur.lobbyId} : #{joueur.position}"
+            puts "\t#{joueur.lobby_id} : #{joueur.position}"
         end
     end
 
@@ -223,35 +384,35 @@ class TestPlateau
         ] of User
 
         game : Game = Game.new(0,users)
-        game.cerbereBoard.players[0].position = 9
-        game.cerbereBoard.players[1].position = 17
-        game.cerbereBoard.players[2].position = 16
-        game.cerbereBoard.players[3].position = 8
-        game.cerbereBoard.positionCerbere = 7
+        game.board.players[0].position = 9
+        game.board.players[1].position = 17
+        game.board.players[2].position = 16
+        game.board.players[3].position = 8
+        game.board.position_cerbere = 7
 
-        game.cerbereBoard.action_promontoire(game.cerbereBoard.players[0], [0])
+        game.board.action_promontoire(game.board.players[0], [0])
 
-        game.cerbereBoard.action_deplacer_moi(game.cerbereBoard.players[0], -3)
-        afficher_positions(game.cerbereBoard.players)
+        game.board.action_deplacer_moi(game.board.players[0], -3)
+        afficher_positions(game.board.players)
 
-        game.cerbereBoard.action_deplacer_moi(game.cerbereBoard.players[1], -2)
-        afficher_positions(game.cerbereBoard.players)
+        game.board.action_deplacer_moi(game.board.players[1], -2)
+        afficher_positions(game.board.players)
 
-        game.cerbereBoard.action_deplacer_moi(game.cerbereBoard.players[2], 3)
-        afficher_positions(game.cerbereBoard.players)
+        game.board.action_deplacer_moi(game.board.players[2], 3)
+        afficher_positions(game.board.players)
 
-        game.cerbereBoard.action_deplacer_moi(game.cerbereBoard.players[3], 3)
-        afficher_positions(game.cerbereBoard.players)
+        game.board.action_deplacer_moi(game.board.players[3], 3)
+        afficher_positions(game.board.players)
 
-        game.cerbereBoard.action_deplacer_moi(game.cerbereBoard.players[1], 2)
-        afficher_positions(game.cerbereBoard.players)
+        game.board.action_deplacer_moi(game.board.players[1], 2)
+        afficher_positions(game.board.players)
     end
 end
 
 class TestSabotage
     def self.afficherEtat(players : Array(Player))
         players.each do |player|
-            puts "Joueur #{player.lobbyId}: position: #{player.position} n_cards: #{player.myHand.myCartesBonus.size()}"
+            puts "Joueur #{player.lobby_id}: position: #{player.position} n_cards: #{player.hand.bonus.size()}"
         end
     end
 
@@ -267,20 +428,20 @@ class TestSabotage
         ] of User
         myGame : Game = Game.new(0,myUsers)
 
-        myGame.cerbereBoard.players.each do |player|
+        myGame.board.players.each do |player|
             player.position = 3
-            (player.lobbyId-1).times do
-                player.myHand.myCartesBonus << myGame.cerbereBoard.piocheSurvie.draw_card()
+            (player.lobby_id-1).times do
+                player.hand.bonus << myGame.board.pioche_survie.draw_card()
             end
         end
 
         puts "Etat initial:"
-        afficherEtat(myGame.cerbereBoard.players)
+        afficherEtat(myGame.board.players)
 
-        myGame.cerbereBoard.faire_action(myGame.cerbereBoard.players[0],Effet.new(Evenement::SABOTAGE,0),[] of Int32)
+        myGame.board.faire_action(myGame.board.players[0],Effet.new(Evenement::SABOTAGE,0),[] of Int32)
 
         puts "Etat final:"
-        afficherEtat(myGame.cerbereBoard.players)
+        afficherEtat(myGame.board.players)
     end
 end
 
@@ -288,5 +449,8 @@ Test.run
 TestDeck.run
 TestBarque.run
 TestCouardise.run
-#TestSabotage.run # Test interactif
+TestSabotage.run
 TestPlateau.run
+TestRageVitesse.run
+TestCartesAction.run
+TestPiocheDefausse.run

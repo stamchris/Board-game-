@@ -1,9 +1,9 @@
-require "./Effet.cr"
+require "./effet.cr"
 
 class Node
     getter effect : Effet
-    getter checkpointCerbere : Bool
+    getter checkpoint_cerbere : Bool
 
-    def initialize(@effect, @checkpointCerbere)
+    def initialize(@effect, @checkpoint_cerbere)
     end
 end
