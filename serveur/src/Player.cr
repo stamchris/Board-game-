@@ -1,5 +1,6 @@
 require "./Hand.cr"
 
+
 class Player
     property lobbyId : Int32 = 0    # A definir
     property myHand : Hand = Hand.new
@@ -10,4 +11,7 @@ class Player
 
     def initialize(@lobbyId)
     end
+
+
+
 end

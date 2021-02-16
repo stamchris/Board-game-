@@ -28,7 +28,7 @@ class Test
         # Affichage des cases
         puts "  Les cases du plateau :"
         myGame.cerbereBoard.nodes.each do |node|
-            puts "#{node.previousNodes} <- [#{node.checkpointCerbere}, #{node.effect.evenement}] -> #{node.nextNodes}"
+            puts "[#{node.checkpointCerbere}, #{node.effect.evenement}]"
         end
         puts
 
@@ -58,8 +58,58 @@ class Test
         puts "La vitesse est #{myGame.cerbereBoard.vitesseCerbere}"
         puts "La rage est #{myGame.cerbereBoard.rageCerbere}"
         puts "La position de Cerbere est #{myGame.cerbereBoard.positionCerbere}"
+
+
+        " Bouger joueur simplement "
+        puts "La position du joueur 1  : #{myGame.cerbereBoard.players[0].position}"
+        myGame.cerbereBoard.action_mouv_player(myGame.cerbereBoard.players[0],1)
+        myGame.cerbereBoard.action_mouv_player(myGame.cerbereBoard.players[2],2)
+        puts "La position du joueur  1 apres mouv : #{myGame.cerbereBoard.players[0].position}"
+
+
+        " Bouger cerbere simplement"
+        puts "La position de Cerbere est #{myGame.cerbereBoard.positionCerbere}"
+        puts "La position du joueur 1 est #{myGame.cerbereBoard.players[0].position} 
+                et son statut : #{myGame.cerbereBoard.players[0].typeJoueur} "
+        puts "La position du joueur 2 est #{myGame.cerbereBoard.players[1].position} 
+                et son statut : #{myGame.cerbereBoard.players[1].typeJoueur} "
+
+        myGame.cerbereBoard.action_mouv_cerbere(1)
+        puts "Mouvement de Cerbere de une position vers l'avant"
+        puts "La position de Cerbere est #{myGame.cerbereBoard.positionCerbere}"
+        puts "La position du joueur 1 est #{myGame.cerbereBoard.players[0].position} 
+                et son statut : #{myGame.cerbereBoard.players[0].typeJoueur} "
+        puts "La position du joueur 2 est #{myGame.cerbereBoard.players[1].position} 
+                et son statut : #{myGame.cerbereBoard.players[1].typeJoueur} "
+        #capture effectué
+
+        "Bouger tout les survivants "
+
+        puts "La position du joueur 2 est #{myGame.cerbereBoard.players[1].position}"  # cerbere
+        puts "La position du joueur 4 est #{myGame.cerbereBoard.players[3].position}"  # cerbere
+
+        myGame.cerbereBoard.action_mouv_all_survivors(2)
+        puts "La position du joueur 1 est #{myGame.cerbereBoard.players[0].position}"  #survivant
+        puts "La position du joueur 3 est #{myGame.cerbereBoard.players[2].position}"  #survivant
+        # il n'y a que 2 survivant
+
+
+
+        "Un joueur fait bouger un autre joueur ou plusieurs"
+        myGame.cerbereBoard.action_mouv_other_player(
+            myGame.cerbereBoard.players[0],[myGame.cerbereBoard.players[2]],[2]
+        )
+
+        puts "La position du joueur 3 est #{myGame.cerbereBoard.players[2].position}"  #survivant
+
+            
+
+
+
+        
+
     end
-end
+end 
 
 class TestDeck
     def self.afficher_les_cartes_de(joueur : Player)
@@ -156,6 +206,48 @@ class TestCouardise
     end
 end
 
+class TestPlateau
+    def self.afficher_positions(joueurs : Array(Player))
+        puts "Positions des joueurs :"
+        joueurs.each do |joueur|
+            puts "\t#{joueur.lobbyId} : #{joueur.position}"
+        end
+    end
+
+    def self.run()
+        users = [
+            User.new(1),
+            User.new(2),
+            User.new(3),
+            User.new(4)
+        ] of User
+
+        game : Game = Game.new(0,users)
+        game.cerbereBoard.players[0].position = 9
+        game.cerbereBoard.players[1].position = 17
+        game.cerbereBoard.players[2].position = 16
+        game.cerbereBoard.players[3].position = 8
+        game.cerbereBoard.positionCerbere = 7
+
+        game.cerbereBoard.action_promontoire(game.cerbereBoard.players[0], [0])
+
+        game.cerbereBoard.action_deplacer_moi(game.cerbereBoard.players[0], -3)
+        afficher_positions(game.cerbereBoard.players)
+
+        game.cerbereBoard.action_deplacer_moi(game.cerbereBoard.players[1], -2)
+        afficher_positions(game.cerbereBoard.players)
+
+        game.cerbereBoard.action_deplacer_moi(game.cerbereBoard.players[2], 3)
+        afficher_positions(game.cerbereBoard.players)
+
+        game.cerbereBoard.action_deplacer_moi(game.cerbereBoard.players[3], 3)
+        afficher_positions(game.cerbereBoard.players)
+
+        game.cerbereBoard.action_deplacer_moi(game.cerbereBoard.players[1], 2)
+        afficher_positions(game.cerbereBoard.players)
+    end
+end
+
 class TestSabotage
     def self.afficherEtat(players : Array(Player))
         players.each do |player|
@@ -197,3 +289,4 @@ TestDeck.run
 TestBarque.run
 TestCouardise.run
 #TestSabotage.run # Test interactif
+TestPlateau.run
