@@ -56,8 +56,9 @@ class Board
 
         while (nb_moves > 0)
           # Si l'effet de la case n'a pas changé la position du joueur et qu'il n'essaye pas d'avancer ou reculer hors du plateau
-          if !faire_action(moi, nodes[moi.position].effect, [nb_moves, force]) && (moi.position > 1 || moi.position < nodes.size - 1)
-            moi.position = force > 0 ? moi.position + 1 : moi.position - 1 # Déplacement vers la gauche ou la droite
+          has_moved = faire_action(moi, nodes[moi.position].effect, [nb_moves, force])
+          if !has_moved && (moi.position > 1 || moi.position < nodes.size - 1)
+            moi.position += force > 0 ? 1 : -1 # Déplacement vers la gauche ou la droite
           end
 
           if (moi.position <= position_cerbere)
@@ -143,7 +144,7 @@ class Board
       # Si un joueur prend le pont de cordes, il s'écroule et n'est plus utilisable
       if(res == "O")
         nodes[moi.position].effect.evenement = Evenement::RIEN
-        moi.position = id_pont == 1 ? moi.position - 4 : moi.position + 4 #On se sert de la force pour déterminer de quel côté du pont on se trouve
+        moi.position += id_pont == 1 ? -4 : 4 #On se sert de la force pour déterminer de quel côté du pont on se trouve
         nodes[moi.position].effect.evenement = Evenement::RIEN
       else
         puts "Refus"
@@ -164,7 +165,7 @@ class Board
       res = demander(moi, "Prendre le funiculaire ? O/N")
 
       if(res == "O")
-        moi.position = id_funi == 1 ? moi.position - 3 : moi.position + 3 #On se sert de la force pour déterminer de quel côté du funiculaire on se trouve
+        moi.position += id_funi == 1 ? -3 : 3 #On se sert de la force pour déterminer de quel côté du funiculaire on se trouve
       else
         puts "Refus"
         emprunte = false
@@ -252,52 +253,10 @@ class Board
       end
       players.each do |player|
         if player.position == moi.position && player != moi
-          moi.position = args[1] > 0 ? moi.position - 1 : moi.position + 1
+          moi.position += args[1] > 0 ? -1 : 1
           break
         end
       end
-    end
-
-
-
-    #DEPLACER_MOI # Le joueur se déplace
-
-    def action_mouv_player(player : Player,force : Int32)
-        size_board = nodes.size
-        tmp =  player.position + force
-        pos_max = 0
-
-        if (player.typeJoueur != 1) #lever d'erreur
-            raise "Pas un aventurier"
-        end
-       
-        if ((force > 0) && (tmp < size_board) && (player.typeJoueur == 1)) 
-            pos_max = tmp
-            i = player.position 
-            while ((i < pos_max) && (i != @position_cerbere))
-                i +=  1
-            end
-               
-            player.position = i
-    
-
-        elsif ((force < 0)  && (player.typeJoueur == 1))
-            pox_max = tmp
-            i = player.position 
-            while ((i > 1) && (i != @position_cerbere))
-                i -= 1
-            end
-
-            if (i > 1)
-                #case cerbere
-                #Appel de la futur méthode capture voir lignes 172-176
-                player.typeJoueur = 2
-                player.position = 0 
-            
-            else
-                player.position = i
-            end
-        end
     end
 
     def action_couardise(moi : Player)
@@ -308,7 +267,7 @@ class Board
             end
         end
         deplacement : Int32 = Math.min(nbJoueursDevant,3)
-        faire_action(moi,Effet.new(Evenement::DEPLACER_MOI,deplacement))
+        action_deplacer_moi(moi, -2)
         broadcast("Le joueur #{moi.lobby_id} a avancé de #{deplacement} cases.")
     end
 
@@ -317,7 +276,7 @@ class Board
         players.each do |player|
             if(player.type = TypeJoueur::AVENTURIER)
                 if(player.hand.bonus.size() == 0)
-                    faire_action(player,Effet.new(Evenement::DEPLACER_MOI,-2))
+                    action_deplacer_moi(player, -2)
                     compte_rendu.push({player.lobby_id,0})
                 else
                     choix : Int32 = 0
@@ -338,7 +297,7 @@ class Board
                         defausser(player,carte)
                         compte_rendu.push({player.lobby_id,1})
                     elsif(choix == 1) # Reculer
-                        faire_action(player,Effet.new(Evenement::DEPLACER_MOI,-2))
+                        action_deplacer_moi(player, -2)
                         compte_rendu.push({player.lobby_id,0})
                     end
                 end
@@ -359,12 +318,12 @@ class Board
     #DEPLACER_CERBERE # Cerbère se déplace sur le plateau
 
 
-    def index_capture(tab_players : Array(Player),pos_cer : Int32, finalpos : Int32)  
-       
+    def index_capture(tab_players : Array(Player),pos_cer : Int32, finalpos : Int32)
+
         final = finalpos
         first_pos = pos_cer
 
-        i = 0 
+        i = 0
         min = nodes.size - 1
         capture = 0
         tab_players.each do |p|
@@ -376,7 +335,7 @@ class Board
             end
 
             i += 1
-        end 
+        end
 
         if (capture == 0)
             min = -1
@@ -395,8 +354,8 @@ class Board
 
     end
 
-    def action_mouv_cerbere(force : Int32)
-        size_board = nodes.size 
+    def action_move_cerbere(force : Int32)
+        size_board = nodes.size
         tmp = @position_cerbere + force
         pos_max = 0
 
@@ -409,56 +368,57 @@ class Board
         end
         #Si on a avance de 1 et qu'on a des joueurs sur la case alors on lance la fonction
         #capture ('new cerbere = aventurier sur case')
-       
+
         capturable = index_capture(@players,@position_cerbere,pos_max)
-        
+
         if(capturable != -1)
-            i = 0 
+            i = 0
             @players.each do |p|
-                if (p.position == capturable) #on va capturer les joueurs 
-                    #Créer une méthode capture qui fait les effets suivants : 
+                if (p.position == capturable) #on va capturer les joueurs
+                    #Créer une méthode capture qui fait les effets suivants :
                         #Checker si c'est l'un des 2 aventuriers alors ils sont éliminer
                         #Savoir où on le capture pour savoir si il pioche une ou 2 ou 0
                         #Defausser carte action, piocher les carte action coté cerbere
                         #changer la position a 0 du joueur et changer son type
-                    p.typeJoueur = 2 #cerbere
-                    p.position = 0 #on met les joueurs a 0 
+                    p.type = TypeJoueur::CERBERE #cerbere
+                    p.position = 0 #on met les joueurs a 0
                 end
                 i += 1
             end
             pos_cerb = @position_cerbere + capturable
             lastcheckpoint(pos_cerb)
-        else 
+        else
             @position_cerbere = tmp
         end
     end
 
 
     #DEPLACER_AUTRE # Le joueur déplace d'autres survivants
-	
 
-    def action_mouv_other_player(mouv_player : Player, mouving_players : Array(Player),
-                            forces : Array(Int32))
-        #Le premier Player du tableau mouving_players , 
+    def action_move_other_player(moi : Player, force : Int32, args : Array(Int32))
+        #Le premier Player du tableau mouving_players ,
         #correspond à la première force du tableau forces
-        not_touch_id = mouv_player.lobby_id
-        i = 0
-        mouving_players.each do |plyr|
-            if (plyr.type == TypeJoueur::AVENTURIER) && (plyr.lobby_id != not_touch_id)
-                action_mouv_player(mouving_players[i],forces[i]) #remplacer par deplacer_moi
-            end
-            i += 1
-        end
-        
-    end
+        player_id = args[0]
+        my_id = moi.lobby_id
 
+        if my_id == player_id
+          return
+        end
+
+        players.each do |player|
+            if (player.lobby_id == player_id) && (player.type == TypeJoueur::AVENTURIER)
+                action_deplacer_moi(player, force)
+                break
+            end
+        end
+    end
 
     #DEPLACER_SURVIVANTS # Tous les survivants se déplacent
 
-    def action_mouv_all_survivors(force : Int32)
-        @players.each do |plyr|
-            if (plyr.type == TypeJoueur::AVENTURIER)
-                action_mouv_player(plyr,force) #remplacer par deplacer_moi
+    def action_move_all_survivors(force : Int32)
+        @players.each do |player|
+            if (player.type == TypeJoueur::AVENTURIER)
+                action_deplacer_moi(player, force)
             end
         end
     end
@@ -481,13 +441,13 @@ class Board
     def action_recuperer_carte(joueur : Player) : Nil
         if joueur.type != TypeJoueur::MORT
             joueur.hand.reset(joueur.type)
-        else 
+        else
             raise "Vous êtes mort !"
         end
     end
 
     def action_piocher_moi(joueur : Player, nombre : Int32) : Nil
-        nombre.times do 
+        nombre.times do
             if joueur.type == TypeJoueur::AVENTURIER
                 joueur.hand.bonus << pioche_survie.draw_card()
             elsif joueur.type == TypeJoueur::CERBERE
@@ -498,7 +458,7 @@ class Board
         end
     end
 
-    def action_piocher_allie(joueur : Player, nombre : Int32, args : Array(Int32)) : Nil
+    def action_piocher_allie(joueur : Player, args : Array(Int32)) : Nil
         args.each do |id|
             if id == joueur.lobby_id
                 raise "Vous ne pouvez pas vous choisir vous même !"
@@ -516,7 +476,7 @@ class Board
                     action_piocher_moi(player, 1)
                 end
             end
-        end                 
+        end
     end
 
     def action_defausser_moi(joueur : Player, nombre : Int32, args : Array(Int32)) : Nil
@@ -548,7 +508,7 @@ class Board
                     action_defausser_moi(player, 1, [index])
                 end
             end
-        end                 
+        end
     end
 
     def action_defausser_partage(joueur : Player, nombre : Int32) : Int32
@@ -559,13 +519,13 @@ class Board
         end
 
         nb_cartes = 0
-        
+
         @players.each do |player|
             if player.lobby_id == id_allie
                 if player.type != joueur.type
                     raise "Ce joueur n'est pas votre allié !"
                 end
-                    
+
                 # Demande du partage
                 envoyer(player, "Le joueur #{joueur.lobby_id} demande un partage de #{nombre} cartes.")
                 nb_cartes = demander(player, "Combien voulez-vous en partager ? [0, #{nombre}]").to_i
@@ -612,7 +572,7 @@ class Board
         when Evenement::PIOCHER_MOI
             action_piocher_moi(moi, effet.force)
         when Evenement::PIOCHER_ALLIE
-            action_piocher_allie(moi, effet.force, args)
+            action_piocher_allie(moi, args)
         when Evenement::DEFAUSSER_MOI
             action_defausser_moi(moi, effet.force, args)
         when Evenement::DEFAUSSER_SURVIE
@@ -626,11 +586,11 @@ class Board
         when Evenement::DEPLACER_MOI
             action_deplacer_moi(moi, effet.force)
         when Evenement::DEPLACER_AUTRE
-            # ...
+            action_move_other_player(moi, effet.force, args)
         when Evenement::DEPLACER_AVENTURIERS
-            # ...
+            action_move_all_survivors(effet.force)
         when Evenement::DEPLACER_CERBERE
-            # ...
+            action_move_cerbere(effet.force)
         when Evenement::BARQUE
             action_barque(moi,args)
         when Evenement::COUARDISE

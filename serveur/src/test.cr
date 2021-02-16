@@ -56,7 +56,7 @@ class Test
         puts "La position de Cerbere est #{myGame.board.position_cerbere}"
         puts
     end
-end 
+end
 
 class TestDeck
     def self.afficher_les_cartes_de(joueur : Player)
@@ -204,7 +204,7 @@ class TestPiocheDefausse
         puts
     end
 
-    def self.run 
+    def self.run
         users5 = [
             User.new(13),
             User.new(21),
@@ -242,13 +242,13 @@ class TestPiocheDefausse
             afficher_les_cartes_de(player)
         end
 
-        puts "  Joueur #{my_game.board.players[0].lobby_id} fait piocher 1 carte à 1 allié !" 
-        my_game.board.action_piocher_allie(my_game.board.players[0], 1, [21])
+        puts "  Joueur #{my_game.board.players[0].lobby_id} fait piocher 1 carte à 1 allié !"
+        my_game.board.action_piocher_allie(my_game.board.players[0], [21])
 
-        puts "  Joueur #{my_game.board.players[0].lobby_id} défausse 2 cartes !" 
+        puts "  Joueur #{my_game.board.players[0].lobby_id} défausse 2 cartes !"
         my_game.board.action_defausser_moi(my_game.board.players[0], 2, [0, 1])
         puts
-        
+
         puts "  Etat courant de la partie de 5 joueurs :"
         my_game.board.players.each do |player|
             afficher_les_cartes_de(player)
@@ -285,7 +285,7 @@ class TestCartesAction
         my_game : Game = Game.new(0, users)
         my_game.board.players[1].type = TypeJoueur::CERBERE
         my_game.board.players[1].hand.reset(TypeJoueur::CERBERE)
-        
+
         puts "[Test de la récupération des cartes actions]-------------------------
         "
 
