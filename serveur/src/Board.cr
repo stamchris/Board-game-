@@ -396,19 +396,21 @@ class Board
     #DEPLACER_AUTRE # Le joueur déplace d'autres survivants
 
     def action_move_other_player(moi : Player, force : Int32, args : Array(Int32))
-        #Le premier Player du tableau mouving_players ,
-        #correspond à la première force du tableau forces
-        player_id = args[0]
+        player_id = args[0] # id du joueur à déplacer
         my_id = moi.lobby_id
 
         if my_id == player_id
-          return
+          raise "Le joueur à déplacer ne peut pas être le joueur actif !"
         end
 
         players.each do |player|
-            if (player.lobby_id == player_id) && (player.type == TypeJoueur::AVENTURIER)
+            if (player.lobby_id == player_id)
+              if (player.type == TypeJoueur::AVENTURIER)
                 action_deplacer_moi(player, force)
                 break
+              else
+                raise "Le joueur #{player_id} n'est pas un aventurier et ne peut pas être déplacé !"
+              end
             end
         end
     end
