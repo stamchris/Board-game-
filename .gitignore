@@ -1,5 +1,7 @@
-./serveur/bin
-./serveur/lib
-./Makefile
-./*.o
+serveur/bin
+serveur/lib
+.qmake.stash
+Makefile
+*.o
+cerbere
 cerbere-serveur
