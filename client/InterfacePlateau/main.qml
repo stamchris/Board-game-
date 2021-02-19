@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
+import QtQuick.Controls 2.14
 
 Window {
     id: window
@@ -376,7 +377,129 @@ Window {
             bottom: parent.bottom; left: leftContainerId.right; right: parent.right;
             bottomMargin: 5; leftMargin: 2; rightMargin: 2
         }
+ Rectangle{
+          id: carte_Action1Id
+           width: 170
+           height:200
+            anchors.left:parent.left
+           border.color: "#000000"
+           border.width: 2
+
+           Image{
+               id:imgCAction1
+               anchors.fill: parent
+               anchors.leftMargin:5
+               horizontalAlignment: Image.AlignHCenter
+               z: 1
+               fillMode: Image.Stretch
+               source:"images/Carte1.png"
+               CarteAction{
+                                           id:effet_sup1
+                                           color:"blue"
+                                           anchors.top:parent.top
+                                     }
+
+                                     CarteAction{
+                                         id:effet_inf1
+                                         color: "red"
+                                         anchors.top:effet_sup1.bottom
+                                     }
+           }
+        }
+
+        Rectangle{
+          id: carte_Action2Id
+           width: 170
+           height:200
+           anchors.left:carte_Action1Id.right
+           border.color: "#000000"
+           border.width: 2
+           Image{
+               id:imgCAction2
+               anchors.fill: parent
+               anchors.leftMargin:5
+               horizontalAlignment: Image.AlignHCenter
+               z: 1
+               fillMode: Image.Stretch
+               source:"images/Carte2.png"
+               CarteAction{
+                                           id:effet_sup2
+                                           color:"blue"
+                                           anchors.top:parent.top
+                                     }
+
+                                     CarteAction{
+                                         id:effet_inf2
+                                         color: "red"
+                                         anchors.top:effet_sup2.bottom
+                                     }
+           }
+
+        }
+        Rectangle{
+          id: carte_Action3Id
+           width: 170
+           height:200
+            anchors.left:carte_Action2Id.right
+           border.color: "#000000"
+           border.width: 2
+           Image{
+               id : imgCAction3
+               anchors.fill: parent
+               anchors.leftMargin:5
+               horizontalAlignment: Image.AlignHCenter
+               z: 1
+               fillMode: Image.Stretch
+               source:"images/Carte3.png"
+               CarteAction{
+                                           id:effet_sup3
+                                           color:"blue"
+                                           anchors.top:parent.top
+                                     }
+
+                                     CarteAction{
+                                         id:effet_inf3
+                                         color: "red"
+                                         anchors.top:effet_sup3.bottom
+                                     }
+           }
+
+        }
+        Rectangle{
+          id: carte_Action4Id
+           width:170
+           height:200
+           anchors.left:carte_Action3Id.right
+           border.color: "#000000"
+           border.width: 2
+           Image{
+               id: imgCAction4
+               anchors.fill: parent
+               horizontalAlignment: Image.AlignHCenter
+               z: 1
+               anchors.leftMargin:5
+               fillMode: Image.Stretch
+               source:"images/Carte4.png"
+               CarteAction{
+                                           id:effet_sup4
+                                           color:"blue"
+                                           anchors.top:parent.top
+                                     }
+
+                                     CarteAction{
+                                         id:effet_inf4
+                                         color: "red"
+                                         anchors.top:effet_sup4.bottom
+                                     }
+           }
+
+        }
+
+
+
+
     }
+    
 
 
 }
