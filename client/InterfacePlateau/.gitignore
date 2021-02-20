@@ -1,0 +1,6 @@
+# c ++ files
+*.cpp
+
+# Qt creator files
+*.pro
+*.qrc
