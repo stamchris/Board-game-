@@ -208,6 +208,8 @@ Window {
             border.color: "#f23f1e"
             border.width: 2
             anchors { top:underBarId; left: chronoId.right; leftMargin: 5}
+
+            CerbereBar{}
         }
 
         Rectangle {

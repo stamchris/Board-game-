@@ -6,5 +6,9 @@
         <file>images/Regle1.jpg</file>
         <file>images/Regle3.jpg</file>
         <file>images/Regle2.jpg</file>
+        <file>images/Carte4.png</file>
+        <file>images/Carte3.png</file>
+        <file>images/Carte2.png</file>
+        <file>images/Carte1.png</file>
     </qresource>
 </RCC>
