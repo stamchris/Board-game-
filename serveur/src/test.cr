@@ -444,6 +444,100 @@ class TestSabotage
         afficherEtat(myGame.board.players)
     end
 end
+class TestHunting
+    def self.afficher_positions(joueurs : Array(Player))
+        puts "Positions des joueurs :"
+        joueurs.each do |joueur|
+            puts "\t#{joueur.lobby_id} : #{joueur.position}"
+        end
+    end
+
+    def self.run()
+        users = [
+            User.new(1),
+            User.new(2),
+            User.new(3),
+            User.new(4)
+        ] of User
+
+        game : Game = Game.new(0,users)
+        game.board.players[0].position = 9
+        game.board.players[1].position = 17
+        game.board.players[2].position = 16
+        game.board.players[3].position = 8
+        game.board.position_cerbere = 7
+
+        puts "[Test de la chasse de cerbere et de la capture des aventuriers]-------------------------"
+
+        puts "Main et type avant chasse"
+
+        game.board.players.each do |player|
+            puts "PLAYER_ID : #{player.lobby_id}"
+            puts "  Le joueur est de type #{player.type}"
+            player.hand.action.each do |carte|
+                puts carte
+            end
+            puts
+        end
+
+        game.board.players.each do |player|
+            puts "PLAYER_ID : #{player.lobby_id}"
+            puts "  Le joueur est de type #{player.type}"
+            player.hand.bonus.each do |carte|
+                puts carte
+            end
+            puts
+        end
+
+     
+        stop = 0
+        puts "Position de cerbere : #{game.board.position_cerbere}"
+        puts "Rage : #{game.board.rage_cerbere} Vitesse : #{game.board.vitesse_cerbere}"
+        game.board.action_changer_rage(10)
+        afficher_positions(game.board.players)
+        i = 0
+        while stop == 0 
+            puts "Rage : #{game.board.rage_cerbere} Vitesse : #{game.board.vitesse_cerbere}"
+            puts "Position de cerbere : #{game.board.position_cerbere}"
+            game.board.cerbere_hunting()
+            afficher_positions(game.board.players)
+
+            if (((i % 2) == 0) && (i > 1)) #on déclenche une chasse au moins 1 tour du 2
+                game.board.action_changer_rage(10)
+            end
+
+            if (i == 10)
+                stop = 1
+            end
+
+            i += 1
+        end
+
+        game.board.action_deplacer_moi(game.board.players[1],-2)
+        afficher_positions(game.board.players)
+
+        puts "Main et type apres chasse"
+
+        game.board.players.each do |player|
+            puts "PLAYER_ID : #{player.lobby_id}"
+            puts "  Le joueur est de type #{player.type}"
+            player.hand.action.each do |carte|
+                puts carte
+            end
+            puts
+        end
+
+        game.board.players.each do |player|
+            puts "PLAYER_ID : #{player.lobby_id}"
+            puts "  Le joueur est de type #{player.type}"
+            player.hand.bonus.each do |carte|
+                puts carte
+            end
+            puts
+        end
+    end
+end
+
 
 Test.run
 TestDeck.run
@@ -454,3 +548,4 @@ TestPlateau.run
 TestRageVitesse.run
 TestCartesAction.run
 TestPiocheDefausse.run
+TestHunting.run
