@@ -360,7 +360,7 @@ Window {
             id: plateauImageId
             anchors.fill: parent
             horizontalAlignment: Image.AlignHCenter
-            source: "images/plateau.png"
+            source: "images/client_plateau-redimensionné.png"
             z: 1
             fillMode: Image.Stretch
 
