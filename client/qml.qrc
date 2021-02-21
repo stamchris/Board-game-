@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>library/ImagePopUp.qml</file>
+        <file>library/CarteAction.qml</file>
+        <file>library/CerbereBar.qml</file>
+        <file>library/ReglesDuJeu.qml</file>
+        <file>library/Application.qml</file>
+	<file>library/Login.qml</file>
+    </qresource>
+    <qresource prefix="/library"/>
+</RCC>
