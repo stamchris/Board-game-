@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.14
+import "library"
 
 Window {
     id: window
@@ -159,7 +160,7 @@ Window {
                 visible: true
                 anchors.fill: parent
                 onClicked:{
-                    var component = Qt.createComponent("ReglesDuJeu.qml")
+                    var component = Qt.createComponent("library/ReglesDuJeu.qml")
                     var window    = component.createObject("window2")
                     window.show()
                 }

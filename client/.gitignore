@@ -2,5 +2,5 @@
 *.cpp
 
 # Qt creator files
-*.pro
+*.pro.user
 *.qrc

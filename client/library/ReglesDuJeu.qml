@@ -25,14 +25,14 @@ Window {
 
             model: ListModel{
                    ListElement{
-                        name:"images/Regle1.jpg"
+                        name:"../images/Regle1.jpg"
                    }
                    ListElement{
-                       name:"images/Regle2.jpg"
+                       name:"../images/Regle2.jpg"
 
                    }
                    ListElement{
-                        name:"images/Regle3.jpg"
+                        name:"../images/Regle3.jpg"
                    }
             }
             delegate: Rectangle {
