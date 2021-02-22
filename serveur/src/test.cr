@@ -538,8 +538,306 @@ class TestHunting
     end
 end
 
+class TestPartie
+    def self.afficherEtat(players : Array(Player))
+        players.each do |player|
+            puts "Joueur #{player.lobby_id}: position: #{player.position} n_cards: #{player.hand.bonus.size()}"
+        end
+    end
 
-Test.run
+    def self.t_demander(qui : Player,quoi : String) : String
+        # Demande une entrée supplémentaire à un joueur particulier
+        # Pour le moment, on demande via la ligne de commande, plus tard, il
+        # faudra contacter le client
+        puts "Joueur "+qui.lobby_id.to_s()+": "+quoi
+        res : String? = gets
+        return res == Nil ? "" : res.to_s
+    end
+
+    def self.afficher_les_cartes_b_de(joueur : Player)
+        puts "Cartes bonus du Joueur #{joueur.lobby_id}:"
+        joueur.hand.bonus.each do |ca|
+            i = 1
+            puts "Nom carte : #{ca.name}"
+            ca.choix.each do |choice|
+                puts "Choix : #{i} : "
+                puts "Cout  : #{choice.cout.evenement} , force : #{choice.cout.force} "
+                j = 1
+                choice.effets.each do |effet|
+                    puts "Effet : #{j} : #{effet.evenement} , force : #{effet.force} "
+                    j += 1
+                end
+                i += 1
+            end  
+        end
+    end
+
+    def self.afficher_les_cartes_a_de(joueur : Player)
+        puts "Cartes Action du Joueur #{joueur.lobby_id}:"
+        k = 1
+        joueur.hand.action.each do |ca|
+            i = 1
+            puts 
+            puts "Carte n°#{k}"
+            ca.choix.each do |choice|
+                puts 
+                puts "Choix : #{i} :"
+                puts "Cout  : #{choice.cout.evenement} , force : #{choice.cout.force} "
+                j = 1
+                choice.effets.each do |effet|
+                    puts "Effet : #{j} : #{effet.evenement} , force : #{effet.force} "
+                    j += 1
+                end
+                i += 1
+            end
+            k += 1  
+        end
+    end
+
+    def self.demande(str : String) : String
+        puts str
+        res : String? = gets
+        return res == Nil ? "" : res.to_s
+    end
+
+
+    def self.check_effet_a(p : Player,effet : Effet, max : Int32) : Array(Int32) | Nil
+        arr_int = [] of Int32
+        case effet.evenement
+        when Evenement::RIEN
+            #return false
+        when Evenement::PIOCHER_ALLIE
+            #action_piocher_allie(moi, args)
+            arr_int << t_demander(p,"Designer allie entre 1 et #{max}").to_i32
+        when Evenement::DEFAUSSER_MOI
+            #action_defausser_moi(moi, effet.force, args)
+            arr_int << t_demander(p,"Quelle carte choississez vous entre 1 et #{p.hand.bonus.size}").to_i32
+
+        when Evenement::DEPLACER_AUTRE
+            #action_move_other_player(moi, effet.force, args)
+            arr_int << t_demander(p,"Choisissez un allié à déplacer entre 1 et #{max}").to_i32 
+        when Evenement::BARQUE
+            #Evenement à checker pour pouvoir y répondre
+            arr_int << t_demander(p, "Barque ? ").to_i32
+            #action_barque(moi,args
+        end
+
+        return arr_int
+    end
+
+
+    def self.jouer_carte_bonus(ca : CarteBonus,p : Player) : Int32
+        #Enoncer les choix possibles de la carte
+        i = 1
+        ca.choix.each do |choice|
+            puts "Choix : #{i} :"
+            puts "Cout  : #{choice.cout.evenement} , force : #{choice.cout.force} "
+            j = 1
+            choice.effets.each do |effet|
+                puts "Effet : #{j} : #{effet.evenement} , force : #{effet.force} "
+                j += 1
+            end
+            i += 1
+        end
+
+        choice = t_demander(p, "Choisissez votre choix : entre 1 et #{i-1}")
+        choice = choice.to_i32
+
+        if (choice <= 0 || choice > i)
+            jouer_carte_bonus(ca,p)
+        end
+
+        return choice
+    end
+
+
+
+    def self.jouer_carte_action(ca : CarteAction,p : Player) : Int32
+        #Enoncer les choix possibles de la carte
+        i = 1
+        ca.choix.each do |choice|
+            puts "Choix : #{i} :"
+            puts "Cout  : #{choice.cout.evenement} , force : #{choice.cout.force} "
+            j = 1
+            choice.effets.each do |effet|
+                puts "Effet : #{j} : #{effet.evenement} , force : #{effet.force} "
+                j += 1
+            end
+            i += 1
+        end
+
+        choice = t_demander(p, "Choisissez votre choix : entre 1 et #{i-1}").to_i32
+        if (choice <= 0 || choice > i)
+            jouer_carte_action(ca,p)
+        end
+
+        ca.actif = false
+        return choice
+    end
+
+    def self.index_choice_action(index : Int32, max : Int32, p : Player) : Int32
+        s_ize = max - 1
+        if (index >= 0 && index <= (s_ize))
+            puts "index : #{index}"
+            return jouer_carte_action(p.hand.action[index],p)
+            
+        else
+            puts "Choix impossible"
+            puts "Try Again please"
+            index_choice_action(index,max,p)
+        end
+    end
+
+    def self.index_choice_bonus(index : Int32, max : Int32, p : Player) : Int32
+        s_ize = max - 1
+        if (index >= 0 && index <= (s_ize))
+            return jouer_carte_bonus(p.hand.bonus[index-1],p)
+            
+        else
+            puts "Choix impossible"
+            puts "Try Again please"
+            index_choice_bonus(index,max,p)
+        end
+
+    end
+
+
+
+    
+    def self.run()
+        users = [
+            User.new(1),
+            User.new(2),
+            User.new(3),
+            User.new(4),
+        ] of User
+
+        
+
+        game = Game.new(0,users)
+
+        puts "[ Simulation d'une partie ------------------ ]"
+
+        game.board.players[0].position = 1 #1
+        game.board.players[1].position = 1 #2
+        game.board.players[2].position = 1 #3
+        game.board.players[3].position = 1 #4
+        game.board.position_cerbere = 0
+
+    
+
+        puts "position joueur 1 : #{game.board.players[0].position}"
+        puts "position joueur 2 : #{game.board.players[1].position}"
+        puts "position joueur 3 : #{game.board.players[2].position}"
+        puts "position joueur 4 : #{game.board.players[3].position}"
+
+       
+        j = 0
+        i = 0
+        
+        n = 10
+        while i < n
+
+            if(game.board.players[j].type != TypeJoueur::MORT)
+
+                puts "PLAYER_ID : #{game.board.players[j].lobby_id}"
+                puts "  Le joueur est de type #{game.board.players[j].type}"
+            
+                afficher_les_cartes_a_de(game.board.players[j])
+                afficher_les_cartes_b_de(game.board.players[j])
+
+                s_ize = game.board.players[j].hand.action.size
+
+                index = game.board.demander(game.board.players[j],"Choisir une carte action entre [1,#{s_ize}] ?").to_i
+                index -= 1
+                
+                choice = index_choice_action(index,s_ize,game.board.players[j]) 
+                choice -= 1
+            
+
+                obj_choix = game.board.players[j].hand.action[index].choix[choice]
+
+            
+                arr_int = check_effet_a(game.board.players[j],obj_choix.cout,game.board.players.size)
+
+                if(arr_int.size > 0)
+                    game.board.faire_action(game.board.players[j],obj_choix.cout,arr_int)
+                else
+                    game.board.faire_action(game.board.players[j],obj_choix.cout,[] of Int32)
+                end
+
+                obj_choix.effets.each do |effect| 
+                
+                    arr_int = check_effet_a(game.board.players[j],effect,game.board.players.size)
+                    if(arr_int.size > 0)
+                        game.board.faire_action(game.board.players[j],effect,[arr_int[0]])
+                    else
+                        game.board.faire_action(game.board.players[j],effect,[] of Int32)
+                    end
+                    
+                end
+
+                size_b_p = game.board.players[j].hand.bonus.size
+                if(size_b_p > 0)
+                    o_n = game.board.demander(game.board.players[j],"Voulez vous jouer une carte bonus O/N ?")
+                    puts "#{o_n}"
+
+                    if (o_n == "O")
+                        afficher_les_cartes_b_de(game.board.players[j])
+                        index_b = game.board.demander(game.board.players[j],"Choisir une carte bonus entre [1,#{size_b_p}] ?").to_i
+                        index_b -= 1
+                        choice_b = index_choice_bonus(index_b,s_ize,game.board.players[j]) 
+                        choice_b -= 1
+
+                        arr_int_b = check_effet_a(game.board.players[j],obj_choix.cout,game.board.players.size)
+
+                        obj_choix_b = game.board.players[j].hand.bonus[index_b].choix[choice_b]
+
+                        if(arr_int_b.size > 0)
+                            game.board.faire_action(game.board.players[j],obj_choix_b.cout,arr_int_b)
+                        else
+                            game.board.faire_action(game.board.players[j],obj_choix_b.cout,[] of Int32)
+                        end
+
+                        obj_choix_b.effets.each do |effect| 
+                            arr_int_b = check_effet_a(game.board.players[j],effect,game.board.players.size)
+                            if(arr_int_b.size > 0)
+                                game.board.faire_action(game.board.players[j],effect,[arr_int_b[0]])
+                            else
+                                game.board.faire_action(game.board.players[j],effect,[] of Int32)
+                            end
+                            puts "effect : #{effect.evenement}"
+                            
+                        end
+
+                        #game.board.action_defausser_moi(game.board.players[0],1,[1])
+
+                        puts "position joueur 1 : #{game.board.players[0].position}"
+                        puts "position joueur 2 : #{game.board.players[1].position}"
+                        puts "position joueur 3 : #{game.board.players[2].position}"
+                        puts "position joueur 4 : #{game.board.players[3].position}"
+
+
+                        afficher_les_cartes_b_de(game.board.players[0])
+                        afficher_les_cartes_b_de(game.board.players[1])
+                        afficher_les_cartes_b_de(game.board.players[2])
+                        afficher_les_cartes_b_de(game.board.players[3])
+                    end
+                end
+                game.board.cerbere_hunting()#hunting possible à chaque fin de tour ?
+            end 
+            if(j == 3)
+                j = 0
+            end
+            j += 1
+            i += 1
+        end
+    end
+
+end
+
+
+"Test.run
 TestDeck.run
 TestBarque.run
 TestCouardise.run
@@ -548,4 +846,5 @@ TestPlateau.run
 TestRageVitesse.run
 TestCartesAction.run
 TestPiocheDefausse.run
-TestHunting.run
+TestHunting.run"
+TestPartie.run

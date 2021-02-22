@@ -395,7 +395,6 @@ class Board
                     if(pl.position == 1)
                         action_piocher_moi(pl,2)
                     else 
-                        puts "piocher une carte trahison"
                         action_piocher_moi(pl,1)
                     end
                 else 
