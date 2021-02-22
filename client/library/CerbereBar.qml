@@ -15,17 +15,29 @@ Row{
           width:60
           height: width
           onClicked: {
-              cerbereBarId.value += 1
-                    if(cerbereBarId.value == 4)
-                    {
-                            position0.color="#F19619"
-                            position1.color="#AB6404"
-                    }else if(cerbereBarId.value == 7)
-                    {
-                            position0.color= "#E11C0C"
-                            position1.color="#A01F14"
-                    }
+                   if(cerbereBarId.value < 4)
+                    {     // green
+                            position0.color="#11af14"
+                            position1.color="#08660a"
+                    }else if(cerbereBarId.value < 7)
+                    {      // orange
+                           position0.color="#F19619"
+                           position1.color="#AB6404"
+                    }else if(cerbereBarId.value == 10)
+                     {
+                            cerbereBarId.value = 1
+                            // vert
+                            position0.color="#11af14"
+                            position1.color="#08660a"
+                     }
+                   else{  // red
+                       position0.color= "#E11C0C"
+                       position1.color="#A01F14"
+                     }
+                   cerbereBarId.value += 1
           }
+
+
     }
 
     ProgressBar {
@@ -40,8 +52,6 @@ Row{
             background: Rectangle {
                 implicitWidth: parent.width
                 implicitHeight: 60
-
-               // border{ color: "#6EA523"; width:3  }
                 radius: 15
                 gradient: Gradient {
                        GradientStop { position: 0.0; color: "#F4F6F6" }
@@ -59,17 +69,21 @@ Row{
                     height: 30
                     anchors{top:parent.top;topMargin: 15;left:parent.left;leftMargin: 15;rightMargin: 15}
                     radius: 2
-                    gradient: Gradient {
+                    gradient:
+
+                    Gradient {
                         GradientStop {
                             id:position0
                             position: 0
                             color: "#11af14"
+
                         }
                         GradientStop {
                             id:position1
                             position: 1
                             color: "#08660a"
                         }
+
                     }
                 }
             }

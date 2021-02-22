@@ -1,3 +1,7 @@
 # Qt creator files
 *.pro.user
 
+# Build folder
+
+../build-client*
+

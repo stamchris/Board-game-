@@ -383,15 +383,15 @@ Window {
  Rectangle{
           id: carte_Action1Id
            width: 170
-           height:200
-            anchors.left:parent.left
+           height:210
+           anchors.left:parent.left
            border.color: "#000000"
            border.width: 2
 
            Image{
                id:imgCAction1
                anchors.fill: parent
-               anchors.leftMargin:5
+               anchors.leftMargin:0
                horizontalAlignment: Image.AlignHCenter
                z: 1
                fillMode: Image.Stretch
@@ -413,7 +413,7 @@ Window {
         Rectangle{
           id: carte_Action2Id
            width: 170
-           height:200
+           height:210
            anchors.left:carte_Action1Id.right
            border.color: "#000000"
            border.width: 2
@@ -442,7 +442,7 @@ Window {
         Rectangle{
           id: carte_Action3Id
            width: 170
-           height:200
+           height:210
             anchors.left:carte_Action2Id.right
            border.color: "#000000"
            border.width: 2
@@ -471,7 +471,7 @@ Window {
         Rectangle{
           id: carte_Action4Id
            width:170
-           height:200
+           height:210
            anchors.left:carte_Action3Id.right
            border.color: "#000000"
            border.width: 2
