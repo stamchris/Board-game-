@@ -1,8 +1,0 @@
-# Ignore files after the build In Qt
-client
-main.o
-Makefile
-qrc_Images.cpp
-qrc_Images.o
-qrc_qml.cpp
-qrc_qml.o
