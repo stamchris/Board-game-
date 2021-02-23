@@ -1,4 +1,4 @@
-name: test-app
+name: cerbere-server
 version: 0.1.0
 
 dependencies:
@@ -6,5 +6,5 @@ dependencies:
     github: sdogruyol/kemal
 
 targets:
-  cerbere-serveur:
-    main: src/test.cr
+  cerbere-server:
+    main: src/main.cr

@@ -1,18 +1,4 @@
-class Cerbere::Player
-	include JSON::Serializable
-
-	property ready = false
-	property name : String
-	@[JSON::Field(ignore: true)]
-	getter socket : HTTP::WebSocket
-	
-	def send(response : Response)
-		@socket.send(response.to_json)
-	end
-
-	def initialize(@name, @socket)
-	end
-end
+require "./player.cr"
 
 class Cerbere::Game
 	getter players : Array(Player)
@@ -23,7 +9,13 @@ class Cerbere::Game
 	end
 
 	def <<(player : Player)
+		i = Colour::Cyan
+		until check_colour(i)
+			i = i+1
+		end
+		player.colour=i
 		@players << player
+
 	end
 
 	def send_all(response : Response)
@@ -39,5 +31,9 @@ class Cerbere::Game
 			end
 		end
 		@active
+	end
+
+	def check_colour(colour : Cerbere::Colour)
+		@players.all? { |player| player.colour != colour}
 	end
 end
