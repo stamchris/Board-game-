@@ -567,14 +567,9 @@ class TestCarteBonus
 
         game.board.defausser_tout(game.board.players[0])
 
-
         afficher_les_cartes_b_de(game.board.players[0])
 
-
-        
-
     end
-
 end
 
 
@@ -634,32 +629,27 @@ class TestPartie
         end
     end
 
-    def self.demande(str : String) : String
-        puts str
-        res : String? = gets
-        return res == Nil ? "" : res.to_s
-    end
-
-
     def self.check_effet_a(p : Player,effet : Effet, max : Int32) : Array(Int32) | Nil
         arr_int = [] of Int32
         case effet.evenement
-        when Evenement::RIEN
-            #return false
         when Evenement::PIOCHER_ALLIE
             #action_piocher_allie(moi, args)
             arr_int << t_demander(p,"Designer allie entre 1 et #{max}").to_i32
         when Evenement::DEFAUSSER_MOI
             #action_defausser_moi(moi, effet.force, args)
             arr_int << t_demander(p,"Quelle carte choississez vous entre 1 et #{p.hand.bonus.size}").to_i32
-
         when Evenement::DEPLACER_AUTRE
             #action_move_other_player(moi, effet.force, args)
             arr_int << t_demander(p,"Choisissez un allié à déplacer entre 1 et #{max}").to_i32 
         when Evenement::BARQUE
-            #Evenement à checker pour pouvoir y répondre
-            arr_int << t_demander(p, "Barque ? ").to_i32
-            #action_barque(moi,args
+            #action_barque(moi,args)
+            arr_int << t_demander(p, "Choisissez 0 pour reveler barque, 1 pour echanger").to_i32
+            if(arr_int[0] == 1)
+                arr_int << (t_demander(p, "Choisissez un chiffre entre 1 et 3").to_i32 - 1)
+                arr_int << (t_demander(p, "Choisissez un chiffre entre 1 et 3").to_i32 - 1)
+            elsif(arr_int[0] == 0)
+                arr_int << (t_demander(p, "Choisissez une barque entre 1 et 3").to_i32 - 1)
+            end
         end
 
         return arr_int
@@ -680,17 +670,14 @@ class TestPartie
             i += 1
         end
 
-        choice = t_demander(p, "Choisissez votre choix : entre 1 et #{i-1}")
-        choice = choice.to_i32
-
+        choice = t_demander(p, "Choisissez votre choix : entre 1 et #{i-1}").to_i32
+    
         if (choice <= 0 || choice > i)
             jouer_carte_bonus(ca,p)
         end
 
         return choice
     end
-
-
 
     def self.jouer_carte_action(ca : CarteAction,p : Player) : Int32
         #Enoncer les choix possibles de la carte
@@ -719,8 +706,7 @@ class TestPartie
         s_ize = max - 1
         if (index >= 0 && index <= (s_ize))
             puts "index : #{index}"
-            return jouer_carte_action(p.hand.action[index],p)
-            
+            return jouer_carte_action(p.hand.action[index],p)  
         else
             puts "Choix impossible"
             puts "Try Again please"
@@ -731,18 +717,13 @@ class TestPartie
     def self.index_choice_bonus(index : Int32, max : Int32, p : Player) : Int32
         s_ize = max - 1
         if (index >= 0 && index <= (s_ize))
-            return jouer_carte_bonus(p.hand.bonus[index-1],p)
-            
+            return jouer_carte_bonus(p.hand.bonus[index-1],p)  
         else
             puts "Choix impossible"
             puts "Try Again please"
             index_choice_bonus(index,max,p)
         end
-
     end
-
-
-
     
     def self.run()
         users = [
@@ -764,22 +745,16 @@ class TestPartie
         game.board.players[3].position = 1 #4
         game.board.position_cerbere = 0
 
-    
-
         puts "position joueur 1 : #{game.board.players[0].position}"
         puts "position joueur 2 : #{game.board.players[1].position}"
         puts "position joueur 3 : #{game.board.players[2].position}"
         puts "position joueur 4 : #{game.board.players[3].position}"
 
-       
         j = 0
         i = 0
-        
         n = 10
         while i < n
-
             if(game.board.players[j].type != TypeJoueur::MORT)
-
                 puts "PLAYER_ID : #{game.board.players[j].lobby_id}"
                 puts "  Le joueur est de type #{game.board.players[j].type}"
             
@@ -787,17 +762,10 @@ class TestPartie
                 afficher_les_cartes_b_de(game.board.players[j])
 
                 s_ize = game.board.players[j].hand.action.size
-
-                index = game.board.demander(game.board.players[j],"Choisir une carte action entre [1,#{s_ize}] ?").to_i
-                index -= 1
-                
-                choice = index_choice_action(index,s_ize,game.board.players[j]) 
-                choice -= 1
-            
-
+                index = (game.board.demander(game.board.players[j],"Choisir une carte action entre [1,#{s_ize}] ?").to_i - 1)
+                choice = index_choice_action(index,s_ize,game.board.players[j]) - 1
                 obj_choix = game.board.players[j].hand.action[index].choix[choice]
 
-            
                 arr_int = check_effet_a(game.board.players[j],obj_choix.cout,game.board.players.size)
 
                 if(arr_int.size > 0)
@@ -810,7 +778,7 @@ class TestPartie
                 
                     arr_int = check_effet_a(game.board.players[j],effect,game.board.players.size)
                     if(arr_int.size > 0)
-                        game.board.faire_action(game.board.players[j],effect,[arr_int[0]])
+                        game.board.faire_action(game.board.players[j],effect,arr_int)
                     else
                         game.board.faire_action(game.board.players[j],effect,[] of Int32)
                     end
@@ -824,13 +792,9 @@ class TestPartie
 
                     if (o_n == "O")
                         afficher_les_cartes_b_de(game.board.players[j])
-                        index_b = game.board.demander(game.board.players[j],"Choisir une carte bonus entre [1,#{size_b_p}] ?").to_i
-                        index_b -= 1
-                        choice_b = index_choice_bonus(index_b,s_ize,game.board.players[j]) 
-                        choice_b -= 1
-
+                        index_b = (game.board.demander(game.board.players[j],"Choisir une carte bonus entre [1,#{size_b_p}] ?").to_i - 1)
+                        choice_b = index_choice_bonus(index_b,s_ize,game.board.players[j]) - 1
                         arr_int_b = check_effet_a(game.board.players[j],obj_choix.cout,game.board.players.size)
-
                         obj_choix_b = game.board.players[j].hand.bonus[index_b].choix[choice_b]
 
                         if(arr_int_b.size > 0)
@@ -845,12 +809,9 @@ class TestPartie
                                 game.board.faire_action(game.board.players[j],effect,[arr_int_b[0]])
                             else
                                 game.board.faire_action(game.board.players[j],effect,[] of Int32)
-                            end
-                            puts "effect : #{effect.evenement}"
-                            
+                            end 
                         end
 
-                        #game.board.action_defausser_moi(game.board.players[0],1,[1])
 
                         puts "position joueur 1 : #{game.board.players[0].position}"
                         puts "position joueur 2 : #{game.board.players[1].position}"
@@ -886,6 +847,6 @@ TestPlateau.run
 TestRageVitesse.run
 TestCartesAction.run
 TestPiocheDefausse.run
-TestCarteBonus.run"
-TestHunting.run
-"TestPartie.run"
+TestCarteBonus.run
+TestHunting.run"
+TestPartie.run
