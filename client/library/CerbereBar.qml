@@ -5,9 +5,55 @@ import QtQuick.Controls 2.14
 
 Row{
     id:rowroot
-    property alias cerbereBarId: cerbereBarId
     anchors{ top: parent.top ; right: parent.right; topMargin: 3;rightMargin: 3 }
     spacing:5
+
+    property int vitesse: 3
+    signal changeVitesse()
+
+    function incrementVitesse(){
+        if (vitesse <6 )
+            vitesse += 1
+        else if (vitesse >= 6  && vitesse < 8)
+        {
+            vitesse +=1
+            vitesseCerbereTextId.color = "red"
+        }
+        else //vitesse = 8
+        {
+            vitesseCerbereTextId.color ="green"
+            vitesse = 3
+        }
+    }
+
+    Button {
+             text:"+1"
+             anchors.verticalCenter: parent.verticalCenter
+             width:60
+             height: width
+             onClicked: {
+                 rowroot.changeVitesse()
+             }
+       }
+
+    Text {
+           id:vitesseCerbereTextId
+           anchors.verticalCenter: parent.verticalCenter
+           anchors.top:  parent.top
+           anchors.topMargin: 15
+           width: 320
+           height: 60
+           color: "green"
+           text: "Vitesse de cerbere : " + vitesse
+           horizontalAlignment: Text.AlignHCenter
+           font {styleName: "Normal"; weight: Font.Bold;strikeout: false; bold: true; family: "Arial";pointSize: 16 }
+       }
+
+
+     Component.onCompleted: {
+         changeVitesse.connect(rowroot.incrementVitesse)
+     }
+
 
     Button {
           text:"+1"
