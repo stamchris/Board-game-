@@ -3,10 +3,10 @@ require "./Node.cr"
 BOARD_0 = [
 
     Node.new(Effet.new(Evenement::RIEN,0),       # Effet
-            false),                              # Checkpoint pour Cerbere
+            true),                              # Checkpoint pour Cerbere
 
     Node.new(Effet.new(Evenement::RIEN,0),
-            true),
+            false),
 
     Node.new(Effet.new(Evenement::RIEN,0),
             false),

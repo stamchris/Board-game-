@@ -362,57 +362,46 @@ class Board
     end
 
     def catch_survivor(pl : Player)
-        i = 0
+        nb_aventuriers = 0
         @players.each do |p|
             if(p.type == TypeJoueur::AVENTURIER)
-                i += 1
+                nb_aventuriers += 1
             end
         end
 
         #quand une personne est capturé on sais ce que l'on en fait
-        catch = 0
         if(pl.type == TypeJoueur::AVENTURIER)
-            if i <= 2
+            defausser_tout(pl)
+            if nb_aventuriers <= 2
                 pl.type = TypeJoueur::MORT
             else
-                list_index_card = [] of Int32
-                j = 0
-                pl.hand.bonus.each do  |cardb|
-                    list_index_card << j
-                    j += 1
-                end
                 #15 pour la première case du plateau de fin
                 #nodes.sizes - 1 = barque
                 #recuperer des carte bonus en fonction de la position de capt
                 #on ne connais pas encore la dernière position du plt de depart
                 #donc on va dire case 5
-                if ((pl.position == 1) || 
-                    ((pl.position >= 5) && (pl.position < 15))) 
+                if ((pl.position >= 1) && (pl.position <= 5))
                     pl.type = TypeJoueur::CERBERE
-                    action_defausser_moi(pl,pl.hand.bonus.size,list_index_card)
-                    
                     action_recuperer_carte(pl)
                     if(pl.position == 1)
                         action_piocher_moi(pl,2)
                     else 
                         action_piocher_moi(pl,1)
                     end
-                else 
+                elsif pl.position < 15
+                    action_recuperer_carte(pl)
+                    pl.type = TypeJoueur::CERBERE
+                else
                     pl.type = TypeJoueur::MORT
                 end
             end
             pl.position = 0  
-            catch = 1
             puts "Le joueur #{pl.lobby_id} s'est fait attrapé par Cerbère !"
         end
 
-        drop_speed = 0
-        drop_speed -= @vitesse_cerbere
-        action_changer_vitesse(drop_speed)
+        action_changer_vitesse(-@vitesse_cerbere)
         @nombre_pions_jauge += 1
-        drop_rage = 0
-        drop_rage -= @rage_cerbere
-        action_changer_rage(drop_rage)
+        action_changer_rage(-@rage_cerbere)
     end
 
 
@@ -447,9 +436,7 @@ class Board
         else
             @position_cerbere = tmp
             action_changer_vitesse(1)
-            drop_rage = 0
-            drop_rage -= @rage_cerbere
-            action_changer_rage(drop_rage)
+            action_changer_rage(-@rage_cerbere)
         end
     end
 
@@ -559,6 +546,14 @@ class Board
         args.sort.each do |carte_index|
             defausser(joueur, carte_index - decalage)
             decalage += 1
+        end
+    end
+
+    def defausser_tout(p : Player)
+        index_def = p.hand.bonus.size - 1
+        while index_def >= 0
+           defausser(p,index_def)
+           index_def -= 1
         end
     end
 

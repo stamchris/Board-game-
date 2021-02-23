@@ -461,11 +461,11 @@ class TestHunting
         ] of User
 
         game : Game = Game.new(0,users)
-        game.board.players[0].position = 9
-        game.board.players[1].position = 17
-        game.board.players[2].position = 16
-        game.board.players[3].position = 8
-        game.board.position_cerbere = 7
+        game.board.players[0].position = 1
+        game.board.players[1].position = 4
+        game.board.players[2].position = 5
+        game.board.players[3].position = 7
+        game.board.position_cerbere = 0
 
         puts "[Test de la chasse de cerbere et de la capture des aventuriers]-------------------------"
 
@@ -513,7 +513,7 @@ class TestHunting
             i += 1
         end
 
-        game.board.action_deplacer_moi(game.board.players[1],-2)
+        game.board.action_deplacer_moi(game.board.players[1],-2) #petit bug normalement sa reste a 0
         afficher_positions(game.board.players)
 
         puts "Main et type apres chasse"
@@ -537,6 +537,46 @@ class TestHunting
         end
     end
 end
+
+class TestCarteBonus
+    def self.afficher_les_cartes_b_de(joueur : Player)
+        puts "Cartes bonus du Joueur #{joueur.lobby_id}:"
+        joueur.hand.bonus.each do |ca|
+            i = 1
+            puts "Nom carte : #{ca.name}"
+            ca.choix.each do |choice|
+                puts "Choix : #{i} : "
+                puts "Cout  : #{choice.cout.evenement} , force : #{choice.cout.force} "
+                j = 1
+                choice.effets.each do |effet|
+                    puts "Effet : #{j} : #{effet.evenement} , force : #{effet.force} "
+                    j += 1
+                end
+                i += 1
+            end  
+        end
+    end
+
+    def self.run
+        users = [User.new(1), User.new(2)] of User
+
+        game : Game = Game.new(0, users)
+        game.board.action_piocher_moi(game.board.players[0],2)
+
+        afficher_les_cartes_b_de(game.board.players[0])
+
+        game.board.defausser_tout(game.board.players[0])
+
+
+        afficher_les_cartes_b_de(game.board.players[0])
+
+
+        
+
+    end
+
+end
+
 
 class TestPartie
     def self.afficherEtat(players : Array(Player))
@@ -846,5 +886,6 @@ TestPlateau.run
 TestRageVitesse.run
 TestCartesAction.run
 TestPiocheDefausse.run
-TestHunting.run"
-TestPartie.run
+TestCarteBonus.run"
+TestHunting.run
+"TestPartie.run"
