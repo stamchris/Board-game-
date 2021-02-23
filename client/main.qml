@@ -396,17 +396,7 @@ Window {
                z: 1
                fillMode: Image.Stretch
                source:"images/Carte1.png"
-               CarteAction{
-                                           id:effet_sup1
-                                           color:"blue"
-                                           anchors.top:parent.top
-                                     }
-
-                                     CarteAction{
-                                         id:effet_inf1
-                                         color: "red"
-                                         anchors.top:effet_sup1.bottom
-                                     }
+               CarteAction{}
            }
         }
 
@@ -425,17 +415,8 @@ Window {
                z: 1
                fillMode: Image.Stretch
                source:"images/Carte2.png"
-               CarteAction{
-                                           id:effet_sup2
-                                           color:"blue"
-                                           anchors.top:parent.top
-                                     }
+               CarteAction{ }
 
-                                     CarteAction{
-                                         id:effet_inf2
-                                         color: "red"
-                                         anchors.top:effet_sup2.bottom
-                                     }
            }
 
         }
@@ -454,17 +435,7 @@ Window {
                z: 1
                fillMode: Image.Stretch
                source:"images/Carte3.png"
-               CarteAction{
-                                           id:effet_sup3
-                                           color:"blue"
-                                           anchors.top:parent.top
-                                     }
-
-                                     CarteAction{
-                                         id:effet_inf3
-                                         color: "red"
-                                         anchors.top:effet_sup3.bottom
-                                     }
+               CarteAction{}
            }
 
         }
@@ -483,17 +454,7 @@ Window {
                anchors.leftMargin:5
                fillMode: Image.Stretch
                source:"images/Carte4.png"
-               CarteAction{
-                                           id:effet_sup4
-                                           color:"blue"
-                                           anchors.top:parent.top
-                                     }
-
-                                     CarteAction{
-                                         id:effet_inf4
-                                         color: "red"
-                                         anchors.top:effet_sup4.bottom
-                                     }
+               CarteAction{}
            }
 
         }

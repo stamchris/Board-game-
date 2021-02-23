@@ -1,12 +1,31 @@
 import QtQuick 2.12
 
+Column {
+    id: columnId
+    height: 210
+    width :170
+    anchors{top:parent.top; left: parent.left}
+
+    signal clickCard()
+
+        function blockCard(){
+
+                hover1Id.hoverEnabled =false
+                hover2Id.hoverEnabled =false
+                up.color = "gray"
+                down.color = "gray"
+                up.opacity = 0.9
+                down.opacity = 0.9
+        }
+
+
 Rectangle{
-      id:root
-    width: parent.width
-    height: parent.height/2
+    id:up
+    width: columnId.width
+    height: columnId.height/2
     anchors.left:parent.left
-    z:2
     opacity:0
+    color: "blue"
         MouseArea{
             id : hover1Id
             width:parent.width
@@ -16,12 +35,49 @@ Rectangle{
                 onHoveredChanged: {
                    if (containsMouse == true)
                         {
-                          root.opacity=0.4
+                          up.opacity=0.4
                         }else
                         {
-                            root.opacity=0
+                            up.opacity=0
                     }
                 }
+
+                onClicked: {
+                                 columnId.clickCard()
+                           }
        }
+}
+
+Rectangle{
+    id:down
+    width: columnId.width
+    height: columnId.height/2
+    opacity:0
+    color: "red"
+        MouseArea{
+            id : hover2Id
+            width:parent.width
+            height:parent.height
+            hoverEnabled: true
+
+                onHoveredChanged: {
+                   if (containsMouse == true)
+                        {
+                          down.opacity=0.4
+                        }else
+                        {
+                            down.opacity=0
+                    }
+                }
+
+                onClicked: {
+                                  columnId.clickCard()
+                           }
+       }
+}
+Component.onCompleted: {
+                clickCard.connect(columnId.blockCard)
+        }
 
 }
+
