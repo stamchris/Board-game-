@@ -3,123 +3,75 @@ require "./Node.cr"
 BOARD_0 = [
 
     Node.new(Effet.new(Evenement::RIEN,0),       # Effet
-            false,                              # Checkpoint pour Cerbere ?
-            [] of Int32,                        # Cases precedentes
-            [1]),                               # Cases suivantes
+            false),                              # Checkpoint pour Cerbere
 
     Node.new(Effet.new(Evenement::RIEN,0),
-            true,
-            [0],
-            [2]),
+            true),
 
     Node.new(Effet.new(Evenement::RIEN,0),
-            false,
-            [1],
-            [3]),
+            false),
 
     Node.new(Effet.new(Evenement::PIOCHER_MOI,1),
-            false,
-            [2],
-            [4]),
+            false),
 
     Node.new(Effet.new(Evenement::RIEN,0),
-            true,
-            [3],
-            [5]),
+            true),
 
     Node.new(Effet.new(Evenement::RIEN,0),
-            false,
-            [4],
-            [6]),
+            false),
 
     Node.new(Effet.new(Evenement::RIEN,0),
-            false,
-            [5],
-            [7]),
+            false),
 
     Node.new(Effet.new(Evenement::RIEN,0),
-            true,
-            [6],
-            [8]),
-    
-    Node.new(Effet.new(Evenement::ENTREE_PONT,0),
-            false,
-            [7],
-            [9, 12]),
+            true),
+
+    Node.new(Effet.new(Evenement::PONT,0),
+            false),
 
     Node.new(Effet.new(Evenement::RIEN,0),
-            false,
-            [8],
-            [10]),
+            false),
 
     Node.new(Effet.new(Evenement::RIEN,0),
-            false,
-            [9],
-            [11]),
-
-    Node.new(Effet.new(Evenement::SORTIE_PONT,0),
-            false,
-            [8, 10],
-            [12]),
+            true),
 
     Node.new(Effet.new(Evenement::RIEN,0),
-            false,
-            [11],
-            [13]),
+            false),
+
+    Node.new(Effet.new(Evenement::PONT,1),
+            false),
 
     Node.new(Effet.new(Evenement::RIEN,0),
-            true,
-            [12],
-            [14]),
+            true),
+
+    Node.new(Effet.new(Evenement::PORTAIL,0),
+            false),
 
     Node.new(Effet.new(Evenement::RIEN,0),
-            false,
-            [13],
-            [15]),
+            true),
 
     Node.new(Effet.new(Evenement::RIEN,0),
-            true,
-            [14],
-            [16]),
+            false),
 
-    Node.new(Effet.new(Evenement::ACTIVER_PORTAIL,0),
-            false,
-            [15],
-            [17]),
+    Node.new(Effet.new(Evenement::PORTAIL,1),
+            false),
 
-    Node.new(Effet.new(Evenement::RIEN,0),
-            false,
-            [16],
-            [18]),
-    
     Node.new(Effet.new(Evenement::REVELER_BARQUE,0),
-            true,
-            [17],
-            [19]),
+            true),
 
     Node.new(Effet.new(Evenement::RIEN,0),
-            false,
-            [18],
-            [20]),
+            false),
 
     Node.new(Effet.new(Evenement::RIEN,0),
-            false,
-            [19],
-            [21]),
+            false),
 
     Node.new(Effet.new(Evenement::RIEN,0),
-            false,
-            [20],
-            [22]),
+            false),
 
-    Node.new(Effet.new(Evenement::RIEN,0),
-            false,
-            [21],
-            [22]),
+    Node.new(Effet.new(Evenement::CHANGER_RAGE,1),
+            false),
 
     Node.new(Effet.new(Evenement::VERIFIER_BARQUE,0),
-            false,
-            [22],
-            [] of Int32)
+            false)
 
 ] of Node

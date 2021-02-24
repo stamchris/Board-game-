@@ -1,5 +1,8 @@
 require "./Hand.cr"
 
+require "json"
+require "kemal"
+
 enum Cerbere::PlayerType
 	Eliminated
 	Adventurer
@@ -19,24 +22,39 @@ enum Cerbere::Colour
 	Red
 end
 
+enum TypeJoueur
+    AVENTURIER # Joueur dans le camp Aventurier
+    CERBERE # Joueur dans le camp Cerbère
+    MORT # Joueur éliminé
+end
+
 class Cerbere::Player
 	include JSON::Serializable
 
 	property ready = false
-	property name : String
+	property name : String = ""
 	@[JSON::Field(ignore: true)]
-	getter socket : HTTP::WebSocket
+	getter socket : HTTP::WebSocket | Nil
 	
 	#property hand : Hand = Hand.new
 	property typeJoueur : PlayerType = PlayerType::Adventurer
 	property position : Int32 = 1
 	property colour : Colour = Colour::Cyan
 
+	property lobby_id : Int32 = 0    # A definir
+	@[JSON::Field(ignore: true)]
+	property hand : Hand = Hand.new
+	property type : TypeJoueur = TypeJoueur::AVENTURIER
+
 	def send(response : Response)
-		@socket.send(response.to_json)
+		unless (@socket.nil?)
+			@socket.not_nil!.send(response.to_json)
+		end
 	end
 
 	def initialize(@name, @socket)
 	end
-end
 
+	def initialize(@lobby_id)
+	end
+end

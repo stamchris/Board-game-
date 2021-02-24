@@ -1,5 +1,5 @@
 require "./Board.cr"
-require "./Player.cr"
+require "./player.cr"
 require "./deck.cr"
 require "./carte.cr"
 
@@ -11,7 +11,7 @@ class User
     end
 end
 
-class Game
+class Cerbere::Game
     property board : Board
     getter difficulty : Int32
     getter users : Array(User)
