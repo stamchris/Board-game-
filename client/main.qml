@@ -396,7 +396,9 @@ Window {
                z: 1
                fillMode: Image.Stretch
                source:"images/Carte1.png"
-               CarteAction{}
+               CarteAction{
+
+               }
            }
         }
 

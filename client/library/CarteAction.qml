@@ -6,6 +6,7 @@ Column {
     width :170
     anchors{top:parent.top; left: parent.left}
 
+
     signal clickCard()
 
         function blockCard(){
@@ -32,15 +33,16 @@ Rectangle{
             height:parent.height
             hoverEnabled: true
 
-                onHoveredChanged: {
-                   if (containsMouse == true)
-                        {
-                          up.opacity=0.4
-                        }else
-                        {
-                            up.opacity=0
-                    }
-                }
+                    onHoveredChanged: {
+                                    if(hoverEnabled == true){
+                                        if(containsMouse == true){
+                                            up.opacity = 0.4
+                                        }else{
+                                            up.opacity = 0
+                                        }
+                                    }
+                                }
+
 
                 onClicked: {
                                  columnId.clickCard()
@@ -61,13 +63,13 @@ Rectangle{
             hoverEnabled: true
 
                 onHoveredChanged: {
-                   if (containsMouse == true)
-                        {
-                          down.opacity=0.4
-                        }else
-                        {
-                            down.opacity=0
-                    }
+                    if(hoverEnabled == true){
+                                        if(containsMouse == true){
+                                            down.opacity = 0.4
+                                        }else{
+                                            down.opacity = 0
+                                        }
+                                    }
                 }
 
                 onClicked: {
