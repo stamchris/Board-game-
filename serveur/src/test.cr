@@ -506,7 +506,7 @@ class TestHunting
                 game.board.action_changer_rage(10)
             end
 
-            if (i == 10)
+            if ((i == 10) || ((7 - game.board.nombre_pions_jauge) == 0))
                 stop = 1
             end
 

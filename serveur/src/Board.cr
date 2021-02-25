@@ -319,15 +319,15 @@ class Board
     #DEPLACER_CERBERE # Cerbère se déplace sur le plateau
 
 
-    def index_capture(tab_players : Array(Player),pos_cer : Int32, finalpos : Int32)
+    def index_capture(finalpos : Int32)
 
         final = finalpos
-        first_pos = pos_cer
+        first_pos = @position_cerbere
 
         i = 0
         min = nodes.size - 1
         capture = 0
-        tab_players.each do |p|
+        @players.each do |p|
             if ((final >= p.position) && (first_pos < p.position))
                 if (p.position < min )
                     min = p.position
@@ -362,24 +362,16 @@ class Board
     end
 
     def catch_survivor(pl : Player)
-        nb_aventuriers = 0
-        @players.each do |p|
-            if(p.type == TypeJoueur::AVENTURIER)
-                nb_aventuriers += 1
-            end
-        end
-
-        #quand une personne est capturé on sais ce que l'on en fait
+        nb_aventuriers = 7 - @nombre_pions_jauge
         if(pl.type == TypeJoueur::AVENTURIER)
             defausser_tout(pl)
             if nb_aventuriers <= 2
                 pl.type = TypeJoueur::MORT
             else
-                #15 pour la première case du plateau de fin
-                #nodes.sizes - 1 = barque
-                #recuperer des carte bonus en fonction de la position de capt
-                #on ne connais pas encore la dernière position du plt de depart
-                #donc on va dire case 5
+                dernier_plateau = nodes.size - 1
+                while nodes[dernier_plateau].effect.evenement != Evenement::REVELER_BARQUE
+                      dernier_plateau -= 1
+                end
                 if ((pl.position >= 1) && (pl.position <= 5))
                     pl.type = TypeJoueur::CERBERE
                     action_recuperer_carte(pl)
@@ -388,9 +380,9 @@ class Board
                     else 
                         action_piocher_moi(pl,1)
                     end
-                elsif pl.position < 15
-                    action_recuperer_carte(pl)
+                elsif pl.position < dernier_plateau
                     pl.type = TypeJoueur::CERBERE
+                    action_recuperer_carte(pl)
                 else
                     pl.type = TypeJoueur::MORT
                 end
@@ -414,36 +406,32 @@ class Board
             pos_max = tmp
         elsif ((force < 0) && (tmp >= 0))
             pos_max = tmp
-        else
-            raise "Sortie du plateau !!"
         end
-        #Si on a avance de 1 et qu'on a des joueurs sur la case alors on lance la fonction
-        #capture ('new cerbere = aventurier sur case')
-
-        capturable = index_capture(@players,@position_cerbere,pos_max)
-
+        
+        capturable = index_capture(pos_max)
+       
         if(capturable != -1)
-            i = 0
             @players.each do |p|
                 if (p.position == capturable) #on va capturer les joueurs
                     catch_survivor(p)
                 end
-                i += 1
             end
-            pos_cerb = capturable 
-            lastcheckpoint(pos_cerb)
-            
+            lastcheckpoint(capturable) 
         else
             @position_cerbere = tmp
-            action_changer_vitesse(1)
-            action_changer_rage(-@rage_cerbere)
         end
+
+        return capturable
     end
 
     def cerbere_hunting()
-        if (@rage_cerbere == 10)
-            action_move_cerbere(@vitesse_cerbere)
+        if (@rage_cerbere == 10) 
             puts "Cerbere part en chasse"
+            catch = action_move_cerbere(@vitesse_cerbere)
+            if(catch == -1)
+                action_changer_vitesse(1)
+                action_changer_rage(-@rage_cerbere)
+            end 
         else
             puts "Cerbere ne part pas en chasse ce tour"
         end
