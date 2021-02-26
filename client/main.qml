@@ -365,6 +365,10 @@ Window {
             z: 1
             fillMode: Image.Stretch
 
+            Plateau {
+                
+            }
+
         }
     }
 
