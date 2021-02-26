@@ -5,8 +5,8 @@ import "library"
 
 Window {
     id: window
-    width: 1600
-    height: 800
+    width: Screen.width
+    height: Screen.height
     visible: true
     property alias plateauImageId: plateauImageId
     title: qsTr("Cerbere")
@@ -208,9 +208,11 @@ Window {
             color: "#ffffff"
             border.color: "#f23f1e"
             border.width: 2
-            anchors { top:underBarId; left: chronoId.right; leftMargin: 5}
+            anchors { top:underBarId.top; left: chronoId.right; leftMargin: 5}
 
-            CerbereBar{}
+            CerbereBar{
+		    width: parent.width
+	    }
         }
 
         Rectangle {

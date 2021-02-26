@@ -5,7 +5,7 @@ import QtQuick.Controls 2.14
 
 Row{
     id:rowroot
-    anchors{ top: parent.top ; right: parent.right; topMargin: 3;rightMargin: 3 }
+    anchors{ top: parent.top ; left: parent.left; topMargin: 3;horizontalCenter:parent.horizontalCenter;leftMargin: 3 }
     spacing:5
 
     property int vitesse: 3
@@ -41,7 +41,7 @@ Row{
            anchors.verticalCenter: parent.verticalCenter
            anchors.top:  parent.top
            anchors.topMargin: 15
-           width: 320
+           width: 200
            height: 60
            color: "green"
            text: "Vitesse de cerbere : " + vitesse
@@ -91,7 +91,7 @@ Row{
             from:1
             to:10
             padding: 2
-            width: 500
+            width: parent.width-346 // 346 = 200 (taille de vitesse) + 60 (taille boutons) * 2 + 5 (spacing) * 4 + 3 (margin) * 2
             height: 55
             anchors{top:parent.top;topMargin: 3}
 
@@ -111,7 +111,7 @@ Row{
 
                 Rectangle {
 
-                    width: cerbereBarId.visualPosition * 460
+                    width: cerbereBarId.visualPosition*(cerbereBarId.width*0.92) //cerbereBarId.visualPosition * 460
                     height: 30
                     anchors{top:parent.top;topMargin: 15;left:parent.left;leftMargin: 15;rightMargin: 15}
                     radius: 2
