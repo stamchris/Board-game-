@@ -5,8 +5,23 @@ import QtWebSockets 1.12
 
 
 Row {
+
+    /////// Send data to Piones.qml  ////////////
+    signal notifyPiones ( string counter, string player) // Declare signal
+
+    function receiveCounter(count,player){
+         notifyPiones(count,player)
+    }
+
+    Component.onCompleted: {
+       notifyPiones.connect(pionesId.receiveCounterPiones) //connect button to Pion
+    }
+ //////////////////////////////////////////////
+
     id: rowId
     anchors.fill: parent
+
+
     Rectangle {
         id: firstPlateauid
         width: 29/100* parent.width
@@ -14,6 +29,10 @@ Row {
         height: parent.height
         border.color :"red"
         border.width: 1
+
+           Piones{
+               id:pionesId
+           }
 
         Row {
             id:rowFirstPlateauid
@@ -29,19 +48,13 @@ Row {
             }
                         
             Rectangle {
-                id : case0id
-                anchors.fill : zone_drop
+                id : case0Id
                 width: 14/100* parent.width
                 height: 30/100 * parent.height
                 y: height
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
-
-                Column {
-                    
-                    
-                }
                    
             }
             Rectangle {
@@ -52,6 +65,8 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
+
             }
             Rectangle {
                 id : case2Id
@@ -61,6 +76,7 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
             }
             Rectangle {
                 id : case3Id
@@ -113,7 +129,7 @@ Row {
             anchors.fill : parent
 
             Rectangle {
-                id : case7id
+                id : case7Id
                 width: 23/100* parent.width
                 height:25/100*parent.height
                 y : 165/100*height
@@ -128,7 +144,7 @@ Row {
                 y : 30/100*height
                 spacing : 2/100*parent.height
                 Rectangle {
-                    id: case9id
+                    id: case9Id
                     width: 60/100*parent.width
                     height : 18/100*parent.height
                     y : 110/100*height
@@ -139,7 +155,7 @@ Row {
 
                 }
                 Rectangle {
-                    id: case8id
+                    id: case8Id
                     width: 80/100*parent.width
                     height: 25/100*parent.height
                     y : height
@@ -151,7 +167,7 @@ Row {
             }
 
             Rectangle {
-                id: case10id
+                id: case10Id
                 width: 15/100*parent.width
                 height: 18/100*parent.height
                 y : 103/100*height
@@ -166,7 +182,7 @@ Row {
                 y : 27/100*height
                 spacing : 2/100*parent.height
                 Rectangle {
-                    id: case11id
+                    id: case11Id
                     width: 60/100*parent.width
                     height : 19/100*parent.height
                     y : 90/100*height
@@ -176,7 +192,7 @@ Row {
                     border.width: 1
                 }
                 Rectangle {
-                    id: case12id
+                    id: case12Id
                     width: 70/100* parent.width
                     x : 40/100*width
                     height: 30/100* parent.height
@@ -201,7 +217,7 @@ Row {
             anchors.fill : parent
 
             Rectangle {
-                id: case13id
+                id: case13Id
                 width: 25/100*parent.width
                 height : 30/100*parent.height
                 y : 120/100*height 
@@ -218,7 +234,7 @@ Row {
                 y : height
                 spacing : 3/100*parent.height
                 Rectangle {
-                    id: case14id
+                    id: case14Id
                     width: 2/3*parent.width
                     height: 85/100*parent.height
                     x : 1/3*width
@@ -227,7 +243,7 @@ Row {
                     border.width: 1
                 }
                 Rectangle {
-                    id: case15id
+                    id: case15Id
                     x: 75/100 * parent.x
                     width: 50/100* parent.width
                     height: 36/100* parent.height
@@ -244,7 +260,7 @@ Row {
                 y : height
                 spacing : 3/100*parent.height
                 Rectangle {
-                    id: case16id
+                    id: case16Id
                     x: 20/100 * parent.x
                     width: 80/100 * parent.width
                     height: 88/100*parent.height
@@ -253,7 +269,7 @@ Row {
                     border.width: 1
                 }
                 Rectangle {
-                    id: case17id
+                    id: case17Id
                     width: 60/100* parent.width
                     height: 45/100* parent.height
                     color: "transparent"
@@ -275,7 +291,7 @@ Row {
             id:rowEndPlateauid
             anchors.fill : parent
             Rectangle {
-                id: case18id
+                id: case18Id
                 width: 15/100*parent.width
                 height : 1/4*parent.height
                 y : 140/100*height
@@ -284,7 +300,7 @@ Row {
                 border.width: 1
             }
             Rectangle {
-                id: case19id
+                id: case19Id
                 width: 13/100*parent.width
                 height : 1/4*parent.height
                 y : 80/100*height
@@ -293,7 +309,7 @@ Row {
                 border.width: 1
             }
             Rectangle {
-                id: case20id
+                id: case20Id
                 width: 12/100*parent.width
                 height : 1/4*parent.height
                 y : 140/100*height
@@ -302,7 +318,7 @@ Row {
                 border.width: 1
             }
             Rectangle {
-                id: case21id
+                id: case21Id
                 width: 10/100*parent.width
                 height : 1/4*parent.height
                 y : 90/100*height
@@ -311,7 +327,7 @@ Row {
                 border.width: 1
             }
              Rectangle {
-                id: case22id
+                id: case22Id
                 width: 10/100*parent.width
                 height : 1/4*parent.height
                 y : 140/100*height
@@ -329,5 +345,6 @@ Row {
                 border.width: 1
             }
         }       
-    } 
+    }
+
 }

@@ -210,9 +210,7 @@ Window {
             border.width: 2
             anchors { top:underBarId.top; left: chronoId.right; leftMargin: 5}
 
-            CerbereBar{
-		    width: parent.width
-	    }
+            CerbereBar{}
         }
 
         Rectangle {
@@ -366,11 +364,115 @@ Window {
                 z: 1
                 fillMode: Image.Stretch
                 
+
                 Plateau {
+                    id: boardId
                     
                 }
 
 
+                Rectangle{
+                    id:rectGroupsId
+                    signal notifyPion ( string counter, string player) // Declare signal
+
+                    property int positionCounterPion1: -1
+                    property int positionCounterPion2: -1
+                    property int positionCounterPion3: -1
+                    property int positionCounterPion4: -1
+                    property int positionCounterPion5: -1
+                    property int positionCounterPion6: -1
+                    property int positionCounterPion7: -1
+
+                    anchors.bottom: parent.bottom
+                    anchors.right: parent.right
+                    height: 100
+                    width: 150
+
+                    Rectangle{
+                    id:whiteId
+                    color: "white"
+                    height: parent.height /4
+                    width: parent.width /4
+                    anchors{top: parent.top;left: parent.left}
+                    Text {
+                        id: texxxxt
+                        text: "+1"
+                    }
+                   MouseArea{
+                       anchors.fill: parent
+                    onClicked: {
+                        rectGroupsId.positionCounterPion1++
+                        rectGroupsId.notifyPion(rectGroupsId.positionCounterPion1,"player1")
+                        console.log("clicked")
+                    }
+                   }
+
+                }
+                    Rectangle{
+                    id:blueId
+                    color: "blue"
+                    height: parent.height /4
+                    width: parent.width /4
+                    anchors{top: parent.top;left: whiteId.right}
+                    Text {
+                        id: texxxt
+                        text: "+1"
+                    }
+                   MouseArea{
+                       anchors.fill: parent
+                    onClicked: {
+                        rectGroupsId.positionCounterPion2++
+                        rectGroupsId.notifyPion(rectGroupsId.positionCounterPion2,"player2")
+                    }
+                   }
+
+                }
+                    Rectangle{
+                    id:redId
+                    color: "red"
+                    height: parent.height /4
+                    width: parent.width /4
+                    anchors{top: whiteId.bottom;left: parent.left}
+                    Text {
+                        id: texxt
+                        text: "+1"
+                    }
+                   MouseArea{
+                       anchors.fill: parent
+                    onClicked: {
+                        rectGroupsId.positionCounterPion3++
+                        rectGroupsId.notifyPion(rectGroupsId.positionCounterPion3,"player3")
+                        console.log("clicked")
+                    }
+                   }
+
+                }
+                    Component.onCompleted: {
+                       rectGroupsId.notifyPion.connect(boardId.receiveCounter) //connect button to Pion
+                    }
+
+                }
+//                 Button{
+//                     signal notifyPion ( string counter, string player) // Declare signal
+//                     property int count: -1
+//                     property string pion: " "
+
+//                    anchors.bottom: parent.bottom
+//                    anchors.right: parent.right
+//                    height: 100
+//                    width: 150
+//                    text: "+1"
+//                    onClicked: {
+//                        count++
+//                        notifyPion(count,"player2")
+//                        console.log("clicked")
+
+//                    }
+//                    Component.onCompleted: {
+//                       notifyPion.connect(boardId.receiveCounter) //connect button to Pion
+//                    }
+
+//                 }
 
 
                     }

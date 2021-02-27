@@ -3,10 +3,10 @@ import QtQuick.Controls 2.14
 
 
 
-Row{
+Item {
     id:rowroot
-    anchors{ top: parent.top ; left: parent.left; topMargin: 3;horizontalCenter:parent.horizontalCenter;leftMargin: 3 }
-    spacing:5
+    anchors{ top: parent.top ; left: parent.left; topMargin: 3;leftMargin:0 }
+    width:parent.width
 
     property int vitesse: 3
     signal changeVitesse()
@@ -28,9 +28,9 @@ Row{
 
     Button {
              text:"+1"
-             anchors.verticalCenter: parent.verticalCenter
-             width:60
-             height: width
+             width:parent.width *0.05
+             height: 60
+             anchors {right: vitesseCerbereTextId.left}
              onClicked: {
                  rowroot.changeVitesse()
              }
@@ -38,10 +38,8 @@ Row{
 
     Text {
            id:vitesseCerbereTextId
-           anchors.verticalCenter: parent.verticalCenter
-           anchors.top:  parent.top
-           anchors.topMargin: 15
-           width: 200
+           anchors{ top:parent.top;topMargin: 15;right: buttonCerbId.left}
+           width: parent.width*0.3
            height: 60
            color: "green"
            text: "Vitesse de cerbere : " + vitesse
@@ -56,10 +54,11 @@ Row{
 
 
     Button {
+          id:buttonCerbId
           text:"+1"
-          anchors.verticalCenter: parent.verticalCenter
-          width:60
-          height: width
+          width:parent.width *0.05
+          height: 60
+          anchors{right: cerbereBarId.left}
           onClicked: {
                    if(cerbereBarId.value < 4)
                     {     // green
@@ -91,9 +90,9 @@ Row{
             from:1
             to:10
             padding: 2
-            width: parent.width-346 // 346 = 200 (taille de vitesse) + 60 (taille boutons) * 2 + 5 (spacing) * 4 + 3 (margin) * 2
+            width: parent.width*0.595
             height: 55
-            anchors{top:parent.top;topMargin: 3}
+            anchors{right: parent.right;rightMargin: 3;top: parent.top;topMargin: 4}
 
             background: Rectangle {
                 implicitWidth: parent.width
