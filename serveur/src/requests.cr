@@ -5,7 +5,8 @@ class Cerbere::Request
 
 	use_json_discriminator "type", {
 		login: Login,
-		ready: Ready
+		ready: Ready,
+		change_colour: ChangeColour
 	}
 	
 	def handle(game : Game, player : Player)
@@ -19,7 +20,7 @@ class Cerbere::Request
 			player.name = @name
 			game << player
 
-			game.send_all Response::NewPlayer.new @name
+			game.send_all Response::NewPlayer.new player
 
 			player.send(Response::Welcome.new game.players)
 		end
@@ -29,9 +30,23 @@ class Cerbere::Request
 		property type = "ready"
 
 		def handle(game : Game, player : Player)
-			player.ready = true
+			player.ready = !player.ready
 			if game.check_players()
 				game.send_all(Response::Starter.new)
+			end
+		end
+	end
+
+	class ChangeColour < Request
+		property type = "changeColour"
+		property colour : Cerbere::Colour
+
+		def handle(game : Game, player : Player)
+			pp game.players.to_json
+			if game.check_colour(@colour)
+				player.colour = @colour
+				game.send_all(Response::UpdatePlayer.new(player))
+			#Fixme : envoyer une resynchronisation sinon
 			end
 		end
 	end
@@ -42,9 +57,9 @@ class Cerbere::Response
 
 	class NewPlayer < Response
 		property type = "newPlayer"
-		property name : String
+		property player : Player
 
-		def initialize(@name)
+		def initialize(@player)
 		end
 	end
 
@@ -60,6 +75,14 @@ class Cerbere::Response
 		property type = "starter"
 
 		def initialize()
+		end
+	end
+
+	class UpdatePlayer < Response
+		property type = "updatePlayer"
+		property player : Player
+
+		def initialize(@player)
 		end
 	end
 end

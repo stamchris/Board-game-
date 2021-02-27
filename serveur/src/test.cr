@@ -1,8 +1,8 @@
-require "./Player.cr"
+require "./player.cr"
 require "./deck.cr"
 require "./Game.cr"
 
-class Test
+class Cerbere::Test
     def self.run
         # Tableau d'utilisateurs fictifs provenant du lobby
         my_users = [
@@ -58,7 +58,7 @@ class Test
     end
 end
 
-class TestDeck
+class Cerbere::TestDeck
     def self.afficher_les_cartes_de(joueur : Player)
         puts "Cartes de Joueur #{joueur.lobby_id}:"
         joueur.hand.bonus.each_index do |index|
@@ -113,7 +113,7 @@ class TestDeck
     end
 end
 
-class TestRageVitesse
+class Cerbere::TestRageVitesse
     def self.afficher_piste(board : Board) : Nil
         s : String = " "
 
@@ -195,7 +195,7 @@ class TestRageVitesse
     end
 end
 
-class TestPiocheDefausse
+class Cerbere::TestPiocheDefausse
     def self.afficher_les_cartes_de(joueur : Player)
         puts "Cartes de Joueur #{joueur.lobby_id}:"
         joueur.hand.bonus.each_index do |index|
@@ -278,7 +278,7 @@ class TestPiocheDefausse
     end
 end
 
-class TestCartesAction
+class Cerbere::TestCartesAction
     def self.run
         users = [User.new(1), User.new(2)] of User
 
@@ -318,7 +318,7 @@ class TestCartesAction
     end
 end
 
-class TestBarque
+class Cerbere::TestBarque
     def self.run()
         myUsers = [
             User.new(1),
@@ -335,7 +335,7 @@ class TestBarque
     end
 end
 
-class TestCouardise
+class Cerbere::TestCouardise
     def self.afficherPositions(players : Array(Player))
         players.each do |player|
             puts "Joueur #{player.lobby_id}: #{player.position}"
@@ -367,7 +367,7 @@ class TestCouardise
     end
 end
 
-class TestPlateau
+class Cerbere::TestPlateau
     def self.afficher_positions(joueurs : Array(Player))
         puts "Positions des joueurs :"
         joueurs.each do |joueur|
@@ -409,7 +409,7 @@ class TestPlateau
     end
 end
 
-class TestSabotage
+class Cerbere::TestSabotage
     def self.afficherEtat(players : Array(Player))
         players.each do |player|
             puts "Joueur #{player.lobby_id}: position: #{player.position} n_cards: #{player.hand.bonus.size()}"
@@ -445,12 +445,12 @@ class TestSabotage
     end
 end
 
-Test.run
-TestDeck.run
-TestBarque.run
-TestCouardise.run
-TestSabotage.run
-TestPlateau.run
-TestRageVitesse.run
-TestCartesAction.run
-TestPiocheDefausse.run
+Cerbere::Test.run
+Cerbere::TestDeck.run
+Cerbere::TestBarque.run
+Cerbere::TestCouardise.run
+Cerbere::TestSabotage.run
+Cerbere::TestPlateau.run
+Cerbere::TestRageVitesse.run
+Cerbere::TestCartesAction.run
+Cerbere::TestPiocheDefausse.run

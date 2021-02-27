@@ -1,4 +1,4 @@
-require "./Carte.cr"
+require "./carte.cr"
 
 require "json"
 require "kemal"
