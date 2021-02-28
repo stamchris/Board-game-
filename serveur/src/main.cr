@@ -1,5 +1,3 @@
-require "./carte.cr"
-
 require "json"
 require "kemal"
 
