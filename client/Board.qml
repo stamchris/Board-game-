@@ -12,7 +12,7 @@ Window {
     visible: true
     property alias plateauImageId: plateauImageId
     title: qsTr("Cerbere")
-
+ 
     ImagePopUp{
             id: imgEffetDeCarteId
             source:"images/effetDeCarte.jpg"
