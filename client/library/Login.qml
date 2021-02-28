@@ -13,6 +13,7 @@ Item {
 		TextField {
 			width: 220
 			id: serveurInput
+			text: "localhost:3000"
 		}
 
 		Label {

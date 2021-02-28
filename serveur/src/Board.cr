@@ -1,10 +1,10 @@
 require "./Node.cr"
-require "./Player.cr"
+require "./player.cr"
 require "./board_0.cr"
 
 
 
-class Board
+class Cerbere::Board
     getter nodes : Array(Node)
     property difficulty : Int32
     property barques : Array(Int32) = [1, 2, 3].shuffle
