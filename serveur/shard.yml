@@ -1,4 +1,4 @@
-name: cerbere-server
+name: cerbere-serveur
 version: 0.1.0
 
 dependencies:
@@ -6,5 +6,5 @@ dependencies:
     github: sdogruyol/kemal
 
 targets:
-  cerbere-server:
+  cerbere-serveur:
     main: src/main.cr
