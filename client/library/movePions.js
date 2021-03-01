@@ -146,17 +146,17 @@ function findXposition(count,choosePlayer,array){
         case'17':
             return choosePlayer.xPosition = thirdPlateauid.x + cases16_17id.x + case17Id.x+22*array[17]
         case'18':
-            return choosePlayer.xPosition = endPlateauid.x + case18Id.x+22*array[18]
+            return choosePlayer.xPosition = endPlateauId.x + case18Id.x+22*array[18]
         case'19':
-            return choosePlayer.xPosition = endPlateauid.x + case19Id.x+22*array[19]
+            return choosePlayer.xPosition = endPlateauId.x + case19Id.x+22*array[19]
         case'20':
-            return choosePlayer.xPosition = endPlateauid.x + case20Id.x+22*array[20]
+            return choosePlayer.xPosition = endPlateauId.x + case20Id.x+22*array[20]
         case'21':
-            return choosePlayer.xPosition = endPlateauid.x + case21Id.x+22*array[21]
+            return choosePlayer.xPosition = endPlateauId.x + case21Id.x+22*array[21]
         case'22':
-            return choosePlayer.xPosition = endPlateauid.x + case22Id.x+22*array[22]
+            return choosePlayer.xPosition = endPlateauId.x + case22Id.x+22*array[22]
         case'23':
-            return choosePlayer.xPosition = endPlateauid.x + caseBarqueId.x+22*array[23]        
+            return choosePlayer.xPosition = endPlateauId.x + caseBarqueId.x+22*array[23]
         default:
             console.log("no change..")
   }
