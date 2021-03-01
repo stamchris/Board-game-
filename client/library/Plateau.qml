@@ -261,7 +261,7 @@ Row {
                 y : height
                 spacing : 3/100*parent.height
                 Rectangle {
-                    id: case16Id
+                    id: case17Id
                     x: 20/100 * parent.x
                     width: 80/100 * parent.width
                     height: 88/100*parent.height
@@ -270,7 +270,7 @@ Row {
                     border.width: 1
                 }
                 Rectangle {
-                    id: case17Id
+                    id: case16Id
                     width: 60/100* parent.width
                     height: 45/100* parent.height
                     color: "transparent"
@@ -340,7 +340,7 @@ Row {
                 id: caseBarqueId
                 width: 13/100*parent.width
                 height : 1/4*parent.height
-                y : 150/100*height
+                y : 130/100*height
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
