@@ -717,7 +717,7 @@ class TestPlayCard
             User.new(7)
         ] of User
         game : Game = Game.new(0,users)
-
+        help()
         10.times do
             game.board.players.each do |player|
                 if(player.type == TypeJoueur::MORT)
