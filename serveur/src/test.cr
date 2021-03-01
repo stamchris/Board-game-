@@ -505,8 +505,9 @@ class TestPlayCard
         puts ("\t"*tab)+"#{effect.evenement}, #{effect.force}"
     end
 
-    def self.show_choice(tab : Int, game : Game, player : Player, choice : Choix)
-        puts ("\t"*tab)+"Coût (#{game.board.can_pay_cost(player,choice.cout) ? "utilisable" : "inutilisable"}):"
+    def self.show_choice(tab : Int, game : Game, player : Player, choice : Choix,
+                         active : Bool)
+        puts ("\t"*tab)+"Coût (#{active && game.board.can_pay_cost(player,choice.cout) ? "utilisable" : "inutilisable"}):"
         show_effect(tab+1, choice.cout)
         puts ("\t"*tab)+"Effets:"
         choice.effets.each do |effect|
@@ -514,17 +515,18 @@ class TestPlayCard
         end
     end
 
-    def self.show_action_card(tab : Int, game : Game, player : Player, card : CarteAction)
+    def self.show_action_card(tab : Int, game : Game, player : Player,
+                              index_card : Int32)
         puts ("\t"*tab)+"Choix: "
-        card.choix.each do |choice|
-            show_choice(tab+1, game, player, choice)
+        Hand.actions_of(player.type)[index_card].choix.each do |choice|
+            show_choice(tab+1, game, player, choice, player.hand.action[index_card])
         end
     end
 
     def self.show_bonus_card(tab : Int, game : Game, player : Player, card : CarteBonus)
         puts ("\t"*tab)+"Choix de #{card.name}:"
         card.choix.each do |choice|
-            show_choice(tab+1, game, player, choice)
+            show_choice(tab+1, game, player, choice, true)
         end
     end
 
@@ -532,7 +534,7 @@ class TestPlayCard
         puts "Vos cartes Action#{action ? " (Vous avez déjà utilisé une carte Action pendant ce tour)" : ""}:"
         player.hand.action.each_index do |i|
             puts "#{i}:"
-            show_action_card(1, game, player, Hand.actions_of(player.type)[i])
+            show_action_card(1, game, player, i)
         end
     end
 
@@ -563,17 +565,18 @@ class TestPlayCard
                         puts "Argument n°2 \"#{args[2]}\" pour la commande hand est invalide"
                         return
                     end
-                    action_card : CarteAction = Hand.actions_of(player.type)[arg]
+		    index_card : Int32 = arg
                     if(args.size() == 3) # Deux arguments: On montre une carte
-                        show_action_card(0, game, player, action_card)
+                        show_action_card(0, game, player, index_card)
                     else
+			action_card : CarteAction = Hand.actions_of(player.type)[arg]
                         arg? = args[3].to_i?()
                         if(arg?.nil?() || (arg = arg?.not_nil!()) < 0 || arg >= action_card.choix.size())
                             puts "Argument n°3 \"#{args[3]}\" pour la commande hand est invalide"
                             return
                         end
                         choice : Choix = action_card.choix[arg]
-                        show_choice(0, game, player, choice)
+                        show_choice(0, game, player, choice, player.hand.action[index_card])
                     end
                 end
             elsif(args[1] == "bonus")
@@ -595,7 +598,7 @@ class TestPlayCard
                             return
                         end
                         choice = bonus_card.choix[arg]
-                        show_choice(0, game, player, choice)
+                        show_choice(0, game, player, choice, true)
                     end
                 end
             else
