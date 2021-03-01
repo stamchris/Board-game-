@@ -847,6 +847,6 @@ TestPlateau.run
 TestRageVitesse.run
 TestCartesAction.run
 TestPiocheDefausse.run
-TestCarteBonus.run
-TestHunting.run"
-TestPartie.run
+TestCarteBonus.run"
+TestHunting.run
+#TestPartie.run

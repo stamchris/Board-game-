@@ -346,19 +346,11 @@ class Board
     end
 
     def lastcheckpoint(pos_cerb : Int32)
-        i = pos_cerb
-        if nodes[i].checkpoint_cerbere && pos_cerb > 0 
-                            #il faut que cerbere est dépassé un 
-                            #check pour le valider comme tel
-            i -= 1
-        end
-
+        i = pos_cerb - 1
         while i > 0 && !nodes[i].checkpoint_cerbere
             i -= 1
         end
-
         @position_cerbere = i
-
     end
 
     def catch_survivor(pl : Player)
