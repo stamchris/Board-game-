@@ -354,35 +354,33 @@ class Board
     end
 
     def catch_survivor(pl : Player)
-        nb_aventuriers = 7 - @nombre_pions_jauge
-        if(pl.type == TypeJoueur::AVENTURIER)
-            defausser_tout(pl)
-            if nb_aventuriers <= 2
-                pl.type = TypeJoueur::MORT
-            else
-                dernier_plateau = nodes.size - 1
-                while nodes[dernier_plateau].effect.evenement != Evenement::REVELER_BARQUE
-                      dernier_plateau -= 1
-                end
-                if ((pl.position >= 1) && (pl.position <= 5))
-                    pl.type = TypeJoueur::CERBERE
-                    action_recuperer_carte(pl)
-                    if(pl.position == 1)
-                        action_piocher_moi(pl,2)
-                    else 
-                        action_piocher_moi(pl,1)
-                    end
-                elsif pl.position < dernier_plateau
-                    pl.type = TypeJoueur::CERBERE
-                    action_recuperer_carte(pl)
-                else
-                    pl.type = TypeJoueur::MORT
-                end
-            end
-            pl.position = 0  
-            puts "Le joueur #{pl.lobby_id} s'est fait attrapé par Cerbère !"
+        if(pl.type == TypeJoueur::MORT)
+            return
         end
-
+    
+        defausser_tout(pl)
+        dernier_plateau = nodes.size - 1
+        while nodes[dernier_plateau].effect.evenement != Evenement::REVELER_BARQUE
+              dernier_plateau -= 1
+        end
+        nb_aventuriers = 7 - @nombre_pions_jauge
+    
+        if nb_aventuriers <= 2 || pl.position >= dernier_plateau
+            pl.type = TypeJoueur::MORT
+            
+        else
+            pl.type = TypeJoueur::CERBERE
+            action_recuperer_carte(pl)
+    
+            if pl.position <= 2
+                action_piocher_moi(pl,2)
+            elsif pl.position <= 6
+                action_piocher_moi(pl,1)
+            end
+        end
+        pl.position = 0
+        puts "Le joueur #{pl.lobby_id} s'est fait attrapé par Cerbère !"  
+    
         action_changer_vitesse(-@vitesse_cerbere)
         @nombre_pions_jauge += 1
         action_changer_rage(-@rage_cerbere)

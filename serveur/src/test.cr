@@ -513,7 +513,6 @@ class TestHunting
             i += 1
         end
 
-        game.board.action_deplacer_moi(game.board.players[1],-2) #petit bug normalement sa reste a 0
         afficher_positions(game.board.players)
 
         puts "Main et type apres chasse"
