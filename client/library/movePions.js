@@ -66,13 +66,14 @@ function findYposition(count,choosePlayer,array){
         case'6':
             return  choosePlayer.yPosition = case6Id.y+22*array[6]
         case'7':
-            return  choosePlayer.yPosition = case7Id.y
+            console.log("y7 = "+ case7Id.y)
+            return  choosePlayer.yPosition = case7Id.y+22*array[7]
         case'8':
-            return  choosePlayer.yPosition = case8Id.y
+            return  choosePlayer.yPosition = case8Id.y+22*array[8]
         case'9':
-            return  choosePlayer.yPosition = case9Id.y
+            return  choosePlayer.yPosition = case9Id.y+22*array[9]
         case'10':
-            return  choosePlayer.yPosition = case10Id.y
+            return  choosePlayer.yPosition = case10Id.y+22*array[10]
         default:
             console.log("no change..")
   }
@@ -97,16 +98,14 @@ function findXposition(count,choosePlayer,array){
         case'6':
             return choosePlayer.xPosition = case6Id.x+22*array[6]
         case'7':
-            console.log("x7 = "+ case7Id.x)
-            return choosePlayer.xPosition = case7Id.x
-
+            console.log("x7 : "+ case7Id.x+22*array[7])
+            return choosePlayer.xPosition = case7Id.x+22*array[7]
         case'8':
-            console.log("x8 = "+ case8Id.x)
-            return choosePlayer.xPosition = case8Id.x
+            return choosePlayer.xPosition = case8Id.x+22*array[8]
         case'9':
-            return choosePlayer.xPosition = case9Id.x
+            return choosePlayer.xPosition = case9Id.x+22*array[9]
         case'10':
-            return choosePlayer.xPosition = case10Id.x
+            return choosePlayer.xPosition = case10Id.x+22*array[10]
         default:
             console.log("no change..")
   }

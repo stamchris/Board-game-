@@ -9,9 +9,9 @@ Column{
     spacing: 2
 
     //[counter of pions]
-    property variant yArray: [-1,-1,-1,-1,-1]
-    property variant xArray: [0,0,0,0,0]
-    property variant xCounter: [0,0,0,0,0]
+    property variant yArray: [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,1]
+    property variant xArray: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    property variant xCounter: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
     function receiveCounterPiones(count,player){
         console.log("Player : "+ player+" is in the case : "+count)
