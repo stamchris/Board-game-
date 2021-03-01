@@ -2,7 +2,7 @@ require "./Node.cr"
 require "./player.cr"
 require "./board_0.cr"
 require "./deck.cr"
-
+require "./utils.cr"
 
 class Cerbere::Board
     getter nodes : Array(Node)
@@ -694,46 +694,31 @@ class Cerbere::Board
     end
 
     def play_card(who : Player, action : Bool, index_card : Int, choice : Int, args : Array(Array(Int)))
-        if(index_card < 0 || ((!action && index_card >= who.hand.bonus.size()) || (action && index_card >= 4)))
-            raise "Index de carte invalide"
-        end
+        assert(!(index_card < 0 || ((!action && index_card >= who.hand.bonus.size()) || (action && index_card >= 4))))
         card : Carte
         if(action)
             card = Hand.actions_of(who.type)[index_card]
-            if(!who.hand.action[index_card])
-                raise "La carte Action est inactive et ne peut être utilisée"
-            end
+	    assert(who.hand.action[index_card])
         else
             card = who.hand.bonus[index_card]
         end
-        if(choice < 0 || choice >= card.choix.size())
-            raise "Index de choix invalide"
-        end
+        assert(!(choice < 0 || choice >= card.choix.size()))
         choice = card.choix[choice]
-        if(args.size() < choice.effets.size() + 1)
-            raise "Nombre d'arguments invalides"
+        assert(!(args.size() < choice.effets.size() + 1))
+        assert(can_pay_cost(who,choice.cout))
+        assert(check_args_are_valid(who, choice.cout, args[0], true))
+        choice.effets.each_index do |i|
+            assert(check_args_are_valid(who, choice.effets[i], args[i+1]))
         end
-        if(can_pay_cost(who,choice.cout))
-            if(!check_args_are_valid(who, choice.cout, args[0], true))
-                raise "Les arguments pour le coût sont invalides"
-            end
-            choice.effets.each_index do |i|
-                if(!check_args_are_valid(who, choice.effets[i], args[i+1]))
-                    raise "Les arguments pour l'effet n°#{i} sont invalides"
-                end
-            end
-            # Si on arrive ici, c'est que tous les arguments sont OK.
-            faire_action(who, choice.cout, args[0])
-            choice.effets.each_index do |i|
-                faire_action(who, choice.effets[i], args[i+1])
-            end
-            if(action)
-                who.hand.action[index_card] = false
-            else
-                defausser(who, index_card)
-            end
+        # Si on arrive ici, c'est que tous les arguments sont OK.
+        faire_action(who, choice.cout, args[0])
+        choice.effets.each_index do |i|
+            faire_action(who, choice.effets[i], args[i+1])
+        end
+        if(action)
+            who.hand.action[index_card] = false
         else
-            raise "Le joueur ne peut pas payer le coût de la carte"
+            defausser(who, index_card)
         end
     end
 

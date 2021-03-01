@@ -548,6 +548,8 @@ class TestPlayCard
     end
 
     def self.hand(game : Game, player : Player, args : Array(String), action : Bool)
+        arg? : Int32?
+        arg : Int32 = 0
         if(args.size() == 1) # Pas d'arguments: On montre tout
             show_all_action(game, player, action)
             show_all_bonus(game, player)
@@ -556,22 +558,20 @@ class TestPlayCard
                 if(args.size() == 2) # Un seul argument: On montre un seul type
                     show_all_action(game, player, action)
                 else
-                    arg? : Int32? = args[2].to_i?()
-                    if(arg?.nil?() || arg? < 0 || arg? >= 4)
+                    arg? = args[2].to_i?()
+                    if(arg?.nil?() || (arg = arg?.not_nil!()) < 0 || arg >= 4)
                         puts "Argument n°2 \"#{args[2]}\" pour la commande hand est invalide"
                         return
                     end
-                    arg : Int32 = arg?.to_i()
                     action_card : CarteAction = Hand.actions_of(player.type)[arg]
                     if(args.size() == 3) # Deux arguments: On montre une carte
                         show_action_card(0, game, player, action_card)
                     else
                         arg? = args[3].to_i?()
-                        if(arg?.nil?() || arg? < 0 || arg? >= action_card.choix.size())
+                        if(arg?.nil?() || (arg = arg?.not_nil!()) < 0 || arg >= action_card.choix.size())
                             puts "Argument n°3 \"#{args[3]}\" pour la commande hand est invalide"
                             return
                         end
-                        arg = arg?.to_i()
                         choice : Choix = action_card.choix[arg]
                         show_choice(0, game, player, choice)
                     end
@@ -581,21 +581,19 @@ class TestPlayCard
                     show_all_bonus(game, player)
                 else
                     arg? = args[2].to_i?()
-                    if(arg?.nil?() || arg? < 0 || arg? >= player.hand.bonus.size())
+                    if(arg?.nil?() || (arg = arg?.not_nil!()) < 0 || arg >= player.hand.bonus.size())
                         puts "Argument n°2 \"#{args[2]}\" pour la commande hand est invalide"
                         return
                     end
-                    arg = arg?.to_i()
                     bonus_card = player.hand.bonus[arg]
                     if(args.size() == 3) # Deux arguments: On montre une carte
                         show_bonus_card(0, game, player, bonus_card)
                     else
                         arg? = args[3].to_i?()
-                        if(arg?.nil?() || arg? < 0 || arg? >= bonus_card.choix.size())
+                        if(arg?.nil?() || (arg = arg?.not_nil!()) < 0 || arg >= bonus_card.choix.size())
                             puts "Argument n°3 \"#{args[3]}\" pour la commande hand est invalide"
                             return
                         end
-                        arg = arg?.to_i()
                         choice = bonus_card.choix[arg]
                         show_choice(0, game, player, choice)
                     end
@@ -654,12 +652,13 @@ class TestPlayCard
         end
 
         arg? : Int32? = args[2].to_i?()
-        if(arg?.nil?() || arg? < 0 || (action_card && arg? >= 4) ||
-           (!action_card && arg? >= player.hand.bonus.size()))
+        arg : Int32 = 0
+        if(arg?.nil?() || (arg = arg?.not_nil!()) < 0 || (action_card && arg >= 4) ||
+           (!action_card && arg >= player.hand.bonus.size()))
             puts "Argument n°2 \"#{args[2]}\" pour la commande play est invalide."
             return action
         end
-        index_card : Int32 = arg?.to_i()
+        index_card : Int32 = arg
 
         card : Carte
         if(action_card)
@@ -673,11 +672,11 @@ class TestPlayCard
         end
 
         arg? = args[3].to_i?()
-        if(arg?.nil?() || arg? < 0 || arg? >= card.choix.size())
+        if(arg?.nil?() || (arg = arg?.not_nil!()) < 0 || arg >= card.choix.size())
             puts "Argument n°3 \"#{args[3]}\" pour la commande play est invalide."
             return action
         end
-        n_choice : Int32 = arg?.to_i()
+        n_choice : Int32 = arg
 
         choice : Choix = card.choix[n_choice]
         if(!game.board.can_pay_cost(player,choice.cout))
