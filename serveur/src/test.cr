@@ -468,7 +468,7 @@ class TestPlayCard
                 "\tplay <type> <carte> <choix>: Jouer une carte\n" +
                 "\tend: Terminer votre tour\n" +
                 "\n" +
-                "type est soit action soit survie, carte et choix sont des entiers\n"
+                "type est soit action soit bonus, carte et choix sont des entiers\n"
     end
 
     def self.board(game : Game)
