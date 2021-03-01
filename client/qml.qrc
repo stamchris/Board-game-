@@ -1,15 +1,16 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
+        <file>Board.qml</file>
         <file>library/ImagePopUp.qml</file>
         <file>library/CarteAction.qml</file>
         <file>library/CerbereBar.qml</file>
         <file>library/ReglesDuJeu.qml</file>
-        <file>library/Application.qml</file>
+        <file>Application.qml</file>
         <file>library/Plateau.qml</file>
         <file>library/Pion.qml</file>
         <file>library/Piones.qml</file>
-        <file>library/Login.qml</file>
+        <file>Login.qml</file>
+        <file>Lobby.qml</file>
         <file>library/movePions.js</file>
     </qresource>
 
