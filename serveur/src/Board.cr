@@ -711,14 +711,14 @@ class Cerbere::Board
             assert(check_args_are_valid(who, choice.effets[i], args[i+1]))
         end
         # Si on arrive ici, c'est que tous les arguments sont OK.
-        faire_action(who, choice.cout, args[0])
-        choice.effets.each_index do |i|
-            faire_action(who, choice.effets[i], args[i+1])
-        end
-        if(action)
+	if(action)
             who.hand.action[index_card] = false
         else
             defausser(who, index_card)
+        end
+        faire_action(who, choice.cout, args[0])
+        choice.effets.each_index do |i|
+            faire_action(who, choice.effets[i], args[i+1])
         end
     end
 
