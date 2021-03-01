@@ -41,9 +41,9 @@ class Cerbere::Player
 	property position : Int32 = 1
 	property colour : Colour = Colour::Cyan
 
-	property lobby_id : Int32 = 0    # A definir
+	property lobby_id : Int32 = 0
 	@[JSON::Field(ignore: true)]
-	property hand : Hand = Hand.new
+	property hand : Hand = Hand.new# Classe temporaire representant les utilisateurs provenant du lobby
 	property type : TypeJoueur = TypeJoueur::AVENTURIER
 
 	def send(response : Response)

@@ -33,6 +33,7 @@ class Cerbere::Request
 			player.ready = !player.ready
 			if game.check_players()
 				game.send_all(Response::Starter.new)
+				game.start(0, game.players)
 			end
 		end
 	end

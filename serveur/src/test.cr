@@ -1,21 +1,22 @@
 require "./player.cr"
 require "./deck.cr"
-require "./Game.cr"
+require "./game.cr"
 
 class Cerbere::Test
     def self.run
         # Tableau d'utilisateurs fictifs provenant du lobby
-        my_users = [
-            User.new(2),
-            User.new(48),
-            User.new(59),
-        ] of User
+        my_players = [
+            Player.new(2),
+            Player.new(48),
+            Player.new(59),
+        ] of Player
 
         # Creation d'une partie
         puts "[Test de creation d'une partie]-------------------------
              "
 
-        myGame : Game = Game.new(0, my_users)
+        myGame : Game = Game.new()
+        myGame.start(0, my_players)
 
         puts "  La partie a #{myGame.number_players} joueurs"
         puts "  La partie est en difficulte #{myGame.difficulty}
@@ -82,12 +83,13 @@ class Cerbere::TestDeck
             trahison.dis_card(carteTrahison)
         end
 
-        users = [
-            User.new(1),
-            User.new(2)
-        ] of User
+        players = [
+            Player.new(1),
+            Player.new(2)
+        ] of Player
 
-        game : Game = Game.new(0,users)
+        game : Game = Game.new()
+        game.start(0,players)
         game.board.players[1].type = TypeJoueur::CERBERE
 
         i = 0
@@ -131,18 +133,19 @@ class Cerbere::TestRageVitesse
     end
 
     def self.run() : Nil
-        users5 = [
-            User.new(2),
-            User.new(48),
-            User.new(59),
-            User.new(420),
-            User.new(69)
-        ] of User
+        players5 = [
+            Player.new(2),
+            Player.new(48),
+            Player.new(59),
+            Player.new(420),
+            Player.new(69)
+        ] of Player
 
         puts "[Test des actions modifier rage et vitesse]-------------------------
         "
 
-        game15 : Game = Game.new(1, users5)
+        game15 : Game = Game.new()
+        game15.start(1, players5)
 
         puts "  Creation de partie avec 5 joueurs et difficulté 1 :"
         afficher_piste(game15.board)
@@ -205,17 +208,18 @@ class Cerbere::TestPiocheDefausse
     end
 
     def self.run
-        users5 = [
-            User.new(13),
-            User.new(21),
-            User.new(34),
-            User.new(55),
-            User.new(89)
-        ] of User
+        players5 = [
+            Player.new(13),
+            Player.new(21),
+            Player.new(34),
+            Player.new(55),
+            Player.new(89)
+        ] of Player
 
         puts "[Test des actions de pioche et défausse]-------------------------
         "
-        my_game : Game = Game.new(0, users5)
+        my_game : Game = Game.new()
+        my_game.start(0, players5)
 
         my_game.board.players[2].type = TypeJoueur::CERBERE
         my_game.board.players[3].type = TypeJoueur::CERBERE
@@ -280,9 +284,11 @@ end
 
 class Cerbere::TestCartesAction
     def self.run
-        users = [User.new(1), User.new(2)] of User
+        players = [Player.new(1), Player.new(2)] of Player
 
-        my_game : Game = Game.new(0, users)
+        my_game : Game = Game.new()
+        my_game.start(0, players)
+
         my_game.board.players[1].type = TypeJoueur::CERBERE
         my_game.board.players[1].hand.reset(TypeJoueur::CERBERE)
 
@@ -320,11 +326,13 @@ end
 
 class Cerbere::TestBarque
     def self.run()
-        myUsers = [
-            User.new(1),
-            User.new(2)
-        ] of User
-        myGame : Game = Game.new(0,myUsers)
+        myplayers = [
+            Player.new(1),
+            Player.new(2)
+        ] of Player
+
+        myGame : Game = Game.new()
+        myGame.start(0,myplayers)
 
         puts "Barques : #{myGame.board.barques}"
 
@@ -343,23 +351,25 @@ class Cerbere::TestCouardise
     end
 
     def self.run()
-        myUsers = [
-            User.new(1),
-            User.new(2),
-            User.new(3),
-            User.new(4),
-            User.new(5),
-            User.new(6),
-            User.new(7)
-        ] of User
-        myGame : Game = Game.new(0,myUsers)
+        myplayers = [
+            Player.new(1),
+            Player.new(2),
+            Player.new(3),
+            Player.new(4),
+            Player.new(5),
+            Player.new(6),
+            Player.new(7)
+        ] of Player
+
+        myGame : Game = Game.new()
+        myGame.start(0,myplayers)
 
         myGame.board.players.each do |player|
             player.position = player.lobby_id
         end
         afficherPositions(myGame.board.players)
 
-        myUsers.each_index do |i|
+        myplayers.each_index do |i|
             puts "Joueur #{myGame.board.players[i].lobby_id} utilise Couardise"
             myGame.board.faire_action(myGame.board.players[i],Effet.new(Evenement::COUARDISE,0),[] of Int32)
             afficherPositions(myGame.board.players)
@@ -376,14 +386,16 @@ class Cerbere::TestPlateau
     end
 
     def self.run()
-        users = [
-            User.new(1),
-            User.new(2),
-            User.new(3),
-            User.new(4)
-        ] of User
+        players = [
+            Player.new(1),
+            Player.new(2),
+            Player.new(3),
+            Player.new(4)
+        ] of Player
 
-        game : Game = Game.new(0,users)
+        game : Game = Game.new()
+        game.start(0,players)
+
         game.board.players[0].position = 9
         game.board.players[1].position = 17
         game.board.players[2].position = 16
@@ -417,16 +429,18 @@ class Cerbere::TestSabotage
     end
 
     def self.run()
-        myUsers = [
-            User.new(1),
-            User.new(2),
-            User.new(3),
-            User.new(4),
-            User.new(5),
-            User.new(6),
-            User.new(7)
-        ] of User
-        myGame : Game = Game.new(0,myUsers)
+        myplayers = [
+            Player.new(1),
+            Player.new(2),
+            Player.new(3),
+            Player.new(4),
+            Player.new(5),
+            Player.new(6),
+            Player.new(7)
+        ] of Player
+
+        myGame : Game = Game.new()
+        myGame.start(0,myplayers)
 
         myGame.board.players.each do |player|
             player.position = 3

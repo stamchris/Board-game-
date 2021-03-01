@@ -1,8 +1,12 @@
 require "./player.cr"
+require "./Board.cr"
 
 class Cerbere::Game
 	getter players : Array(Player)
 	getter active = false
+	property board : Board = Board.new(0, [] of Player)
+    getter difficulty : Int32 = 0
+    getter number_players : Int32 = 0
 
 	def initialize()
 		@players = [] of Player
@@ -36,4 +40,9 @@ class Cerbere::Game
 	def check_colour(colour : Cerbere::Colour)
 		@players.all? { |player| player.colour != colour}
 	end
+
+    def start(@difficulty, @players)
+        @number_players = players.size
+        @board = Board.new(@difficulty, @players)
+    end
 end
