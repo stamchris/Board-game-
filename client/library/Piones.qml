@@ -8,16 +8,18 @@ Column {
     x: 5
     spacing: 2
 
-    // Data from main button
-    property int positionCounter: 0
-    property string cpy_player: " "
+    //[counter of pions]
+    property variant yArray: [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,1]
+    property variant xArray: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    property variant xCounter: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
-    function receiveCounterPiones(count, player) {
-        positionCounter = count
-        cpy_player = player
-        console.log("Player : " + player + " is in the case : " + count)
-        MovePions.findYposition(count, MovePions.choosePlayer(player))
-        MovePions.findXposition(count, MovePions.choosePlayer(player))
+    function receiveCounterPiones(count,player){
+        console.log("Player : "+ player+" is in the case : "+count)
+        MovePions.fixYArray(yArray,count)
+        MovePions.fixXCounter(xCounter,count)
+        MovePions.fixXArray(xArray,xCounter,count)
+        MovePions.findYposition(count,MovePions.choosePlayer(player),yArray)
+        MovePions.findXposition(count,MovePions.choosePlayer(player),xArray)
     }
 
     Pion {

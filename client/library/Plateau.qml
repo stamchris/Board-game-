@@ -5,8 +5,9 @@ import QtWebSockets 1.0
 
 
 Row {
-    /////// Send data to Piones.qml ////////////
-    signal notifyPiones(string counter, string player) // Declare signal
+
+    /////// Send data to Piones.qml from main.qml ////////////
+    signal notifyPiones ( string counter, string player) // Declare signal
 
     function receiveCounter(count,player){
         notifyPiones(count,player)
@@ -15,7 +16,7 @@ Row {
     Component.onCompleted: {
        notifyPiones.connect(pionesId.receiveCounterPiones) //connect button to Pion
     }
-    ////////////////////////////////////////////
+   //////////////////////////////////////////////
 
     id: rowId
     anchors.fill: parent
@@ -121,6 +122,7 @@ Row {
         height: parent.height
         border.color :"red"
         border.width: 1
+
 
         Row {
             id:rowSecondPlateauid
@@ -258,7 +260,7 @@ Row {
                 y : height
                 spacing : 3/100*parent.height
                 Rectangle {
-                    id: case16Id
+                    id: case17Id
                     x: 20/100 * parent.x
                     width: 80/100 * parent.width
                     height: 88/100*parent.height
@@ -267,7 +269,7 @@ Row {
                     border.width: 1
                 }
                 Rectangle {
-                    id: case17Id
+                    id: case16Id
                     width: 60/100* parent.width
                     height: 45/100* parent.height
                     color: "transparent"
@@ -337,7 +339,7 @@ Row {
                 id: caseBarqueId
                 width: 13/100*parent.width
                 height : 1/4*parent.height
-                y : 150/100*height
+                y : 130/100*height
                 color: "transparent"
                 border.color :"black"
                 border.width: 1

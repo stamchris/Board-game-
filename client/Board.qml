@@ -7,8 +7,8 @@ import "library"
 
 Window {
     id: window
-    width: Screen.width
-    height: Screen.height
+    width: 1600
+    height: 720
     visible: true
     property alias plateauImageId: plateauImageId
     title: qsTr("Cerbere")
@@ -405,7 +405,7 @@ Window {
                     onClicked: {
                         rectGroupsId.positionCounterPion1++
                         rectGroupsId.notifyPion(rectGroupsId.positionCounterPion1,"player1")
-                        console.log("clicked")
+
                     }
                    }
 
@@ -444,8 +444,48 @@ Window {
                     onClicked: {
                         rectGroupsId.positionCounterPion3++
                         rectGroupsId.notifyPion(rectGroupsId.positionCounterPion3,"player3")
-                        console.log("clicked")
+
                     }
+                   }
+
+                }
+                    Rectangle{
+                    id:pinkId
+                    color: "pink"
+                    height: parent.height /4
+                    width: parent.width /4
+                    anchors{top: blueId.bottom;left: redId.right}
+                    Text {
+                        id: textt
+                        text: "+1"
+                    }
+                   MouseArea{
+                       anchors.fill: parent
+                    onClicked: {
+                        rectGroupsId.positionCounterPion4++
+                        rectGroupsId.notifyPion(rectGroupsId.positionCounterPion4,"player4")
+
+                    }
+                   }
+
+                }
+
+                    Rectangle{
+                    id:greenId
+                    color: "green"
+                    height: parent.height /4
+                    width: parent.width /4
+                    anchors{top: parent.top;left: blueId.right}
+                    Text {
+                        id: texttt
+                        text: "+1"
+                    }
+                   MouseArea{
+                       anchors.fill: parent
+                        onClicked: {
+                            rectGroupsId.positionCounterPion5++
+                            rectGroupsId.notifyPion(rectGroupsId.positionCounterPion5,"player5")
+                         }
                    }
 
                 }
@@ -454,27 +494,7 @@ Window {
                     }
 
                 }
-//                 Button{
-//                     signal notifyPion ( string counter, string player) // Declare signal
-//                     property int count: -1
-//                     property string pion: " "
 
-//                    anchors.bottom: parent.bottom
-//                    anchors.right: parent.right
-//                    height: 100
-//                    width: 150
-//                    text: "+1"
-//                    onClicked: {
-//                        count++
-//                        notifyPion(count,"player2")
-//                        console.log("clicked")
-
-//                    }
-//                    Component.onCompleted: {
-//                       notifyPion.connect(boardId.receiveCounter) //connect button to Pion
-//                    }
-
-//                 }
 
 
                     }
