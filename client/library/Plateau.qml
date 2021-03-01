@@ -5,34 +5,32 @@ import QtWebSockets 1.0
 
 
 Row {
-
-    /////// Send data to Piones.qml  ////////////
-    signal notifyPiones ( string counter, string player) // Declare signal
+    /////// Send data to Piones.qml ////////////
+    signal notifyPiones(string counter, string player) // Declare signal
 
     function receiveCounter(count,player){
-         notifyPiones(count,player)
+        notifyPiones(count,player)
     }
 
     Component.onCompleted: {
        notifyPiones.connect(pionesId.receiveCounterPiones) //connect button to Pion
     }
- //////////////////////////////////////////////
+    ////////////////////////////////////////////
 
     id: rowId
     anchors.fill: parent
 
-
     Rectangle {
         id: firstPlateauid
-        width: 29/100* parent.width
+        width: parent.width*29/100
         color: "transparent"
         height: parent.height
-        border.color :"red"
+        border.color: "red"
         border.width: 1
 
-           Piones{
-               id:pionesId
-           }
+        Piones{
+            id:pionesId
+        }
 
         Row {
             id:rowFirstPlateauid
@@ -346,5 +344,4 @@ Row {
             }
         }       
     }
-
 }

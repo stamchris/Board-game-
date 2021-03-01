@@ -1,18 +1,22 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.10
 
-
-
 Item {
-    id:rowroot
-    anchors{ top: parent.top ; left: parent.left; topMargin: 3;leftMargin:0 }
-    width:parent.width
-
+    id: rowroot
+    width: parent.width
     property int vitesse: 3
+
+    anchors {
+        top: parent.top;
+        left: parent.left;
+        topMargin: 3;
+        leftMargin: 0
+    }
+
     signal changeVitesse()
 
-    function incrementVitesse(){
-        if (vitesse <6 )
+    function incrementVitesse() {
+        if (vitesse < 6)
             vitesse += 1
         else if (vitesse >= 6  && vitesse < 8)
         {

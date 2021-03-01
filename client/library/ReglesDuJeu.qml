@@ -9,9 +9,7 @@ Window {
     visible: true
     title: qsTr("Regles du jeu")
 
-
-
- ScrollView{
+    ScrollView {
         id: scrollViewId
         width: parent.width
         height: parent.height
@@ -20,21 +18,21 @@ Window {
 
         ListView {
             anchors.centerIn: parent
-            focus:true
+            focus: true
             orientation: Qt.Vertical
 
-            model: ListModel{
-                   ListElement{
-                        name:"../images/Regle1.jpg"
-                   }
-                   ListElement{
-                       name:"../images/Regle2.jpg"
-
-                   }
-                   ListElement{
-                        name:"../images/Regle3.jpg"
-                   }
+            model: ListModel {
+                ListElement {
+                    name:"../images/Regle1.jpg"
+                }
+                ListElement {
+                    name:"../images/Regle2.jpg"
+                }
+                ListElement {
+                    name:"../images/Regle3.jpg"
+                }
             }
+
             delegate: Rectangle {
                 width: parent.width
                 height: 1000
@@ -43,12 +41,11 @@ Window {
                 Image {
                     width: parent.width
                     height: parent.height
-                   id: regle1
-                   source: name
-               }
+                    id: regle1
+                    source: name
+                }
             }
-       }
-
- }
+        }
+    }
 }
 
