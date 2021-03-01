@@ -472,6 +472,7 @@ class TestPlayCard
     end
 
     def self.board(game : Game)
+	puts "Cerbere: Vitesse: #{game.board.vitesse_cerbere} Rage: #{game.board.rage_cerbere} Position: #{game.board.position_cerbere}"
         game.board.players.each do |player|
             if(player.type == TypeJoueur::MORT)
                 puts "Joueur#{player.lobby_id} est mort."
