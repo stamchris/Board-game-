@@ -1,6 +1,6 @@
-import QtQuick 2.12
-import QtQuick.Layouts 1.12
-import QtQuick.Controls 2.12
+import QtQuick 2.10
+import QtQuick.Layouts 1.10
+import QtQuick.Controls 2.10
 
 Item {
 	ColumnLayout {
@@ -13,6 +13,7 @@ Item {
 		TextField {
 			width: 220
 			id: serveurInput
+			text: "localhost:3000"
 		}
 
 		Label {
