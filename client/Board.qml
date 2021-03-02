@@ -17,10 +17,6 @@ Window {
             id: imgEffetDeCarteId
             source:"images/effetDeCarte.jpg"
     }
-    ImagePopUp{
-           id: imgRegleId
-           source:"images/effetDeCarte.jpg"
-    }
 
        Rectangle {
         id: menuBarId
@@ -258,7 +254,7 @@ Window {
                     id: user1InfoId
                     width: parent.width
                     height: 1/6* parent.height
-                    color: "blue"
+                    color: "Blue"
 
                     Text {
                         id: text1
@@ -274,7 +270,7 @@ Window {
                     id: user2InfoId
                     width: parent.width
                     height: 1/6* parent.height
-                    color: "#9f9fdf"
+                    color: "Cyan"
                     Text {
                         id: text2
                         height: parent.height
@@ -289,7 +285,7 @@ Window {
                     id:user3InfoId
                     width: parent.width
                     height: 1/6* parent.height
-                    color: "#c6d6e7"
+                    color: "Orange"
                     Text {
                         id: text3
                         height: parent.height
@@ -304,7 +300,7 @@ Window {
                     id:user4InfoId
                     width: parent.width
                     height: 1/6* parent.height
-                    color: "#40c9d9"
+                    color: "Green"
                     Text {
                         id: text4
                         height: parent.height
@@ -319,7 +315,7 @@ Window {
                     id:user5InfoId
                     width: parent.width
                     height: 1/6* parent.height
-                    color: "#26d08a"
+                    color: "Red"
                     Text {
                         id: text5
                         height: parent.height
@@ -334,7 +330,7 @@ Window {
                     id:user6InfoId
                     width: parent.width
                     height: 1/6* parent.height
-                    color: "#acde98"
+                    color: "Pink"
                     Text {
                         id: text6
                         height: parent.height

@@ -1,85 +1,81 @@
-function choosePlayer(player){
-
-switch (player) {
-    case'player1':
-           return player1
-    case'player2':
+function choosePlayer(player) {
+    switch(player) {
+        case'player1':
+            return player1
+        case'player2':
             return player2
-    case'player3':
+        case'player3':
             return player3
-    case'player4':
+        case'player4':
             return player4
-    case'player5':
+        case'player5':
             return player5
-    case'player6':
+        case'player6':
             return player6
-    case'player7':
+        case'player7':
             return player7
-    default :
-           console.log("wrong string player")
-           break;
+        default :
+            console.log("wrong string player")
+            break;
     }
 }
 
-function fixYArray(array,index){
-    if (array[index]>2 )
-    {
-       console.log("array = 0")
-       return array[index] = 0
-    }
-    else
+function fixYArray(array, index) {
+    if(array[index]>2 ) {
+        console.log("array = 0")
+        return array[index] = 0
+    } else {
         return array[index] += 1
+    }
 }
 
 
-function fixXCounter(array,index){
+function fixXCounter(array, index){
         if(array[index]<8)
             return array[index] += 1
         else
             return array[index] = 0
 }
 
-function fixXArray(xarray,xcounter,index){
-    if (xCounter[index]>4)
+function fixXArray(xarray, xCounter, index) {
+    if(xCounter[index]>4) {
         return xarray[index] = 1
-    else
+    } else {
         return xarray[index] = 0
-
+    }
 }
 
-function findYposition(count,choosePlayer,array){
-
-  switch(count){
+function findYposition(count, choosePlayer, array) {
+    switch(count) {
         case'0':
-            console.log("y is : "+case0Id.height +22*array[0])
-            return choosePlayer.yPosition = case0Id.height +22*array[0]
+            console.log("y is : " + case0Id.height + 22*array[0])
+            return choosePlayer.yPosition = case0Id.height + 22*array[0]
         case'1':
-            return   choosePlayer.yPosition = case1Id.y+22*array[1]
+            return   choosePlayer.yPosition = case1Id.y + 22*array[1]
         case'2':
-            return  choosePlayer.yPosition = case2Id.y+22*array[2]
+            return  choosePlayer.yPosition = case2Id.y + 22*array[2]
         case'3':
-            return  choosePlayer.yPosition = case3Id.y+22*array[3]
+            return  choosePlayer.yPosition = case3Id.y + 22*array[3]
         case'4':
-            return  choosePlayer.yPosition = case4Id.y+22*array[4]
+            return  choosePlayer.yPosition = case4Id.y + 22*array[4]
         case'5':
-            return  choosePlayer.yPosition = case5Id.y+22*array[5]
+            return  choosePlayer.yPosition = case5Id.y + 22*array[5]
         case'6':
-            return  choosePlayer.yPosition = case6Id.y+22*array[6]
+            return  choosePlayer.yPosition = case6Id.y + 22*array[6]
         case'7':
-            console.log("y7 = "+ case7Id.y)
-            return  choosePlayer.yPosition = case7Id.y+22*array[7]
+            return  choosePlayer.yPosition = case7Id.y + 22*array[7]
         case'8':
-            return  choosePlayer.yPosition = cases8_9id.y + case8Id.y+22*array[8]
+            return  choosePlayer.yPosition = cases8_9id.y + case8Id.y + 22*array[8]
         case'9':
-            return  choosePlayer.yPosition = cases8_9id.y + case9Id.y+22*array[9]
+            return  choosePlayer.yPosition = cases8_9id.y + case9Id.y + 22*array[9]
         case'10':
-            return  choosePlayer.yPosition = case10Id.y+22*array[10]
+            return  choosePlayer.yPosition = case10Id.y + 22*array[10]
         case'11':
-            return  choosePlayer.yPosition = cases11_12id.y + case11Id.y+22*array[11]
+            return  choosePlayer.yPosition = cases11_12id.y + case11Id.y + 22*array[11]
         case'12':
-            return  choosePlayer.yPosition = cases11_12id.y + case12Id.y+22*array[12]
+            return  choosePlayer.yPosition = cases11_12id.y + case12Id.y + 22*array[12]
         case'13':
-            return  choosePlayer.yPosition = case13Id.y+22*array[13]
+            return  choosePlayer.yPosition = case13Id.y + 22*array[13]
         case'14':
             return  choosePlayer.yPosition = cases14_15id.y + case14Id.y+22*array[14]
         case'15':
@@ -89,75 +85,74 @@ function findYposition(count,choosePlayer,array){
         case'17':
             return  choosePlayer.yPosition = cases16_17id.y + case17Id.y+22*array[17]
         case'18':
-            return  choosePlayer.yPosition = case18Id.y+22*array[18]
+            return  choosePlayer.yPosition = case18Id.y + 22*array[18]
         case'19':
-            return  choosePlayer.yPosition = case19Id.y+22*array[19]
+            return  choosePlayer.yPosition = case19Id.y + 22*array[19]
         case'20':
-            return  choosePlayer.yPosition = case20Id.y+22*array[20]
+            return  choosePlayer.yPosition = case20Id.y + 22*array[20]
         case'21':
-            return  choosePlayer.yPosition = case21Id.y+22*array[21]
+            return  choosePlayer.yPosition = case21Id.y + 22*array[21]
         case'22':
-            return  choosePlayer.yPosition = case22Id.y+22*array[22]
+            return  choosePlayer.yPosition = case22Id.y + 22*array[22]
         case'23':
-            return choosePlayer.yPosition = caseBarqueId.y+22*array[23]        
+            return choosePlayer.yPosition = caseBarqueId.y + 22*array[23]        
         default:
             console.log("no change..")
-  }
+    }
 }
 
-function findXposition(count,choosePlayer,array){
-
+function findXposition(count,choosePlayer,array) {
   switch(count){
         case'0':
-            return choosePlayer.xPosition = case0Id.x +22*array[0]
+            return choosePlayer.xPosition = case0Id.x + 22*array[0]
         case'1':
-            console.log("x = "+array[1])
-            return  choosePlayer.xPosition = case1Id.x+22*array[1]
+            console.log("x = " + array[1])
+            return  choosePlayer.xPosition = case1Id.x + 22*array[1]
         case'2':
-            return choosePlayer.xPosition = case2Id.x+22*array[2]
+            return choosePlayer.xPosition = case2Id.x + 22*array[2]
         case'3':
-            return choosePlayer.xPosition = case3Id.x+22*array[3]
+            return choosePlayer.xPosition = case3Id.x + 22*array[3]
         case'4':
-            return choosePlayer.xPosition = case4Id.x+22*array[4]
+            return choosePlayer.xPosition = case4Id.x + 22*array[4]
         case'5':
-            return choosePlayer.xPosition = case5Id.x+22*array[5]
+            return choosePlayer.xPosition = case5Id.x + 22*array[5]
         case'6':
-            return choosePlayer.xPosition = case6Id.x+22*array[6]
+            return choosePlayer.xPosition = case6Id.x + 22*array[6]
         case'7':
-            return choosePlayer.xPosition = secondPlateauid.x + case7Id.x+22*array[7]
+            return choosePlayer.xPosition = secondPlateauid.x + case7Id.x + 22*array[7]
         case'8':
-            return choosePlayer.xPosition = secondPlateauid.x + cases8_9id.x + case8Id.x+22*array[8]
+            return choosePlayer.xPosition = secondPlateauid.x + cases8_9id.x + case8Id.x + 22*array[8]
         case'9':
-            return choosePlayer.xPosition = secondPlateauid.x + cases8_9id.x + case9Id.x+22*array[9]
+            return choosePlayer.xPosition = secondPlateauid.x + cases8_9id.x + case9Id.x + 22*array[9]
         case'10':
-            return choosePlayer.xPosition = secondPlateauid.x + case10Id.x+22*array[10]
+            return choosePlayer.xPosition = secondPlateauid.x + case10Id.x + 22*array[10]
         case'11':
-            return choosePlayer.xPosition = secondPlateauid.x + cases11_12id.x + case11Id.x+22*array[11]
+            return choosePlayer.xPosition = secondPlateauid.x + cases11_12id.x + case11Id.x + 22*array[11]
         case'12':
-            return choosePlayer.xPosition = secondPlateauid.x + cases11_12id.x +  case12Id.x+22*array[12]
+            return choosePlayer.xPosition = secondPlateauid.x + cases11_12id.x +  case12Id.x + 22*array[12]
         case'13':
-            return choosePlayer.xPosition = thirdPlateauid.x + case13Id.x+22*array[13]
+            return choosePlayer.xPosition = thirdPlateauid.x + case13Id.x + 22*array[13]
         case'14':
-            return choosePlayer.xPosition = thirdPlateauid.x + cases14_15id.x + case14Id.x+22*array[14]
+            return choosePlayer.xPosition = thirdPlateauid.x + cases14_15id.x + case14Id.x + 22*array[14]
         case'15':
-            return choosePlayer.xPosition = thirdPlateauid.x + cases14_15id.x + case15Id.x+22*array[15]
+            return choosePlayer.xPosition = thirdPlateauid.x + cases14_15id.x + case15Id.x + 22*array[15]
         case'16':
-            return choosePlayer.xPosition = thirdPlateauid.x + cases16_17id.x + case16Id.x+22*array[16]
+            return choosePlayer.xPosition = thirdPlateauid.x + cases16_17id.x + case16Id.x + 22*array[16]
         case'17':
-            return choosePlayer.xPosition = thirdPlateauid.x + cases16_17id.x + case17Id.x+22*array[17]
+            return choosePlayer.xPosition = thirdPlateauid.x + cases16_17id.x + case17Id.x + 22*array[17]
         case'18':
-            return choosePlayer.xPosition = endPlateauId.x + case18Id.x+22*array[18]
+            return choosePlayer.xPosition = endPlateauId.x + case18Id.x + 22*array[18]
         case'19':
-            return choosePlayer.xPosition = endPlateauId.x + case19Id.x+22*array[19]
+            return choosePlayer.xPosition = endPlateauId.x + case19Id.x + 22*array[19]
         case'20':
-            return choosePlayer.xPosition = endPlateauId.x + case20Id.x+22*array[20]
+            return choosePlayer.xPosition = endPlateauId.x + case20Id.x + 22*array[20]
         case'21':
-            return choosePlayer.xPosition = endPlateauId.x + case21Id.x+22*array[21]
+            return choosePlayer.xPosition = endPlateauId.x + case21Id.x + 22*array[21]
         case'22':
-            return choosePlayer.xPosition = endPlateauId.x + case22Id.x+22*array[22]
+            return choosePlayer.xPosition = endPlateauId.x + case22Id.x + 22*array[22]
         case'23':
-            return choosePlayer.xPosition = endPlateauId.x + caseBarqueId.x+22*array[23]
+            return choosePlayer.xPosition = endPlateauId.x + caseBarqueId.x + 22*array[23]
         default:
             console.log("no change..")
-  }
+    }
 }

@@ -13,13 +13,13 @@ Column {
     property variant xArray: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     property variant xCounter: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
-    function receiveCounterPiones(count,player){
-        console.log("Player : "+ player+" is in the case : "+count)
-        MovePions.fixYArray(yArray,count)
-        MovePions.fixXCounter(xCounter,count)
-        MovePions.fixXArray(xArray,xCounter,count)
-        MovePions.findYposition(count,MovePions.choosePlayer(player),yArray)
-        MovePions.findXposition(count,MovePions.choosePlayer(player),xArray)
+    function receiveCounterPiones(count, player){
+        console.log("Player : " + player + " is in the case : " + count)
+        MovePions.fixYArray(yArray, count)
+        MovePions.fixXCounter(xCounter, count)
+        MovePions.fixXArray(xArray,xCounter, count)
+        MovePions.findYposition(count, MovePions.choosePlayer(player), yArray)
+        MovePions.findXposition(count, MovePions.choosePlayer(player), xArray)
     }
 
     Pion {
