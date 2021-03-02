@@ -1,4 +1,4 @@
-require "./Hand.cr"
+require "./hand.cr"
 
 require "json"
 require "kemal"
