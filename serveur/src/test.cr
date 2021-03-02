@@ -459,7 +459,7 @@ class Cerbere::TestSabotage
     end
 end
 
-class TestPlayCard
+class Cerbere::TestPlayCard
     def self.help()
         puts "CerbTerm version 0.0.0.1\n" +
                 "\thelp: Montre cette aide\n" +
@@ -707,16 +707,17 @@ class TestPlayCard
     end
 
     def self.run()
-        users = [
-            User.new(1),
-            User.new(2),
-            User.new(3),
-            User.new(4),
-            User.new(5),
-            User.new(6),
-            User.new(7)
-        ] of User
-        game : Game = Game.new(0,users)
+        players = [
+            Player.new(1),
+            Player.new(2),
+            Player.new(3),
+            Player.new(4),
+            Player.new(5),
+            Player.new(6),
+            Player.new(7)
+        ] of Player
+        game : Game = Game.new()
+        game.start(0, players)
         help()
         10.times do
             game.board.players.each do |player|
@@ -762,12 +763,13 @@ class TestPlayCard
     end
 end
 
-Cerbere::Test.run
-Cerbere::TestDeck.run
-Cerbere::TestBarque.run
-Cerbere::TestCouardise.run
-Cerbere::TestSabotage.run
-Cerbere::TestPlateau.run
-Cerbere::TestRageVitesse.run
-Cerbere::TestCartesAction.run
-Cerbere::TestPiocheDefausse.run
+#Cerbere::Test.run
+#Cerbere::TestDeck.run
+#Cerbere::TestBarque.run
+#Cerbere::TestCouardise.run
+#Cerbere::TestSabotage.run
+#Cerbere::TestPlateau.run
+#Cerbere::TestRageVitesse.run
+#Cerbere::TestCartesAction.run
+#Cerbere::TestPiocheDefausse.run
+Cerbere::TestPlayCard.run
