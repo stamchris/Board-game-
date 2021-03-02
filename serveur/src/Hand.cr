@@ -7,8 +7,8 @@ class Hand
     def reset(type : TypeJoueur)
         if type == TypeJoueur::AVENTURIER
             @action = CARTES_ACTION_SURVIVANT*1
-        else 
+        else
             @action = CARTES_ACTION_CERBERE*1
-        end 
+        end
     end
 end

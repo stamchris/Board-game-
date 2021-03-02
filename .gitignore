@@ -1,7 +1,8 @@
-serveur/bin
-serveur/lib
-.qmake.stash
+serveur/bin/
+serveur/lib/
+shard.lock
 Makefile
 *.o
-cerbere
 cerbere-serveur
+cerbere
+.qmake.stash

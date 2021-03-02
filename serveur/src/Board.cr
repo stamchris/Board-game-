@@ -1,10 +1,10 @@
 require "./Node.cr"
-require "./Player.cr"
+require "./player.cr"
 require "./board_0.cr"
+require "./deck.cr"
 
 
-
-class Board
+class Cerbere::Board
     getter nodes : Array(Node)
     property difficulty : Int32
     property barques : Array(Int32) = [1, 2, 3].shuffle
@@ -16,7 +16,7 @@ class Board
     property pioche_survie : DeckSurvie = DeckSurvie.new
     property pioche_trahison : DeckTrahison = DeckTrahison.new
 
-    def initialize(difficulty : Int32, users : Array(User))
+    def initialize(difficulty : Int32, @players)
         # Choix du plateau
         # Seulement difficulte 0 disponible pour l'instant
         case difficulty
@@ -30,15 +30,10 @@ class Board
             @nodes = BOARD_0
         end
 
-        # Creation d'un Player pour chaque User
-        users.each do |user|
-            @players << Player.new(user.user_id)
-        end
-
         # Initialisation des variables de jeu
-        @rage_cerbere = 8 - users.size
+        @rage_cerbere = 8 - @players.size
         @vitesse_cerbere = 3 + difficulty
-        @nombre_pions_jauge = 7 - users.size
+        @nombre_pions_jauge = 7 - @players.size
         @difficulty = difficulty
     end
 

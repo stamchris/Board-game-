@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/plateau.png</file>
+        <file>images/effetDeCarte.jpg</file>
+        <file>images/cerbere_logo.png</file>
+        <file>images/Regle1.jpg</file>
+        <file>images/Regle3.jpg</file>
+        <file>images/Regle2.jpg</file>
+        <file>images/Carte4.png</file>
+        <file>images/Carte3.png</file>
+        <file>images/Carte2.png</file>
+        <file>images/Carte1.png</file>
+        <file>images/client_plateau-redimensionné.png</file>
+    </qresource>
+</RCC>
