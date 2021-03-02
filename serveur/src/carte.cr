@@ -19,7 +19,6 @@ class Carte
 end
 
 class CarteAction < Carte
-	property actif : Bool = true
 end
 
 class CarteActionSurvivant < CarteAction
@@ -134,7 +133,7 @@ CARTES_ACTION_SURVIVANT = [
 		[Choix.new(Effet.new(Evenement::CHANGER_RAGE,1),
 			[Effet.new(Evenement::PIOCHER_MOI,2)]),
 		Choix.new(Effet.new(Evenement::CHANGER_RAGE,1),
-			[Effet.new(Evenement::PIOCHER_MOI,1),Effet.new(Evenement::PIOCHER_ALLIE,1),Effet.new(Evenement::PIOCHER_ALLIE,1)])]),
+			[Effet.new(Evenement::PIOCHER_MOI,1),Effet.new(Evenement::PIOCHER_ALLIE,2)])]),
 
 	CarteActionSurvivant.new(
 		[Choix.new(Effet.new(Evenement::CHANGER_RAGE,1),
