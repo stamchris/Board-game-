@@ -467,14 +467,16 @@ class Cerbere::TestHunting
     end
 
     def self.run()
-        users = [
-            User.new(1),
-            User.new(2),
-            User.new(3),
-            User.new(4)
-        ] of User
+        players = [
+            Player.new(1),
+            Player.new(2),
+            Player.new(3),
+            Player.new(4)
+        ] of Player
 
-        game : Game = Game.new(0,users)
+        game : Game = Game.new()
+        game.start(0, players)
+
         game.board.players[0].position = 1
         game.board.players[1].position = 4
         game.board.players[2].position = 5
@@ -1167,4 +1169,4 @@ end
 #Cerbere::TestPiocheDefausse.run
 #Cerbere::TestHunting.run
 #Cerbere::TestPartie.run
-Cerbere::TestPlayCard.run
+#Cerbere::TestPlayCard.run
