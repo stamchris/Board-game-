@@ -1,4 +1,4 @@
-require "./Node.cr"
+require "./node.cr"
 
 BOARD_0 = [
 

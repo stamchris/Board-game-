@@ -1,5 +1,5 @@
 require "./player.cr"
-require "./Board.cr"
+require "./board.cr"
 
 class Cerbere::Game
 	getter players : Array(Player)
