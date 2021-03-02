@@ -58,7 +58,8 @@ class Cerbere::Board
 
           if (moi.position <= position_cerbere)
             # appel à une fonction capture pour changer le rôle du joueur et renvoyer Cerbère au dernier checkpoint
-            puts "Le joueur #{moi.lobby_id} s'est fait attrapé par Cerbère !"
+            catch_survivor(moi)
+            #puts "Le joueur #{moi.lobby_id} s'est fait attrapé par Cerbère !"
             return
           end
 
@@ -313,15 +314,15 @@ class Cerbere::Board
     #DEPLACER_CERBERE # Cerbère se déplace sur le plateau
 
 
-    def index_capture(tab_players : Array(Player),pos_cer : Int32, finalpos : Int32)
+    def index_capture(finalpos : Int32)
 
         final = finalpos
-        first_pos = pos_cer
+        first_pos = @position_cerbere
 
         i = 0
         min = nodes.size - 1
         capture = 0
-        tab_players.each do |p|
+        @players.each do |p|
             if ((final >= p.position) && (first_pos < p.position))
                 if (p.position < min )
                     min = p.position
@@ -340,14 +341,46 @@ class Cerbere::Board
     end
 
     def lastcheckpoint(pos_cerb : Int32)
-        i = pos_cerb
+        i = pos_cerb - 1
         while i > 0 && !nodes[i].checkpoint_cerbere
             i -= 1
         end
-
         @position_cerbere = i
-
     end
+
+    def catch_survivor(pl : Player)
+        if(pl.type == TypeJoueur::MORT)
+            return
+        end
+    
+        defausser_tout(pl)
+        dernier_plateau = nodes.size - 1
+        while nodes[dernier_plateau].effect.evenement != Evenement::REVELER_BARQUE
+              dernier_plateau -= 1
+        end
+        nb_aventuriers = 7 - @nombre_pions_jauge
+    
+        if nb_aventuriers <= 2 || pl.position >= dernier_plateau
+            pl.type = TypeJoueur::MORT
+            
+        else
+            pl.type = TypeJoueur::CERBERE
+            action_recuperer_carte(pl)
+    
+            if pl.position <= 2
+                action_piocher_moi(pl,2)
+            elsif pl.position <= 6
+                action_piocher_moi(pl,1)
+            end
+        end
+        pl.position = 0
+        puts "Le joueur #{pl.lobby_id} s'est fait attrapé par Cerbère !"  
+    
+        action_changer_vitesse(-@vitesse_cerbere)
+        @nombre_pions_jauge += 1
+        action_changer_rage(-@rage_cerbere)
+    end
+
 
     def action_move_cerbere(force : Int32)
         size_board = nodes.size
@@ -358,34 +391,37 @@ class Cerbere::Board
             pos_max = tmp
         elsif ((force < 0) && (tmp >= 0))
             pos_max = tmp
-        else
-            raise "Sortie du plateau !!"
         end
-        #Si on a avance de 1 et qu'on a des joueurs sur la case alors on lance la fonction
-        #capture ('new cerbere = aventurier sur case')
-
-        capturable = index_capture(@players,@position_cerbere,pos_max)
-
+        
+        capturable = index_capture(pos_max)
+       
         if(capturable != -1)
-            i = 0
             @players.each do |p|
                 if (p.position == capturable) #on va capturer les joueurs
-                    #Créer une méthode capture qui fait les effets suivants :
-                        #Checker si c'est l'un des 2 aventuriers alors ils sont éliminer
-                        #Savoir où on le capture pour savoir si il pioche une ou 2 ou 0
-                        #Defausser carte action, piocher les carte action coté cerbere
-                        #changer la position a 0 du joueur et changer son type
-                    p.type = TypeJoueur::CERBERE #cerbere
-                    p.position = 0 #on met les joueurs a 0
+                    catch_survivor(p)
                 end
-                i += 1
             end
-            pos_cerb = @position_cerbere + capturable
-            lastcheckpoint(pos_cerb)
+            lastcheckpoint(capturable) 
         else
             @position_cerbere = tmp
         end
+
+        return capturable
     end
+
+    def cerbere_hunting()
+        if (@rage_cerbere == 10) 
+            puts "Cerbere part en chasse"
+            catch = action_move_cerbere(@vitesse_cerbere)
+            if(catch == -1)
+                action_changer_vitesse(1)
+                action_changer_rage(-@rage_cerbere)
+            end 
+        else
+            puts "Cerbere ne part pas en chasse ce tour"
+        end
+    end
+
 
 
     #DEPLACER_AUTRE # Le joueur déplace d'autres survivants
@@ -491,6 +527,14 @@ class Cerbere::Board
         end
     end
 
+    def defausser_tout(p : Player)
+        index_def = p.hand.bonus.size - 1
+        while index_def >= 0
+           defausser(p,index_def)
+           index_def -= 1
+        end
+    end
+
     def action_defausser_survie(joueur : Player, nombre : Int32, args : Array(Int32)) : Nil
         args.each do |id|
             if id == joueur.lobby_id
@@ -550,8 +594,8 @@ class Cerbere::Board
 
         if @vitesse_cerbere > 8
             @vitesse_cerbere = 8
-        elsif @vitesse_cerbere < 3
-            @vitesse_cerbere = 3
+        elsif @vitesse_cerbere < 3 #difficulty ici a la place de 3
+            @vitesse_cerbere = 3 #difficulty ici a la place de 3
         end
     end
 
