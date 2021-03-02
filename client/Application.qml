@@ -1,7 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Layouts 1.12
-import QtQuick.Controls 2.12
-import QtWebSockets 1.12
+import QtQuick 2.10
+import QtQuick.Layouts 1.10
+import QtQuick.Controls 2.10
+import QtWebSockets 1.0
 
 ApplicationWindow {
 	id: app
@@ -23,7 +23,9 @@ ApplicationWindow {
 		function switchMessage(message) {
 			switch(message.type) {
 				case "newPlayer":
-					game.players.push({name:message.name})
+					game.players.push(message.player)
+					game.players = game.players
+					//Used to update the var status
 					break
 				case "welcome":
 					game.players = message.players
@@ -31,11 +33,17 @@ ApplicationWindow {
 					loader.push(game)
 					break
 				case "starter":
-					game.state = "start"
+					game.view = "Board"
+					break
+				case "updatePlayer":
+					game.players = game.players.map( player =>
+						(player.name==message.player.name) ?
+							message.player
+						:
+							player
+						)
 					break
 			}
-			game.players = game.players
-			//Used to update the var status
 		}
 
 		function connect(serveur, login) {

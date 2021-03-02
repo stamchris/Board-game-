@@ -1,21 +1,22 @@
-require "./Player.cr"
+require "./player.cr"
 require "./deck.cr"
-require "./Game.cr"
+require "./game.cr"
 
-class Test
+class Cerbere::Test
     def self.run
         # Tableau d'utilisateurs fictifs provenant du lobby
-        my_users = [
-            User.new(2),
-            User.new(48),
-            User.new(59),
-        ] of User
+        my_players = [
+            Player.new(2),
+            Player.new(48),
+            Player.new(59),
+        ] of Player
 
         # Creation d'une partie
         puts "[Test de creation d'une partie]-------------------------
              "
 
-        myGame : Game = Game.new(0, my_users)
+        myGame : Game = Game.new()
+        myGame.start(0, my_players)
 
         puts "  La partie a #{myGame.number_players} joueurs"
         puts "  La partie est en difficulte #{myGame.difficulty}
@@ -58,7 +59,7 @@ class Test
     end
 end
 
-class TestDeck
+class Cerbere::TestDeck
     def self.afficher_les_cartes_de(joueur : Player)
         puts "Cartes de Joueur #{joueur.lobby_id}:"
         joueur.hand.bonus.each_index do |index|
@@ -82,12 +83,13 @@ class TestDeck
             trahison.dis_card(carteTrahison)
         end
 
-        users = [
-            User.new(1),
-            User.new(2)
-        ] of User
+        players = [
+            Player.new(1),
+            Player.new(2)
+        ] of Player
 
-        game : Game = Game.new(0,users)
+        game : Game = Game.new()
+        game.start(0,players)
         game.board.players[1].type = TypeJoueur::CERBERE
 
         i = 0
@@ -113,7 +115,7 @@ class TestDeck
     end
 end
 
-class TestRageVitesse
+class Cerbere::TestRageVitesse
     def self.afficher_piste(board : Board) : Nil
         s : String = " "
 
@@ -131,18 +133,19 @@ class TestRageVitesse
     end
 
     def self.run() : Nil
-        users5 = [
-            User.new(2),
-            User.new(48),
-            User.new(59),
-            User.new(420),
-            User.new(69)
-        ] of User
+        players5 = [
+            Player.new(2),
+            Player.new(48),
+            Player.new(59),
+            Player.new(420),
+            Player.new(69)
+        ] of Player
 
         puts "[Test des actions modifier rage et vitesse]-------------------------
         "
 
-        game15 : Game = Game.new(1, users5)
+        game15 : Game = Game.new()
+        game15.start(1, players5)
 
         puts "  Creation de partie avec 5 joueurs et difficulté 1 :"
         afficher_piste(game15.board)
@@ -195,7 +198,7 @@ class TestRageVitesse
     end
 end
 
-class TestPiocheDefausse
+class Cerbere::TestPiocheDefausse
     def self.afficher_les_cartes_de(joueur : Player)
         puts "Cartes de Joueur #{joueur.lobby_id}:"
         joueur.hand.bonus.each_index do |index|
@@ -205,17 +208,18 @@ class TestPiocheDefausse
     end
 
     def self.run
-        users5 = [
-            User.new(13),
-            User.new(21),
-            User.new(34),
-            User.new(55),
-            User.new(89)
-        ] of User
+        players5 = [
+            Player.new(13),
+            Player.new(21),
+            Player.new(34),
+            Player.new(55),
+            Player.new(89)
+        ] of Player
 
         puts "[Test des actions de pioche et défausse]-------------------------
         "
-        my_game : Game = Game.new(0, users5)
+        my_game : Game = Game.new()
+        my_game.start(0, players5)
 
         my_game.board.players[2].type = TypeJoueur::CERBERE
         my_game.board.players[3].type = TypeJoueur::CERBERE
@@ -278,11 +282,13 @@ class TestPiocheDefausse
     end
 end
 
-class TestCartesAction
+class Cerbere::TestCartesAction
     def self.run
-        users = [User.new(1), User.new(2)] of User
+        players = [Player.new(1), Player.new(2)] of Player
 
-        my_game : Game = Game.new(0, users)
+        my_game : Game = Game.new()
+        my_game.start(0, players)
+
         my_game.board.players[1].type = TypeJoueur::CERBERE
         my_game.board.players[1].hand.reset(TypeJoueur::CERBERE)
 
@@ -318,13 +324,15 @@ class TestCartesAction
     end
 end
 
-class TestBarque
+class Cerbere::TestBarque
     def self.run()
-        myUsers = [
-            User.new(1),
-            User.new(2)
-        ] of User
-        myGame : Game = Game.new(0,myUsers)
+        myplayers = [
+            Player.new(1),
+            Player.new(2)
+        ] of Player
+
+        myGame : Game = Game.new()
+        myGame.start(0,myplayers)
 
         puts "Barques : #{myGame.board.barques}"
 
@@ -335,7 +343,7 @@ class TestBarque
     end
 end
 
-class TestCouardise
+class Cerbere::TestCouardise
     def self.afficherPositions(players : Array(Player))
         players.each do |player|
             puts "Joueur #{player.lobby_id}: #{player.position}"
@@ -343,23 +351,25 @@ class TestCouardise
     end
 
     def self.run()
-        myUsers = [
-            User.new(1),
-            User.new(2),
-            User.new(3),
-            User.new(4),
-            User.new(5),
-            User.new(6),
-            User.new(7)
-        ] of User
-        myGame : Game = Game.new(0,myUsers)
+        myplayers = [
+            Player.new(1),
+            Player.new(2),
+            Player.new(3),
+            Player.new(4),
+            Player.new(5),
+            Player.new(6),
+            Player.new(7)
+        ] of Player
+
+        myGame : Game = Game.new()
+        myGame.start(0,myplayers)
 
         myGame.board.players.each do |player|
             player.position = player.lobby_id
         end
         afficherPositions(myGame.board.players)
 
-        myUsers.each_index do |i|
+        myplayers.each_index do |i|
             puts "Joueur #{myGame.board.players[i].lobby_id} utilise Couardise"
             myGame.board.faire_action(myGame.board.players[i],Effet.new(Evenement::COUARDISE,0),[] of Int32)
             afficherPositions(myGame.board.players)
@@ -367,7 +377,7 @@ class TestCouardise
     end
 end
 
-class TestPlateau
+class Cerbere::TestPlateau
     def self.afficher_positions(joueurs : Array(Player))
         puts "Positions des joueurs :"
         joueurs.each do |joueur|
@@ -376,14 +386,16 @@ class TestPlateau
     end
 
     def self.run()
-        users = [
-            User.new(1),
-            User.new(2),
-            User.new(3),
-            User.new(4)
-        ] of User
+        players = [
+            Player.new(1),
+            Player.new(2),
+            Player.new(3),
+            Player.new(4)
+        ] of Player
 
-        game : Game = Game.new(0,users)
+        game : Game = Game.new()
+        game.start(0,players)
+
         game.board.players[0].position = 9
         game.board.players[1].position = 17
         game.board.players[2].position = 16
@@ -409,7 +421,7 @@ class TestPlateau
     end
 end
 
-class TestSabotage
+class Cerbere::TestSabotage
     def self.afficherEtat(players : Array(Player))
         players.each do |player|
             puts "Joueur #{player.lobby_id}: position: #{player.position} n_cards: #{player.hand.bonus.size()}"
@@ -417,16 +429,18 @@ class TestSabotage
     end
 
     def self.run()
-        myUsers = [
-            User.new(1),
-            User.new(2),
-            User.new(3),
-            User.new(4),
-            User.new(5),
-            User.new(6),
-            User.new(7)
-        ] of User
-        myGame : Game = Game.new(0,myUsers)
+        myplayers = [
+            Player.new(1),
+            Player.new(2),
+            Player.new(3),
+            Player.new(4),
+            Player.new(5),
+            Player.new(6),
+            Player.new(7)
+        ] of Player
+
+        myGame : Game = Game.new()
+        myGame.start(0,myplayers)
 
         myGame.board.players.each do |player|
             player.position = 3
@@ -445,12 +459,312 @@ class TestSabotage
     end
 end
 
-Test.run
-TestDeck.run
-TestBarque.run
-TestCouardise.run
-TestSabotage.run
-TestPlateau.run
-TestRageVitesse.run
-TestCartesAction.run
-TestPiocheDefausse.run
+class TestPlayCard
+    def self.help()
+        puts "CerbTerm version 0.0.0.1\n" +
+                "\thelp: Montre cette aide\n" +
+                "\tboard: Affiche l'état du plateau\n" +
+                "\thand [type [carte [choix]]]: Montre les cartes dans votre main\n" +
+                "\tplay <type> <carte> <choix>: Jouer une carte\n" +
+                "\tend: Terminer votre tour\n" +
+                "\n" +
+                "type est soit action soit survie, carte et choix sont des entiers\n"
+    end
+
+    def self.board(game : Game)
+        game.board.players.each do |player|
+            if(player.type == TypeJoueur::MORT)
+                puts "Joueur#{player.lobby_id} est mort."
+            else
+                action : String = ""
+                player.hand.action.each do |active|
+                    if(active)
+                        action += 'O'
+                    else
+                        action += 'X'
+                    end
+                end
+                player_type : String
+                bonus_type : String
+                if(player.type == TypeJoueur::AVENTURIER)
+                    player_type = "Aventurier"
+                    bonus_type = "Survie"
+                else
+                    player_type = "Cerbere"
+                    bonus_type = "Trahison"
+                end
+                puts "Joueur#{player.lobby_id} (#{player_type}): " +
+                        "Position: #{player.position}, " +
+                        "Nb cartes #{bonus_type}: #{player.hand.bonus.size()}, " +
+                        "Cartes Action: #{action}"
+            end
+        end
+    end
+
+    def self.show_effect(tab : Int, effect : Effet)
+        puts ("\t"*tab)+"#{effect.evenement}, #{effect.force}"
+    end
+
+    def self.show_choice(tab : Int, game : Game, player : Player, choice : Choix)
+        puts ("\t"*tab)+"Coût (#{game.board.can_pay_cost(player,choice.cout) ? "utilisable" : "inutilisable"}):"
+        show_effect(tab+1, choice.cout)
+        puts ("\t"*tab)+"Effets:"
+        choice.effets.each do |effect|
+            show_effect(tab+1, effect)
+        end
+    end
+
+    def self.show_action_card(tab : Int, game : Game, player : Player, card : CarteAction)
+        puts ("\t"*tab)+"Choix: "
+        card.choix.each do |choice|
+            show_choice(tab+1, game, player, choice)
+        end
+    end
+
+    def self.show_bonus_card(tab : Int, game : Game, player : Player, card : CarteBonus)
+        puts ("\t"*tab)+"Choix de #{card.name}:"
+        card.choix.each do |choice|
+            show_choice(tab+1, game, player, choice)
+        end
+    end
+
+    def self.show_all_action(game : Game, player : Player, action : Bool)
+        puts "Vos cartes Action#{action ? " (Vous avez déjà utilisé une carte Action pendant ce tour)" : ""}:"
+        player.hand.action.each_index do |i|
+            puts "#{i}:"
+            show_action_card(1, game, player, Hand.actions_of(player.type)[i])
+        end
+    end
+
+    def self.show_all_bonus(game : Game, player : Player)
+        puts "Vos cartes #{player.type == TypeJoueur::AVENTURIER ? "Survie" : "Trahison"}: "
+        if(player.hand.bonus.empty?)
+            puts "\t(Vous n'en n'avez pas)"
+        else
+            player.hand.bonus.each do |bonus_card|
+                show_bonus_card(1, game, player, bonus_card)
+            end
+        end
+    end
+
+    def self.hand(game : Game, player : Player, args : Array(String), action : Bool)
+        if(args.size() == 1) # Pas d'arguments: On montre tout
+            show_all_action(game, player, action)
+            show_all_bonus(game, player)
+        else
+            if(args[1] == "action")
+                if(args.size() == 2) # Un seul argument: On montre un seul type
+                    show_all_action(game, player, action)
+                else
+                    arg? : Int32? = args[2].to_i?()
+                    if(arg?.nil?() || arg? < 0 || arg? >= 4)
+                        puts "Argument n°2 \"#{args[2]}\" pour la commande hand est invalide"
+                        return
+                    end
+                    arg : Int32 = arg?.to_i()
+                    action_card : CarteAction = Hand.actions_of(player.type)[arg]
+                    if(args.size() == 3) # Deux arguments: On montre une carte
+                        show_action_card(0, game, player, action_card)
+                    else
+                        arg? = args[3].to_i?()
+                        if(arg?.nil?() || arg? < 0 || arg? >= action_card.choix.size())
+                            puts "Argument n°3 \"#{args[3]}\" pour la commande hand est invalide"
+                            return
+                        end
+                        arg = arg?.to_i()
+                        choice : Choix = action_card.choix[arg]
+                        show_choice(0, game, player, choice)
+                    end
+                end
+            elsif(args[1] == "bonus")
+                if(args.size() == 2) # Un seul argument: On montre un seul type
+                    show_all_bonus(game, player)
+                else
+                    arg? = args[2].to_i?()
+                    if(arg?.nil?() || arg? < 0 || arg? >= player.hand.bonus.size())
+                        puts "Argument n°2 \"#{args[2]}\" pour la commande hand est invalide"
+                        return
+                    end
+                    arg = arg?.to_i()
+                    bonus_card = player.hand.bonus[arg]
+                    if(args.size() == 3) # Deux arguments: On montre une carte
+                        show_bonus_card(0, game, player, bonus_card)
+                    else
+                        arg? = args[3].to_i?()
+                        if(arg?.nil?() || arg? < 0 || arg? >= bonus_card.choix.size())
+                            puts "Argument n°3 \"#{args[3]}\" pour la commande hand est invalide"
+                            return
+                        end
+                        arg = arg?.to_i()
+                        choice = bonus_card.choix[arg]
+                        show_choice(0, game, player, choice)
+                    end
+                end
+            else
+                puts "Argument n°1 \"#{args[1]}\" pour la commande hand est invalide."
+            end
+        end
+    end
+
+    def self.get_args_from_gets()
+        input? : String? = gets
+        input : String = input?.nil?() ? "" : input?.to_s()
+        args : Array(String) = input.split(' ')
+        return args
+    end
+
+    def self.get_args_for_effect(game : Game, player : Player, effect : Effet, strict : Bool) : Array(Int32)
+        loop do
+            print "Arguments pour "
+            show_effect(0, effect)
+            effect_strargs : Array(String) = get_args_from_gets()
+            effect_args : Array(Int32) = [] of Int32
+            effect_strargs.each do |strarg|
+                nilarg : Int32? = strarg.to_i?()
+                effect_args.push(nilarg.nil?() ? -1 : nilarg.to_i())
+            end
+            if(game.board.check_args_are_valid(player, effect, effect_args, strict))
+                return effect_args
+            else
+                puts "Arguments invalides"
+            end
+        end
+    end
+
+    def self.play(game : Game, player : Player, args : Array(String), action : Bool) : Bool
+        if(args.size() != 4)
+            puts "Nombre d'arguments incorrect"
+            return action
+        end
+
+        card_args : Array(Array(Int32))
+
+        action_card : Bool
+        if(args[1] == "action")
+            if(action)
+                puts "Vous avez déjà joué une carte Action durant ce tour."
+                return action
+            end
+            action_card = true
+        elsif(args[1] == "bonus")
+            action_card = false
+        else
+            puts "Argument n°1 \"#{args[1]}\" pour la commande play est invalide."
+            return action
+        end
+
+        arg? : Int32? = args[2].to_i?()
+        if(arg?.nil?() || arg? < 0 || (action_card && arg? >= 4) ||
+           (!action_card && arg? >= player.hand.bonus.size()))
+            puts "Argument n°2 \"#{args[2]}\" pour la commande play est invalide."
+            return action
+        end
+        index_card : Int32 = arg?.to_i()
+
+        card : Carte
+        if(action_card)
+            card = Hand.actions_of(player.type)[index_card]
+            if(!player.hand.action[index_card])
+                puts "La carte Action #{index_card} que vous essayez de jouer est inactive."
+                return action
+            end
+        else
+            card = player.hand.bonus[index_card]
+        end
+
+        arg? = args[3].to_i?()
+        if(arg?.nil?() || arg? < 0 || arg? >= card.choix.size())
+            puts "Argument n°3 \"#{args[3]}\" pour la commande play est invalide."
+            return action
+        end
+        n_choice : Int32 = arg?.to_i()
+
+        choice : Choix = card.choix[n_choice]
+        if(!game.board.can_pay_cost(player,choice.cout))
+            puts "Vous ne pouvez pas payer le coût de cette carte."
+            return action
+        end
+
+        effect_args : Array(Array(Int32)) = [] of Array(Int32)
+        if(game.board.check_args_are_valid(player, choice.cout, [] of Int32, true))
+            effect_args.push([] of Int32)
+        else
+            effect_args.push(get_args_for_effect(game, player, choice.cout, true))
+        end
+        choice.effets.each do |effet|
+            if(game.board.check_args_are_valid(player, effet, [] of Int32, true))
+                effect_args.push([] of Int32)
+            else
+                effect_args.push(get_args_for_effect(game, player, effet, false))
+            end
+        end
+        game.board.play_card(player, action_card, index_card, n_choice, effect_args)
+
+        return action || action_card
+    end
+
+    def self.run()
+        users = [
+            User.new(1),
+            User.new(2),
+            User.new(3),
+            User.new(4),
+            User.new(5),
+            User.new(6),
+            User.new(7)
+        ] of User
+        game : Game = Game.new(0,users)
+
+        10.times do
+            game.board.players.each do |player|
+                if(player.type == TypeJoueur::MORT)
+                    next
+                else
+                    type : String
+                    if(player.type == TypeJoueur::AVENTURIER)
+                        type = "Aventurier"
+                    else
+                        type = "Cerbere"
+                    end
+                    prompt : String = "Joueur#{player.lobby_id}(#{type})$ "
+                    action : Bool = false
+                    loop do
+                        print prompt
+                        cmd? : String? = gets
+                        cmd : String = cmd?.nil?() ? "" : cmd?.to_s()
+                        args : Array(String) = cmd.split(' ')
+                        if(args[0] == "help")
+                            help()
+                        elsif(args[0] == "board")
+                            board(game)
+                        elsif(args[0] == "hand")
+                            hand(game,player, args, action)
+                        elsif(args[0] == "play")
+                            action = play(game, player, args, action)
+                        elsif(args[0] == "end")
+                            if(action)
+                                break
+                            else
+                                puts "Vous devez jouer une carte Action !"
+                            end
+                        elsif(args[0] == "quit" || args[0] == "exit")
+                            return
+                        else
+                            puts "\"#{args[0]}\": commande inconnue. Tapez help."
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+Cerbere::Test.run
+Cerbere::TestDeck.run
+Cerbere::TestBarque.run
+Cerbere::TestCouardise.run
+Cerbere::TestSabotage.run
+Cerbere::TestPlateau.run
+Cerbere::TestRageVitesse.run
+Cerbere::TestCartesAction.run
+Cerbere::TestPiocheDefausse.run

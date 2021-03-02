@@ -1,14 +1,20 @@
 require "./carte.cr"
 
 class Hand
-    property action : Array(CarteActionCerbere) | Array(CarteActionSurvivant) = CARTES_ACTION_SURVIVANT*1
+    property action : Array(Bool) = [true, true, true, true]
     property bonus = [] of CarteBonus
 
     def reset(type : TypeJoueur)
-        if type == TypeJoueur::AVENTURIER
-            @action = CARTES_ACTION_SURVIVANT*1
-        else 
-            @action = CARTES_ACTION_CERBERE*1
-        end 
+        action.each do |a|
+            a = true
+        end
+    end
+
+    def self.actions_of(type : TypeJoueur) : Array
+        if(type == TypeJoueur::AVENTURIER)
+            return CARTES_ACTION_SURVIVANT
+        else
+            return CARTES_ACTION_CERBERE
+        end
     end
 end
