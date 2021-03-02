@@ -1,5 +1,5 @@
-require "./Node.cr"
 require "./player.cr"
+require "./node.cr"
 require "./board_0.cr"
 require "./deck.cr"
 require "./utils.cr"
