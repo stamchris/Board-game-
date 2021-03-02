@@ -2,7 +2,7 @@ require "./Node.cr"
 require "./player.cr"
 require "./board_0.cr"
 require "./deck.cr"
-
+require "./utils.cr"
 
 class Cerbere::Board
     getter nodes : Array(Node)
@@ -443,7 +443,12 @@ class Cerbere::Board
         end
     end
 
-    def action_piocher_moi(joueur : Player, nombre : Int32) : Nil
+    def action_piocher_moi(joueur : Player, nombre : Int32, args : Array(Int32) = [] of Int32) : Nil
+        # Si l'on passe par la case piocher mais que l'on ne s'arrête pas, on ne
+        # pioche pas de cartes
+        if(args.size() > 0 && args[0] != 0)
+            return
+        end
         nombre.times do
             if joueur.type == TypeJoueur::AVENTURIER
                 joueur.hand.bonus << pioche_survie.draw_card()
@@ -560,6 +565,163 @@ class Cerbere::Board
         end
     end
 
+    def can_pay_cost(who : Player, effect : Effet) : Bool
+        case effect.evenement
+        when Evenement::RIEN
+            return true
+        when Evenement::DEFAUSSER_MOI
+            return who.hand.bonus.size() >= effect.force
+        when Evenement::DEFAUSSER_PARTAGE
+            nb_cards_allies_total : Int32 = 0
+            players.each do |player|
+                if(player.type == who.type)
+                    nb_cards_allies_total += player.hand.bonus.size()
+                end
+            end
+            return nb_cards_allies_total >= effect.force
+        when Evenement::CHANGER_VITESSE
+            new_speed : Int32 = @vitesse_cerbere + effect.force
+            return new_speed >= 3 && new_speed <= 8
+        when Evenement::CHANGER_RAGE
+            new_rage : Int32 = @rage_cerbere + effect.force
+            return new_rage >= 1 + @nombre_pions_jauge && new_rage <= 10
+        when Evenement::DEPLACER_MOI
+            new_position : Int32 = who.position + effect.force
+            return new_position >= 1 && new_position <= nodes.size()
+        when Evenement::DEPLACER_AUTRE
+            # Ca devrait théoriquement être toujours vrai car ce coût n'affecte
+            # que les Cerbères, et s'il n'y aurait plus aucun survivant, la
+            # partie devrait être finie, mais ça ne coûte rien de vérifier !
+            nb_other_survivors : Int32 = 0
+            players.each do |player|
+                if(player.type == TypeJoueur::AVENTURIER && player.lobby_id != who.lobby_id)
+                    nb_other_survivors += 1
+                end
+            end
+            return nb_other_survivors > 0
+        else
+            raise "Cet événement ne peut pas être un coût !"
+        end
+    end
+
+    def check_args_are_valid(who : Player, effect : Effet, args : Array(Int),
+                             strict : Bool = false) : Bool
+        case effect.evenement
+        when Evenement::PIOCHER_ALLIE
+            check : Bool = args.size() <= effect.force &&
+                    (!strict || args.size() == effect.force) &&
+                    args.size() == args.uniq().size()
+            i : Int32 = 0
+            while(i < args.size() && check)
+                if(args[i] == who.lobby_id)
+                    check &= false
+                else
+                    players.each do |player|
+                        if(player.lobby_id == args[i])
+                            if(player.type != who.type)
+                                check &= false
+                                break
+                            end
+                        end
+                    end
+                end
+                i += 1
+            end
+            return check
+        when Evenement::DEFAUSSER_MOI
+            check = args.size() == effect.force
+            args.each do |arg|
+                if(arg < 0 || arg >= who.hand.bonus.size())
+                    check = false
+                    break
+                end
+            end
+            return check
+        when Evenement::DEFAUSSER_SURVIE
+            check = args.size() <= effect.force &&
+                    (!strict || args.size() == effect.force) &&
+                    args.size() == args.uniq().size()
+            i = 0
+            while(i < args.size() && check)
+                if(args[i] == who.lobby_id)
+                    check &= false
+                    break
+                end
+                players.each do |player|
+                    if(player.lobby_id == args[i])
+                        if(player.type != TypeJoueur::AVENTURIER)
+                            check &= false
+                        end
+                        break
+                    end
+                end
+                i += 1
+            end
+            return check
+        when Evenement::DEPLACER_AUTRE
+            if(args.size() == 0)
+                return !strict
+            elsif(args.size() == 1)
+                if(args[0] == who.lobby_id)
+                    return false
+                end
+                players.each do |player|
+                    if(player.lobby_id == args[0])
+                        return player.type == TypeJoueur::AVENTURIER
+                        break
+                    end
+                end
+                return false
+            else
+                return false
+            end
+        when Evenement::BARQUE
+            if(args.size() == 0)
+                return false
+            else
+                if(args[0] == 0) # Consulter
+                    return args.size() == 2 && args[0] >= 0 && args[0] <= 2
+                elsif(args[0] == 1) # Echanger
+                    return args.size() == 3 && args[0] >= 0 && args[0] <= 2 && args[1] >= 0 && args[1] <= 2
+                else
+                    return false
+                end
+            end
+        else # Tous les autres événements, soit ne prennent pas d'arguments,
+             # soit sont gérés seulement par le plateau
+            return true
+        end
+    end
+
+    def play_card(who : Player, action : Bool, index_card : Int, choice : Int, args : Array(Array(Int)))
+        assert(!(index_card < 0 || ((!action && index_card >= who.hand.bonus.size()) || (action && index_card >= 4))))
+        card : Carte
+        if(action)
+            card = Hand.actions_of(who.type)[index_card]
+	    assert(who.hand.action[index_card])
+        else
+            card = who.hand.bonus[index_card]
+        end
+        assert(!(choice < 0 || choice >= card.choix.size()))
+        choice = card.choix[choice]
+        assert(!(args.size() < choice.effets.size() + 1))
+        assert(can_pay_cost(who,choice.cout))
+        assert(check_args_are_valid(who, choice.cout, args[0], true))
+        choice.effets.each_index do |i|
+            assert(check_args_are_valid(who, choice.effets[i], args[i+1]))
+        end
+        # Si on arrive ici, c'est que tous les arguments sont OK.
+	if(action)
+            who.hand.action[index_card] = false
+        else
+            defausser(who, index_card)
+        end
+        faire_action(who, choice.cout, args[0])
+        choice.effets.each_index do |i|
+            faire_action(who, choice.effets[i], args[i+1])
+        end
+    end
+
     def faire_action(moi : Player, effet : Effet, args : Array(Int32) = [] of Int32)
         case effet.evenement
         when Evenement::RIEN
@@ -567,7 +729,7 @@ class Cerbere::Board
         when Evenement::RECUPERER_CARTE
             action_recuperer_carte(moi)
         when Evenement::PIOCHER_MOI
-            action_piocher_moi(moi, effet.force)
+            action_piocher_moi(moi, effet.force, args)
         when Evenement::PIOCHER_ALLIE
             action_piocher_allie(moi, args)
         when Evenement::DEFAUSSER_MOI
