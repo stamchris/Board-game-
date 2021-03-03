@@ -53,7 +53,13 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
-                   
+
+                Grid {
+                    id:layoutPawn0
+                    columns:2
+                    spacing : 2
+                    y : 1/5*parent.y
+                }      
             }
             Rectangle {
                 id : case1Id
@@ -64,7 +70,12 @@ Row {
                 border.color :"black"
                 border.width: 1
 
-
+                Grid {
+                    id:layoutPawn1
+                    columns:2
+                    spacing : 2
+                    y : 1/5*parent.y
+                }
             }
             Rectangle {
                 id : case2Id
@@ -75,6 +86,12 @@ Row {
                 border.color :"black"
                 border.width: 1
 
+                Grid {
+                    id:layoutPawn2
+                    columns:2
+                    spacing : 2
+                    y : 1/5*parent.y
+                }
             }
             Rectangle {
                 id : case3Id
@@ -84,6 +101,13 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
+                Grid {
+                    id:layoutPawn3
+                    columns:2
+                    spacing : 2
+                    y : 1/5*parent.y  
+                }
             }
             Rectangle {
                 id: case4Id
@@ -93,6 +117,13 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
+                Grid {
+                    id:layoutPawn4
+                    columns:2
+                    spacing : 2
+                    y : 1/5*parent.y
+                }
             }
             Rectangle {
                 id:case5Id
@@ -102,6 +133,13 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
+                Grid {
+                    id:layoutPawn5
+                    columns:2
+                    spacing : 2
+                    y : 1/5*parent.y
+                }
             }
             Rectangle {
                 id:case6Id
@@ -111,6 +149,13 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
+                Grid {
+                    id:layoutPawn6
+                    columns:2
+                    spacing : 2
+                    y : 1/5*parent.y
+                }
             }
         }
     }
@@ -135,6 +180,13 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
+                Grid {
+                    id:layoutPawn7
+                    columns:2
+                    spacing : 2
+                    y : 1/5*parent.y
+                }
             }
             Column {
                 id : cases8_9id
@@ -152,6 +204,12 @@ Row {
                     border.color :"black"
                     border.width: 1
 
+                    Grid {
+                        id:layoutPawn9
+                        columns:2
+                        spacing : 2
+                        y : 1/5*parent.y
+                    }
                 }
                 Rectangle {
                     id: case8Id
@@ -162,9 +220,15 @@ Row {
                     color: "transparent"
                     border.color :"black"
                     border.width: 1
+
+                    Grid {
+                        id:layoutPawn8
+                        columns:2
+                        spacing : 2
+                        y : 1/5*parent.y
+                    }
                 }
             }
-
             Rectangle {
                 id: case10Id
                 width: 15/100*parent.width
@@ -173,6 +237,13 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
+                Grid {
+                    id:layoutPawn10
+                    columns:2
+                    spacing : 2
+                    y : 1/20*parent.y
+                }
             }
             Column {
                 id : cases11_12id
@@ -189,6 +260,13 @@ Row {
                     color: "transparent"
                     border.color :"black"
                     border.width: 1
+
+                    Grid {
+                        id:layoutPawn11
+                        columns:2
+                        spacing : 2
+                        y : parent.y
+                    }
                 }
                 Rectangle {
                     id: case12Id
@@ -198,6 +276,13 @@ Row {
                     color: "transparent"
                     border.color :"black"
                     border.width: 1
+
+                    Grid {
+                        id:layoutPawn12
+                        columns:2
+                        spacing : 2
+                        y : 1/5*parent.y
+                    }
                 }
             }
         }   
@@ -224,6 +309,13 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
+                Grid {
+                    id:layoutPawn13
+                    columns:2
+                    spacing : 2
+                    y : 1/5*parent.y
+                }
             }
 
             Column {
@@ -240,6 +332,13 @@ Row {
                     color: "transparent"
                     border.color :"black"
                     border.width: 1
+
+                    Grid {
+                        id:layoutPawn14
+                        columns:2
+                        spacing : 2
+                        y : 1/5*parent.y
+                    }
                 }
                 Rectangle {
                     id: case15Id
@@ -249,6 +348,12 @@ Row {
                     color: "transparent"
                     border.color :"black"
                     border.width: 1
+
+                    Grid {
+                        id:layoutPawn15
+                        columns:2
+                        spacing : 2
+                    }
                 }
             }
 
@@ -266,6 +371,12 @@ Row {
                     color: "transparent"
                     border.color :"black"
                     border.width: 1
+
+                    Grid {
+                        id:layoutPawn17
+                        columns:2
+                        spacing : 2 
+                    }
                 }
                 Rectangle {
                     id: case16Id
@@ -274,6 +385,12 @@ Row {
                     color: "transparent"
                     border.color :"black"
                     border.width: 1
+
+                    Grid {
+                        id:layoutPawn16
+                        columns:2
+                        spacing : 2
+                    }    
                 }
             }
         }    
@@ -297,6 +414,13 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
+                Grid {
+                    id:layoutPawn18
+                    columns:2
+                    spacing : 2
+                    y : 1/5*parent.y
+                }
             }
             Rectangle {
                 id: case19Id
@@ -306,6 +430,13 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
+                Grid {
+                    id:layoutPawn19
+                    columns:2
+                    spacing : 2
+                    y : 1/5*parent.y
+                }
             }
             Rectangle {
                 id: case20Id
@@ -315,6 +446,13 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
+                Grid {
+                    id:layoutPawn20
+                    columns:2
+                    spacing : 2
+                    y : 1/5*parent.y
+                }
             }
             Rectangle {
                 id: case21Id
@@ -324,6 +462,13 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
+                Grid {
+                    id:layoutPawn21
+                    columns:2
+                    spacing : 2
+                    y : 1/5*parent.y
+                }
             }
              Rectangle {
                 id: case22Id
@@ -333,6 +478,13 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
+                Grid {
+                    id:layoutPawn22
+                    columns:2
+                    spacing : 2
+                    y : 1/5*parent.y
+                }
             }
             Rectangle {
                 id: caseBarqueId
@@ -342,6 +494,12 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
+                Column {
+                    id:layoutPawnBarque
+                    anchors.fill : parent
+                    spacing : 2
+                }
             }
         }       
     }
