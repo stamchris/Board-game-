@@ -12,6 +12,6 @@
         <file>Login.qml</file>
         <file>Lobby.qml</file>
         <file>library/movePions.js</file>
+        <file>library/ShowEffect.qml</file>
     </qresource>
-
 </RCC>

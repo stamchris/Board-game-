@@ -31,6 +31,11 @@ Row {
         Piones {
             id: pionesId
         }
+        ShowEffect{
+            id:msg1
+
+        }
+
 
         Row {
             id:rowFirstPlateauid
@@ -70,6 +75,20 @@ Row {
                 border.color :"black"
                 border.width: 1
 
+                MouseArea{
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onHoveredChanged:{
+                        if(containsMouse == true)
+                             {
+                                msg1.msgText = "Cerberus\nCheckpoint"
+                                msg1.visible = true
+                             }
+                        else
+                            msg1.visible = false
+                    }
+                }
+
                 Grid {
                     id:layoutPawn1
                     columns:2
@@ -102,6 +121,20 @@ Row {
                 border.color :"black"
                 border.width: 1
 
+                MouseArea{
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onHoveredChanged:{
+                        if(containsMouse == true)
+                             {
+                                 msg1.msgText = "+1 Carte de\n Survie"
+                                 msg1.visible = true
+                             }
+                        else
+                            msg1.visible = false
+                    }
+                }
+
                 Grid {
                     id:layoutPawn3
                     columns:2
@@ -117,6 +150,20 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
+                MouseArea{
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onHoveredChanged:{
+                        if(containsMouse == true)
+                             {
+                                msg1.msgText = "Cerberus\nCheckpoint"
+                                msg1.visible = true
+                             }
+                        else
+                            msg1.visible = false
+                    }
+                }
 
                 Grid {
                     id:layoutPawn4
@@ -167,6 +214,11 @@ Row {
         border.color :"red"
         border.width: 1
 
+        ShowEffect{
+            id:msg2
+            width: parent.width /2.5
+            height: parent.height/6
+        }
 
         Row {
             id:rowSecondPlateauid
@@ -180,6 +232,20 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
+                    MouseArea{
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onHoveredChanged:{
+                            if(containsMouse == true)
+                                 {
+                                    msg2.msgText = "Cerberus\nCheckpoint"
+                                    msg2.visible = true
+                                 }
+                            else
+                                msg2.visible = false
+                        }
+                    }
 
                 Grid {
                     id:layoutPawn7
@@ -238,6 +304,19 @@ Row {
                 border.color :"black"
                 border.width: 1
 
+                    MouseArea{
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onHoveredChanged:{
+                            if(containsMouse == true)
+                                 {
+                                    msg2.msgText = "Cerberus\nCheckpoint"
+                                    msg2.visible = true
+                                 }
+                            else
+                                msg2.visible = false
+                        }
+                    }
                 Grid {
                     id:layoutPawn10
                     columns:2
@@ -296,6 +375,13 @@ Row {
         border.color :"red"
         border.width: 1
 
+        ShowEffect{
+            id:msg3
+            width: parent.width /2.2
+            height: parent.height/5.5
+        }
+
+
         Row {
             id:rowThirdPlateauid
             anchors.fill : parent
@@ -309,6 +395,20 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
+                        MouseArea{
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onHoveredChanged:{
+                                if(containsMouse == true)
+                                     {
+                                        msg3.msgText = "Cerberus\nCheckpoint"
+                                        msg3.visible = true
+                                     }
+                                else
+                                    msg3.visible = false
+                            }
+                        }
 
                 Grid {
                     id:layoutPawn13
@@ -348,6 +448,20 @@ Row {
                     color: "transparent"
                     border.color :"black"
                     border.width: 1
+
+                        MouseArea{
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onHoveredChanged:{
+                                if(containsMouse == true)
+                                     {
+                                        msg3.msgText = "Cerberus\nCheckpoint"
+                                        msg3.visible = true
+                                     }
+                                else
+                                    msg3.visible = false
+                            }
+                        }
 
                     Grid {
                         id:layoutPawn15
@@ -403,6 +517,13 @@ Row {
         height: parent.height
         border.color :"red"
         border.width: 1
+
+        ShowEffect{
+            id:msg4
+            width: parent.width /2.5
+            height: parent.height/6
+        }
+
         Row {
             id:rowEndPlateauid
             anchors.fill : parent
@@ -414,6 +535,20 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
+                        MouseArea{
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onHoveredChanged:{
+                                if(containsMouse == true)
+                                     {
+                                        msg4.msgText = "Cerberus\nCheckpoint"
+                                        msg4.visible = true
+                                     }
+                                else
+                                    msg4.visible = false
+                            }
+                        }
 
                 Grid {
                     id:layoutPawn18
@@ -478,6 +613,20 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
+                        MouseArea{
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onHoveredChanged:{
+                                if(containsMouse == true)
+                                     {
+                                        msg4.msgText = "Rage de\nCerbere+1"
+                                        msg4.visible = true
+                                     }
+                                else
+                                    msg4.visible = false
+                            }
+                        }
 
                 Grid {
                     id:layoutPawn22
