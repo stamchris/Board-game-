@@ -1,0 +1,88 @@
+default:
+        image: ubuntu:20.04
+
+pages:
+        before_script:
+                - export DEBIAN_FRONTEND=noninteractive # fuck you tzdata
+                - apt-get update
+                - apt-get install --yes --force-yes g++ make git python libxml2
+        script:
+                - git clone https://github.com/emscripten-core/emsdk.git
+                - cd emsdk
+                - ./emsdk install 1.39.8
+                - ./emsdk activate --embedded 1.39.8
+                - source emsdk_env.sh
+                - em++ --version
+                - cd ..
+                - git clone git://code.qt.io/qt/qt5.git
+                - cd qt5
+                - git checkout 5.15
+                - ./init-repository
+                - ./configure -xplatform wasm-emscripten -nomake examples -prefix $PWD/qtbase -opensource -confirm-license
+                - make -s module-qtbase module-qtdeclarative module-qtwebsockets module-qtquickcontrols2 module-qtquickcontrols
+                - qmake_wasm="$PWD/qtbase/bin/qmake"
+                - $qmake_wasm --version
+                - cd ..
+                - cd client
+                - $qmake_wasm
+                - make
+                - cd ..
+                - mkdir public
+                - mv client/{client.{html,js,wasm},qtloader.js,qtlogo.svg,images} public
+        artifacts:
+                paths:
+                        - public
+        only:
+                - master
+
+verif_client:
+        before_script:
+                - export DEBIAN_FRONTEND=noninteractive # fuck you tzdata
+                - apt-get update
+                - apt-get install --yes --force-yes qt5-default g++ qtdeclarative5-dev make
+        script:
+                - cd client
+                - qmake
+                - make
+        only:
+                - merge_requests
+
+verif_client_wasm:
+        before_script:
+                - export DEBIAN_FRONTEND=noninteractive # fuck you tzdata
+                - apt-get update
+                - apt-get install --yes --force-yes g++ make git python libxml2
+        script:
+                - git clone https://github.com/emscripten-core/emsdk.git
+                - cd emsdk
+                - ./emsdk install 1.39.8
+                - ./emsdk activate --embedded 1.39.8
+                - source emsdk_env.sh
+                - em++ --version
+                - cd ..
+                - git clone git://code.qt.io/qt/qt5.git
+                - cd qt5
+                - git checkout 5.15
+                - ./init-repository
+                - ./configure -xplatform wasm-emscripten -nomake examples -prefix $PWD/qtbase -opensource -confirm-license
+                - make -s module-qtbase module-qtdeclarative module-qtwebsockets module-qtquickcontrols2 module-qtquickcontrols
+                - qmake_wasm="$PWD/qtbase/bin/qmake"
+                - $qmake_wasm --version
+                - cd ..
+                - cd client
+                - $qmake_wasm
+                - make
+        only:
+                - merge_requests
+
+verif_serveur:
+        before_script:
+                - export DEBIAN_FRONTEND=noninteractive # fuck you tzdata
+                - apt-get update
+                - apt-get install --yes --force-yes curl apt-transport-https ca-certificates gnupg
+                - curl -fsSL https://crystal-lang.org/install.sh | bash
+        script:
+                - cd serveur
+                - shards build
+        only:
+                - merge_requests
