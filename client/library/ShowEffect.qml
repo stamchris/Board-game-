@@ -20,7 +20,8 @@ Rectangle{
             id: message
             anchors{fill:parent}
             font.weight: Font.Black
-            font.pixelSize: parent.width /6
+//          font.pixelSize: parent.width /6
+            fontSizeMode: Text.Fit
             color: "#CCD1D1"
             style: Text.Outline
             styleColor: "red"

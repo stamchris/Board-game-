@@ -284,8 +284,32 @@ Row {
                     y : height
                     x : 10/100*width
                     color: "transparent"
+                    opacity: 0.25
+                    radius: 15
                     border.color :"black"
                     border.width: 1
+
+                    MouseArea{
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onHoveredChanged:{
+                            if(containsMouse == true)
+                            {
+                                    msg2.msgText = "Si le joueur se pose\n sur la case bleu,\nil peut passer le pont"
+                                    msg2.width = thirdPlateauid.width /1.4
+                                    msg2.visible = true
+                                    case8Id.color = "cyan"
+                                    case12Id.color="red"
+                            }
+                            else
+                            {
+                                  msg2.visible = false
+                                  msg2.width = thirdPlateauid.width /2.2
+                                  case8Id.color="transparent"
+                                  case12Id.color="transparent"
+                            }
+                        }
+                    }
 
                     Grid {
                         id:layoutPawn8
@@ -353,8 +377,32 @@ Row {
                     x : 40/100*width
                     height: 30/100* parent.height
                     color: "transparent"
+                    opacity: 0.25
+                    radius: 18
                     border.color :"black"
                     border.width: 1
+
+                    MouseArea{
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onHoveredChanged:{
+                            if(containsMouse == true)
+                            {
+                                    msg2.msgText = "Si le joueur se pose\n sur la case bleu,\nil peut passer le pont"
+                                    msg2.width = thirdPlateauid.width /1.4
+                                    msg2.visible = true
+                                    case8Id.color = "cyan"
+                                    case12Id.color="red"
+                            }
+                            else
+                            {
+                                  msg2.visible = false
+                                  msg2.width = thirdPlateauid.width /2.2
+                                  case8Id.color="transparent"
+                                  case12Id.color="transparent"
+                            }
+                        }
+                    }
 
                     Grid {
                         id:layoutPawn12
@@ -430,8 +478,35 @@ Row {
                     height: 85/100*parent.height
                     x : 1/3*width
                     color: "transparent"
+                    opacity: 0.25
+                    radius: 15
                     border.color :"black"
                     border.width: 1
+
+                    MouseArea{
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onHoveredChanged:{
+                            if(containsMouse == true)
+                            {
+                                    msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
+                                    msg3.width = thirdPlateauid.width /1.6
+                                    msg3.visible = true
+                                    case16Id.color = "cyan"
+                                    case17Id.color="red"
+                                    case14Id.color="red"
+
+                            }
+                            else
+                            {
+                                msg3.visible = false
+                                msg3.width = thirdPlateauid.width /2.2
+                                case16Id.color="transparent"
+                                case17Id.color="transparent"
+                                case14Id.color="transparent"
+                            }
+                        }
+                    }
 
                     Grid {
                         id:layoutPawn14
@@ -483,9 +558,35 @@ Row {
                     width: 80/100 * parent.width
                     height: 88/100*parent.height
                     color: "transparent"
+                    opacity: 0.25
+                    radius: 15
                     border.color :"black"
                     border.width: 1
 
+                    MouseArea{
+                        anchors.fill: case17Id
+                        hoverEnabled: true
+                        onHoveredChanged:{
+                            if(containsMouse == true)
+                            {
+                                    msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
+                                    msg3.width = thirdPlateauid.width /1.6
+                                    msg3.visible = true
+                                    case16Id.color = "cyan"
+                                    case17Id.color="red"
+                                    case14Id.color="red"
+
+                            }
+                            else
+                            {
+                                msg3.visible = false
+                                msg3.width = thirdPlateauid.width /2.2
+                                case16Id.color="transparent"
+                                case17Id.color="transparent"
+                                case14Id.color="transparent"
+                            }
+                        }
+                    }
                     Grid {
                         id:layoutPawn17
                         columns:2
@@ -497,8 +598,35 @@ Row {
                     width: 60/100* parent.width
                     height: 45/100* parent.height
                     color: "transparent"
+                    opacity: 0.25
+                    radius: 15
                     border.color :"black"
                     border.width: 1
+
+                    MouseArea{
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onHoveredChanged:{
+                            if(containsMouse == true)
+                            {
+                                    msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
+                                    msg3.width = thirdPlateauid.width /1.6
+                                    msg3.visible = true
+                                    case16Id.color = "cyan"
+                                    case17Id.color="red"
+                                    case14Id.color="red"
+
+                            }
+                            else
+                            {
+                                msg3.visible = false
+                                msg3.width = thirdPlateauid.width /2.2
+                                case16Id.color="transparent"
+                                case17Id.color="transparent"
+                                case14Id.color="transparent"
+                            }
+                        }
+                    }
 
                     Grid {
                         id:layoutPawn16
