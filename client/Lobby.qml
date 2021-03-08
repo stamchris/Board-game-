@@ -27,7 +27,7 @@ ColumnLayout {
 				color: modelData
 			}
 			onClicked: {
-				socket.send({type:"change_colour",colour:modelData})
+				socket.send({type:"changeColour",colour:modelData})
 				}
 		}
 	}

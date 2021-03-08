@@ -43,6 +43,10 @@ ApplicationWindow {
 							player
 						)
 					break
+				case "chatResponse":
+					game.addMessage(message.player, message.message)
+					break
+					
 			}
 		}
 
