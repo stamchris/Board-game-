@@ -221,39 +221,33 @@ Window {
         }
 
     }
-    Rectangle{
-        id: leftContainerId
-        width: 2/10 * parent.width
-        color: "#ffffff"
-        border.width: 3
-        anchors { top: underBarId.bottom; left: parent.left; bottom:parent.bottom; topMargin: 5; leftMargin: 2; bottomMargin: 5}
 
         Rectangle {
             id: chatId
-            width: parent.width
-            height: 6/10 * parent.height
+            height: 250
+            width: 2/10 * parent.width
             color: "#ffffff"
             border.width: 2
-            anchors { top:infoJoueurId.bottom; topMargin:0}
+            anchors {topMargin:0;bottom:parent.bottom;left: parent.left;leftMargin: 2; bottomMargin: 5}
         }
 
         Rectangle {
             id: infoJoueurId
-            width: parent.width
-            height: 4/10 * parent.height
+            width: 8/10 * parent.width
+            height: 40
             color: "#ffffff"
-            border.color: "#f23f1e"
-            border.width: 2
-            anchors { top: parent.top}
+            anchors { top: plateauId.bottom;left:chatId.right;topMargin:2;rightMargin: 2;leftMargin: 3}
 
-            Column {
-                id: columnId
+            Row {
+                id: rowId
                 anchors.fill: parent
+                spacing: 3
 
                 Rectangle{
                     id: user1InfoId
-                    width: parent.width
-                    height: 1/6* parent.height
+                    width: 1/6*parent.width
+                    height:parent.height
+                    radius: 3
                     color: "Blue"
 
                     Text {
@@ -268,8 +262,9 @@ Window {
 
                 Rectangle{
                     id: user2InfoId
-                    width: parent.width
-                    height: 1/6* parent.height
+                    width:  1/6* parent.width
+                    radius: 3
+                    height:parent.height
                     color: "Cyan"
                     Text {
                         id: text2
@@ -283,8 +278,9 @@ Window {
 
                 Rectangle{
                     id:user3InfoId
-                    width: parent.width
-                    height: 1/6* parent.height
+                    width:1/6*  parent.width
+                    height: parent.height
+                    radius: 3
                     color: "Orange"
                     Text {
                         id: text3
@@ -298,8 +294,9 @@ Window {
 
                 Rectangle{
                     id:user4InfoId
-                    width: parent.width
-                    height: 1/6* parent.height
+                    width:1/6*  parent.width
+                    height: parent.height
+                    radius: 3
                     color: "Green"
                     Text {
                         id: text4
@@ -313,8 +310,9 @@ Window {
 
                 Rectangle{
                     id:user5InfoId
-                    width: parent.width
-                    height: 1/6* parent.height
+                    width:1/6* parent.width
+                    height:  parent.height
+                    radius: 3
                     color: "Red"
                     Text {
                         id: text5
@@ -328,8 +326,9 @@ Window {
 
                 Rectangle{
                     id:user6InfoId
-                    width: parent.width
-                    height: 1/6* parent.height
+                    width: 1/6* parent.width
+                    height: parent.height
+                    radius: 3
                     color: "Pink"
                     Text {
                         id: text6
@@ -343,22 +342,22 @@ Window {
 
             }
         }
-    }
+
 
       Rectangle {
         id: plateauId
-        width: 8/10 * parent.width
+        width: parent.width
         color: "#ffffff"
         border.width: 3
         anchors {
-            top: underBarId.bottom; bottom: joueurId.top; right: parent.right; left: leftContainerId.right;
-            topMargin: 5; bottomMargin: 5; rightMargin: 2; leftMargin: 2
+            top: underBarId.bottom; bottom: chatId.top; right: parent.right; left: parent.left;
+            topMargin: 5; bottomMargin: 2; rightMargin: 2; leftMargin: 2
         }
             Image {
                 id: plateauImageId
                 anchors.fill: parent
                 horizontalAlignment: Image.AlignHCenter
-                source: "images/client_plateau-redimensionné.png"
+                source: "images/plateauv2.jpg"
                 z: 1
                 fillMode: Image.Stretch
                 
@@ -505,7 +504,7 @@ Window {
         border.color: "#e51111"
         border.width: 2
         anchors {
-            bottom: parent.bottom; left: leftContainerId.right; right: parent.right;
+            bottom: parent.bottom; left: chatId.right; right: parent.right;
             bottomMargin: 5; leftMargin: 2; rightMargin: 2
         }
  Rectangle{
