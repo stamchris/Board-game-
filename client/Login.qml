@@ -10,7 +10,7 @@ Item {
 		Label {
 			text: "Serveur"
 		}
-		TextField {
+		CerbTextField {
 			width: 220
 			id: serveurInput
 			text: "localhost:3000"
@@ -19,7 +19,7 @@ Item {
 		Label {
 			text: "Pseudo"
 		}
-		TextField {
+		CerbTextField {
 			width: 220
 			id: loginInput
 		}
