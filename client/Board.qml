@@ -248,9 +248,7 @@ Item{
 
                 function updatePlayerInfo() {
                     text: window.parent.state.login
-                    color: window.parent.state.color 
-                    console.log(text)  
-                    console.log(color)
+                    color: window.parent.state.color
                 }
             }
 

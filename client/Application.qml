@@ -9,7 +9,7 @@ ApplicationWindow {
 	minimumHeight: 720
 	visible: true
 	property alias game: game
-	
+
 	WebSocket {
 		id: socket
 
@@ -27,9 +27,6 @@ ApplicationWindow {
 					game.players = game.players
 					game.state.changeLogin(message.player.name)
 					game.state.changeColor(message.player.colour)
-					console.log("in app")
-					console.log(game.state.login)
-                    console.log(game.state.color)
 					//Used to update the var status
 					break
 				case "welcome":
