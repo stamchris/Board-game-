@@ -5,23 +5,26 @@ import QtQuick.Layouts 1.10
 import QtWebSockets 1.0
 import "library"
 
-Window {
-    id: window
-    width: 1600
-    height: 720
-    visible: true
-    property alias plateauImageId: plateauImageId
-    title: qsTr("Cerbere")
- 
+Item{
+    id:window
+    property alias playerInfo: underBarId.playerInfo
+
     ImagePopUp{
             id: imgEffetDeCarteId
             source:"images/effetDeCarte.jpg"
     }
 
-       Rectangle {
+    Rectangle{
         id: menuBarId
         height: 60
         color: "#0ba360"
+        
+        anchors { 
+            left: parent.left;
+            right:parent.right;
+            top: parent.top
+        }
+
         gradient: Gradient {
             GradientStop {
                 position: 0
@@ -33,38 +36,51 @@ Window {
                 color: "#330867"
             }
         }
-        border{color: "#e51111" ; width:2;}
-        anchors { left: parent.left; right:parent.right; top: parent.top }
+
+        
 
 
-          Image {
-                id: imglogoId
-                width: 120
-                height: 50
-                anchors { bottom: parent.bottom; left:parent.left; top: parent.top; leftMargin: 8; topMargin: 5 }
-                horizontalAlignment: Image.AlignHCenter
-                source: "images/cerbere_logo.png"
-                fillMode: Image.Stretch
+        Image {
+            id: imglogoId
+            width: 120
+            height: 50
+            horizontalAlignment: Image.AlignHCenter
+            source: "images/cerbere_logo.png"
+            fillMode: Image.Stretch
+
+            anchors {
+                bottom: parent.bottom;
+                left:parent.left;
+                top: parent.top;
+                leftMargin: 8;
+                topMargin: 5 
+            }
+        }
+
+        Rectangle {
+            id: loginId
+            width: 50
+            height: 50
+            color: "#ffffff"
+            radius: 40
+            border.color: "#1143c8"
+            border.width: 2
+
+            anchors {
+                right: parent.right;
+                top:parent.top;
+                topMargin:5;
+                rightMargin:10
             }
 
-       Rectangle {
-           id: loginId
-           width: 50
-           height: 50
-           color: "#ffffff"
-           radius: 40
-           border.color: "#1143c8"
-           border.width: 2
-           anchors { right: parent.right ; top:parent.top; topMargin:5; rightMargin:10 }
-
-           Text {
+            Text {
                id: loginTextId
                text: qsTr("Button")
                anchors.centerIn: parent
                font.pixelSize: 12
                horizontalAlignment: Text.AlignHCenter
-           }
-       }
+            }
+        }
 
         Rectangle {
             id: sonId
@@ -175,6 +191,7 @@ Window {
         anchors.right: parent.right
         anchors.top: menuBarId.bottom
         anchors.topMargin: 5
+        property alias playerInfo: actionId.playerInfo
 
         Rectangle {
             id: chronoId
@@ -217,6 +234,26 @@ Window {
             color: "#ffffff"
             border.color: "#3fe219"
             border.width: 2
+            property alias playerInfo: playerInfoId
+
+            Text{
+                id:playerInfoId
+                text: window.parent.state.login
+                color: window.parent.state.color 
+
+                anchors{
+                    verticalCenter: parent.verticalCenter
+                    horizontalCenter: parent.horizontalCenter
+                }
+
+                function updatePlayerInfo() {
+                    text: window.parent.state.login
+                    color: window.parent.state.color 
+                    console.log(text)  
+                    console.log(color)
+                }
+            }
+
             anchors { top: underBarId.top; left: progressBarId.right; leftMargin: 5; right: parent.right; rightMargin: 2 }
         }
 
@@ -373,13 +410,13 @@ Window {
                     id:rectGroupsId
                     signal notifyPion ( string counter, string player) // Declare signal
 
-                    property int positionCounterPion1: -1
-                    property int positionCounterPion2: -1
-                    property int positionCounterPion3: -1
-                    property int positionCounterPion4: -1
-                    property int positionCounterPion5: -1
-                    property int positionCounterPion6: -1
-                    property int positionCounterPion7: -1
+                    property int positionCounterPion1: 1
+                    property int positionCounterPion2: 1
+                    property int positionCounterPion3: 1
+                    property int positionCounterPion4: 1
+                    property int positionCounterPion5: 1
+                    property int positionCounterPion6: 1
+                    property int positionCounterPion7: 1
 
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
@@ -586,15 +623,7 @@ Window {
                source:"images/Carte4.png"
                CarteAction{}
            }
-
         }
-
-
-
-
     }
-    
-
-
 }
 

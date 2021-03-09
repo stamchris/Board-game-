@@ -13,7 +13,7 @@ Item {
         leftMargin: 0
     }
 
-    signal changeVitesse()
+    signal changerVitesse()
 
     function incrementVitesse() {
         if(vitesse < 6) {
@@ -39,7 +39,7 @@ Item {
             }
 
             onClicked: {
-                rowroot.changeVitesse()
+                rowroot.changerVitesse()
             }
     }
 
@@ -67,9 +67,8 @@ Item {
         }
     }
 
-
     Component.onCompleted: {
-        changeVitesse.connect(rowroot.incrementVitesse)
+        changerVitesse.connect(rowroot.incrementVitesse)
     }
 
     Button {
@@ -101,7 +100,6 @@ Item {
                     }
                 }
             }
-
             cerbereBarId.value += 1
         }
     }

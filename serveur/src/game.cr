@@ -29,7 +29,7 @@ class Cerbere::Game
 	end
 
 	def check_players()
-		if @players.size>=3
+		if @players.size>=1 #remettre 3 ici
 			if @players.all? &.ready == true
 				@active = true
 			end

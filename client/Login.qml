@@ -37,6 +37,5 @@ Item {
 		Label {
 			id: lMessage
 		}
-
 	}
 }

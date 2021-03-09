@@ -6,7 +6,7 @@ Column {
     width: 170
 
     anchors {
-        top:parent.top;
+        top: parent.top;
         left: parent.left
     }
 

@@ -5,11 +5,11 @@ import QtWebSockets 1.0
 
 ApplicationWindow {
 	id: app
-
-	minimumWidth: 800
-	minimumHeight: 400
-	
+	minimumWidth: 1600
+	minimumHeight: 720
 	visible: true
+	property alias game: game
+	
 	WebSocket {
 		id: socket
 
@@ -25,6 +25,11 @@ ApplicationWindow {
 				case "newPlayer":
 					game.players.push(message.player)
 					game.players = game.players
+					game.state.changeLogin(message.player.name)
+					game.state.changeColor(message.player.colour)
+					console.log("in app")
+					console.log(game.state.login)
+                    console.log(game.state.color)
 					//Used to update the var status
 					break
 				case "welcome":
@@ -101,5 +106,10 @@ ApplicationWindow {
 	Game {
 		id: game
 		visible: false
+		property alias state: state
+
+		GameState{
+			id: state
+		}
 	}
 }

@@ -5,14 +5,17 @@ import QtWebSockets 1.0
 
 Item {
 	property var players:[]
-	property var view:"Login"
-	
-	Lobby {
+	property var view:"Lobby"
+	property alias board: window
+
+	Lobby{
 		anchors.fill:parent
-		visible:view=="Login"
+		visible:view=="Lobby"
 	}
 	
-	Board {
+	Board{
+		id: window
+		anchors.fill:parent
 		visible:view=="Board"
 	}
 }
