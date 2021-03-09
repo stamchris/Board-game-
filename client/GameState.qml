@@ -46,7 +46,7 @@ Item{
     }
 
     Component.onCompleted:{
-        _loginChanged.connect(parent.board.playerInfo.updatePlayerInfo)
-        _colorChanged.connect(parent.board.playerInfo.updatePlayerInfo)
+        _loginChanged.connect(parent.board.playerInfo.updateLogin)
+        _colorChanged.connect(parent.board.playerInfo.updateColor)
     }
 }

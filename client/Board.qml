@@ -246,8 +246,11 @@ Item{
                     horizontalCenter: parent.horizontalCenter
                 }
 
-                function updatePlayerInfo() {
+                function updateLogin() {
                     text: window.parent.state.login
+                }
+
+                function updateColor() {
                     color: window.parent.state.color
                 }
             }

@@ -8,6 +8,7 @@ ApplicationWindow {
 	minimumWidth: 1600
 	minimumHeight: 720
 	visible: true
+
 	property alias game: game
 
 	WebSocket {
@@ -25,8 +26,6 @@ ApplicationWindow {
 				case "newPlayer":
 					game.players.push(message.player)
 					game.players = game.players
-					game.state.changeLogin(message.player.name)
-					game.state.changeColor(message.player.colour)
 					//Used to update the var status
 					break
 				case "welcome":
@@ -35,6 +34,14 @@ ApplicationWindow {
 					loader.push(game)
 					break
 				case "starter":
+					for(var i = 0; i < game.players.length; i++){
+						if(game.players[i].name == login){
+							game.state.changeLogin(game.players[i].name)
+							game.state.changeColor(game.players[i].colour)
+							break
+						}
+					}
+					game.state.changeNumberOfPlayer(game.players.length)
 					game.view = "Board"
 					break
 				case "updatePlayer":
