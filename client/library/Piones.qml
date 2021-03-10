@@ -13,8 +13,7 @@ Column {
     property variant xArray: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     property variant xCounter: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
-    function receiveCounterPiones(count, player){
-        console.log("Player : " + player + " is in the case : " + count)
+    function receiveCounterPiones(count, player) {
         MovePions.fixYArray(yArray, count)
         MovePions.fixXCounter(xCounter, count)
         MovePions.fixXArray(xArray,xCounter, count)
@@ -24,7 +23,7 @@ Column {
 
     Pion {
         id: player1
-        color: "white"
+        color: "Cyan"
         visible: true
         yPosition: 0
         xPosition: 5
@@ -32,42 +31,42 @@ Column {
 
     Pion {
         id: player2
-        color: "blue"
+        color: "Orange"
         yPosition: 0
         xPosition: 5
     }
 
     Pion {
           id: player3
-          color: "red"
+          color: "Green"
           yPosition: 0
           xPosition: 5
     }
 
     Pion {
         id: player4
-        color: "pink"
+        color: "White"
         yPosition: 0
         xPosition: 5
     }
 
     Pion {
         id: player5
-        color: "green"
+        color: "Pink"
         yPosition: 0
         xPosition: 5
     }
 
     Pion {
         id: player6
-        color: "yellow"
+        color: "Blue"
         yPosition: 0
         xPosition: 5
     }
 
     Pion {
         id: player7
-        color: "cyan"
+        color: "Red"
         yPosition: 0
         xPosition: 5
     }

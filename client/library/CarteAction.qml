@@ -36,8 +36,8 @@ Column {
             hoverEnabled: true
 
             onHoveredChanged: {
-                if(hoverEnabled == true) {
-                    if(containsMouse == true) {
+                if (hoverEnabled == true) {
+                    if (containsMouse == true) {
                         up.opacity = 0.4
                     } else {
                         up.opacity = 0
@@ -65,8 +65,8 @@ Column {
             hoverEnabled: true
 
             onHoveredChanged: {
-                if(hoverEnabled == true) {
-                    if(containsMouse == true) {
+                if (hoverEnabled == true) {
+                    if (containsMouse == true) {
                         down.opacity = 0.4
                     } else {
                         down.opacity = 0

@@ -6,7 +6,8 @@ class Cerbere::Request
 	use_json_discriminator "type", {
 		login: Login,
 		ready: Ready,
-		change_colour: ChangeColour
+		change_colour: ChangeColour,
+		change_position: ChangePosition
 	}
 	
 	def handle(game : Game, player : Player)
@@ -51,6 +52,21 @@ class Cerbere::Request
 			end
 		end
 	end
+
+	class ChangePosition < Request
+		property type = "changePosition"
+		property change : Int32
+		property login : String
+
+		def handle(game : Game, player : Player)
+			game.players.each do |player|
+				if (player.name == @login)
+					player.position += change
+					game.send_all(Response::UpdatePosition.new(player))
+				end
+			end
+		end
+	end
 end
 
 class Cerbere::Response
@@ -81,6 +97,14 @@ class Cerbere::Response
 
 	class UpdatePlayer < Response
 		property type = "updatePlayer"
+		property player : Player
+
+		def initialize(@player)
+		end
+	end
+
+	class UpdatePosition < Response
+		property type = "updatePosition"
 		property player : Player
 
 		def initialize(@player)

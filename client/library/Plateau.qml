@@ -5,17 +5,15 @@ import QtWebSockets 1.0
 
 
 Row {
-    /////// Send data to Piones.qml from main.qml 
-    signal notifyPiones(string counter, string player) // Declare signal
+    signal notifyPiones(string counter, string player)
 
-    function receiveCounter(count,player) {
-        notifyPiones(count,player)
+    function receiveCounter(count, player) {
+        notifyPiones(count, player)
     }
 
     Component.onCompleted: {
-        notifyPiones.connect(pionesId.receiveCounterPiones) //connect button to Pion
+        notifyPiones.connect(pionesId.receiveCounterPiones)
     }
-    //////////////////////////////////////////////
 
     id: rowId
     anchors.fill: parent
@@ -25,8 +23,6 @@ Row {
         width: parent.width*29/100
         color: "transparent"
         height: parent.height
-        border.color: "red"
-        border.width: 1
 
         Piones {
             id: pionesId
@@ -55,6 +51,7 @@ Row {
                 border.width: 1
                    
             }
+
             Rectangle {
                 id : case1Id
                 width: 13/100* parent.width
@@ -63,9 +60,8 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
-
-
             }
+
             Rectangle {
                 id : case2Id
                 width: 13/100* parent.width
@@ -74,8 +70,8 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
-
             }
+
             Rectangle {
                 id : case3Id
                 width: 13/100* parent.width
@@ -85,6 +81,7 @@ Row {
                 border.color :"black"
                 border.width: 1
             }
+
             Rectangle {
                 id: case4Id
                 width: 13/100* parent.width
@@ -94,6 +91,7 @@ Row {
                 border.color :"black"
                 border.width: 1
             }
+
             Rectangle {
                 id:case5Id
                 width: 13/100* parent.width
@@ -103,6 +101,7 @@ Row {
                 border.color :"black"
                 border.width: 1
             }
+
             Rectangle {
                 id:case6Id
                 width: 14/100* parent.width
@@ -114,14 +113,12 @@ Row {
             }
         }
     }
+
     Rectangle {
         id: secondPlateauid
         width: 22/100* parent.width
         color: "transparent"
         height: parent.height
-        border.color :"red"
-        border.width: 1
-
 
         Row {
             id:rowSecondPlateauid
@@ -136,12 +133,14 @@ Row {
                 border.color :"black"
                 border.width: 1
             }
+
             Column {
                 id : cases8_9id
                 height: parent.height
                 width: 28/100* parent.width
                 y : 30/100*height
                 spacing : 2/100*parent.height
+
                 Rectangle {
                     id: case9Id
                     width: 60/100*parent.width
@@ -153,6 +152,7 @@ Row {
                     border.width: 1
 
                 }
+
                 Rectangle {
                     id: case8Id
                     width: 80/100*parent.width
@@ -174,6 +174,7 @@ Row {
                 border.color :"black"
                 border.width: 1
             }
+
             Column {
                 id : cases11_12id
                 height: parent.height
@@ -190,6 +191,7 @@ Row {
                     border.color :"black"
                     border.width: 1
                 }
+
                 Rectangle {
                     id: case12Id
                     width: 70/100* parent.width
@@ -208,8 +210,6 @@ Row {
         width: 21/100* parent.width
         color: "transparent"
         height: parent.height
-        border.color :"red"
-        border.width: 1
 
         Row {
             id:rowThirdPlateauid
@@ -241,6 +241,7 @@ Row {
                     border.color :"black"
                     border.width: 1
                 }
+
                 Rectangle {
                     id: case15Id
                     x: 75/100 * parent.x
@@ -258,6 +259,7 @@ Row {
                 width: 33/100* parent.width
                 y : height
                 spacing : 3/100*parent.height
+
                 Rectangle {
                     id: case17Id
                     x: 20/100 * parent.x
@@ -267,6 +269,7 @@ Row {
                     border.color :"black"
                     border.width: 1
                 }
+
                 Rectangle {
                     id: case16Id
                     width: 60/100* parent.width
@@ -284,8 +287,7 @@ Row {
         width: 28/100* parent.width
         color: "transparent"
         height: parent.height
-        border.color :"red"
-        border.width: 1
+
         Row {
             id:rowEndPlateauid
             anchors.fill : parent
@@ -298,6 +300,7 @@ Row {
                 border.color :"black"
                 border.width: 1
             }
+
             Rectangle {
                 id: case19Id
                 width: 13/100*parent.width
@@ -307,6 +310,7 @@ Row {
                 border.color :"black"
                 border.width: 1
             }
+
             Rectangle {
                 id: case20Id
                 width: 12/100*parent.width
@@ -316,6 +320,7 @@ Row {
                 border.color :"black"
                 border.width: 1
             }
+
             Rectangle {
                 id: case21Id
                 width: 10/100*parent.width
@@ -334,6 +339,7 @@ Row {
                 border.color :"black"
                 border.width: 1
             }
+
             Rectangle {
                 id: caseBarqueId
                 width: 13/100*parent.width

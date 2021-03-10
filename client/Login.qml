@@ -10,6 +10,7 @@ Item {
 		Label {
 			text: "Serveur"
 		}
+
 		TextField {
 			width: 220
 			id: serveurInput
@@ -19,6 +20,7 @@ Item {
 		Label {
 			text: "Pseudo"
 		}
+		
 		TextField {
 			width: 220
 			id: loginInput

@@ -25,9 +25,11 @@ Window {
                 ListElement {
                     name:"../images/Regle1.jpg"
                 }
+                
                 ListElement {
                     name:"../images/Regle2.jpg"
                 }
+
                 ListElement {
                     name:"../images/Regle3.jpg"
                 }

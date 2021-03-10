@@ -5,15 +5,14 @@ import QtWebSockets 1.0
 
 ApplicationWindow {
 	id: app
-	minimumWidth: 1600
-	minimumHeight: 720
+	minimumWidth: 800
+	minimumHeight: 360
 	visible: true
-
 	property alias game: game
+	property alias socket: socket
 
 	WebSocket {
 		id: socket
-
 		property bool waiting4Connect: false
 		property string login: ""
 		
@@ -26,7 +25,6 @@ ApplicationWindow {
 				case "newPlayer":
 					game.players.push(message.player)
 					game.players = game.players
-					//Used to update the var status
 					break
 				case "welcome":
 					game.players = message.players
@@ -34,13 +32,14 @@ ApplicationWindow {
 					loader.push(game)
 					break
 				case "starter":
-					for(var i = 0; i < game.players.length; i++){
-						if(game.players[i].name == login){
+					for (var i = 0; i < game.players.length; i++) {
+						if (game.players[i].name == login) {
 							game.state.changeLogin(game.players[i].name)
 							game.state.changeColor(game.players[i].colour)
 							break
 						}
 					}
+					game.state.changePlayers(game.players)
 					game.state.changeNumberOfPlayer(game.players.length)
 					game.view = "Board"
 					break
@@ -52,22 +51,26 @@ ApplicationWindow {
 							player
 						)
 					break
+				case "updatePosition":
+					game.state.changePosition(message.player.colour, message.player.position)
+					break
 			}
 		}
 
 		function connect(serveur, login) {
 			socket.url = "ws://" + serveur
 			socket.active = true
-
 			socket.waiting4Connect = true
 			socket.login = login
 		}
 
 		onStatusChanged: {
 			console.log(status)
+
 			if (status == WebSocket.Error) {
 				console.log(socket.errorString)
 			}
+
 			if (status == WebSocket.Open && socket.waiting4Connect) {
 				socket.sendTextMessage(JSON.stringify({
 				type: "login",
@@ -87,7 +90,7 @@ ApplicationWindow {
 		anchors.fill: parent
 
 		popEnter: Transition {
-			PropertyAnimation{
+			PropertyAnimation {
 				property: "opacity"
 				from: 0
 				to: 1
@@ -96,7 +99,7 @@ ApplicationWindow {
 		}
 
 		popExit: Transition {
-			PropertyAnimation{
+			PropertyAnimation {
 				property: "opacity"
 				from: 1
 				to: 0
@@ -112,8 +115,12 @@ ApplicationWindow {
 		visible: false
 		property alias state: state
 
-		GameState{
+		GameState {
 			id: state
+			
+			function send(message) {
+				app.socket.send(message)
+			}
 		}
 	}
 }
