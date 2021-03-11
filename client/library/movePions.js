@@ -94,18 +94,12 @@ function findYposition(count, choosePlayer, array) {
             return choosePlayer.yPosition = layoutPawn14.height
         case'15':
             choosePlayer.parent = layoutPawn15
-            choosePlayer.width = 1/3*case15Id.width
-            choosePlayer.height = 1/3*case15Id.height
             return choosePlayer.yPosition = layoutPawn15.height
         case'16':
             choosePlayer.parent = layoutPawn16
-            choosePlayer.width = 1/3*case16Id.width
-            choosePlayer.height = 1/3*case16Id.height
             return choosePlayer.yPosition = layoutPawn16.height
         case'17':
             choosePlayer.parent = layoutPawn17
-            choosePlayer.width = 20
-            choosePlayer.height = 20
             return choosePlayer.yPosition = layoutPawn17.height
         case'18':
             choosePlayer.parent = layoutPawn18
