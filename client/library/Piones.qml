@@ -29,48 +29,79 @@ Rectangle {
             visible: true
             yPosition: 0
             xPosition: 5
+            
         }
 
         Pion {
             id: player2
-            color: "blue"
+            color: "gray"
             yPosition: 0
             xPosition: 5
+
+            Image {
+                anchors.fill : parent
+                source : "../images/belu_pion.png"
+            }
         }
 
         Pion {
             id: player3
-            color: "red"
+            color: "gray"
             yPosition: 0
             xPosition: 5
+
+            Image {
+                anchors.fill : parent
+                source : "../images/rouge_pion.png"
+            }
         }
 
         Pion {
             id: player4
-            color: "pink"
             yPosition: 0
+            color : "gray"
             xPosition: 5
+
+            Image {
+                anchors.fill : parent
+                source : "../images/rose_pion.png"
+            }
         }
 
         Pion {
             id: player5
-            color: "green"
             yPosition: 0
+            color : "gray"
             xPosition: 5
+
+            Image {
+                anchors.fill : parent
+                source : "../images/vert_pion.png"
+            }
         }
 
         Pion {
             id: player6
-            color: "yellow"
             yPosition: 0
+            color : "gray"
             xPosition: 5
+
+            Image {
+                anchors.fill : parent
+                source : "../images/orange_pion.png"
+            }
         }
 
         Pion {
             id: player7
-            color: "cyan"
             yPosition: 0
+            color : "gray"
             xPosition: 5
+
+            Image {
+                anchors.fill : parent
+                source : "../images/cyan_pion.png"
+            }
         }
     }
 }
