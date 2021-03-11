@@ -11,17 +11,18 @@
         <file>images/Carte2.png</file>
         <file>images/Carte1.png</file>
         <file>images/client_plateau-redimensionné.png</file>
-        <file>Carte_Arro.png</file>
-        <file>Carte_Couar.png</file>
-        <file>Carte_Embu.png</file>
-        <file>Carte_Fata.png</file>
-        <file>Carte_Fav.png</file>
-        <file>Carte_Four.png</file>
-        <file>Carte_Oppo.png</file>
-        <file>Carte_Perf.png</file>
-        <file>Carte_Sabo.png</file>
-        <file>Carte_Sac.png</file>
-        <file>Carte_Vio.png</file>
+        <file>images/Carte_Arro.png</file>
+        <file>images/Carte_Couar.png</file>
+        <file>images/Carte_Embu.png</file>
+        <file>images/Carte_Fata.png</file>
+        <file>images/Carte_Fav.png</file>
+        <file>images/Carte_Four.png</file>
+        <file>images/Carte_Oppo.png</file>
+        <file>images/Carte_Perf.png</file>
+        <file>images/Carte_Sabo.png</file>
+        <file>images/Carte_Sac.png</file>
+        <file>images/Carte_Vio.png</file>
+	<file>images/Carte_Ego.png</file>
 	<file>images/plateauv2.jpg</file>
     </qresource>
 </RCC>
