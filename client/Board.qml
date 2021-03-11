@@ -587,6 +587,23 @@ Window {
                         }
 
                     }
+                    Rectangle{
+                        id:ptid
+                        color: "purple"
+                        height: parent.height /4
+                        width: parent.width /4
+                        anchors{top: addCardBid.bottom;left: parent.left}
+                        Text {
+                            id: texxxtp
+                            text: "Pont"
+                        }
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked: {
+                                boardId.changepont("true")    
+                            }
+                        }
+                    }
                 Component.onCompleted: {
                        rectGroupsId.notifyPion.connect(boardId.receiveCounter) //connect button to Pion
                        rectGroupsId.notifyCard2.connect(receiveaddCard2) //connect button to Card

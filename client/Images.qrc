@@ -22,6 +22,13 @@
         <file>images/Carte_Sabo.png</file>
         <file>images/Carte_Sac.png</file>
         <file>images/Carte_Vio.png</file>
+        <file>images/pontv2.png</file>
+        <file>images/benu_pion.png</file>
+        <file>images/orange_pion.png</file>
+        <file>images/rouge_pion.png</file>
+        <file>images/rose_pion.png></file>
+        <file>images/vert_pion</file>
+        <file>images/cyan_pion</file>
 	<file>images/Carte_Ego.png</file>
 	<file>images/plateauv2.jpg</file>
     </qresource>
