@@ -19,12 +19,12 @@ pages:
                 - git checkout 5.15
                 - ./init-repository
                 - ./configure -xplatform wasm-emscripten -nomake examples -prefix $PWD/qtbase -opensource -confirm-license
-                - make -s module-qtbase module-qtdeclarative module-qtwebsockets module-qtquickcontrols2 module-qtquickcontrols
+                - make -s module-qtbase module-qtdeclarative module-qtwebsockets module-qtquickcontrols2 module-qtquickcontrols module-qtvirtualkeyboard
                 - qmake_wasm="$PWD/qtbase/bin/qmake"
                 - $qmake_wasm --version
                 - cd ..
                 - cd client
-                - $qmake_wasm
+                - $qmake_wasm CONFIG+=static "QMAKE_LFLAGS+=-s TOTAL_MEMORY=32MB"
                 - make
                 - cd ..
                 - mkdir public
@@ -65,12 +65,12 @@ verif_client_wasm:
                 - git checkout 5.15
                 - ./init-repository
                 - ./configure -xplatform wasm-emscripten -nomake examples -prefix $PWD/qtbase -opensource -confirm-license
-                - make -s module-qtbase module-qtdeclarative module-qtwebsockets module-qtquickcontrols2 module-qtquickcontrols
+                - make -s module-qtbase module-qtdeclarative module-qtwebsockets module-qtquickcontrols2 module-qtquickcontrols module-qtvirtualkeyboard
                 - qmake_wasm="$PWD/qtbase/bin/qmake"
                 - $qmake_wasm --version
                 - cd ..
                 - cd client
-                - $qmake_wasm
+                - $qmake_wasm CONFIG+=static "QMAKE_LFLAGS+=-s TOTAL_MEMORY=32MB"
                 - make
         only:
                 - merge_requests

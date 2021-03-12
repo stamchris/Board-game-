@@ -2,6 +2,7 @@ import QtQuick 2.10
 import QtQuick.Layouts 1.10
 import QtQuick.Controls 2.10
 import QtWebSockets 1.0
+import QtQuick.VirtualKeyboard 2.2
 
 ApplicationWindow {
 	id: app
@@ -73,6 +74,12 @@ ApplicationWindow {
 		}
 	}
 
+	MouseArea {
+		anchors.fill: parent
+
+		onClicked: virtualKeyboard.visible = false
+	}
+
 	StackView {
 		id: loader
 		anchors.fill: parent
@@ -101,5 +108,13 @@ ApplicationWindow {
 	Game {
 		id: game
 		visible: false
+	}
+
+	InputPanel {
+		id: virtualKeyboard
+		visible: false
+		anchors.bottom: parent.bottom
+		width: parent.width
+		y: parent.height
 	}
 }

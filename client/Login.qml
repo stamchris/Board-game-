@@ -5,7 +5,6 @@ import QtQuick.Controls 2.10
 Item {
 	ColumnLayout {
 		anchors.horizontalCenter: parent.horizontalCenter
-		anchors.verticalCenter: parent.verticalCenter
 
 		Label {
 			text: "Serveur"
@@ -27,7 +26,10 @@ Item {
 		Button {
 			text: "Go"
 
-			onClicked: socket.connect(serveurInput.text, loginInput.text)
+			onClicked: {
+				socket.connect(serveurInput.text, loginInput.text)
+				virtualKeyboard.visible = false
+			}
 		}
 
 		Label {
