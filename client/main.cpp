@@ -9,8 +9,6 @@
 	#include <emscripten/val.h>
 #endif
 
-#include "backend.h"
-
 int main(int argc, char *argv[])
 {
 	#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -39,8 +37,6 @@ int main(int argc, char *argv[])
 		root_url = engine.baseUrl().toString();
 	#endif
 	engine.rootContext()->setContextProperty("ROOT_URL", root_url);
-	Backend backend;
-	engine.rootContext()->setContextProperty("Backend", &backend);
 	engine.load(url);
 	return app.exec();
 }
