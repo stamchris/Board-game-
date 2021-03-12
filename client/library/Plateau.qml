@@ -16,6 +16,20 @@ Row {
         pont_img.visible = !pont_img.visible 
     }
 
+    function revealbarque(entier) {
+        switch(entier) {
+            case "1": 
+                img_barque.source = "../images/barque_1place.png"
+            break
+            case "2":
+                img_barque.source = "../images/barque_2places.png"
+            break
+            case "3":
+                img_barque.source = "../images/barque_3places.png"
+            break
+        }
+    }
+
     Component.onCompleted: {
         notifyPiones.connect(pionesId.children[0].receiveCounterPiones) //connect button to Pion
     }
@@ -835,6 +849,13 @@ Row {
                 color: "transparent"
                 border.color :"black"
                 border.width: 1
+
+                Image {
+                    id:img_barque
+                    height : parent.height
+                    width : parent.width
+                    source : "../images/barque_1place.png"
+                }
 
                 Column {
                     width : parent.width

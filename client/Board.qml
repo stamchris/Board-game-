@@ -231,128 +231,17 @@ Window {
             anchors {topMargin:0;bottom:parent.bottom;left: parent.left;leftMargin: 2; bottomMargin: 5}
         }
 
+      
+
         Rectangle {
-            id: infoJoueurId
-            width: 8/10 * parent.width
-            height: 40
+            id: plateauId
+            width: parent.width
             color: "#ffffff"
-            anchors { top: plateauId.bottom;left:chatId.right;topMargin:2;rightMargin: 2;leftMargin: 3}
-
-            Row {
-                id: rowId
-                anchors.fill: parent
-                spacing: 3
-
-                Rectangle{
-                    id: user1InfoId
-                    width: 1/6*parent.width
-                    height:parent.height
-                    radius: 3
-                    color: "Blue"
-
-                    Text {
-                        id: text1
-                        height: parent.height
-                        text: qsTr("USER1")
-                        anchors.top: parent.top
-                        font.pixelSize: 20
-                        anchors.topMargin: 2
-                    }
-                }
-
-                Rectangle{
-                    id: user2InfoId
-                    width:  1/6* parent.width
-                    radius: 3
-                    height:parent.height
-                    color: "Cyan"
-                    Text {
-                        id: text2
-                        height: parent.height
-                        text: qsTr("USER2")
-                        anchors.top: parent.top
-                        font.pixelSize: 20
-                        anchors.topMargin: 2
-                    }
-                }
-
-                Rectangle{
-                    id:user3InfoId
-                    width:1/6*  parent.width
-                    height: parent.height
-                    radius: 3
-                    color: "Orange"
-                    Text {
-                        id: text3
-                        height: parent.height
-                        text: qsTr("USER3")
-                        anchors.top: parent.top
-                        font.pixelSize: 20
-                        anchors.topMargin: 2
-                    }
-                }
-
-                Rectangle{
-                    id:user4InfoId
-                    width:1/6*  parent.width
-                    height: parent.height
-                    radius: 3
-                    color: "Green"
-                    Text {
-                        id: text4
-                        height: parent.height
-                        text: qsTr("USER4")
-                        anchors.top: parent.top
-                        font.pixelSize: 20
-                        anchors.topMargin: 2
-                    }
-                }
-
-                Rectangle{
-                    id:user5InfoId
-                    width:1/6* parent.width
-                    height:  parent.height
-                    radius: 3
-                    color: "Red"
-                    Text {
-                        id: text5
-                        height: parent.height
-                        text: qsTr("USER5")
-                        anchors.top: parent.top
-                        font.pixelSize: 20
-                        anchors.topMargin: 2
-                    }
-                }
-
-                Rectangle{
-                    id:user6InfoId
-                    width: 1/6* parent.width
-                    height: parent.height
-                    radius: 3
-                    color: "Pink"
-                    Text {
-                        id: text6
-                        height: parent.height
-                        text: qsTr("USER6")
-                        anchors.top: parent.top
-                        font.pixelSize: 20
-                        anchors.topMargin: 2
-                    }
-                }
-
+            border.width: 3
+            anchors {
+                top: underBarId.bottom; bottom: chatId.top; right: parent.right; left: parent.left;
+                topMargin: 5; bottomMargin: 2; rightMargin: 2; leftMargin: 2
             }
-        }
-
-
-      Rectangle {
-        id: plateauId
-        width: parent.width
-        color: "#ffffff"
-        border.width: 3
-        anchors {
-            top: underBarId.bottom; bottom: chatId.top; right: parent.right; left: parent.left;
-            topMargin: 5; bottomMargin: 2; rightMargin: 2; leftMargin: 2
-        }
             Image {
                 id: plateauImageId
                 anchors.fill: parent
@@ -518,45 +407,81 @@ Window {
 
                 }
                     Rectangle{
-                    id:pinkId
-                    color: "pink"
-                    height: parent.height /4
-                    width: parent.width /4
-                    anchors{top: blueId.bottom;left: redId.right}
-                    Text {
-                        id: textt
-                        text: "+1"
-                    }
-                   MouseArea{
-                       anchors.fill: parent
-                    onClicked: {
-                        rectGroupsId.positionCounterPion4++
-                        rectGroupsId.notifyPion(rectGroupsId.positionCounterPion4,"player4")
+                        id:pinkId
+                        color: "pink"
+                        height: parent.height /4
+                        width: parent.width /4
+                        anchors{top: blueId.bottom;left: redId.right}
+                        Text {
+                            id: textt
+                            text: "+1"
+                        }
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked: {
+                                rectGroupsId.positionCounterPion4++
+                                rectGroupsId.notifyPion(rectGroupsId.positionCounterPion4,"player4")
+
+                            }
+                        }
 
                     }
-                   }
-
-                }
 
                     Rectangle{
-                    id:greenId
-                    color: "green"
-                    height: parent.height /4
-                    width: parent.width /4
-                    anchors{top: parent.top;left: blueId.right}
-                    Text {
-                        id: texttt
-                        text: "+1"
-                    }
-                   MouseArea{
-                       anchors.fill: parent
-                        onClicked: {
-                            rectGroupsId.positionCounterPion5++
-                            rectGroupsId.notifyPion(rectGroupsId.positionCounterPion5,"player5")
-                         }
-                   }
+                        id:typechangeId
+                        color: "yellow"
+                        height: parent.height /4
+                        width: parent.width /4
+                        anchors{top: greenId.bottom;left: pinkId.right}
+                        TextInput {
+                                anchors.left : typechangeId.right
+                                id : inputchangetype
+                                text: "Plyr"
+                                focus: true
+                                cursorVisible: false
+                                onAccepted: console.log("Accepted")
+                            }
 
-                }
+                        Text {
+                            id: txtchangetype
+                            color : "black"
+                            text: "C/M"
+                        }
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked: {                       
+                                var good = -1
+                                var int_player = parseInt(inputchangetype.text,10)
+
+                                good = ((int_player < 7) ? ((int_player > 0) ? good = int_player : good = -1) : good = -1)
+
+                                if(good != -1) {
+                                    rowId.children[good-1].children[0].children[1].changetype(inputchangetype.text) 
+                                }
+                            }
+                        }   
+                    }
+
+
+                    Rectangle{
+                        id:greenId
+                        color: "green"
+                        height: parent.height /4
+                        width: parent.width /4
+                        anchors{top: parent.top;left: blueId.right}
+                        Text {
+                            id: texttt
+                            text: "+1"
+                        }
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked: {
+                                rectGroupsId.positionCounterPion5++
+                                rectGroupsId.notifyPion(rectGroupsId.positionCounterPion5,"player5")
+                            }
+                        }
+
+                    }
                     Rectangle{
                         id:addCardBid
                         color: "black"
@@ -604,18 +529,227 @@ Window {
                             }
                         }
                     }
-                Component.onCompleted: {
+
+                    Rectangle{
+                        id:rbid
+                        color: "orange"
+                        height: parent.height /4
+                        width: parent.width /4
+                        anchors{top: addCardBid.bottom;left: ptid.right}
+                        Text {
+                            id: texxxtrb
+                            text: "RB"
+                        }
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked: {
+                                boardId.revealbarque("2") //test
+                            }
+                        }
+                    }
+                    Component.onCompleted: {
                        rectGroupsId.notifyPion.connect(boardId.receiveCounter) //connect button to Pion
                        rectGroupsId.notifyCard2.connect(receiveaddCard2) //connect button to Card
                     }
-
-
                 }
+            }
+        }
+    
+     Rectangle {
+        id: infoJoueurId
+        width: 8/10 * parent.width
+        height: 40
+        color: "#ffffff"
+        anchors { top: plateauId.bottom;left:chatId.right;topMargin:2;rightMargin: 2;leftMargin: 3}
+        Row {
+            id: rowId
+            anchors.fill: parent
+            //spacing: 3
 
+            Rectangle{
+                id: user1InfoId
+                width: 1/6*parent.width
+                height:parent.height
+                radius: 3
+                color: "Blue"
+                x : 30
+                
 
-
+                Row {
+                    width : parent.width
+                    height : parent.height
+                    Rectangle {
+                        width : parent.width/6
+                        height : parent.height
+                        color : "transparent"
+                        Text {
+                            //anchors.fill : parent
+                            id: text1
+                            text: qsTr("USER1")
+                            anchors.centerIn : parent
+                            font.pixelSize: 15
+                        }
+                    }
+                    
+                    InfosJoueur {
+                        anchors.leftMargin : 10
+                        id: news_usr_1
                     }
                 }
+                
+            }
+
+            Rectangle{
+                id: user2InfoId
+                width:  1/6* parent.width
+                radius: 3
+                height:parent.height
+                color: "Cyan"
+                
+                Row {
+                    width : parent.width
+                    height : parent.height
+        
+                    Rectangle {
+                        width : parent.width/5
+                        height : parent.height
+                        color : "transparent"
+
+                        Text {
+                            id: text2
+                            text: qsTr("USER2")
+                            anchors.centerIn : parent
+                            font.pixelSize: 15
+                        }
+                    }
+
+                    InfosJoueur {
+                        id: news_usr_2
+                    }
+                }
+            }
+
+            Rectangle{
+                id:user3InfoId
+                width:1/6*  parent.width
+                height: parent.height
+                radius: 3
+                color: "Orange"
+
+                Row {
+                    width : parent.width
+                    height : parent.height
+                
+                    Rectangle {
+                        width : parent.width/5
+                        height : parent.height
+                        color : "transparent"
+                        Text {
+                            id: text3
+                            text: qsTr("USER3")
+                            anchors.centerIn : parent
+                            font.pixelSize: 15
+                        }
+                    }
+
+                    InfosJoueur {
+                        id: news_usr_3
+                    }
+                }
+            }
+
+            Rectangle{
+                id:user4InfoId
+                width:1/6*  parent.width
+                height: parent.height
+                radius: 3
+                color: "Green"
+
+                Row {
+                    width : parent.width
+                    height : parent.height
+            
+                    Rectangle {
+                        width : parent.width/5
+                        height : parent.height
+                        color : "transparent"
+            
+                        Text {
+                            id: text4
+                            text: qsTr("USER4")
+                            anchors.centerIn : parent
+                            font.pixelSize: 15               
+                        }
+                    }
+
+                    InfosJoueur {
+                        id: news_usr_4
+                    }
+                }
+            }
+
+            Rectangle{
+                id:user5InfoId
+                width:1/6* parent.width
+                height:  parent.height
+                radius: 3
+                color: "Red"
+                
+                Row {
+                    width : parent.width
+                    height : parent.height
+        
+                    Rectangle {
+                        width : parent.width/5
+                        height : parent.height
+                        color : "transparent"
+                        
+                        Text {
+                            id: text5
+                            text: qsTr("USER5")
+                            anchors.centerIn : parent
+                            font.pixelSize: 15  
+                        }
+                    }
+
+                    InfosJoueur {
+                        id: news_usr_5
+                    }
+                }
+            }
+
+            Rectangle{
+                id:user6InfoId
+                width: 1/6* parent.width
+                height: parent.height
+                radius: 3
+                color: "Pink"
+            
+                Row {
+                    width : parent.width
+                    height : parent.height
+                    
+                    Rectangle {
+                        width : parent.width/5
+                        height : parent.height
+                        color : "transparent"
+    
+                        Text {
+                            id: text6
+                            text: qsTr("USER6")
+                            anchors.centerIn : parent
+                            font.pixelSize: 15   
+                        }
+                    }
+
+                    InfosJoueur {
+                        id: news_usr_6
+                    }
+                }
+            }
+
+        }
+    }
 
 
     Rectangle {

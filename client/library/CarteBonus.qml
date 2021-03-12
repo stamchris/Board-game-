@@ -10,11 +10,20 @@ Column {
             left: parent.left
         }
 
-        signal clickCard()
+        //signal clickCard()
 
-        function blockCard(id) {
-            columnIdB.parent.parent.visible = false 
-            columnIdB.parent.children[1].children[0].text = "1"  
+        function blockCard() {
+            var nb_same_card_bonus = columnIdB.parent.children[1].children[0].text
+            if (nb_same_card_bonus == "1") {
+                columnIdB.parent.parent.visible = false 
+            }
+            else {
+                var nb_card = parseInt(nb_same_card_bonus,10)
+                var new_nb_card = nb_card - 1
+                var str_nb_card = ""+new_nb_card
+                console.log(str_nb_card)
+                columnIdB.parent.children[1].children[0].text = str_nb_card
+            }
         }
 
         Rectangle {
@@ -49,7 +58,7 @@ Column {
                 }
 
                 onClicked: {
-                    columnIdB.clickCard()
+                    columnIdB.blockCard()
                 }
             }
         }
@@ -78,7 +87,7 @@ Column {
                 }
 
                 onClicked: {
-                    columnIdB.clickCard()
+                    columnIdB.blockCard()
                 }
             }
         }

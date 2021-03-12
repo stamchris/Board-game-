@@ -24,12 +24,29 @@ Rectangle {
         }
 
         Pion {
-            id: player1
-            color: "white"
+            id:cerbere
             visible: true
             yPosition: 0
             xPosition: 5
+            color : "transparent"
+
+            Image {
+                anchors.fill : parent
+                source : "../images/cerbere_pion.png"
+            }
             
+        }
+
+        Pion {
+            id: player1
+            color: "gray"
+            yPosition: 0
+            xPosition: 5
+
+            Image {
+                anchors.fill : parent
+                source : "../images/blanc_pion.png"
+            }   
         }
 
         Pion {
