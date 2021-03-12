@@ -15,7 +15,7 @@ Item{
     signal _difficultyChanged()
     signal _rageChanged()
     signal _vitesseChanged()
-    signal _playersChanged()
+    signal _playersChanged(variant players)
     signal _positionChanged(string newPosition, string color)
 
     function changeLogin(newlogin) {
@@ -50,7 +50,7 @@ Item{
 
     function changePlayers(newPlayers) {
         players = newPlayers
-        _playersChanged()
+        _playersChanged(players)
     }
 
     function changePosition(color, newPosition) {
@@ -66,5 +66,6 @@ Item{
         _loginChanged.connect(parent.board.playerInfo.updateLogin)
         _colorChanged.connect(parent.board.playerInfo.updateColor)
         _positionChanged.connect(parent.board.boardId.receiveCounter)
+        _playersChanged.connect(parent.board.boardId.pionesId.unhideNonPlayerPieces)
     }
 }

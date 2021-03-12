@@ -5,24 +5,22 @@ import QtWebSockets 1.0
 
 
 Row {
+    id: rowId
+    anchors.fill: parent
+    property alias pionesId: pionesId
+
     signal notifyPiones(string counter, string player)
 
     function receiveCounter(count, player) {
         notifyPiones(count, player)
     }
 
-    Component.onCompleted: {
-        notifyPiones.connect(pionesId.receiveCounterPiones)
-    }
-
-    id: rowId
-    anchors.fill: parent
-
     Rectangle {
         id: firstPlateauid
         width: parent.width*29/100
         color: "transparent"
         height: parent.height
+        property alias pionesId: pionesId
 
         Piones {
             id: pionesId
@@ -350,5 +348,9 @@ Row {
                 border.width: 1
             }
         }       
+    }
+    
+    Component.onCompleted: {
+        notifyPiones.connect(pionesId.receiveCounterPiones)
     }
 }
