@@ -44,12 +44,13 @@ ApplicationWindow {
 					game.view = "Board"
 					break
 				case "updatePlayer":
-					game.players = game.players.map( player =>
-						(player.name==message.player.name) ?
-							message.player
-						:
-							player
-						)
+					for (var i = 0; i < game.players.length; i++) {
+						if (game.players[i].name == message.player.name) {
+							game.players[i] = message.player
+							break
+						}
+					}
+					game.players = game.players
 					break
 				case "updatePosition":
 					game.state.changePosition(message.player.colour, message.player.position)

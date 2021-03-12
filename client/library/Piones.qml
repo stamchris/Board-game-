@@ -9,14 +9,14 @@ Column {
     spacing: 2
 
     //[counter of pions]
-    property variant yArray: [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,1]
+    property variant yArray: [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
     property variant xArray: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     property variant xCounter: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
     function receiveCounterPiones(count, player) {
         MovePions.fixYArray(yArray, count)
         MovePions.fixXCounter(xCounter, count)
-        MovePions.fixXArray(xArray,xCounter, count)
+        MovePions.fixXArray(xArray, xCounter, count)
         MovePions.findYposition(count, MovePions.choosePlayer(player), yArray)
         MovePions.findXposition(count, MovePions.choosePlayer(player), xArray)
     }

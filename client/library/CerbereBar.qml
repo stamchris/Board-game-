@@ -4,7 +4,6 @@ import QtQuick.Controls 2.10
 Item {
     id: rowroot
     width: parent.width
-    property int vitesse: 3
 
     anchors {
         top: parent.top;
@@ -13,48 +12,18 @@ Item {
         leftMargin: 0
     }
 
-    signal changerVitesse()
-
-    function incrementVitesse() {
-        if(vitesse < 6) {
-            vitesse += 1
-        } else {
-            if(vitesse < 8) {
-                vitesse += 1
-                vitesseCerbereTextId.color = "red"
-            } else { //vitesse = 8
-                vitesse = 3
-                vitesseCerbereTextId.color = "green"
-            }
-        }
-    }
-
-    Button {
-            text: "+1"
-            width: parent.width*0.05
-            height: 60
-
-            anchors {
-                right: vitesseCerbereTextId.left
-            }
-
-            onClicked: {
-                rowroot.changerVitesse()
-            }
-    }
-
     Text {
         id: vitesseCerbereTextId
         width: parent.width*0.3
         height: 60
         color: "green"
-        text: "Vitesse de cerbere : " + vitesse
+        text: "Vitesse de cerbere : "
         horizontalAlignment: Text.AlignHCenter
 
         anchors{
             top: parent.top;
             topMargin: 15;
-            right: buttonCerbId.left
+            left: parent.left
         }
 
         font {
@@ -64,43 +33,6 @@ Item {
             bold: true;
             family: "Arial";
             pointSize: 16 
-        }
-    }
-
-    Component.onCompleted: {
-        changerVitesse.connect(rowroot.incrementVitesse)
-    }
-
-    Button {
-        id: buttonCerbId
-        text: "+1"
-        width: parent.width*0.05
-        height: 60
-        
-        anchors {
-            right: cerbereBarId.left
-        }
-
-        onClicked: {
-            if(cerbereBarId.value < 4) { // green
-                position0.color = "#11af14"
-                position1.color = "#08660a"
-            } else {
-                if(cerbereBarId.value < 7) { // orange
-                    position0.color = "#F19619"
-                    position1.color = "#AB6404"
-                } else {
-                    if(cerbereBarId.value == 10) { // green
-                        cerbereBarId.value = 1
-                        position0.color = "#11af14"
-                        position1.color = "#08660a"
-                    } else { // red
-                        position0.color= "#E11C0C"
-                        position1.color="#A01F14"
-                    }
-                }
-            }
-            cerbereBarId.value += 1
         }
     }
 
