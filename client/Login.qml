@@ -9,7 +9,7 @@ Item {
 		Label {
 			text: "Serveur"
 		}
-		CerbTextField {
+		TextField {
 			width: 220
 			id: serveurInput
 			text: "localhost:3000"
@@ -18,7 +18,7 @@ Item {
 		Label {
 			text: "Pseudo"
 		}
-		CerbTextField {
+		TextField {
 			width: 220
 			id: loginInput
 		}
@@ -26,10 +26,7 @@ Item {
 		Button {
 			text: "Go"
 
-			onClicked: {
-				socket.connect(serveurInput.text, loginInput.text)
-				virtualKeyboard.visible = false
-			}
+			onClicked: socket.connect(serveurInput.text, loginInput.text)
 		}
 
 		Label {

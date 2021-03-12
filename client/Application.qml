@@ -74,12 +74,6 @@ ApplicationWindow {
 		}
 	}
 
-	MouseArea {
-		anchors.fill: parent
-
-		onClicked: virtualKeyboard.visible = false
-	}
-
 	StackView {
 		id: loader
 		anchors.fill: parent
@@ -112,7 +106,7 @@ ApplicationWindow {
 
 	InputPanel {
 		id: virtualKeyboard
-		visible: false
+		visible: active
 		anchors.bottom: parent.bottom
 		width: parent.width
 		y: parent.height
