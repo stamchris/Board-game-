@@ -24,7 +24,7 @@ pages:
                 - $qmake_wasm --version
                 - cd ..
                 - cd client
-                - $qmake_wasm CONFIG+=static "QMAKE_LFLAGS+=-s TOTAL_MEMORY=32MB"
+                - $qmake_wasm
                 - make
                 - cd ..
                 - mkdir public
@@ -70,7 +70,7 @@ verif_client_wasm:
                 - $qmake_wasm --version
                 - cd ..
                 - cd client
-                - $qmake_wasm CONFIG+=static "QMAKE_LFLAGS+=-s TOTAL_MEMORY=32MB"
+                - $qmake_wasm
                 - make
         only:
                 - merge_requests

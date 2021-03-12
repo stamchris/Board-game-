@@ -12,6 +12,12 @@ SOURCES += \
 RESOURCES += qml.qrc \
     Images.qrc
 
+# Règles qui ne s'appliquent que pour Qt Wasm
+wasm-emscripten {
+	CONFIG += static
+	QMAKE_LFLAGS += -s TOTAL_MEMORY=32MB
+}
+
 static {
 	QTPLUGIN += qtvirtualkeyboardplugin
 	QT += svg
