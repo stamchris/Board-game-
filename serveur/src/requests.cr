@@ -33,7 +33,12 @@ class Cerbere::Request
 		def handle(game : Game, player : Player)
 			player.ready = !player.ready
 			if game.check_players()
-				game.send_all(Response::Starter.new)
+				id = 0
+				game.players.each do |player|
+					player.lobby_id = id
+					id += 1
+				end
+				game.send_all(Response::Starter.new(game.players, game.difficulty))
 				game.start(0, game.players)
 			end
 		end
@@ -90,8 +95,10 @@ class Cerbere::Response
 
 	class Starter < Response
 		property type = "starter"
-
-		def initialize()
+		property player : Player
+		property difficulty : Int32
+		
+		def initialize(@player, @difficulty)
 		end
 	end
 

@@ -446,8 +446,6 @@ class Cerbere::Board
         end
     end
 
-    #DEPLACER_SURVIVANTS # Tous les survivants se déplacent
-
     def action_move_all_survivors(force : Int32)
         @players.each do |player|
             if (player.type == TypeJoueur::AVENTURIER)
@@ -456,13 +454,13 @@ class Cerbere::Board
         end
     end
 
-
     def defausser(joueur : Player,num_carte : Int32)
         if(num_carte < 0 || num_carte >= joueur.hand.bonus.size())
             raise "Le joueur #{joueur.lobby_id} ne peut pas défausser la carte #{num_carte} !"
         end
 
         carte : CarteBonus = joueur.hand.bonus.delete_at(num_carte)
+        joueur.hand.bonus_size += 1
 
         if(joueur.type == TypeJoueur::CERBERE)
             pioche_trahison.dis_card(carte.as(CarteTrahison))
@@ -488,8 +486,10 @@ class Cerbere::Board
         nombre.times do
             if joueur.type == TypeJoueur::AVENTURIER
                 joueur.hand.bonus << pioche_survie.draw_card()
+                joueur.hand.bonus_size += 1
             elsif joueur.type == TypeJoueur::CERBERE
                 joueur.hand.bonus << pioche_trahison.draw_card()
+                joueur.hand.bonus_size += 1
             else
                 raise "Vous êtes mort !"
             end

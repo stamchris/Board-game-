@@ -3,15 +3,15 @@ import QtQuick 2.10
 Item{
     property string login: "login"
     property string color: "#000000"
-    property int numberOfPlayers: 0
     property int difficulty: 0
     property int rage: 0
     property int vitesse: 0
+    property int posCerbere: 0
+    property boolean pont: true
     property variant players: []
 
     signal _loginChanged()
     signal _colorChanged()
-    signal _numberOfPlayersChanged()
     signal _difficultyChanged()
     signal _rageChanged()
     signal _vitesseChanged()
@@ -26,11 +26,6 @@ Item{
     function changeColor(newcolor) {
         color = newcolor
         _colorChanged()
-    }
-
-    function changeNumberOfPlayer(newNumberOfPlayers) {
-        numberOfPlayers = newNumberOfPlayers
-        _numberOfPlayersChanged()
     }
 
     function changeDifficulty(newDifficulty) {

@@ -19,7 +19,6 @@ class Cerbere::Game
 		end
 		player.colour=i
 		@players << player
-
 	end
 
 	def send_all(response : Response)

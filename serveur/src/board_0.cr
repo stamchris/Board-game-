@@ -2,7 +2,7 @@ require "./node.cr"
 
 BOARD_0 = [
 
-    Node.new(Effet.new(Evenement::RIEN,0),       # Effet
+    Node.new(Effet.new(Evenement::RIEN,0),      # Effet
             true),                              # Checkpoint pour Cerbere
 
     Node.new(Effet.new(Evenement::RIEN,0),

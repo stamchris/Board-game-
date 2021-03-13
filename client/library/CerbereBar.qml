@@ -20,7 +20,7 @@ Item {
         text: " Vitesse : "
         horizontalAlignment: Text.AlignHCenter
 
-        anchors{
+        anchors {
             top: parent.top;
             topMargin: 15;
             left: parent.left
