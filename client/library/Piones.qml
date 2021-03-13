@@ -47,7 +47,7 @@ Column {
                 case "Pink":
                     player5.visible = true
                     receiveCounterPiones(1, "Pink")
-                    window.parent.state.changePosition("Pink")
+                    window.parent.state.changePosition("Pink", 1)
                 case "Blue":
                     player6.visible = true
                     receiveCounterPiones(1, "Blue")

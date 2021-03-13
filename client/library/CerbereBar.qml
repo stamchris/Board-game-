@@ -17,7 +17,7 @@ Item {
         width: parent.width*0.3
         height: 60
         color: "green"
-        text: "Vitesse de cerbere : "
+        text: " Vitesse : "
         horizontalAlignment: Text.AlignHCenter
 
         anchors{
