@@ -102,4 +102,17 @@ ApplicationWindow {
 		id: game
 		visible: false
 	}
+
+	Component.onCompleted: {
+		if(NEEDS_VIRTUAL_KEYBOARD){
+			Qt.createQmlObject("import QtQuick.VirtualKeyboard 2.2
+			InputPanel {
+				id: virtualKeyboard
+				visible: active
+				anchors.bottom: parent.bottom
+				width: parent.width
+				y: parent.height - height
+			}", app, null);
+		}
+	}
 }
