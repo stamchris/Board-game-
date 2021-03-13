@@ -95,10 +95,10 @@ class Cerbere::Response
 
 	class Starter < Response
 		property type = "starter"
-		property player : Player
+		property players : Array(Player)
 		property difficulty : Int32
 		
-		def initialize(@player, @difficulty)
+		def initialize(@players, @difficulty)
 		end
 	end
 
