@@ -28,7 +28,7 @@ ApplicationWindow {
 					game.players = game.players
 					break
 				case "welcome":
-					app.title = "Cerbere :" + login
+					app.title = "Cerbere : " + login
 					game.players = message.players
 					game.visible = true
 					loader.push(game)

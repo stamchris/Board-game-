@@ -677,6 +677,7 @@ Item {
                 Row {
                     width : parent.width
                     height : parent.height
+
                     Rectangle {
                         width : parent.width/6
                         height : parent.height
@@ -859,33 +860,38 @@ Item {
                         case 5:
                             user1InfoId.color = players[order].colour
                             user1InfoId.visible = true
+                            user1InfoId.children[0].children[0].children[0].text = players[order].name
                             break
                         case 4:
                             user2InfoId.color = players[order].colour
                             user2InfoId.visible = true
+                            user2InfoId.children[0].children[0].children[0].text = players[order].name
                             break
                         case 3:
                             user3InfoId.color = players[order].colour
                             user3InfoId.visible = true
+                            user3InfoId.children[0].children[0].children[0].text = players[order].name
                             break
                         case 2:
                             user4InfoId.color = players[order].colour
                             user4InfoId.visible = true
+                            user4InfoId.children[0].children[0].children[0].text = players[order].name
                             break
                         case 1:
                             user5InfoId.color = players[order].colour
                             user5InfoId.visible = true
+                            user5InfoId.children[0].children[0].children[0].text = players[order].name
                             break
                         case 0:
                             user6InfoId.color = players[order].colour
                             user6InfoId.visible = true
+                            user6InfoId.children[0].children[0].children[0].text = players[order].name
                             break
                         default:
                             break
                     }
                 } else {
                     i--
-                    console.log(i + "" + order + "" + "its me")
                 }
 
                 order++
