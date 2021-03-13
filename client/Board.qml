@@ -298,174 +298,46 @@ Item {
     }
 
     Rectangle {
-        id: leftContainerId
+        id: chatId
+        height: 250
         width: parent.width*2/10
         color: "#ffffff"
-        border.width: 3
+        border.width: 2
 
         anchors {
-            top: underBarId.bottom;
+            topMargin: 0;
+            bottom: parent.bottom;
             left: parent.left;
-            bottom:parent.bottom;
-            topMargin: 5;
             leftMargin: 2;
             bottomMargin: 5
-        }
-
-        Rectangle {
-            id: chatId
-            width: parent.width
-            height: parent.height*6/10
-            color: "#ffffff"
-            border.width: 2
-
-            anchors {
-                top: infoJoueurId.bottom;
-                topMargin: 0
-            }
-        }
-
-        Rectangle {
-            id: infoJoueurId
-            width:  parent.width
-            height: parent.height*4/10
-            color: "#ffffff"
-            border.color: "#f23f1e"
-            border.width: 2
-
-            anchors {
-                top: parent.top
-            }
-
-            Column {
-                id: columnId
-                anchors.fill: parent
-
-                Rectangle{
-                    id: user1InfoId
-                    width: parent.width
-                    height: parent.height*1/6
-                    color: "Blue"
-
-                    Text {
-                        id: text1
-                        height: parent.height
-                        text: qsTr("USER1")
-                        anchors.top: parent.top
-                        font.pixelSize: 20
-                        anchors.topMargin: 2
-                    }
-                }
-
-                Rectangle{
-                    id: user2InfoId
-                    width: parent.width
-                    height: parent.height*1/6
-                    color: "Cyan"
-
-                    Text {
-                        id: text2
-                        height: parent.height
-                        text: qsTr("USER2")
-                        anchors.top: parent.top
-                        font.pixelSize: 20
-                        anchors.topMargin: 2
-                    }
-                }
-
-                Rectangle{
-                    id: user3InfoId
-                    width: parent.width
-                    height: parent.height*1/6
-                    color: "Orange"
-
-                    Text {
-                        id: text3
-                        height: parent.height
-                        text: qsTr("USER3")
-                        anchors.top: parent.top
-                        font.pixelSize: 20
-                        anchors.topMargin: 2
-                    }
-                }
-
-                Rectangle{
-                    id: user4InfoId
-                    width: parent.width
-                    height: parent.height*1/6
-                    color: "Green"
-
-                    Text {
-                        id: text4
-                        height: parent.height
-                        text: qsTr("USER4")
-                        anchors.top: parent.top
-                        font.pixelSize: 20
-                        anchors.topMargin: 2
-                    }
-                }
-
-                Rectangle{
-                    id: user5InfoId
-                    width: parent.width
-                    height: parent.height*1/6
-                    color: "Red"
-
-                    Text {
-                        id: text5
-                        height: parent.height
-                        text: qsTr("USER5")
-                        anchors.top: parent.top
-                        font.pixelSize: 20
-                        anchors.topMargin: 2
-                    }
-                }
-
-                Rectangle {
-                    id: user6InfoId
-                    width: parent.width
-                    height: parent.height*1/6
-                    color: "Pink"
-
-                    Text {
-                        id: text6
-                        height: parent.height
-                        text: qsTr("USER6")
-                        anchors.top: parent.top
-                        font.pixelSize: 20
-                        anchors.topMargin: 2
-                    }
-                }
-            }
         }
     }
 
     Rectangle {
         id: plateauId
-        width: parent.width*8/10
+        width: parent.width
         color: "#ffffff"
         border.width: 3
-        property alias boardId: boardId
 
         anchors {
             top: underBarId.bottom;
-            bottom: joueurId.top;
+            bottom: chatId.top;
             right: parent.right;
-            left: leftContainerId.right;
+            left: parent.left;
             topMargin: 5;
-            bottomMargin: 5;
+            bottomMargin: 2;
             rightMargin: 2;
             leftMargin: 2
         }
-
+        
         Image {
             id: plateauImageId
             anchors.fill: parent
             horizontalAlignment: Image.AlignHCenter
-            source: "images/client_plateau-redimensionné.png"
-            fillMode: Image.Stretch
+            source: "images/plateauv2.jpg"
+            fillMode: PreserveAspectFit
             property alias boardId: boardId
-
+            
             Plateau {
                 id: boardId
             }
@@ -473,10 +345,202 @@ Item {
 
         Rectangle {
             id: rectGroupsId
-            height: 50
+            height: 100
             width: 150
             anchors.bottom: parent.bottom
             anchors.right: parent.right
+
+            signal notifyCard2 (string source)
+
+            function receiveaddCard2(source) {
+                var i = 0
+                var source_string = ""
+                var found_same = - 1
+
+                while((rowbonusid.children[i].visible != false) && (i< 4)) {
+                    if(rowbonusid.children[i].children.length > 0) {
+                        source_string = source_string + rowbonusid.children[i].children[0].source
+                        var length2 = source_string.length
+
+                        while(source_string[length2-1] != '/'  && length2 > 0) {
+                            length2 -=1
+                        }
+
+                        var subsource_string = source_string.substring(length2,source_string.length)
+
+                        if(subsource_string == source) {
+                            found_same = i
+                            break
+                        }
+                    }
+
+                    i += 1
+                }
+
+                var new_source = "images/" + source
+
+                if(found_same >= 0 ) {
+                    switch(i) {
+                        case 0:
+                            var add = parseInt(txtcb1.text, 10)
+
+                            if(add < 4)
+                                txtcb1.text = "" + ((parseInt(txtcb1.text, 10) + 1))
+                            break
+                        case 1:
+                            var add = parseInt(txtcb2.text, 10)
+
+                            if(add < 4)
+                                txtcb2.text = "" + ((parseInt(txtcb2.text, 10) + 1))
+                            break
+                        case 2:
+                            var add = parseInt(txtcb3.text, 10)
+
+                            if(add < 4)
+                                txtcb3.text = "" + ((parseInt(txtcb3.text, 10) + 1))
+                            break
+                        case 3:
+                            var add = parseInt(txtcb4.text, 10)
+
+                            if(add < 4)
+                                txtcb4.text = "" + ((parseInt(txtcb4.text, 10) + 1))
+                            break
+                    }
+                } else {
+                    rowbonusid.children[i].visible = true
+                    rowbonusid.children[i].children[0].source = new_source
+                }
+            }
+
+            Rectangle {
+                id: typechangeId
+                color: "yellow"
+                height: parent.height/4
+                width: parent.width/4
+
+                anchors {
+                    bottom: parent.bottom;
+                    left: parent.left
+                }
+
+                TextInput {  
+                    id : inputchangetype
+                    text: "Plyr"
+                    focus: true
+                    cursorVisible: false
+                    anchors.left: typechangeId.right
+
+                    onAccepted: console.log("Accepted")
+                }
+
+                Text {
+                    id: txtchangetype
+                    color: "black"
+                    text: "C/M"
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    onClicked: {                       
+                        var good = -1
+                        var int_player = parseInt(inputchangetype.text, 10)
+
+                        good = ((int_player < 7) ? ((int_player > 0) ? good = int_player : good = -1) : good = -1)
+
+                        if(good != -1)
+                            rowId.children[good-1].children[0].children[1].changetype(inputchangetype.text) 
+                    }
+                }   
+            }
+
+            Rectangle {
+                id: addCardBid
+                color: "black"
+                height: parent.height/4
+                width: parent.width/4
+
+                anchors {
+                    bottom: parent.bottom
+                    left: typechangeId.right
+                }
+
+                TextInput {
+                    anchors.left: txtaddCard.right
+                    id: inputaddcard
+                    text: "Image source"
+                    focus: true
+                    cursorVisible: false
+
+                    onAccepted: console.log("Accepted")
+                }
+
+                Text {
+                    id: txtaddCard
+                    color: "white"
+                    text: "+1CB"
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    onClicked: {
+                        //mise en place de la liaison reseau ici pour changer 
+                        // le nom de la carte à ajouter
+                        rectGroupsId.notifyCard2(inputaddcard.text)
+                    }
+                }
+            }
+
+            Rectangle {
+                id: ptid
+                color: "purple"
+                height: parent.height/4
+                width: parent.width/4
+
+                anchors {
+                    bottom: parent.bottom;
+                    left: addCardBid.right
+                }
+
+                Text {
+                    id: texxxtp
+                    text: "Pont"
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    onClicked: {
+                        boardId.changepont("true")    
+                    }
+                }
+            }
+
+            Rectangle {
+                id: rbid
+                color: "orange"
+                height: parent.height/4
+                width: parent.width/4
+
+                anchors {
+                    bottom: parent.bottom;
+                    left: ptid.right
+                }
+
+                Text {
+                    id: texxxtrb
+                    text: "RB"
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    onClicked: {
+                        boardId.revealbarque("2")
+                    }
+                }
+            }
 
             Rectangle {
                 id: plusOne
@@ -562,20 +626,226 @@ Item {
                         verticalCenter: parent.verticalCenter
                         horizontalCenter: parent.horizontalCenter
                     }
-                }
 
-                MouseArea {
-                    anchors.fill: parent
+                    MouseArea {
+                        anchors.fill: parent
                     
-                    onClicked: {
-                        window.parent.state.send({
-                            type: "change_position",
-                            change: 3,
-                            login: window.parent.state.login
-                        })
+                        onClicked: {
+                            window.parent.state.send({
+                                type: "change_position",
+                                change: 3,
+                                login: window.parent.state.login
+                            })
+                        }
                     }
                 }
-            }    
+            }
+            
+            Component.onCompleted: {
+                rectGroupsId.notifyCard2.connect(receiveaddCard2)
+            }
+        }
+    }
+                    
+    Rectangle {
+        id: infoJoueurId
+        width: parent.width*8/10
+        height: 40
+        color: "#ffffff"
+
+        anchors {
+            top: plateauId.bottom;
+            left:chatId.right;
+            topMargin:2;
+            rightMargin: 2;
+            leftMargin: 3
+        }
+
+        Row {
+            id: rowId
+            anchors.fill: parent
+
+            Rectangle {
+                id: user1InfoId
+                width: 1/6*parent.width
+                height:parent.height
+                radius: 3
+                color: "Blue"
+                x : 30
+                
+
+                Row {
+                    width : parent.width
+                    height : parent.height
+                    Rectangle {
+                        width : parent.width/6
+                        height : parent.height
+                        color : "transparent"
+                        Text {
+                            //anchors.fill : parent
+                            id: text1
+                            text: qsTr("USER1")
+                            anchors.centerIn : parent
+                            font.pixelSize: 15
+                        }
+                    }
+                    
+                    InfosJoueur {
+                        anchors.leftMargin : 10
+                        id: news_usr_1
+                    }
+                }
+            }
+
+            Rectangle{
+                id: user2InfoId
+                width:  1/6* parent.width
+                radius: 3
+                height:parent.height
+                color: "Cyan"
+                
+                Row {
+                    width : parent.width
+                    height : parent.height
+        
+                    Rectangle {
+                        width : parent.width/5
+                        height : parent.height
+                        color : "transparent"
+
+                        Text {
+                            id: text2
+                            text: qsTr("USER2")
+                            anchors.centerIn : parent
+                            font.pixelSize: 15
+                        }
+                    }
+
+                    InfosJoueur {
+                        id: news_usr_2
+                    }
+                }
+            }
+
+            Rectangle{
+                id:user3InfoId
+                width:1/6*  parent.width
+                height: parent.height
+                radius: 3
+                color: "Orange"
+
+                Row {
+                    width : parent.width
+                    height : parent.height
+                
+                    Rectangle {
+                        width : parent.width/5
+                        height : parent.height
+                        color : "transparent"
+                        Text {
+                            id: text3
+                            text: qsTr("USER3")
+                            anchors.centerIn : parent
+                            font.pixelSize: 15
+                        }
+                    }
+
+                    InfosJoueur {
+                        id: news_usr_3
+                    }
+                }
+            }
+
+            Rectangle{
+                id:user4InfoId
+                width:1/6*  parent.width
+                height: parent.height
+                radius: 3
+                color: "Green"
+
+                Row {
+                    width : parent.width
+                    height : parent.height
+            
+                    Rectangle {
+                        width : parent.width/5
+                        height : parent.height
+                        color : "transparent"
+            
+                        Text {
+                            id: text4
+                            text: qsTr("USER4")
+                            anchors.centerIn : parent
+                            font.pixelSize: 15               
+                        }
+                    }
+
+                    InfosJoueur {
+                        id: news_usr_4
+                    }
+                }
+            }
+
+            Rectangle{
+                id:user5InfoId
+                width:1/6* parent.width
+                height:  parent.height
+                radius: 3
+                color: "Red"
+                
+                Row {
+                    width : parent.width
+                    height : parent.height
+        
+                    Rectangle {
+                        width : parent.width/5
+                        height : parent.height
+                        color : "transparent"
+                        
+                        Text {
+                            id: text5
+                            text: qsTr("USER5")
+                            anchors.centerIn : parent
+                            font.pixelSize: 15  
+                        }
+                    }
+
+                    InfosJoueur {
+                        id: news_usr_5
+                    }
+                }
+            }
+
+            Rectangle{
+                id:user6InfoId
+                width: 1/6* parent.width
+                height: parent.height
+                radius: 3
+                color: "Pink"
+            
+                Row {
+                    width : parent.width
+                    height : parent.height
+                    
+                    Rectangle {
+                        width : parent.width/5
+                        height : parent.height
+                        color : "transparent"
+    
+                        Text {
+                            id: text6
+                            text: qsTr("USER6")
+                            anchors.centerIn : parent
+                            font.pixelSize: 15   
+                        }
+                    }
+
+                    InfosJoueur {
+                        id: news_usr_6
+                    }
+                }
+            }
+
         }
     }
 
@@ -589,7 +859,6 @@ Item {
 
         anchors {
             bottom: parent.bottom;
-            left: leftContainerId.right;
             right: parent.right;
             bottomMargin: 5;
             leftMargin: 2;
@@ -598,7 +867,7 @@ Item {
 
         Rectangle {
             id: carte_Action1Id
-            width: 170
+            width: 1/8*parent.width
             height: 210
             anchors.left: parent.left
             border.color: "#000000"
@@ -619,7 +888,7 @@ Item {
 
         Rectangle {
             id: carte_Action2Id
-            width: 170
+            width: 1/8*parent.width
             height: 210
             anchors.left: carte_Action1Id.right
             border.color: "#000000"
@@ -640,7 +909,7 @@ Item {
 
         Rectangle {
             id: carte_Action3Id
-            width: 170
+            width: 1/8*parent.width
             height: 210
             anchors.left: carte_Action2Id.right
             border.color: "#000000"
@@ -661,7 +930,7 @@ Item {
 
         Rectangle {
             id: carte_Action4Id
-            width: 170
+            width: 1/8*parent.width
             height: 210
             anchors.left: carte_Action3Id.right
             border.color: "#000000"
@@ -679,6 +948,150 @@ Item {
                 CarteAction{}
             }
         }
+
+        Row {
+            id : rowbonusid
+            anchors.left:carte_Action4Id.right
+            width : parent.width
+            height : parent.height
+            Rectangle {
+                id : carte_Bonus1Id
+                width: 1/8*parent.width
+                height : parent.height
+                border.color: "#000000"
+                border.width: 2
+                visible : false
+
+                Image {
+                    id: imgCBonus1
+                    anchors.fill: parent
+                    horizontalAlignment: Image.AlignHCenter
+                    z: 1
+                    anchors.leftMargin:5
+                    fillMode: Image.Stretch
+                    source:"images/Carte_Ego.png"
+                    CarteBonus {}
+                                                        
+                    Rectangle {
+                        id:boxNumber_cb
+                        height : 30
+                        width : 30
+                        border.color : "white"
+                        color  : "transparent"
+                        x : parent.width - (width + 3)
+                        Text {
+                            id : txtcb1
+                            anchors.centerIn : parent
+                            text:"1"
+                            color : "white" 
+                        }
+                    }
+                }   
+            }
+                
+            Rectangle{
+                id: carte_Bonus2Id
+                width: 1/8*parent.width
+                height : parent.height
+                border.color: "#000000"
+                border.width: 2
+                visible : false
+
+                Image {
+                    id: imgCBonus2
+                    anchors.fill: parent
+                    horizontalAlignment: Image.AlignHCenter
+                    z: 1
+                    anchors.leftMargin:5
+                    fillMode: Image.Stretch
+                    source:"images/Carte_Ego.png"
+                    CarteBonus {}
+                                                        
+                    Rectangle {
+                        id:boxNumber_cb2
+                        height : 30
+                        width : 30
+                        border.color : "white"
+                        color  : "transparent"
+                        x : parent.width - (width + 3)
+                        Text {
+                            id : txtcb2
+                            anchors.centerIn : parent
+                            text:"1"
+                            color : "white" 
+                        }
+                    }
+                }    
+            }
+            Rectangle{
+                id: carte_Bonus3Id
+                width: 1/8*parent.width
+                height : parent.height
+                border.color: "#000000"
+                border.width: 2
+                visible : false
+
+                Image {
+                    id: imgCBonus3
+                    anchors.fill: parent
+                    horizontalAlignment: Image.AlignHCenter
+                    z: 1
+                    anchors.leftMargin:5
+                    fillMode: Image.Stretch
+                    source:"images/Carte_Ego.png"
+                    CarteBonus {}
+                                                        
+                     Rectangle {
+                        id:boxNumber_cb3
+                        height : 30
+                        width : 30
+                        border.color : "white"
+                        color  : "transparent"
+                        x : parent.width - (width + 3)
+                        Text {
+                            id : txtcb3
+                            anchors.centerIn : parent
+                            text:"1"
+                            color : "white" 
+                        }
+                    }
+                }  
+            }
+            Rectangle{
+                id: carte_Bonus4Id
+                width: 1/8*parent.width
+                height : parent.height
+                border.color: "#000000"
+                border.width: 2
+                visible : false
+                Image {
+                    id: imgCBonus4
+                    anchors.fill: parent
+                    horizontalAlignment: Image.AlignHCenter
+                    z: 1
+                    anchors.leftMargin:5
+                    fillMode: Image.Stretch
+                    source:"images/Carte_Ego.png"
+                    CarteBonus {}
+                                                        
+                     Rectangle {
+                        id:boxNumber_cb4
+                        height : 30
+                        width : 30
+                        border.color : "white"
+                        color  : "transparent"
+                        x : parent.width - (width + 3)
+                        Text {
+                            id : txtcb4
+                            anchors.centerIn : parent
+                            text:"1"
+                            color : "white" 
+                        }
+                    }
+                }    
+            }
+        }
+    
     }
 }
 

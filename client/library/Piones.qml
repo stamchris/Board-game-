@@ -65,11 +65,28 @@ Column {
     }
 
     Pion {
+        id: cerbere
+        visible: true
+        yPosition: 0
+        xPosition: 5
+
+        Image {
+            anchors.fill : parent
+            source : "../images/cerbere_pion.png"
+        }  
+    }
+
+    Pion {
         id: player1
         color: "Cyan"
         visible: false
         yPosition: 0
         xPosition: 5
+
+        Image {
+            anchors.fill: parent
+            source: "../images/cyan_pion.png"
+        }
     }
 
     Pion {
@@ -78,14 +95,24 @@ Column {
         visible: false
         yPosition: 0
         xPosition: 5
+    
+        Image {
+            anchors.fill: parent
+            source: "../images/orange_pion.png"
+        }
     }
 
     Pion {
-          id: player3
-          color: "Green"
-          visible: false
-          yPosition: 0
-          xPosition: 5
+        id: player3
+        color: "Green"
+        visible: false
+        yPosition: 0
+        xPosition: 5
+        
+        Image {
+            anchors.fill: parent
+            source: "../images/vert_pion.png"
+        }
     }
 
     Pion {
@@ -94,6 +121,11 @@ Column {
         visible: false
         yPosition: 0
         xPosition: 5
+
+        Image {
+            anchors.fill: parent
+            source: "../images/blanc_pion.png"
+        }   
     }
 
     Pion {
@@ -102,6 +134,11 @@ Column {
         visible: false
         yPosition: 0
         xPosition: 5
+
+        Image {
+            anchors.fill: parent
+            source: "../images/rose_pion.png"
+        }
     }
 
     Pion {
@@ -110,6 +147,11 @@ Column {
         visible: false
         yPosition: 0
         xPosition: 5
+
+        Image {
+            anchors.fill: parent
+            source: "../images/belu_pion.png"
+        }
     }
 
     Pion {
@@ -118,5 +160,10 @@ Column {
         visible: false
         yPosition: 0
         xPosition: 5
+
+        Image {
+            anchors.fill: parent
+            source: "../images/rouge_pion.png"
+        }
     }
 }

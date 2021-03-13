@@ -3,6 +3,7 @@
         <file>Board.qml</file>
         <file>library/ImagePopUp.qml</file>
         <file>library/CarteAction.qml</file>
+        <file>library/CarteBonus.qml</file>
         <file>library/CerbereBar.qml</file>
         <file>library/ReglesDuJeu.qml</file>
         <file>Application.qml</file>
@@ -12,6 +13,6 @@
         <file>Login.qml</file>
         <file>Lobby.qml</file>
         <file>library/movePions.js</file>
+        <file>library/ShowEffect.qml</file>
     </qresource>
-
 </RCC>

@@ -6,3 +6,4 @@ Makefile
 cerbere-serveur
 cerbere
 .qmake.stash
+build-client*
