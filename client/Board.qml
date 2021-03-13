@@ -10,6 +10,7 @@ Item {
     property alias playerInfo: underBarId.playerInfo
     property alias boardId: boardId
     property alias infoJoueurId: infoJoueurId
+    property alias joueurId: joueurId
 
     ImagePopUp {
         id: imgEffetDeCarteId
@@ -854,7 +855,7 @@ Item {
 
         function updatePlayerInfo(players) {
             var order = 0
-            for(var i = 0; i < 6 - players.length + 1; i++){
+            for(var i = 0; i < players.length - 1; i++){
                 if(players[order].name != window.parent.state.login) {
                     switch(i) {
                         case 5:
@@ -930,7 +931,7 @@ Item {
                 horizontalAlignment: Image.AlignHCenter
                 z: 1
                 fillMode: Image.Stretch
-                source: "images/Carte1.png"
+                source: "images/Cyan1.png"
 
                 CarteAction{}
             }
@@ -951,7 +952,7 @@ Item {
                 horizontalAlignment: Image.AlignHCenter
                 z: 1
                 fillMode: Image.Stretch
-                source: "images/Carte2.png"
+                source: "images/Cyan2.png"
 
                 CarteAction{}
             }
@@ -972,7 +973,7 @@ Item {
                horizontalAlignment: Image.AlignHCenter
                z: 1
                fillMode: Image.Stretch
-               source: "images/Carte3.png"
+               source: "images/Cyan3.png"
 
                CarteAction{}
             }
@@ -993,7 +994,7 @@ Item {
                 z: 1
                 anchors.leftMargin: 5
                 fillMode: Image.Stretch
-                source: "images/Carte4.png"
+                source: "images/Cyan4.png"
 
                 CarteAction{}
             }
@@ -1142,7 +1143,29 @@ Item {
                     }
                 }    
             }
-        }   
+        }
+
+        function updatePlayerAction(players) {
+            for(var i = 0; i < players.length; i++){
+                if(players[i].name == window.parent.state.login) {
+                    var newsource = ""
+                    if (players[i].type == 1) {
+                        newsource = "images/cerbere"
+                        carte_Action1Id.children[0].source = newsource + "1.png"
+                        carte_Action2Id.children[0].source = newsource + "2.png"
+                        carte_Action3Id.children[0].source = newsource + "3.png"
+                        carte_Action4Id.children[0].source = newsource + "4.png"
+                    } else {
+                        newsource = "images/" + players[i].colour 
+                        carte_Action1Id.children[0].source = newsource + "1.png"
+                        carte_Action2Id.children[0].source = newsource + "2.png"
+                        carte_Action3Id.children[0].source = newsource + "3.png"
+                        carte_Action4Id.children[0].source = newsource + "4.png"
+                    }
+                    break
+                }
+            }
+        }
     }
 }
 

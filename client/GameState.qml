@@ -58,11 +58,10 @@ Item{
     }
 
     function initGame(newPlayers, newDifficulty) {
-        players = newPlayers
+        changePlayers(newPlayers)
         difficulty = newDifficulty
         rage = 8 - newPlayers.length
         vitesse = 3 + newDifficulty
-        _playersChanged(players)
         _difficultyChanged(difficulty)
         _rageChanged(rage)
         _vitesseChanged(vitesse)
@@ -74,5 +73,6 @@ Item{
         _positionChanged.connect(parent.board.boardId.receiveCounter)
         _playersChanged.connect(parent.board.boardId.pionesId.unhideNonPlayerPieces)
         _playersChanged.connect(parent.board.infoJoueurId.updatePlayerInfo)
+        _playersChanged.connect(parent.board.joueurId.updatePlayerAction)
     }
 }
