@@ -104,7 +104,7 @@ ApplicationWindow {
 	}
 
 	Component.onCompleted: {
-		if(WEB){
+		if(NEEDS_VIRTUAL_KEYBOARD){
 			Qt.createQmlObject("import QtQuick.VirtualKeyboard 2.2
 			InputPanel {
 				id: virtualKeyboard

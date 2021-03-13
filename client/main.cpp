@@ -15,8 +15,35 @@ int main(int argc, char *argv[])
 		QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 	#endif
 
+	bool needs_virtual_keyboard;
 	#ifdef EMSCRIPTEN
-		qputenv("QT_IM_MODULE", "qtvirtualkeyboard");
+		// https://developer.mozilla.org/en-US/docs/Web/HTTP/Browser_detection_using_the_user_agent#Mobile_Device_Detection
+		needs_virtual_keyboard = EM_ASM_INT({
+			let res = false;
+			if("maxTouchPoints" in navigator){
+				res = (navigator.maxTouchPoints > 0);
+			}else if("msMaxTouchPoints" in navigator){
+				res = (navigator.msMaxTouchPoints > 0);
+			}else{
+				let mQ = window.matchMedia && matchMedia("(pointer:coarse)");
+				if(mQ && mQ.media === "(pointer:coarse)"){
+					res = !!mQ.matches;
+				}else if("orientation" in window){
+					res = true;
+				}else{
+					let ua = navigator.userAgent;
+					res = (new Regexp("\\b(Blackberry|webOS|iPhone|IEMobile)\\b",'i').test(ua)
+						|| new Regexp("\\b(Android|Windows Phone|iPad|iPod)\\b",'i').test(ua)
+					);
+				}
+			}
+			return res;
+		});
+		if(needs_virtual_keyboard){
+			qputenv("QT_IM_MODULE", "qtvirtualkeyboard");
+		}
+	#else
+		needs_virtual_keyboard = false;
 	#endif
 
 	QGuiApplication app(argc, argv);
@@ -33,20 +60,17 @@ int main(int argc, char *argv[])
 			QCoreApplication::exit(-1);
 	}, Qt::QueuedConnection);
 	QString root_url;
-	bool web;
 	#ifdef EMSCRIPTEN
 		std::string location_href = emscripten::val::global("location")["href"].as<std::string>();
 		char* copy = new char[location_href.size()];
 		strncpy(copy, location_href.c_str(), location_href.size());
 		root_url = QString(dirname(copy))+'/';
 		delete[] copy;
-		web = true;
 	#else
 		root_url = engine.baseUrl().toString();
-		web = false;
 	#endif
 	engine.rootContext()->setContextProperty("ROOT_URL", root_url);
-	engine.rootContext()->setContextProperty("WEB", web);
+	engine.rootContext()->setContextProperty("NEEDS_VIRTUAL_KEYBOARD", needs_virtual_keyboard);
 	engine.load(url);
 	return app.exec();
 }
