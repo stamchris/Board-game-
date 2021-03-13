@@ -10,6 +10,7 @@ ApplicationWindow {
 	visible: true
 	property alias game: game
 	property alias socket: socket
+	title : "Cerbere"
 
 	WebSocket {
 		id: socket
@@ -27,6 +28,7 @@ ApplicationWindow {
 					game.players = game.players
 					break
 				case "welcome":
+					app.title = "Cerbere :" + login
 					game.players = message.players
 					game.visible = true
 					loader.push(game)
@@ -39,7 +41,7 @@ ApplicationWindow {
 							break
 						}
 					}
-					game.state.changePlayers(game.players)
+					game.state.initGame(message.players, message.difficulty)
 					game.view = "Board"
 					break
 				case "updatePlayer":

@@ -37,14 +37,12 @@ Row {
         //else if(good != -1 && nb_joueur_restant <= 2) {//eliminer
             //typejoueur.children[0].source = ""
             //typejoueur.children[0].color = "black"
-        //}
-
-           
-       
+        //}   
     }
 
-    width : 5/6*parent.width
-    height : parent.height
+    width: 5/6*parent.width
+    height: parent.height
+
     Rectangle {
         id : typejoueur
         width : parent.width/5

@@ -12,6 +12,7 @@ class Cerbere::Board
     property vitesse_cerbere : Int32
     property position_cerbere : Int32 = 0
     property players : Array(Player) = [] of Player
+    property pont : Int32 = 1
     property nombre_pions_jauge : Int32
     property pioche_survie : DeckSurvie = DeckSurvie.new
     property pioche_trahison : DeckTrahison = DeckTrahison.new

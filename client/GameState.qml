@@ -56,11 +56,23 @@ Item{
             }
         }
     }
+
+    function initGame(newPlayers, newDifficulty) {
+        players = newPlayers
+        difficulty = newDifficulty
+        rage = 8 - newPlayers.length
+        vitesse = 3 + newDifficulty
+        _playersChanged(players)
+        _difficultyChanged(difficulty)
+        _rageChanged(rage)
+        _vitesseChanged(vitesse)
+    }
     
     Component.onCompleted: {
         _loginChanged.connect(parent.board.playerInfo.updateLogin)
         _colorChanged.connect(parent.board.playerInfo.updateColor)
         _positionChanged.connect(parent.board.boardId.receiveCounter)
         _playersChanged.connect(parent.board.boardId.pionesId.unhideNonPlayerPieces)
+        _playersChanged.connect(parent.board.infoJoueurId.updatePlayerInfo)
     }
 }
