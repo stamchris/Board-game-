@@ -78,7 +78,6 @@ Column {
 
     Pion {
         id: player1
-        color: "Cyan"
         visible: false
         yPosition: 0
         xPosition: 5
@@ -91,7 +90,6 @@ Column {
 
     Pion {
         id: player2
-        color: "Orange"
         visible: false
         yPosition: 0
         xPosition: 5
@@ -104,7 +102,6 @@ Column {
 
     Pion {
         id: player3
-        color: "Green"
         visible: false
         yPosition: 0
         xPosition: 5
@@ -117,7 +114,6 @@ Column {
 
     Pion {
         id: player4
-        color: "White"
         visible: false
         yPosition: 0
         xPosition: 5
@@ -130,7 +126,6 @@ Column {
 
     Pion {
         id: player5
-        color: "Pink"
         visible: false
         yPosition: 0
         xPosition: 5
@@ -143,7 +138,6 @@ Column {
 
     Pion {
         id: player6
-        color: "Blue"
         visible: false
         yPosition: 0
         xPosition: 5
@@ -156,7 +150,6 @@ Column {
 
     Pion {
         id: player7
-        color: "Red"
         visible: false
         yPosition: 0
         xPosition: 5

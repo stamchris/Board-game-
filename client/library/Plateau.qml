@@ -459,7 +459,6 @@ Row {
                                         case12Id.opacity = 0.25
                                         case8Id.color = "cyan"
                                         case12Id.color="cyan"
-                                        case12Id.running = true
                                     }
                                     else
                                     {

@@ -335,7 +335,7 @@ Item {
             anchors.fill: parent
             horizontalAlignment: Image.AlignHCenter
             source: "images/plateauv2.jpg"
-            fillMode: PreserveAspectFit
+            fillMode: Image.Stretch
             property alias boardId: boardId
             
             Plateau {
@@ -345,7 +345,7 @@ Item {
 
         Rectangle {
             id: rectGroupsId
-            height: 100
+            height: 200
             width: 150
             anchors.bottom: parent.bottom
             anchors.right: parent.right
@@ -415,11 +415,11 @@ Item {
             Rectangle {
                 id: typechangeId
                 color: "yellow"
-                height: parent.height/4
-                width: parent.width/4
+                height: 50
+                width: 50
 
                 anchors {
-                    bottom: parent.bottom;
+                    top: parent.top;
                     left: parent.left
                 }
 
@@ -457,16 +457,16 @@ Item {
             Rectangle {
                 id: addCardBid
                 color: "black"
-                height: parent.height/4
-                width: parent.width/4
+                height: 50
+                width: 50
 
                 anchors {
-                    bottom: parent.bottom
-                    left: typechangeId.right
+                    top: typechangeId.bottom
+                    left: parent.left
                 }
 
                 TextInput {
-                    anchors.left: txtaddCard.right
+                    anchors.left: addCardBid.right
                     id: inputaddcard
                     text: "Image source"
                     focus: true
@@ -495,12 +495,12 @@ Item {
             Rectangle {
                 id: ptid
                 color: "purple"
-                height: parent.height/4
-                width: parent.width/4
+                height: 50
+                width: 50
 
                 anchors {
-                    bottom: parent.bottom;
-                    left: addCardBid.right
+                    top: addCardBid.bottom;
+                    left: parent.left
                 }
 
                 Text {
@@ -520,12 +520,11 @@ Item {
             Rectangle {
                 id: rbid
                 color: "orange"
-                height: parent.height/4
-                width: parent.width/4
-
+                height: 50
+                width: 50
                 anchors {
-                    bottom: parent.bottom;
                     left: ptid.right
+                    verticalCenter: ptid.verticalCenter
                 }
 
                 Text {
@@ -549,7 +548,7 @@ Item {
                 color: "Yellow"
 
                 anchors {
-                    top: parent.top;
+                    bottom: parent.bottom;
                     left: parent.left
                 }
 
@@ -582,7 +581,7 @@ Item {
                 color: "Orange"
             
                 anchors {
-                    top: parent.top;
+                    bottom: parent.bottom;
                     left: plusOne.right
                 }
 
@@ -615,7 +614,7 @@ Item {
                 color: "Red"
             
                 anchors {
-                    top: parent.top;
+                    bottom: parent.bottom;
                     left: plusTwo.right
                 }
 
