@@ -663,6 +663,7 @@ Item {
 
         Row {
             id: rowId
+            layoutDirection: Qt.RightToLeft
             anchors.fill: parent
 
             Rectangle {
@@ -672,8 +673,6 @@ Item {
                 visible: false
                 radius: 3
                 color: "Blue"
-                x : 30
-                
 
                 Row {
                     width : parent.width
@@ -683,7 +682,6 @@ Item {
                         height : parent.height
                         color : "transparent"
                         Text {
-                            //anchors.fill : parent
                             id: text1
                             text: qsTr("USER1")
                             anchors.centerIn : parent
@@ -855,45 +853,42 @@ Item {
 
         function updatePlayerInfo(players) {
             var order = 0
-            for(var i = (6 - players.length); i < 6; i++){
+            for(var i = 0; i < 6 - players.length + 1; i++){
                 if(players[order].name != window.parent.state.login) {
                     switch(i) {
-                        case 0:
+                        case 5:
                             user1InfoId.color = players[order].colour
                             user1InfoId.visible = true
-                            user1InfoId.children[0].children[0].text1.text = players[order].name
-                            break
-                        case 1:
-                            user2InfoId.color = players[order].colour
-                            user2InfoId.visible = true
-                            user2InfoId.children[0].children[0].text2.text = players[order].name
-                            break
-                        case 2:
-                            user3InfoId.color = players[order].colour
-                            user3InfoId.visible = true
-                            user3InfoId.children[0].children[0].text3.text = players[order].name
-                            break
-                        case 3:
-                            user4InfoId.color = players[order].colour
-                            user4InfoId.visible = true
-                            user4InfoId.children[0].children[0].text4.text = players[order].name
                             break
                         case 4:
+                            user2InfoId.color = players[order].colour
+                            user2InfoId.visible = true
+                            break
+                        case 3:
+                            user3InfoId.color = players[order].colour
+                            user3InfoId.visible = true
+                            break
+                        case 2:
+                            user4InfoId.color = players[order].colour
+                            user4InfoId.visible = true
+                            break
+                        case 1:
                             user5InfoId.color = players[order].colour
                             user5InfoId.visible = true
-                            user5InfoId.children[0].children[0].text5.text = players[order].name
                             break
-                        case 5:
+                        case 0:
                             user6InfoId.color = players[order].colour
                             user6InfoId.visible = true
-                            user6InfoId.children[0].children[0].text6.text = players[order].name
                             break
                         default:
                             break
                     }
-                    
-                    order++
+                } else {
+                    i--
+                    console.log(i + "" + order + "" + "its me")
                 }
+
+                order++
             }
         }
     }
