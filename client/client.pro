@@ -16,9 +16,7 @@ RESOURCES += qml.qrc \
 wasm-emscripten {
 	CONFIG += static
 	QMAKE_LFLAGS += -s TOTAL_MEMORY=32MB
-}
-
-static {
+	RESOURCES += ApplicationWeb.qml
 	QTPLUGIN += qtvirtualkeyboardplugin
 	QT += svg
 }

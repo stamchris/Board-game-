@@ -2,7 +2,6 @@ import QtQuick 2.10
 import QtQuick.Layouts 1.10
 import QtQuick.Controls 2.10
 import QtWebSockets 1.0
-import QtQuick.VirtualKeyboard 2.2
 
 ApplicationWindow {
 	id: app
@@ -104,11 +103,16 @@ ApplicationWindow {
 		visible: false
 	}
 
-	InputPanel {
-		id: virtualKeyboard
-		visible: active
-		anchors.bottom: parent.bottom
-		width: parent.width
-		y: parent.height
+	Component.onCompleted: {
+		if(WEB){
+			Qt.createQmlObject("import QtQuick.VirtualKeyboard 2.2
+			InputPanel {
+				id: virtualKeyboard
+				visible: active
+				anchors.bottom: parent.bottom
+				width: parent.width
+				y: parent.height - height
+			}", app, null);
+		}
 	}
 }
