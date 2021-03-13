@@ -844,7 +844,6 @@ Item {
                     }
                 }
             }
-
         }
     }
 
@@ -1056,10 +1055,11 @@ Item {
                     }
                 }  
             }
-            Rectangle{
+
+            Rectangle {
                 id: carte_Bonus4Id
                 width: 1/8*parent.width
-                height : parent.height
+                height: parent.height
                 border.color: "#000000"
                 border.width: 2
                 visible : false
@@ -1080,6 +1080,7 @@ Item {
                         border.color : "white"
                         color  : "transparent"
                         x : parent.width - (width + 3)
+                        
                         Text {
                             id : txtcb4
                             anchors.centerIn : parent
@@ -1089,8 +1090,7 @@ Item {
                     }
                 }    
             }
-        }
-    
+        }   
     }
 }
 

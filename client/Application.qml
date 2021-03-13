@@ -40,7 +40,6 @@ ApplicationWindow {
 						}
 					}
 					game.state.changePlayers(game.players)
-					game.state.changeNumberOfPlayer(game.players.length)
 					game.view = "Board"
 					break
 				case "updatePlayer":

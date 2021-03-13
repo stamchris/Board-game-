@@ -7,7 +7,7 @@ Item{
     property int rage: 0
     property int vitesse: 0
     property int posCerbere: 0
-    property boolean pont: true
+    property int pont: 1
     property variant players: []
 
     signal _loginChanged()

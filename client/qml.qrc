@@ -6,6 +6,7 @@
         <file>library/CarteBonus.qml</file>
         <file>library/CerbereBar.qml</file>
         <file>library/ReglesDuJeu.qml</file>
+        <file>library/InfosJoueur.qml</file>
         <file>Application.qml</file>
         <file>library/Plateau.qml</file>
         <file>library/Pion.qml</file>

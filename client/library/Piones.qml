@@ -82,8 +82,7 @@ Column {
         yPosition: 0
         xPosition: 5
 
-        Image {"../images/rose_pion.png"
-        }
+        Image {
             anchors.fill: parent
             source: "../images/cyan_pion.png"
         }
