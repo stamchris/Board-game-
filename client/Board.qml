@@ -1,51 +1,63 @@
-import QtQuick 2.10
-import QtQuick.Window 2.10
-import QtQuick.Controls 2.10
-import QtQuick.Layouts 1.10
-import QtWebSockets 1.0
-import "library"
+import QtQuick 2.12
+import QtQuick.Window 2.12
 
-Window {
-    id: window
-    width: 1600
-    height: 720
-    visible: true
+Item {
+    id: board
     property alias plateauImageId: plateauImageId
-    title: qsTr("Cerbere")
- 
-    ImagePopUp{
-            id: imgEffetDeCarteId
-            source:"images/effetDeCarte.jpg"
-    }
 
-       Rectangle {
+    Rectangle {
         id: menuBarId
         height: 60
-        color: "#0ba360"
+        color: "#53bee4"
+        border{color: "#e51111" ; width:2;}
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top : parent.top
         gradient: Gradient {
             GradientStop {
                 position: 0
-                color: "#30cfd0"
+                color: "#53bee4"
             }
 
             GradientStop {
                 position: 1
-                color: "#330867"
+                color: "#c9e7f1"
             }
         }
-        border{color: "#e51111" ; width:2;}
-        anchors { left: parent.left; right:parent.right; top: parent.top }
 
 
-          Image {
-                id: imglogoId
-                width: 120
-                height: 50
-                anchors { bottom: parent.bottom; left:parent.left; top: parent.top; leftMargin: 8; topMargin: 5 }
-                horizontalAlignment: Image.AlignHCenter
-                source: "images/cerbere_logo.png"
-                fillMode: Image.Stretch
+        Rectangle {
+            id:logoId
+            width: 80
+            height: 40
+            color: "#48c6ef"
+            border.width: 2
+            anchors {top: parent.top ; topMargin: 10 ; left:parent.left ; leftMargin: 10 }
+            gradient: Gradient {
+                GradientStop {
+                    position: 0
+                    color: "#48c6ef"
+                }
+
+                GradientStop {
+                    position: 0.49419
+                    color: "#f23f1e"
+                }
+
+                GradientStop {
+                    position: 1
+                    color: "#6f86d6"
+                }
+
             }
+            Text {
+                id: logoTextId
+                text: qsTr("Logo")
+                anchors.centerIn: parent
+                font.pixelSize: 12
+                horizontalAlignment: Text.AlignHCenter
+            }
+        }
 
        Rectangle {
            id: loginId
@@ -124,18 +136,6 @@ Window {
                 fontSizeMode: Text.FixedSize
             }
 
-            MouseArea{
-                    anchors.fill: parent
-                    onClicked:{
-                               if (imgEffetDeCarteId.visible == false)
-                                {
-                                   imgEffetDeCarteId.visible = true
-                                } else {
-                                   imgEffetDeCarteId.visible = false
-                               }
-                    }
-            }
-
         }
 
         Rectangle {
@@ -153,20 +153,6 @@ Window {
                 anchors.centerIn: parent
                 font.pixelSize: 12
                 fontSizeMode: Text.FixedSize
-            }
-            MouseArea{
-                visible: true
-                anchors.fill: parent
-                onClicked:{
-                    var component = Qt.createComponent("library/ReglesDuJeu.qml")
-                    if(component.status == Component.Ready){
-                        var window = component.createObject("window2")
-                        window.show()
-                    }else if(component.status == Component.Error){
-                        console.error(component.errorString());
-                    }
-                }
-
             }
 
         }
@@ -210,9 +196,7 @@ Window {
             color: "#ffffff"
             border.color: "#f23f1e"
             border.width: 2
-            anchors { top:underBarId.top; left: chronoId.right; leftMargin: 5}
-
-            CerbereBar{}
+            anchors { top:underBarId; left: chronoId.right; leftMargin: 5}
         }
 
         Rectangle {
@@ -258,7 +242,7 @@ Window {
                     id: user1InfoId
                     width: parent.width
                     height: 1/6* parent.height
-                    color: "Blue"
+                    color: "blue"
 
                     Text {
                         id: text1
@@ -274,7 +258,7 @@ Window {
                     id: user2InfoId
                     width: parent.width
                     height: 1/6* parent.height
-                    color: "Cyan"
+                    color: "#9f9fdf"
                     Text {
                         id: text2
                         height: parent.height
@@ -289,7 +273,7 @@ Window {
                     id:user3InfoId
                     width: parent.width
                     height: 1/6* parent.height
-                    color: "Orange"
+                    color: "#c6d6e7"
                     Text {
                         id: text3
                         height: parent.height
@@ -304,7 +288,7 @@ Window {
                     id:user4InfoId
                     width: parent.width
                     height: 1/6* parent.height
-                    color: "Green"
+                    color: "#40c9d9"
                     Text {
                         id: text4
                         height: parent.height
@@ -319,7 +303,7 @@ Window {
                     id:user5InfoId
                     width: parent.width
                     height: 1/6* parent.height
-                    color: "Red"
+                    color: "#26d08a"
                     Text {
                         id: text5
                         height: parent.height
@@ -334,7 +318,7 @@ Window {
                     id:user6InfoId
                     width: parent.width
                     height: 1/6* parent.height
-                    color: "Pink"
+                    color: "#acde98"
                     Text {
                         id: text6
                         height: parent.height
@@ -349,7 +333,7 @@ Window {
         }
     }
 
-      Rectangle {
+    Rectangle {
         id: plateauId
         width: 8/10 * parent.width
         color: "#ffffff"
@@ -358,147 +342,17 @@ Window {
             top: underBarId.bottom; bottom: joueurId.top; right: parent.right; left: leftContainerId.right;
             topMargin: 5; bottomMargin: 5; rightMargin: 2; leftMargin: 2
         }
-            Image {
-                id: plateauImageId
-                anchors.fill: parent
-                horizontalAlignment: Image.AlignHCenter
-                source: "images/client_plateau-redimensionné.png"
-                z: 1
-                fillMode: Image.Stretch
-                
 
-                Plateau {
-                    id: boardId
-                    
-                }
+        Image {
+            id: plateauImageId
+            anchors.fill: parent
+            horizontalAlignment: Image.AlignHCenter
+            source: "images/plateau.png"
+            z: 1
+            fillMode: Image.Stretch
 
-
-                Rectangle{
-                    id:rectGroupsId
-                    signal notifyPion ( string counter, string player) // Declare signal
-
-                    property int positionCounterPion1: -1
-                    property int positionCounterPion2: -1
-                    property int positionCounterPion3: -1
-                    property int positionCounterPion4: -1
-                    property int positionCounterPion5: -1
-                    property int positionCounterPion6: -1
-                    property int positionCounterPion7: -1
-
-                    anchors.bottom: parent.bottom
-                    anchors.right: parent.right
-                    height: 100
-                    width: 150
-
-                    Rectangle{
-                    id:whiteId
-                    color: "white"
-                    height: parent.height /4
-                    width: parent.width /4
-                    anchors{top: parent.top;left: parent.left}
-                    Text {
-                        id: texxxxt
-                        text: "+1"
-                    }
-                   MouseArea{
-                       anchors.fill: parent
-                    onClicked: {
-                        rectGroupsId.positionCounterPion1++
-                        rectGroupsId.notifyPion(rectGroupsId.positionCounterPion1,"player1")
-
-                    }
-                   }
-
-                }
-                    Rectangle{
-                    id:blueId
-                    color: "blue"
-                    height: parent.height /4
-                    width: parent.width /4
-                    anchors{top: parent.top;left: whiteId.right}
-                    Text {
-                        id: texxxt
-                        text: "+1"
-                    }
-                   MouseArea{
-                       anchors.fill: parent
-                    onClicked: {
-                        rectGroupsId.positionCounterPion2++
-                        rectGroupsId.notifyPion(rectGroupsId.positionCounterPion2,"player2")
-                    }
-                   }
-
-                }
-                    Rectangle{
-                    id:redId
-                    color: "red"
-                    height: parent.height /4
-                    width: parent.width /4
-                    anchors{top: whiteId.bottom;left: parent.left}
-                    Text {
-                        id: texxt
-                        text: "+1"
-                    }
-                   MouseArea{
-                       anchors.fill: parent
-                    onClicked: {
-                        rectGroupsId.positionCounterPion3++
-                        rectGroupsId.notifyPion(rectGroupsId.positionCounterPion3,"player3")
-
-                    }
-                   }
-
-                }
-                    Rectangle{
-                    id:pinkId
-                    color: "pink"
-                    height: parent.height /4
-                    width: parent.width /4
-                    anchors{top: blueId.bottom;left: redId.right}
-                    Text {
-                        id: textt
-                        text: "+1"
-                    }
-                   MouseArea{
-                       anchors.fill: parent
-                    onClicked: {
-                        rectGroupsId.positionCounterPion4++
-                        rectGroupsId.notifyPion(rectGroupsId.positionCounterPion4,"player4")
-
-                    }
-                   }
-
-                }
-
-                    Rectangle{
-                    id:greenId
-                    color: "green"
-                    height: parent.height /4
-                    width: parent.width /4
-                    anchors{top: parent.top;left: blueId.right}
-                    Text {
-                        id: texttt
-                        text: "+1"
-                    }
-                   MouseArea{
-                       anchors.fill: parent
-                        onClicked: {
-                            rectGroupsId.positionCounterPion5++
-                            rectGroupsId.notifyPion(rectGroupsId.positionCounterPion5,"player5")
-                         }
-                   }
-
-                }
-                    Component.onCompleted: {
-                       rectGroupsId.notifyPion.connect(boardId.receiveCounter) //connect button to Pion
-                    }
-
-                }
-
-
-
-                    }
-                }
+        }
+    }
 
 
     Rectangle {
@@ -512,92 +366,7 @@ Window {
             bottom: parent.bottom; left: leftContainerId.right; right: parent.right;
             bottomMargin: 5; leftMargin: 2; rightMargin: 2
         }
- Rectangle{
-          id: carte_Action1Id
-           width: 170
-           height:210
-           anchors.left:parent.left
-           border.color: "#000000"
-           border.width: 2
-
-           Image{
-               id:imgCAction1
-               anchors.fill: parent
-               anchors.leftMargin:0
-               horizontalAlignment: Image.AlignHCenter
-               z: 1
-               fillMode: Image.Stretch
-               source:"images/Carte1.png"
-               CarteAction{
-
-               }
-           }
-        }
-
-        Rectangle{
-          id: carte_Action2Id
-           width: 170
-           height:210
-           anchors.left:carte_Action1Id.right
-           border.color: "#000000"
-           border.width: 2
-           Image{
-               id:imgCAction2
-               anchors.fill: parent
-               anchors.leftMargin:5
-               horizontalAlignment: Image.AlignHCenter
-               z: 1
-               fillMode: Image.Stretch
-               source:"images/Carte2.png"
-               CarteAction{ }
-
-           }
-
-        }
-        Rectangle{
-          id: carte_Action3Id
-           width: 170
-           height:210
-            anchors.left:carte_Action2Id.right
-           border.color: "#000000"
-           border.width: 2
-           Image{
-               id : imgCAction3
-               anchors.fill: parent
-               anchors.leftMargin:5
-               horizontalAlignment: Image.AlignHCenter
-               z: 1
-               fillMode: Image.Stretch
-               source:"images/Carte3.png"
-               CarteAction{}
-           }
-
-        }
-        Rectangle{
-          id: carte_Action4Id
-           width:170
-           height:210
-           anchors.left:carte_Action3Id.right
-           border.color: "#000000"
-           border.width: 2
-           Image{
-               id: imgCAction4
-               anchors.fill: parent
-               horizontalAlignment: Image.AlignHCenter
-               z: 1
-               anchors.leftMargin:5
-               fillMode: Image.Stretch
-               source:"images/Carte4.png"
-               CarteAction{}
-           }
-
-        }
-
-
-
-
     }
-    
 
 
 }

@@ -1,13 +1,21 @@
-import QtQuick 2.10
-import QtQuick.Layouts 1.10
-import QtQuick.Controls 2.10
-import QtWebSockets 1.0
+import QtQuick 2.12
+import QtQuick.Layouts 1.12
+import QtQuick.Controls 2.12
+import QtWebSockets 1.12
+import QtQuick.Window 2.12
 
 ApplicationWindow {
 	id: app
+    title: "Cerbère - jeu de société"
 
-	minimumWidth: 800
-	minimumHeight: 400
+    minimumWidth: 1024
+    minimumHeight: 768
+
+    FontLoader {
+        id: stoneyard
+        source: "Stoneyard.ttf"
+    }
+
 	
 	visible: true
 	WebSocket {
@@ -37,7 +45,7 @@ ApplicationWindow {
 					break
 				case "updatePlayer":
 					game.players = game.players.map( player =>
-						(player.name==message.player.name) ?
+                        (player.name==message.player.name) ?
 							message.player
 						:
 							player
@@ -95,7 +103,8 @@ ApplicationWindow {
 			}
 		}
 
-		initialItem: "Login.qml"
+        //Remmetre "Login.qml"
+        initialItem: "Login.qml"
 	}
 
 	Game {
