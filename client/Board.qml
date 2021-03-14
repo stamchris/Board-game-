@@ -854,7 +854,7 @@ Item {
 
         function updatePlayerInfo(players) {
             var order = 0
-            for(var i = 0; i < 6 - players.length + 1; i++){
+            for(var i = 0; i < players.length - 1; i++){
                 if(players[order].name != window.parent.state.login) {
                     switch(i) {
                         case 5:
