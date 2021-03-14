@@ -551,7 +551,6 @@ Row {
                     height: 80/100*parent.height
                     x : 40/100*width
                     color: "transparent"
-                    opacity: 0.25
                     radius: 15
                     border.color :"black"
                     border.width: 1
@@ -568,6 +567,9 @@ Row {
                                     case16Id.color = "cyan"
                                     case17Id.color="red"
                                     case14Id.color="red"
+                                    case16Id.opacity=0.25
+                                    case17Id.opacity=0.25
+                                    case14Id.opacity=0.25
 
                             }
                             else
@@ -577,6 +579,9 @@ Row {
                                 case16Id.color="transparent"
                                 case17Id.color="transparent"
                                 case14Id.color="transparent"
+                                case16Id.opacity=1
+                                case17Id.opacity=1
+                                case14Id.opacity=1
                             }
                         }
                     }
@@ -632,7 +637,6 @@ Row {
                     width: 60/100 * parent.width
                     height: 85/100*parent.height
                     color: "transparent"
-                    opacity: 0.25
                     radius: 15
                     border.color :"black"
                     border.width: 1
@@ -649,6 +653,9 @@ Row {
                                     case16Id.color = "cyan"
                                     case17Id.color="red"
                                     case14Id.color="red"
+                                    case16Id.opacity=0.25
+                                    case17Id.opacity=0.25
+                                    case14Id.opacity=0.25
 
                             }
                             else
@@ -658,6 +665,9 @@ Row {
                                 case16Id.color="transparent"
                                 case17Id.color="transparent"
                                 case14Id.color="transparent"
+                                case16Id.opacity=1
+                                case17Id.opacity=1
+                                case14Id.opacity=1
                             }
                         }
                     }
@@ -672,7 +682,6 @@ Row {
                     width: 45/100* parent.width
                     height: 65/100* parent.height
                     color: "transparent"
-                    opacity: 0.25
                     radius: 15
                     border.color :"black"
                     border.width: 1
@@ -689,6 +698,10 @@ Row {
                                     case16Id.color = "cyan"
                                     case17Id.color="red"
                                     case14Id.color="red"
+                                    case16Id.opacity=0.25
+                                    case17Id.opacity=0.25
+                                    case14Id.opacity=0.25
+
 
                             }
                             else
@@ -698,6 +711,9 @@ Row {
                                 case16Id.color="transparent"
                                 case17Id.color="transparent"
                                 case14Id.color="transparent"
+                                case16Id.opacity=1
+                                case17Id.opacity=1
+                                case14Id.opacity=1
                             }
                         }
                     }
