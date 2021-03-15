@@ -5,12 +5,11 @@ import QtQuick.Controls 2.10
 Item {
 	ColumnLayout {
 		anchors.horizontalCenter: parent.horizontalCenter
-		anchors.verticalCenter: parent.verticalCenter
 
 		Label {
 			text: "Serveur"
 		}
-		CerbTextField {
+		TextField {
 			width: 220
 			id: serveurInput
 			text: "localhost:3000"
@@ -19,7 +18,7 @@ Item {
 		Label {
 			text: "Pseudo"
 		}
-		CerbTextField {
+		TextField {
 			width: 220
 			id: loginInput
 		}

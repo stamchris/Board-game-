@@ -13,7 +13,6 @@
         <file>Lobby.qml</file>
         <file>library/movePions.js</file>
 	<file>Game.qml</file>
-	<file>CerbTextField.qml</file>
     </qresource>
 
 </RCC>
