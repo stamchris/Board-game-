@@ -65,6 +65,9 @@ ApplicationWindow {
 					game.state.changeVitesse(message.vitesse)
 					game.state.changePont(message.pont)
 					break
+				case "newBonus":
+					game.state.newBonus(message.cardname)
+					break
 			}
 		}
 

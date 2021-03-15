@@ -19,6 +19,7 @@ Item{
     signal _positionChanged(string newPosition, string color)
     signal _pontChanged()
     signal _showPlayerPieces(variant players)
+    signal _newBonus(string new_bonus)
 
     function changeLogin(newlogin) {
         login = newlogin
@@ -71,6 +72,10 @@ Item{
         }
     }
 
+    function newBonus(new_bonus) {
+        _newBonus("Carte_" + new_bonus + ".png")
+    }
+
     function initGame(newPlayers, newDifficulty) {
         changePlayers(newPlayers)
         changeDifficulty(newDifficulty)
@@ -88,6 +93,8 @@ Item{
         _playersChanged.connect(parent.board.joueurId.updatePlayerAction)
         _showPlayerPieces.connect(parent.board.boardId.pionesId.children[0].unhideNonPlayerPieces)
         _pontChanged.connect(parent.board.boardId.changepont)
+        _rageChanged.connect(parent.board.progressBar.updateRage)
         _vitesseChanged.connect(parent.board.progressBar.updateVitesse)
+        _newBonus.connect(parent.board.rectGroupsId.receiveaddCard2)
     }
 }

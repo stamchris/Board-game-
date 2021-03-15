@@ -12,6 +12,7 @@ Item {
     property alias boardId: boardId
     property alias infoJoueurId: infoJoueurId
     property alias joueurId: joueurId
+    property alias rectGroupsId: rectGroupsId
 
     ImagePopUp {
         id: imgEffetDeCarteId
@@ -264,6 +265,10 @@ Item {
             function updateVitesse() {
                 progressBarId.children[0].updateVitesse(window.parent.state.vitesse)
             }
+
+            function updateRage() {
+                progressBarId.children[0].updateRage(window.parent.state.rage)
+            }
         }
 
         Rectangle {
@@ -323,6 +328,7 @@ Item {
         id: plateauId
         width: parent.width
         color: "#ffffff"
+        property alias rectGroupsId: rectGroupsId
 
         anchors {
             top: underBarId.bottom;
@@ -870,6 +876,7 @@ Item {
                             rowId.children[6-i-1].children[0].children[1].children[j+1].children[0].text = "X"
                         }
                     }
+                    rowId.children[6-i-1].children[0].children[1].children[0].children[1].children[0].text = "" + players[order].hand.bonus_size
                 } else {
                     i--
                 }

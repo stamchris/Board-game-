@@ -5,9 +5,14 @@ Item {
     id: rowroot
     width: parent.width
     property alias vitesseCerbereText: vitesseCerbereTextId
+    property alias cerbereBar: cerbereBarId
 
     function updateVitesse(new_vitesse) {
         vitesseCerbereText.text = " Vitesse : " + new_vitesse
+    }
+
+    function updateRage(new_rage) {
+        cerbereBar.value = new_rage
     }
 
     anchors {

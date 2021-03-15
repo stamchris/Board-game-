@@ -166,4 +166,12 @@ class Cerbere::Response
 		def initialize(@players, @cerberepos, @vitesse, @rage, @pont)
 		end
 	end
+
+	class NewBonus < Response
+		property type = "newBonus"
+		property cardname : String
+
+		def initialize(@cardname)
+		end
+	end
 end

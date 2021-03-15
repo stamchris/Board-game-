@@ -489,9 +489,11 @@ class Cerbere::Board
             if joueur.type == TypeJoueur::AVENTURIER
                 joueur.hand.bonus << pioche_survie.draw_card()
                 joueur.hand.bonus_size += 1
+                joueur.send(Response::NewBonus.new(joueur.hand.bonus[-1].name))
             elsif joueur.type == TypeJoueur::CERBERE
                 joueur.hand.bonus << pioche_trahison.draw_card()
                 joueur.hand.bonus_size += 1
+                joueur.send(Response::NewBonus.new(joueur.hand.bonus[-1].name))
             else
                 raise "Vous êtes mort !"
             end
