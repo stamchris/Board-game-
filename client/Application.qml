@@ -7,11 +7,12 @@ ApplicationWindow {
 	id: app
 
 	minimumWidth: 800
-	minimumHeight: 400
+    minimumHeight: 550
 	
 	visible: true
 	WebSocket {
 		id: socket
+
 
 		property bool waiting4Connect: false
 		property string login: ""

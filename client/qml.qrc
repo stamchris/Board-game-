@@ -11,6 +11,8 @@
         <file>library/Piones.qml</file>
         <file>Login.qml</file>
         <file>Lobby.qml</file>
+	<file>Game.qml</file>
+	<file>Chat.qml</file>
         <file>library/movePions.js</file>
     </qresource>
 

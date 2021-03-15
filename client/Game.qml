@@ -10,8 +10,8 @@ Item {
 	
 	function addMessage(player,message) {
 		messages.push({player:player,message:message})
-		messages=messages
-		console.log(messages)
+        messages=messages
+        console.log(messages)
 	}
 
 	Item {
@@ -29,12 +29,9 @@ Item {
 	}
 
 	Chat {
-		anchors.top:parent.verticalCenter
-		anchors.bottom:parent.bottom
-		anchors.right:parent.horizontalCenter
-		anchors.left:parent.left
+        id: chat
 
-		id: chat
+
 	}
 
 }
