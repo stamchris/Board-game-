@@ -17,6 +17,7 @@ Item{
     signal _vitesseChanged()
     signal _playersChanged(variant players)
     signal _positionChanged(string newPosition, string color)
+    signal _pontChanged()
 
     function changeLogin(newlogin) {
         login = newlogin
@@ -57,6 +58,13 @@ Item{
         }
     }
 
+    function changePont(msg_pont) {
+        if (pont == 1 && msg_pont == 0) { 
+            pont = 0
+            _pontChanged()
+        }
+    }
+
     function initGame(newPlayers, newDifficulty) {
         changePlayers(newPlayers)
         difficulty = newDifficulty
@@ -74,5 +82,6 @@ Item{
         _playersChanged.connect(parent.board.boardId.pionesId.unhideNonPlayerPieces)
         _playersChanged.connect(parent.board.infoJoueurId.updatePlayerInfo)
         _playersChanged.connect(parent.board.joueurId.updatePlayerAction)
+        _pontChanged.connect(parent.board.boardId.changepont)
     }
 }

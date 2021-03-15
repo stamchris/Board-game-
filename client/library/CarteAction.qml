@@ -10,8 +10,6 @@ Column {
         left: parent.left
     }
 
-    signal clickCard()
-
     function blockCard() {
         hover1Id.hoverEnabled = false
         up.color = "gray"
@@ -19,6 +17,25 @@ Column {
         hover2Id.hoverEnabled = false
         down.color = "gray"
         down.opacity = 0.9
+    }
+
+    function unblockCard() {
+        hover1Id.hoverEnabled = true
+        up.color = "blue"
+        up.opacity = 0
+        hover2Id.hoverEnabled = true
+        down.color = "red"
+        down.opacity = 0
+    }
+
+    function playAction(choix) {
+        var num_carte = parent.source.toString()
+        num_carte = num_carte.charAt(num_carte.length - 5)
+        window.parent.state.send({
+            type: "play_action",
+            effet: choix,
+            carte: num_carte
+        })
     }
 
     Rectangle {
@@ -46,7 +63,7 @@ Column {
             }
 
             onClicked: {
-                columnId.clickCard()
+                columnId.playAction(0)
             }
         }
     }
@@ -75,13 +92,9 @@ Column {
             }
 
             onClicked: {
-                columnId.clickCard()
+                columnId.playAction(1)
             }
         }
-    }
-
-    Component.onCompleted: {
-        clickCard.connect(columnId.blockCard)
     }
 }
 

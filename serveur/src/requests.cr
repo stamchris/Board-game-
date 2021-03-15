@@ -7,6 +7,7 @@ class Cerbere::Request
 		login: Login,
 		ready: Ready,
 		change_colour: ChangeColour,
+		play_action: PlayAction,
 		change_position: ChangePosition
 	}
 	
@@ -72,6 +73,42 @@ class Cerbere::Request
 			end
 		end
 	end
+
+	class PlayAction < Request
+		property type = "playAction"
+		property effet : Int32
+		property carte : String
+
+		def play_action(game : Game, player : Player, card : Int32, choice : Int32)
+			player.hand.action[card] = false
+			card = Hand.actions_of(player.type)[card]
+			choice = card.choix[choice]
+			args : Array(Int32) = [] of Int32
+			game.board.faire_action(player, choice.cout, args)
+			choice.effets.each_index do |i|
+				game.board.faire_action(player, choice.effets[i], args)
+			end
+		end
+
+		def handle(game : Game, player : Player)
+			case @carte
+			when "1"
+				if @effet == 0
+					play_action(game, player, 0, 0)
+				end
+			when "2"
+				if @effet == 0
+					play_action(game, player, 1, 0)
+				end
+			when "3"
+				if @effet == 0
+					play_action(game, player, 2, 0)
+				end
+			else
+			end
+			game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont))
+		end
+	end
 end
 
 class Cerbere::Response
@@ -115,6 +152,18 @@ class Cerbere::Response
 		property player : Player
 
 		def initialize(@player)
+		end
+	end
+
+	class UpdateBoard < Response
+		property type = "updateBoard"
+		property players : Array(Player)
+		property cerberepos : Int32
+		property vitesse : Int32
+		property rage : Int32
+		property pont : Int32 
+
+		def initialize(@players, @cerberepos, @vitesse, @rage, @pont)
 		end
 	end
 end
