@@ -857,39 +857,15 @@ Item {
             var order = 0
             for(var i = 0; i < players.length - 1; i++){
                 if(players[order].name != window.parent.state.login) {
-                    switch(i) {
-                        case 5:
-                            user1InfoId.color = players[order].colour
-                            user1InfoId.visible = true
-                            user1InfoId.children[0].children[0].children[0].text = players[order].name
-                            break
-                        case 4:
-                            user2InfoId.color = players[order].colour
-                            user2InfoId.visible = true
-                            user2InfoId.children[0].children[0].children[0].text = players[order].name
-                            break
-                        case 3:
-                            user3InfoId.color = players[order].colour
-                            user3InfoId.visible = true
-                            user3InfoId.children[0].children[0].children[0].text = players[order].name
-                            break
-                        case 2:
-                            user4InfoId.color = players[order].colour
-                            user4InfoId.visible = true
-                            user4InfoId.children[0].children[0].children[0].text = players[order].name
-                            break
-                        case 1:
-                            user5InfoId.color = players[order].colour
-                            user5InfoId.visible = true
-                            user5InfoId.children[0].children[0].children[0].text = players[order].name
-                            break
-                        case 0:
-                            user6InfoId.color = players[order].colour
-                            user6InfoId.visible = true
-                            user6InfoId.children[0].children[0].children[0].text = players[order].name
-                            break
-                        default:
-                            break
+                    rowId.children[6-i-1].color = players[order].colour
+                    rowId.children[6-i-1].visible = true
+                    rowId.children[6-i-1].children[0].children[0].children[0].text = players[order].name
+                    for (var j = 0; j < 4; j++) {
+                        if (players[order].hand.action[j] == true) {
+                            rowId.children[6-i-1].children[0].children[1].children[j+1].children[0].text = "A"
+                        } else {
+                            rowId.children[6-i-1].children[0].children[1].children[j+1].children[0].text = "X"
+                        }
                     }
                 } else {
                     i--
@@ -1148,19 +1124,19 @@ Item {
         function updatePlayerAction(players) {
             for(var i = 0; i < players.length; i++){
                 if(players[i].name == window.parent.state.login) {
-                    var newsource = ""
+                    var newsource = "images/"
                     if (players[i].type == 1) {
-                        newsource = "images/cerbere"
-                        carte_Action1Id.children[0].source = newsource + "1.png"
-                        carte_Action2Id.children[0].source = newsource + "2.png"
-                        carte_Action3Id.children[0].source = newsource + "3.png"
-                        carte_Action4Id.children[0].source = newsource + "4.png"
+                        newsource += "Cerbere"
                     } else {
-                        newsource = "images/" + players[i].colour 
-                        carte_Action1Id.children[0].source = newsource + "1.png"
-                        carte_Action2Id.children[0].source = newsource + "2.png"
-                        carte_Action3Id.children[0].source = newsource + "3.png"
-                        carte_Action4Id.children[0].source = newsource + "4.png"
+                        newsource += players[i].colour
+                    }
+                    for (var j = 0; j < 4; j++) {
+                        joueurId.children[j].children[0].source = newsource + (j+1) + ".png"
+                        if (players[i].hand.action[j] == true) {
+                            joueurId.children[j].children[0].children[0].unblockCard()
+                        } else {
+                            joueurId.children[j].children[0].children[0].blockCard()
+                        }
                     }
                     break
                 }

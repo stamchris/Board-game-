@@ -63,7 +63,9 @@ Column {
             }
 
             onClicked: {
-                columnId.playAction(0)
+                if (hover1Id.hoverEnabled == true) {
+                    columnId.playAction(0)
+                }
             }
         }
     }
@@ -92,7 +94,9 @@ Column {
             }
 
             onClicked: {
-                columnId.playAction(1)
+                if (hover1Id.hoverEnabled == true) {
+                    columnId.playAction(1)
+                }
             }
         }
     }
