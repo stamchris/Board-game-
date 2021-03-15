@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QIcon>
 
 #include <libgen.h>
 
@@ -18,6 +19,8 @@ int main(int argc, char *argv[])
 	#endif
 
 	QGuiApplication app(argc, argv);
+    app.setWindowIcon(QIcon("cerbere-victoire.jpg"));
+
 
 	QQmlApplicationEngine engine;
 	const QUrl url(QStringLiteral("qrc:/Application.qml"));
