@@ -54,7 +54,7 @@ Row {
             width : parent.width
             height : parent.height
             x : 11
-            spacing : 3
+            spacing : 1/150*parent.width
 
             Rectangle {
                 id : case0Id
@@ -100,7 +100,7 @@ Row {
                     id:layoutPawn1
                     columns:2
                     spacing : 2
-                    y : 1/5*parent.y
+                    y : 1/10*parent.y
                 }
             }
 
@@ -193,7 +193,7 @@ Row {
                     id:layoutPawn4
                     columns:2
                     spacing : 2
-                    y : 1/5*parent.y
+                    y : 1/15*parent.y
                 }
             }
 
@@ -211,6 +211,7 @@ Row {
                     columns:2
                     spacing : 2
                     y : 1/5*parent.y
+                    x : 1/20*parent.x
                 }
             }
 
@@ -241,7 +242,8 @@ Row {
                     id:layoutPawn6
                     columns:2
                     spacing : 2
-                    y : 1/5*parent.y
+                    x : 1/30*parent.x
+                    y : 1/25*parent.y
                 }
             }
         }
@@ -293,7 +295,7 @@ Row {
                     id:layoutPawn7
                     columns:2
                     spacing : 2
-                    y : 1/5*parent.y
+                    x : 3
                 }
             }
             Row {
@@ -323,7 +325,6 @@ Row {
                                 id:layoutPawn9
                                 columns:2
                                 spacing : 2
-                                y : 1/5*parent.y
                             }
                         }
                         Rectangle {
@@ -353,7 +354,6 @@ Row {
                                 id:layoutPawn10
                                 columns:2
                                 spacing : 2
-                                y : 1/20*parent.y
                             }
                         }
                         Rectangle {
@@ -417,7 +417,6 @@ Row {
                                 id:layoutPawn8
                                 columns:2
                                 spacing : 2
-                                y : 1/5*parent.y
                             }
                         }
                         Rectangle {
@@ -502,8 +501,8 @@ Row {
             id:rowThirdPlateauid
             width : parent.width
             height : parent.height
-            x : 20
-            spacing : 3
+            x : 1/17*parent.width
+            spacing : 1/150*parent.width
 
             Rectangle {
                 id: case13Id
@@ -533,7 +532,6 @@ Row {
                     id:layoutPawn13
                     columns:2
                     spacing : 2
-                    y : 1/5*parent.y
                 }
             }
 
@@ -549,7 +547,7 @@ Row {
                     height: 80/100*parent.height
                     x : 40/100*width
                     color: "transparent"
-                    opacity: 0.25
+                    //opacity: 0.25
                     radius: 15
                     border.color :"black"
                     border.width: 1
@@ -632,7 +630,7 @@ Row {
                     width: 60/100 * parent.width
                     height: 85/100*parent.height
                     color: "transparent"
-                    opacity: 0.25
+                    //opacity: 0.25
                     radius: 15
                     border.color :"black"
                     border.width: 1
@@ -731,7 +729,7 @@ Row {
             id:rowEndPlateauid
             width : parent.width
             height : parent.height
-            x : 8
+            x : 1/65*parent.width
             spacing : 4
 
             Rectangle {
@@ -761,7 +759,7 @@ Row {
                     id:layoutPawn18
                     columns:2
                     spacing : 2
-                    y : 1/5*parent.y
+                    x : 10
                 }
             }
 
@@ -778,7 +776,7 @@ Row {
                     id:layoutPawn19
                     columns:2
                     spacing : 2
-                    y : 1/5*parent.y
+                    x : 1/5*parent.x
                 }
             }
 
@@ -795,7 +793,7 @@ Row {
                     id:layoutPawn20
                     columns:2
                     spacing : 2
-                    y : 1/5*parent.y
+                    x : 1/9*parent.x
                 }
             }
 
@@ -812,7 +810,7 @@ Row {
                     id:layoutPawn21
                     columns:2
                     spacing : 2
-                    y : 1/5*parent.y
+                    x : 1/12*parent.x
                 }
             }
              Rectangle {
@@ -842,7 +840,7 @@ Row {
                     id:layoutPawn22
                     columns:2
                     spacing : 2
-                    y : 1/5*parent.y
+                    x : 1/20*parent.x
                 }
             }
 
