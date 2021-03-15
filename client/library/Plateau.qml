@@ -369,7 +369,6 @@ Row {
                                 id:layoutPawn11
                                 columns:2
                                 spacing : 2
-                                y : parent.y
                             }
                         }
                     }
@@ -418,6 +417,7 @@ Row {
                                 spacing : 2
                             }
                         }
+
                         Rectangle {
                             id:pontid 
                             width : 54/100*parent.width
@@ -435,6 +435,7 @@ Row {
                                 visible : true
                             }
                         }
+
                         Rectangle {
                             id: case12Id
                             width: 15/100* parent.width
@@ -539,6 +540,7 @@ Row {
                 width: 29/100* parent.width
                 y : 105/100*height
                 spacing : 3/100*parent.height
+
                 Rectangle {
                     id: case14Id
                     width: 55/100*parent.width
@@ -552,17 +554,16 @@ Row {
                         anchors.fill: parent
                         hoverEnabled: true
                         onHoveredChanged:{
-                            if(containsMouse == true)
-                            {
-                                    msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
-                                    msg3.width = thirdPlateauid.width /1.6
-                                    msg3.visible = true
-                                    case16Id.opacity = 0.25
-                                    case17Id.opacity = 0.25
-                                    case14Id.opacity = 0.25
-                                    case16Id.color = "cyan"
-                                    case17Id.color="red"
-                                    case14Id.color="red"
+                            if(containsMouse == true) {
+                                msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
+                                msg3.width = thirdPlateauid.width /1.6
+                                msg3.visible = true
+                                case16Id.opacity = 0.25
+                                case17Id.opacity = 0.25
+                                case14Id.opacity = 0.25
+                                case16Id.color = "cyan"
+                                case17Id.color="red"
+                                case14Id.color="red"
 
                             }
                             else
