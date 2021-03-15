@@ -21,7 +21,11 @@ Column {
         MovePions.findXposition(count, MovePions.choosePlayer(playerColor), xArray)
     }
 
-    function unhideNonPlayerPieces(players) {
+    function unhideNonPlayerPieces(players) {  
+        cerbere.visible = true             
+        receiveCounterPiones(0, "Black")
+        window.parent.state.changePosCerbere("Black", 0)
+
         for(var i = 0; i < players.length; i++){
             switch(players[i].colour) {
                 case "Cyan":
@@ -66,9 +70,10 @@ Column {
 
     Pion {
         id: cerbere
-        visible: true
+        visible: false
         yPosition: 0
         xPosition: 5
+        color: "transparent"
 
         Image {
             anchors.fill : parent
@@ -81,6 +86,7 @@ Column {
         visible: false
         yPosition: 0
         xPosition: 5
+        color: "transparent"
 
         Image {
             anchors.fill: parent
@@ -93,6 +99,7 @@ Column {
         visible: false
         yPosition: 0
         xPosition: 5
+        color: "transparent"
     
         Image {
             anchors.fill: parent
@@ -105,6 +112,7 @@ Column {
         visible: false
         yPosition: 0
         xPosition: 5
+        color: "transparent"
         
         Image {
             anchors.fill: parent
@@ -117,6 +125,7 @@ Column {
         visible: false
         yPosition: 0
         xPosition: 5
+        color: "transparent"
 
         Image {
             anchors.fill: parent
@@ -129,6 +138,7 @@ Column {
         visible: false
         yPosition: 0
         xPosition: 5
+        color: "transparent"
 
         Image {
             anchors.fill: parent
@@ -141,6 +151,7 @@ Column {
         visible: false
         yPosition: 0
         xPosition: 5
+        color: "transparent"
 
         Image {
             anchors.fill: parent
@@ -153,6 +164,7 @@ Column {
         visible: false
         yPosition: 0
         xPosition: 5
+        color: "transparent"
 
         Image {
             anchors.fill: parent

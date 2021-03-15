@@ -14,6 +14,8 @@ function choosePlayer(playerColor) {
             return player6
         case "Red":
             return player7
+        case "Black":
+            return cerbere
         default:
             break;
     }
