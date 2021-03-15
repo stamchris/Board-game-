@@ -249,8 +249,6 @@ Item {
             width: underBarId.width*6/10
             height: underBarId.height
             color: "#ffffff"
-            border.color: "#f23f1e"
-            border.width: 2
 
             anchors {
                 top:underBarId.top;
@@ -318,7 +316,6 @@ Item {
         id: plateauId
         width: parent.width
         color: "#ffffff"
-        border.width: 3
 
         anchors {
             top: underBarId.bottom;
@@ -904,8 +901,6 @@ Item {
         width: parent.width*8/10
         height: 210
         color: "#ffffff"
-        border.color: "#e51111"
-        border.width: 2
 
         anchors {
             bottom: parent.bottom;
@@ -920,8 +915,6 @@ Item {
             width: 1/8*parent.width
             height: 210
             anchors.left: parent.left
-            border.color: "#000000"
-            border.width: 2
 
             Image {
                 id:imgCAction1
@@ -941,8 +934,6 @@ Item {
             width: 1/8*parent.width
             height: 210
             anchors.left: carte_Action1Id.right
-            border.color: "#000000"
-            border.width: 2
             
             Image {
                 id:imgCAction2
@@ -962,8 +953,6 @@ Item {
             width: 1/8*parent.width
             height: 210
             anchors.left: carte_Action2Id.right
-            border.color: "#000000"
-            border.width: 2
         
             Image {
                id: imgCAction3
@@ -983,8 +972,6 @@ Item {
             width: 1/8*parent.width
             height: 210
             anchors.left: carte_Action3Id.right
-            border.color: "#000000"
-            border.width: 2
         
             Image {
                 id: imgCAction4
@@ -1008,8 +995,6 @@ Item {
                 id : carte_Bonus1Id
                 width: 1/8*parent.width
                 height : parent.height
-                border.color: "#000000"
-                border.width: 2
                 visible : false
 
                 Image {
@@ -1043,8 +1028,6 @@ Item {
                 id: carte_Bonus2Id
                 width: 1/8*parent.width
                 height : parent.height
-                border.color: "#000000"
-                border.width: 2
                 visible : false
 
                 Image {
@@ -1077,8 +1060,6 @@ Item {
                 id: carte_Bonus3Id
                 width: 1/8*parent.width
                 height : parent.height
-                border.color: "#000000"
-                border.width: 2
                 visible : false
 
                 Image {
@@ -1112,8 +1093,6 @@ Item {
                 id: carte_Bonus4Id
                 width: 1/8*parent.width
                 height: parent.height
-                border.color: "#000000"
-                border.width: 2
                 visible : false
                 Image {
                     id: imgCBonus4

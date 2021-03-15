@@ -23,13 +23,13 @@ Row {
         switch(entier) {
             case "1": 
                 img_barque.source = "../images/barque_1place.png"
-            break
+                break
             case "2":
                 img_barque.source = "../images/barque_2places.png"
-            break
+                break
             case "3":
                 img_barque.source = "../images/barque_3places.png"
-            break
+                break
         }
     }
 
@@ -44,63 +44,57 @@ Row {
         height: parent.height
         property alias pionesId: pionesId
 
-
-        ShowEffect{
-            id:msg1
+        ShowEffect {
+            id: msg1
         }
 
         Row {
-            id:rowFirstPlateauid
-            width : parent.width
-            height : parent.height
-            x : 11
-            spacing : 3
+            id: rowFirstPlateauid
+            width: parent.width
+            height: parent.height
+            x: 11
+            spacing: 3
 
             Rectangle {
                 id : case0Id
-                width: 13/100* parent.width
-                height: 30/100 * parent.height
+                width: parent.width*13/100
+                height: parent.height*30/100
                 y: height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                 Grid {
-                    id:layoutPawn0
-                    columns:2
-                    spacing : 2
-                    y : 1/5*parent.y
+                    id: layoutPawn0
+                    columns: 2
+                    spacing: 2
+                    y: parent.y*1/5
                 }
             }
 
             Rectangle {
-                id : case1Id
+                id: case1Id
                 width: 13/100* parent.width
                 height: 29/100 * parent.height
-                y : 85/100*height
+                y: 85/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
-                MouseArea{
+                MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
-                    onHoveredChanged:{
-                        if(containsMouse == true)
-                             {
-                                msg1.msgText = "Cerberus\nCheckpoint"
-                                msg1.visible = true
-                             }
-                        else
+                    onHoveredChanged: {
+                        if(containsMouse == true) {
+                            msg1.msgText = "Cerberus\nCheckpoint"
+                            msg1.visible = true
+                        } else {
                             msg1.visible = false
+                        }
                     }
                 }
 
                 Grid {
-                    id:layoutPawn1
-                    columns:2
-                    spacing : 2
-                    y : 1/5*parent.y
+                    id: layoutPawn1
+                    columns: 2
+                    spacing: 2
+                    y: parent.y*1/5
                 }
             }
 
@@ -110,8 +104,6 @@ Row {
                 height: 40/100 *parent.height
                 y : 70/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                 MouseArea{
                     anchors.fill: parent
@@ -141,8 +133,6 @@ Row {
                 height: 32/100*parent.height
                 y: 70/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                 MouseArea{
                     anchors.fill: parent
@@ -172,8 +162,6 @@ Row {
                 height: 32/100*parent.height
                 y : 128/100 * height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                 MouseArea{
                     anchors.fill: parent
@@ -203,8 +191,6 @@ Row {
                 height:33/100*parent.height
                 y : 65/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                 Grid {
                     id:layoutPawn5
@@ -220,8 +206,6 @@ Row {
                 height:29/100*parent.height
                 y : 138/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                 MouseArea{
                     anchors.fill: parent
@@ -252,8 +236,6 @@ Row {
         width: 17/100* parent.width
         color: "transparent"
         height: parent.height
-        border.color :"red"
-        border.width: 1
 
         ShowEffect{
             id:msg2
@@ -272,8 +254,6 @@ Row {
                 height:25/100*parent.height
                 y : 165/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                     MouseArea{
                         anchors.fill: parent
@@ -316,8 +296,6 @@ Row {
                             y : 115/100*height
                             x : 56/100*width
                             color: "transparent"
-                            border.color :"black"
-                            border.width: 1
 
                             Grid {
                                 id:layoutPawn9
@@ -332,8 +310,6 @@ Row {
                             height: 45/100*parent.height
                             y : 50/100*height
                             color: "transparent"
-                            border.color :"black"
-                            border.width: 1
 
                             MouseArea{
                                 anchors.fill: parent
@@ -362,8 +338,6 @@ Row {
                             height : 47/100*parent.height
                             y : 95/100*height
                             color: "transparent"
-                            border.color :"black"
-                            border.width: 1
 
                             Grid {
                                 id:layoutPawn11
@@ -383,8 +357,6 @@ Row {
                             width: 25/100*parent.width
                             height: 64/100*parent.height
                             color: "transparent"
-                            border.color :"black"
-                            border.width: 1
 
                             MouseArea{
                                 anchors.fill: parent
@@ -441,8 +413,6 @@ Row {
                             width: 15/100* parent.width
                             height: 65/100* parent.height
                             color: "transparent"
-                            border.color :"black"
-                            border.width: 1
 
                             MouseArea{
                                 anchors.fill: parent
@@ -510,22 +480,20 @@ Row {
                 y : 120/100*height
                 x : 120/100*width
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
-                        MouseArea{
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onHoveredChanged:{
-                                if(containsMouse == true)
-                                     {
-                                        msg3.msgText = "Cerberus\nCheckpoint"
-                                        msg3.visible = true
-                                     }
-                                else
-                                    msg3.visible = false
-                            }
-                        }
+                MouseArea{
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onHoveredChanged:{
+                        if(containsMouse == true)
+                                {
+                                msg3.msgText = "Cerberus\nCheckpoint"
+                                msg3.visible = true
+                                }
+                        else
+                            msg3.visible = false
+                    }
+                }
 
                 Grid {
                     id:layoutPawn13
@@ -547,8 +515,6 @@ Row {
                     height: 80/100*parent.height
                     x : 40/100*width
                     color: "transparent"
-                    border.color :"black"
-                    border.width: 1
 
                     MouseArea{
                         anchors.fill: parent
@@ -595,8 +561,6 @@ Row {
                     width: 50/100* parent.width
                     height: 65/100* parent.height
                     color: "transparent"
-                    border.color :"black"
-                    border.width: 1
 
                         MouseArea{
                             anchors.fill: parent
@@ -634,8 +598,6 @@ Row {
                     width: 60/100 * parent.width
                     height: 85/100*parent.height
                     color: "transparent"
-                    border.color :"black"
-                    border.width: 1
 
                     MouseArea{
                         anchors.fill: case17Id
@@ -679,8 +641,6 @@ Row {
                     width: 45/100* parent.width
                     height: 65/100* parent.height
                     color: "transparent"
-                    border.color :"black"
-                    border.width: 1
 
                     MouseArea{
                         anchors.fill: parent
@@ -727,9 +687,7 @@ Row {
         id: endPlateauId
         width: 34/100* parent.width
         color: "transparent"
-        height: parent.height
-        border.color :"red"
-        border.width: 1
+        height: parent.height   
 
         ShowEffect{
             id:msg4
@@ -750,22 +708,20 @@ Row {
                 height : 1/5*parent.height
                 y : 188/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
-                        MouseArea{
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onHoveredChanged:{
-                                if(containsMouse == true)
-                                     {
-                                        msg4.msgText = "Cerberus\nCheckpoint"
-                                        msg4.visible = true
-                                     }
-                                else
-                                    msg4.visible = false
-                            }
-                        }
+                MouseArea{
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onHoveredChanged:{
+                        if(containsMouse == true)
+                                {
+                                msg4.msgText = "Cerberus\nCheckpoint"
+                                msg4.visible = true
+                                }
+                        else
+                            msg4.visible = false
+                    }
+                }
 
                 Grid {
                     id:layoutPawn18
@@ -781,8 +737,6 @@ Row {
                 height : 24/100*parent.height
                 y : 94/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                 Grid {
                     id:layoutPawn19
@@ -798,8 +752,6 @@ Row {
                 height : 1/4*parent.height
                 y : 150/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                 Grid {
                     id:layoutPawn20
@@ -815,8 +767,6 @@ Row {
                 height : 1/4*parent.height
                 y : 90/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                 Grid {
                     id:layoutPawn21
@@ -825,28 +775,27 @@ Row {
                     y : 1/5*parent.y
                 }
             }
-             Rectangle {
+
+            Rectangle {
                 id: case22Id
                 width: 11/100*parent.width
                 height : 1/4*parent.height
                 y : 140/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
-                        MouseArea{
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onHoveredChanged:{
-                                if(containsMouse == true)
-                                     {
-                                        msg4.msgText = "Rage de\nCerbere+1"
-                                        msg4.visible = true
-                                     }
-                                else
-                                    msg4.visible = false
-                            }
-                        }
+                MouseArea{
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onHoveredChanged:{
+                        if(containsMouse == true)
+                                {
+                                msg4.msgText = "Rage de\nCerbere+1"
+                                msg4.visible = true
+                                }
+                        else
+                            msg4.visible = false
+                    }
+                }
 
                 Grid {
                     id:layoutPawn22
@@ -862,8 +811,6 @@ Row {
                 height : 37/100*parent.height
                 y : 85/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                 Image {
                     id:img_barque
