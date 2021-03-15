@@ -17,6 +17,8 @@ Item{
     signal _vitesseChanged()
     signal _playersChanged(variant players)
     signal _positionChanged(string newPosition, string color)
+    signal _pontChanged()
+    signal _showPlayerPieces(variant players)
 
     function changeLogin(newlogin) {
         login = newlogin
@@ -62,19 +64,30 @@ Item{
         }
     }
 
+    function changePont(msg_pont) {
+        if (pont == 1 && msg_pont == 0) { 
+            pont = 0
+            _pontChanged()
+        }
+    }
+
     function initGame(newPlayers, newDifficulty) {
         changePlayers(newPlayers)
         changeDifficulty(newDifficulty)
         changeRage(8 - newPlayers.length)
         changeVitesse(3 + newDifficulty)
         changePosCerbere("0")
+        _showPlayerPieces(players)
     }
     
     Component.onCompleted: {
         _loginChanged.connect(parent.board.playerInfo.updateLogin)
         _colorChanged.connect(parent.board.playerInfo.updateColor)
-        _playersChanged.connect(parent.board.boardId.pionesId.unhideNonPlayerPieces)
-        _playersChanged.connect(parent.board.infoJoueurId.updatePlayerInfo)
         _positionChanged.connect(parent.board.boardId.receiveCounter)
+        _playersChanged.connect(parent.board.infoJoueurId.updatePlayerInfo)
+        _playersChanged.connect(parent.board.joueurId.updatePlayerAction)
+        _showPlayerPieces.connect(parent.board.boardId.pionesId.unhideNonPlayerPieces)
+        _pontChanged.connect(parent.board.boardId.changepont)
+        _vitesseChanged.connect(parent.board.progressBar.updateVitesse)
     }
 }

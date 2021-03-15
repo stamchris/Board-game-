@@ -6,10 +6,6 @@
         <file>images/Regle1.jpg</file>
         <file>images/Regle3.jpg</file>
         <file>images/Regle2.jpg</file>
-        <file>images/Carte4.png</file>
-        <file>images/Carte3.png</file>
-        <file>images/Carte2.png</file>
-        <file>images/Carte1.png</file>
         <file>images/client_plateau-redimensionné.png</file>
         <file>images/Carte_Arro.png</file>
         <file>images/Carte_Couar.png</file>
@@ -38,5 +34,33 @@
         <file>images/barque_2places.png</file>
         <file>images/barque_3places.png</file>
         <file>images/barque_unknown.png</file>
+        <file>images/Red4.png</file>
+        <file>images/Red3.png</file>
+        <file>images/Red2.png</file>
+        <file>images/Red1.png</file>
+        <file>images/Green4.png</file>
+        <file>images/Green3.png</file>
+        <file>images/Green2.png</file>
+        <file>images/Green1.png</file>
+        <file>images/Pink4.png</file>
+        <file>images/Pink3.png</file>
+        <file>images/Pink2.png</file>
+        <file>images/Pink1.png</file>
+        <file>images/Blue4.png</file>
+        <file>images/Blue3.png</file>
+        <file>images/Blue2.png</file>
+        <file>images/Blue1.png</file>
+        <file>images/White4.png</file>
+        <file>images/White3.png</file>
+        <file>images/White2.png</file>
+        <file>images/White1.png</file>
+        <file>images/Orange4.png</file>
+        <file>images/Orange3.png</file>
+        <file>images/Orange2.png</file>
+        <file>images/Orange1.png</file>
+        <file>images/Cyan4.png</file>
+        <file>images/Cyan3.png</file>
+        <file>images/Cyan2.png</file>
+        <file>images/Cyan1.png</file>
     </qresource>
 </RCC>

@@ -56,6 +56,15 @@ ApplicationWindow {
 				case "updatePosition":
 					game.state.changePosition(message.player.colour, message.player.position)
 					break
+				case "updateBoard":
+					for (var i = 0; i < game.players.length; i++) {
+						game.state.changePosition(message.players[i].colour, message.players[i].position)
+					}
+					game.state.changePlayers(message.players)
+					game.state.changeRage(message.rage)
+					game.state.changeVitesse(message.vitesse)
+					game.state.changePont(message.pont)
+					break
 			}
 		}
 

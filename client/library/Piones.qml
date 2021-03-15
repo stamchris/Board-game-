@@ -3,23 +3,24 @@ import QtQuick.Layouts 1.10
 import QtQuick.Controls 2.10
 import "movePions.js" as MovePions
 
-Column {
-    id: playersId
-    x: 5
-    spacing: 2
+Rectangle {
+    Row  {
+        id: playersId
+        x: 5
+        spacing: 2
 
-    //[counter of pions]
-    property variant yArray: [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
-    property variant xArray: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-    property variant xCounter: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        //[counter of pions]
+        property variant yArray: [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
+        property variant xArray: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        property variant xCounter: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
-    function receiveCounterPiones(count, playerColor) {
-        MovePions.fixYArray(yArray, count)
-        MovePions.fixXCounter(xCounter, count)
-        MovePions.fixXArray(xArray, xCounter, count)
-        MovePions.findYposition(count, MovePions.choosePlayer(playerColor), yArray)
-        MovePions.findXposition(count, MovePions.choosePlayer(playerColor), xArray)
-    }
+        function receiveCounterPiones(count, playerColor) {
+            MovePions.fixYArray(yArray, count)
+            MovePions.fixXCounter(xCounter, count)
+            MovePions.fixXArray(xArray, xCounter, count)
+            MovePions.findYposition(count, MovePions.choosePlayer(playerColor), yArray)
+            MovePions.findXposition(count, MovePions.choosePlayer(playerColor), xArray)
+        }
 
     function unhideNonPlayerPieces(players) {  
         cerbere.visible = true             
@@ -66,7 +67,6 @@ Column {
                     break
             }
         }
-    }
 
     Pion {
         id: cerbere
@@ -75,11 +75,11 @@ Column {
         xPosition: 5
         color: "transparent"
 
-        Image {
-            anchors.fill : parent
-            source : "../images/cerbere_pion.png"
-        }  
-    }
+            Image {
+                anchors.fill : parent
+                source : "../images/cerbere_pion.png"
+            }  
+        }
 
     Pion {
         id: player1
@@ -88,11 +88,11 @@ Column {
         xPosition: 5
         color: "transparent"
 
-        Image {
-            anchors.fill: parent
-            source: "../images/cyan_pion.png"
+            Image {
+                anchors.fill: parent
+                source: "../images/cyan_pion.png"
+            }
         }
-    }
 
     Pion {
         id: player2
@@ -105,7 +105,6 @@ Column {
             anchors.fill: parent
             source: "../images/orange_pion.png"
         }
-    }
 
     Pion {
         id: player3
@@ -118,7 +117,6 @@ Column {
             anchors.fill: parent
             source: "../images/vert_pion.png"
         }
-    }
 
     Pion {
         id: player4
@@ -127,11 +125,11 @@ Column {
         xPosition: 5
         color: "transparent"
 
-        Image {
-            anchors.fill: parent
-            source: "../images/blanc_pion.png"
-        }   
-    }
+            Image {
+                anchors.fill: parent
+                source: "../images/blanc_pion.png"
+            }   
+        }
 
     Pion {
         id: player5
@@ -140,11 +138,11 @@ Column {
         xPosition: 5
         color: "transparent"
 
-        Image {
-            anchors.fill: parent
-            source: "../images/rose_pion.png"
+            Image {
+                anchors.fill: parent
+                source: "../images/rose_pion.png"
+            }
         }
-    }
 
     Pion {
         id: player6
@@ -153,11 +151,11 @@ Column {
         xPosition: 5
         color: "transparent"
 
-        Image {
-            anchors.fill: parent
-            source: "../images/belu_pion.png"
+            Image {
+                anchors.fill: parent
+                source: "../images/belu_pion.png"
+            }
         }
-    }
 
     Pion {
         id: player7
@@ -166,9 +164,10 @@ Column {
         xPosition: 5
         color: "transparent"
 
-        Image {
-            anchors.fill: parent
-            source: "../images/rouge_pion.png"
+            Image {
+                anchors.fill: parent
+                source: "../images/rouge_pion.png"
+            }
         }
     }
 }

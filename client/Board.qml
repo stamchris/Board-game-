@@ -8,8 +8,10 @@ import "library"
 Item {
     id: window
     property alias playerInfo: underBarId.playerInfo
+    property alias progressBar: underBarId.progressBar
     property alias boardId: boardId
     property alias infoJoueurId: infoJoueurId
+    property alias joueurId: joueurId
 
     ImagePopUp {
         id: imgEffetDeCarteId
@@ -215,6 +217,7 @@ Item {
         anchors.top: menuBarId.bottom
         anchors.topMargin: 5
         property alias playerInfo: actionId.playerInfo
+        property alias progressBar: progressBarId
 
         Rectangle {
             id: chronoId
@@ -257,6 +260,10 @@ Item {
             }
 
             CerbereBar{}
+
+            function updateVitesse() {
+                progressBarId.children[0].updateVitesse(window.parent.state.vitesse)
+            }
         }
 
         Rectangle {
@@ -853,39 +860,15 @@ Item {
             var order = 0
             for(var i = 0; i < players.length - 1; i++){
                 if(players[order].name != window.parent.state.login) {
-                    switch(i) {
-                        case 5:
-                            user1InfoId.color = players[order].colour
-                            user1InfoId.visible = true
-                            user1InfoId.children[0].children[0].children[0].text = players[order].name
-                            break
-                        case 4:
-                            user2InfoId.color = players[order].colour
-                            user2InfoId.visible = true
-                            user2InfoId.children[0].children[0].children[0].text = players[order].name
-                            break
-                        case 3:
-                            user3InfoId.color = players[order].colour
-                            user3InfoId.visible = true
-                            user3InfoId.children[0].children[0].children[0].text = players[order].name
-                            break
-                        case 2:
-                            user4InfoId.color = players[order].colour
-                            user4InfoId.visible = true
-                            user4InfoId.children[0].children[0].children[0].text = players[order].name
-                            break
-                        case 1:
-                            user5InfoId.color = players[order].colour
-                            user5InfoId.visible = true
-                            user5InfoId.children[0].children[0].children[0].text = players[order].name
-                            break
-                        case 0:
-                            user6InfoId.color = players[order].colour
-                            user6InfoId.visible = true
-                            user6InfoId.children[0].children[0].children[0].text = players[order].name
-                            break
-                        default:
-                            break
+                    rowId.children[6-i-1].color = players[order].colour
+                    rowId.children[6-i-1].visible = true
+                    rowId.children[6-i-1].children[0].children[0].children[0].text = players[order].name
+                    for (var j = 0; j < 4; j++) {
+                        if (players[order].hand.action[j] == true) {
+                            rowId.children[6-i-1].children[0].children[1].children[j+1].children[0].text = "A"
+                        } else {
+                            rowId.children[6-i-1].children[0].children[1].children[j+1].children[0].text = "X"
+                        }
                     }
                 } else {
                     i--
@@ -923,7 +906,7 @@ Item {
                 horizontalAlignment: Image.AlignHCenter
                 z: 1
                 fillMode: Image.Stretch
-                source: "images/Carte1.png"
+                source: "images/Cyan1.png"
 
                 CarteAction{}
             }
@@ -942,7 +925,7 @@ Item {
                 horizontalAlignment: Image.AlignHCenter
                 z: 1
                 fillMode: Image.Stretch
-                source: "images/Carte2.png"
+                source: "images/Cyan2.png"
 
                 CarteAction{}
             }
@@ -961,7 +944,7 @@ Item {
                horizontalAlignment: Image.AlignHCenter
                z: 1
                fillMode: Image.Stretch
-               source: "images/Carte3.png"
+               source: "images/Cyan3.png"
 
                CarteAction{}
             }
@@ -980,7 +963,7 @@ Item {
                 z: 1
                 anchors.leftMargin: 5
                 fillMode: Image.Stretch
-                source: "images/Carte4.png"
+                source: "images/Cyan4.png"
 
                 CarteAction{}
             }
@@ -1121,7 +1104,29 @@ Item {
                     }
                 }    
             }
-        }   
+        }
+
+        function updatePlayerAction(players) {
+            for(var i = 0; i < players.length; i++){
+                if(players[i].name == window.parent.state.login) {
+                    var newsource = "images/"
+                    if (players[i].type == 1) {
+                        newsource += "Cerbere"
+                    } else {
+                        newsource += players[i].colour
+                    }
+                    for (var j = 0; j < 4; j++) {
+                        joueurId.children[j].children[0].source = newsource + (j+1) + ".png"
+                        if (players[i].hand.action[j] == true) {
+                            joueurId.children[j].children[0].children[0].unblockCard()
+                        } else {
+                            joueurId.children[j].children[0].children[0].blockCard()
+                        }
+                    }
+                    break
+                }
+            }
+        }
     }
 }
 

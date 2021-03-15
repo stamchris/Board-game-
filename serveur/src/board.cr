@@ -143,6 +143,7 @@ class Cerbere::Board
         nodes[moi.position].effect.evenement = Evenement::RIEN
         moi.position += id_pont == 1 ? -4 : 4 #On se sert de la force pour déterminer de quel côté du pont on se trouve
         nodes[moi.position].effect.evenement = Evenement::RIEN
+        @pont = 0
       else
         puts "Refus"
         emprunte = false
