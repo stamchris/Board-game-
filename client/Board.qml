@@ -8,6 +8,7 @@ import "library"
 Item {
     id: window
     property alias playerInfo: underBarId.playerInfo
+    property alias progressBar: underBarId.progressBar
     property alias boardId: boardId
     property alias infoJoueurId: infoJoueurId
     property alias joueurId: joueurId
@@ -216,6 +217,7 @@ Item {
         anchors.top: menuBarId.bottom
         anchors.topMargin: 5
         property alias playerInfo: actionId.playerInfo
+        property alias progressBar: progressBarId
 
         Rectangle {
             id: chronoId
@@ -260,6 +262,10 @@ Item {
             }
 
             CerbereBar{}
+
+            function updateVitesse() {
+                progressBarId.children[0].updateVitesse(window.parent.state.vitesse)
+            }
         }
 
         Rectangle {

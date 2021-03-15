@@ -4,6 +4,11 @@ import QtQuick.Controls 2.10
 Item {
     id: rowroot
     width: parent.width
+    property alias vitesseCerbereText: vitesseCerbereTextId
+
+    function updateVitesse(new_vitesse) {
+        vitesseCerbereText.text = " Vitesse : " + new_vitesse
+    }
 
     anchors {
         top: parent.top;

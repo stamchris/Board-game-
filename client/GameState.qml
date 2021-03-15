@@ -82,5 +82,6 @@ Item{
         _playersChanged.connect(parent.board.joueurId.updatePlayerAction)
         _showPlayerPieces.connect(parent.board.boardId.pionesId.unhideNonPlayerPieces)
         _pontChanged.connect(parent.board.boardId.changepont)
+        _vitesseChanged.connect(parent.board.progressBar.updateVitesse)
     }
 }
