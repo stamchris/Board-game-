@@ -96,10 +96,31 @@ function findYposition(count, choosePlayer) {
             choosePlayer.parent = layoutPawn15
             return choosePlayer.yPosition = layoutPawn15.height
         case '16':
+            console.log("portail activé")
+            case16Id.color = "red"
+            case16Id.opacity = 0.25
+            case14Id.color = "cyan"
+            case14Id.opacity = 0.25
+            case17Id.color = "cyan"
+            case17Id.opacity = 0.25
+            case15Id.color = "brown"
+            case15Id.opacity = 0.25
+                
             choosePlayer.parent = layoutPawn16
             return choosePlayer.yPosition = layoutPawn16.height
-        case '17':
+        case'17':
             choosePlayer.parent = layoutPawn17
+            if(!layoutPawn16.children[0]) {
+                case16Id.color = "transparent"
+                case16Id.opacity = 1
+                case14Id.color = "transparent"
+                case16Id.opacity = 1
+                case17Id.color = "transparent"
+                case17Id.opacity = 1
+                case15Id.color = "transparent"
+                case15Id.opacity = 1
+                console.log("portail désactivé")
+            }
             return choosePlayer.yPosition = layoutPawn17.height
         case '18':
             choosePlayer.parent = layoutPawn18
