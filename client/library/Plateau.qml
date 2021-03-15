@@ -385,7 +385,6 @@ Row {
                             color: "transparent"
                             border.color :"black"
                             border.width: 1
-                            radius : 15
 
                             MouseArea{
                                 anchors.fill: parent
@@ -444,7 +443,6 @@ Row {
                             color: "transparent"
                             border.color :"black"
                             border.width: 1
-                            radius : 18
 
                             MouseArea{
                                 anchors.fill: parent
@@ -464,8 +462,8 @@ Row {
                                     {
                                         msg2.visible = false
                                         msg2.width = thirdPlateauid.width /2.2
-                                        case8Id.opacity = 0.1
-                                        case12Id.opacity = 0.1
+                                        case8Id.opacity = 1
+                                        case12Id.opacity = 1
                                         case8Id.color="transparent"
                                         case12Id.color="transparent"
                                     }
@@ -549,8 +547,6 @@ Row {
                     height: 80/100*parent.height
                     x : 40/100*width
                     color: "transparent"
-                    opacity: 0.25
-                    radius: 15
                     border.color :"black"
                     border.width: 1
 
@@ -563,6 +559,9 @@ Row {
                                     msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
                                     msg3.width = thirdPlateauid.width /1.6
                                     msg3.visible = true
+                                    case16Id.opacity = 0.25
+                                    case17Id.opacity = 0.25
+                                    case14Id.opacity = 0.25
                                     case16Id.color = "cyan"
                                     case17Id.color="red"
                                     case14Id.color="red"
@@ -572,6 +571,9 @@ Row {
                             {
                                 msg3.visible = false
                                 msg3.width = thirdPlateauid.width /2.2
+                                case16Id.opacity = 1
+                                case17Id.opacity = 1
+                                case14Id.opacity = 1
                                 case16Id.color="transparent"
                                 case17Id.color="transparent"
                                 case14Id.color="transparent"
@@ -632,8 +634,6 @@ Row {
                     width: 60/100 * parent.width
                     height: 85/100*parent.height
                     color: "transparent"
-                    opacity: 0.25
-                    radius: 15
                     border.color :"black"
                     border.width: 1
 
@@ -646,6 +646,9 @@ Row {
                                     msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
                                     msg3.width = thirdPlateauid.width /1.6
                                     msg3.visible = true
+                                    case16Id.opacity = 0.25
+                                    case17Id.opacity = 0.25
+                                    case14Id.opacity = 0.25
                                     case16Id.color = "cyan"
                                     case17Id.color="red"
                                     case14Id.color="red"
@@ -655,6 +658,9 @@ Row {
                             {
                                 msg3.visible = false
                                 msg3.width = thirdPlateauid.width /2.2
+                                case16Id.opacity = 1
+                                case17Id.opacity = 1
+                                case14Id.opacity = 1
                                 case16Id.color="transparent"
                                 case17Id.color="transparent"
                                 case14Id.color="transparent"
@@ -673,8 +679,6 @@ Row {
                     width: 45/100* parent.width
                     height: 65/100* parent.height
                     color: "transparent"
-                    opacity: 0.25
-                    radius: 15
                     border.color :"black"
                     border.width: 1
 
@@ -687,6 +691,9 @@ Row {
                                     msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
                                     msg3.width = thirdPlateauid.width /1.6
                                     msg3.visible = true
+                                    case16Id.opacity = 0.25
+                                    case17Id.opacity = 0.25
+                                    case14Id.opacity = 0.25
                                     case16Id.color = "cyan"
                                     case17Id.color="red"
                                     case14Id.color="red"
@@ -696,6 +703,9 @@ Row {
                             {
                                 msg3.visible = false
                                 msg3.width = thirdPlateauid.width /2.2
+                                case16Id.opacity = 1
+                                case17Id.opacity = 1
+                                case14Id.opacity = 1
                                 case16Id.color="transparent"
                                 case17Id.color="transparent"
                                 case14Id.color="transparent"
