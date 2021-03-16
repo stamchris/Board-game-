@@ -394,10 +394,10 @@ Row {
                                         msg2.msgText = "Si le joueur se pose\n sur la case bleu,\nil peut passer le pont"
                                         msg2.width = thirdPlateauid.width /1.4
                                         msg2.visible = true
-                                        case8Id.opacity = 0.25
-                                        case12Id.opacity = 0.25
                                         case8Id.color = "cyan"
+                                        case8Id.color = Qt.rgba(case8Id.color.r,case8Id.color.g,case8Id.color.b,0.25)
                                         case12Id.color="cyan"
+                                        case12Id.color = Qt.rgba(case12Id.color.r,case12Id.color.g,case12Id.color.b,0.25)
                                     }
                                     else
                                     {
@@ -453,10 +453,10 @@ Row {
                                         msg2.msgText = "Si le joueur se pose\n sur la case bleu,\nil peut passer le pont"
                                         msg2.width = thirdPlateauid.width /1.4
                                         msg2.visible = true
-                                        case8Id.opacity = 0.25
-                                        case12Id.opacity = 0.25
                                         case8Id.color = "cyan"
+                                        case8Id.color = Qt.rgba(case8Id.color.r,case8Id.color.g,case8Id.color.b,0.25)
                                         case12Id.color="cyan"
+                                        case12Id.color = Qt.rgba(case12Id.color.r,case12Id.color.g,case12Id.color.b,0.25)
                                     }
                                     else
                                     {
@@ -558,24 +558,32 @@ Row {
                                 msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
                                 msg3.width = thirdPlateauid.width /1.6
                                 msg3.visible = true
-                                case16Id.opacity = 0.25
-                                case17Id.opacity = 0.25
-                                case14Id.opacity = 0.25
-                                case16Id.color = "cyan"
-                                case17Id.color="red"
-                                case14Id.color="red"
+                                case16Id.color = "red"
+                                case16Id.color= Qt.rgba(case16Id.color.r,case16Id.color.g, case16Id.color.b,0.25)
+                                case14Id.color = "cyan"
+                                case14Id.color = Qt.rgba(case14Id.color.r,case14Id.color.g, case14Id.color.b,0.25)
+                                case17Id.color = "cyan"
+                                case17Id.color = Qt.rgba(case17Id.color.r,case17Id.color.g, case17Id.color.b,0.25)
+                                case15Id.color = "brown"
+                                case15Id.color = Qt.rgba(case15Id.color.r,case15Id.color.g, case15Id.color.b,0.25)
 
                             }
                             else
                             {
                                 msg3.visible = false
                                 msg3.width = thirdPlateauid.width /2.2
-                                case16Id.opacity = 1
-                                case17Id.opacity = 1
-                                case14Id.opacity = 1
-                                case16Id.color="transparent"
-                                case17Id.color="transparent"
-                                case14Id.color="transparent"
+                                if(!layoutPawn16.children[0]) {
+                                    console.log("non occupé")
+                                    case16Id.color="transparent"
+                                    case17Id.color="transparent"
+                                    case14Id.color="transparent"
+                                    case15Id.color="transparent"
+                                    case15Id.opacity = 1
+                                    case16Id.opacity = 1
+                                    case17Id.opacity = 1
+                                    case14Id.opacity = 1
+                                    
+                                }
                             }
                         }
                     }
@@ -642,27 +650,36 @@ Row {
                         onHoveredChanged:{
                             if(containsMouse == true)
                             {
-                                    msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
-                                    msg3.width = thirdPlateauid.width /1.6
-                                    msg3.visible = true
-                                    case16Id.opacity = 0.25
-                                    case17Id.opacity = 0.25
-                                    case14Id.opacity = 0.25
-                                    case16Id.color = "cyan"
-                                    case17Id.color="red"
-                                    case14Id.color="red"
+                                msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
+                                msg3.width = thirdPlateauid.width /1.6
+                                msg3.visible = true
+                                case16Id.color = "red"
+                                case16Id.color= Qt.rgba(case16Id.color.r,case16Id.color.g, case16Id.color.b,0.25)
+                                case14Id.color = "cyan"
+                                case14Id.color = Qt.rgba(case14Id.color.r,case14Id.color.g, case14Id.color.b,0.25)
+                                case17Id.color = "cyan"
+                                case17Id.color = Qt.rgba(case17Id.color.r,case17Id.color.g, case17Id.color.b,0.25)
+                                case15Id.color = "brown"
+                                case15Id.color = Qt.rgba(case15Id.color.r,case15Id.color.g, case15Id.color.b,0.25)
+                                    
 
                             }
                             else
                             {
                                 msg3.visible = false
                                 msg3.width = thirdPlateauid.width /2.2
-                                case16Id.opacity = 1
-                                case17Id.opacity = 1
-                                case14Id.opacity = 1
-                                case16Id.color="transparent"
-                                case17Id.color="transparent"
-                                case14Id.color="transparent"
+                                if(!layoutPawn16.children[0]) {
+                                    console.log("non occupé")
+                                    case16Id.color="transparent"
+                                    case17Id.color="transparent"
+                                    case14Id.color="transparent"
+                                    case15Id.color="transparent"
+                                    case15Id.opacity = 1
+                                    case16Id.opacity = 1
+                                    case17Id.opacity = 1
+                                    case14Id.opacity = 1
+                                    
+                                }
                             }
                         }
                     }
@@ -687,27 +704,35 @@ Row {
                         onHoveredChanged:{
                             if(containsMouse == true)
                             {
-                                    msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
-                                    msg3.width = thirdPlateauid.width /1.6
-                                    msg3.visible = true
-                                    case16Id.opacity = 0.25
-                                    case17Id.opacity = 0.25
-                                    case14Id.opacity = 0.25
-                                    case16Id.color = "cyan"
-                                    case17Id.color="red"
-                                    case14Id.color="red"
+                                msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
+                                msg3.width = thirdPlateauid.width /1.6
+                                msg3.visible = true
+                                case16Id.color = "red"
+                                case16Id.color= Qt.rgba(case16Id.color.r,case16Id.color.g, case16Id.color.b,0.25)
+                                case14Id.color = "cyan"
+                                case14Id.color = Qt.rgba(case14Id.color.r,case14Id.color.g, case14Id.color.b,0.25)
+                                case17Id.color = "cyan"
+                                case17Id.color = Qt.rgba(case17Id.color.r,case17Id.color.g, case17Id.color.b,0.25)
+                                case15Id.color = "brown"
+                                case15Id.color = Qt.rgba(case15Id.color.r,case15Id.color.g, case15Id.color.b,0.25)
 
                             }
                             else
                             {
                                 msg3.visible = false
                                 msg3.width = thirdPlateauid.width /2.2
-                                case16Id.opacity = 1
-                                case17Id.opacity = 1
-                                case14Id.opacity = 1
-                                case16Id.color="transparent"
-                                case17Id.color="transparent"
-                                case14Id.color="transparent"
+                                if(!layoutPawn16.children[0]) {
+                                    console.log("non occupé")
+                                    case16Id.color="transparent"
+                                    case17Id.color="transparent"
+                                    case14Id.color="transparent"
+                                    case15Id.color="transparent"
+                                    case15Id.opacity = 1
+                                    case16Id.opacity = 1
+                                    case17Id.opacity = 1
+                                    case14Id.opacity = 1
+                                    
+                                }
                             }
                         }
                     }
