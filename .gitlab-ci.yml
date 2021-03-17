@@ -7,13 +7,6 @@ pages:
                 - apt-get update
                 - apt-get install --yes --force-yes g++ make git python libxml2 curl unzip
         script:
-                - git clone https://github.com/emscripten-core/emsdk.git
-                - cd emsdk
-                - ./emsdk install 1.39.8
-                - ./emsdk activate --embedded 1.39.8
-                - source emsdk_env.sh
-                - em++ --version
-                - cd ..
                 - curl --output artifacts.zip "https://git.unistra.fr/api/v4/projects/19926/jobs/artifacts/master/download?job=build"
                 - unzip -q artifacts.zip
                 - cd qt5
@@ -26,8 +19,16 @@ pages:
                 - originaldir="/builds/lucas.schmidt/binaires-qt-wasm/qt5/qtbase"
                 - find qtbase/{mkspecs/modules,lib,plugins,qml} -name '*.pri' -o -name '*.prl' -o -name '*.pc' | xargs sed -i "s+$originaldir+$PWD/qtbase+g"
                 - cd ..
+                - git clone https://github.com/emscripten-core/emsdk.git
+                - cd emsdk
+                - ./emsdk install 1.39.8
+                - ./emsdk activate --embedded 1.39.8
+                - source emsdk_env.sh
+                - export PATH
+                - em++ --version
+                - cd ..
                 - cd client
-                - $qmake_wasm
+                - $qmake_wasm -d
                 - make
                 - cd ..
                 - mkdir public
@@ -56,13 +57,6 @@ verif_client_wasm:
                 - apt-get update
                 - apt-get install --yes --force-yes g++ make git python libxml2 curl unzip
         script:
-                - git clone https://github.com/emscripten-core/emsdk.git
-                - cd emsdk
-                - ./emsdk install 1.39.8
-                - ./emsdk activate --embedded 1.39.8
-                - source emsdk_env.sh
-                - em++ --version
-                - cd ..
                 - curl --output artifacts.zip "https://git.unistra.fr/api/v4/projects/19926/jobs/artifacts/master/download?job=build"
                 - unzip -q artifacts.zip
                 - cd qt5
@@ -75,8 +69,16 @@ verif_client_wasm:
                 - originaldir="/builds/lucas.schmidt/binaires-qt-wasm/qt5/qtbase"
                 - find qtbase/{mkspecs/modules,lib,plugins,qml} -name '*.pri' -o -name '*.prl' -o -name '*.pc' | xargs sed -i "s+$originaldir+$PWD/qtbase+g"
                 - cd ..
+                - git clone https://github.com/emscripten-core/emsdk.git
+                - cd emsdk
+                - ./emsdk install 1.39.8
+                - ./emsdk activate --embedded 1.39.8
+                - source emsdk_env.sh
+                - export PATH
+                - em++ --version
+                - cd ..
                 - cd client
-                - $qmake_wasm
+                - $qmake_wasm -d
                 - make
                 - cd ..
                 - mkdir public
