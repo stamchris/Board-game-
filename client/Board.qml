@@ -1113,7 +1113,7 @@ Item {
             }
         }
 
-        function updatePlayerAction(players) {
+        function updatePlayerAction(players, active_player) {
             for(var i = 0; i < players.length; i++){
                 if(players[i].name == window.parent.state.login) {
                     var newsource = "images/"
@@ -1124,7 +1124,7 @@ Item {
                     }
                     for (var j = 0; j < 4; j++) {
                         joueurId.children[j].children[0].source = newsource + (j+1) + ".png"
-                        if (players[i].hand.action[j] == true) {
+                        if (i == active_player && players[i].hand.action[j] == true) {
                             joueurId.children[j].children[0].children[0].unblockCard()
                         } else {
                             joueurId.children[j].children[0].children[0].blockCard()

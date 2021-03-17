@@ -9,13 +9,14 @@ Item{
     property string posCerbere: "0"
     property string pont: "1"
     property variant players: []
+    property string active_player : "0"
 
     signal _loginChanged()
     signal _colorChanged()
     signal _difficultyChanged()
     signal _rageChanged()
     signal _vitesseChanged()
-    signal _playersChanged(variant players)
+    signal _playersChanged(variant players, string new_turn)
     signal _positionChanged(string newPosition, string color)
     signal _pontChanged()
     signal _showPlayerPieces(variant players)
@@ -51,9 +52,10 @@ Item{
         _positionChanged(posCerbere, "Black")
     }
 
-    function changePlayers(newPlayers) {
+    function changePlayers(newPlayers, new_turn) {
         players = newPlayers
-        _playersChanged(players)
+        active_player = new_turn
+        _playersChanged(players, active_player)
     }
 
     function changePosition(color, newPosition) {
@@ -77,7 +79,7 @@ Item{
     }
 
     function initGame(newPlayers, newDifficulty) {
-        changePlayers(newPlayers)
+        changePlayers(newPlayers, active_player)
         changeDifficulty(newDifficulty)
         changeRage(8 - newPlayers.length)
         changeVitesse(3 + newDifficulty)
