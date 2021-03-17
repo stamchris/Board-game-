@@ -14,14 +14,17 @@ pages:
                 - source emsdk_env.sh
                 - em++ --version
                 - cd ..
-                - git clone git://code.qt.io/qt/qt5.git
+                - curl --output artifacts.zip "https://git.unistra.fr/api/v4/projects/19926/jobs/artifacts/master/download?job=build"
+                - unzip -q artifacts.zip
                 - cd qt5
-                - git checkout 5.15
-                - ./init-repository
-                - ./configure -xplatform wasm-emscripten -nomake examples -prefix $PWD/qtbase -opensource -confirm-license
-                - make -s module-qtbase module-qtdeclarative module-qtwebsockets module-qtquickcontrols2 module-qtquickcontrols module-qtvirtualkeyboard
-                - qmake_wasm="$PWD/qtbase/bin/qmake"
+                - qtconfig="$PWD/qtbase/bin/qt.conf"
+                - git config --file="$qtconfig" DevicePaths.Prefix "$PWD/qtbase"
+                - git config --file="$qtconfig" Paths.Prefix "$PWD/qtbase"
+                - git config --file="$qtconfig" Paths.HostPrefix "$PWD/qtbase"
+                - qmake_wasm="$PWD/qtbase/bin/qmake -qtconf $qtconfig"
                 - $qmake_wasm --version
+                - originaldir="/builds/lucas.schmidt/binaires-qt-wasm/qt5/qtbase"
+                - find qtbase/{mkspecs/modules,lib,plugins,qml} -name '*.pri' -o -name '*.prl' -o -name '*.pc' | xargs sed -i "s+$originaldir+$PWD/qtbase+g"
                 - cd ..
                 - cd client
                 - $qmake_wasm
@@ -60,18 +63,27 @@ verif_client_wasm:
                 - source emsdk_env.sh
                 - em++ --version
                 - cd ..
-                - git clone git://code.qt.io/qt/qt5.git
+                - curl --output artifacts.zip "https://git.unistra.fr/api/v4/projects/19926/jobs/artifacts/master/download?job=build"
+                - unzip -q artifacts.zip
                 - cd qt5
-                - git checkout 5.15
-                - ./init-repository
-                - ./configure -xplatform wasm-emscripten -nomake examples -prefix $PWD/qtbase -opensource -confirm-license
-                - make -s module-qtbase module-qtdeclarative module-qtwebsockets module-qtquickcontrols2 module-qtquickcontrols module-qtvirtualkeyboard
-                - qmake_wasm="$PWD/qtbase/bin/qmake"
+                - qtconfig="$PWD/qtbase/bin/qt.conf"
+                - git config --file="$qtconfig" DevicePaths.Prefix "$PWD/qtbase"
+                - git config --file="$qtconfig" Paths.Prefix "$PWD/qtbase"
+                - git config --file="$qtconfig" Paths.HostPrefix "$PWD/qtbase"
+                - qmake_wasm="$PWD/qtbase/bin/qmake -qtconf $qtconfig"
                 - $qmake_wasm --version
+                - originaldir="/builds/lucas.schmidt/binaires-qt-wasm/qt5/qtbase"
+                - find qtbase/{mkspecs/modules,lib,plugins,qml} -name '*.pri' -o -name '*.prl' -o -name '*.pc' | xargs sed -i "s+$originaldir+$PWD/qtbase+g"
                 - cd ..
                 - cd client
                 - $qmake_wasm
                 - make
+                - cd ..
+                - mkdir public
+                - mv client/{client.{html,js,wasm},qtloader.js,qtlogo.svg,images} public
+        artifacts:
+                paths:
+                        - public
         only:
                 - merge_requests
 
