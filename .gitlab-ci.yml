@@ -5,7 +5,7 @@ pages:
         before_script:
                 - export DEBIAN_FRONTEND=noninteractive # fuck you tzdata
                 - apt-get update
-                - apt-get install --yes --force-yes g++ make git python libxml2
+                - apt-get install --yes --force-yes g++ make git python libxml2 curl unzip
         script:
                 - git clone https://github.com/emscripten-core/emsdk.git
                 - cd emsdk
@@ -54,7 +54,7 @@ verif_client_wasm:
         before_script:
                 - export DEBIAN_FRONTEND=noninteractive # fuck you tzdata
                 - apt-get update
-                - apt-get install --yes --force-yes g++ make git python libxml2
+                - apt-get install --yes --force-yes g++ make git python libxml2 curl unzip
         script:
                 - git clone https://github.com/emscripten-core/emsdk.git
                 - cd emsdk
