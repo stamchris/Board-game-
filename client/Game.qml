@@ -28,10 +28,15 @@ Item {
 		}
 	}
 
-	Chat {
-        id: chat
+    Item {
+            width:200
+            height: 200
+            anchors{bottom:parent.bottom;left: parent.left}
 
-
-	}
+            Chat {
+                id: chat
+                anchors.fill:parent
+            }
+    }
 
 }

@@ -228,13 +228,19 @@ Window {
         border.width: 3
         anchors { top: underBarId.bottom; left: parent.left; bottom:parent.bottom; topMargin: 5; leftMargin: 2; bottomMargin: 5}
 
-        Rectangle {
+
+        Item {
             id: chatId
             width: parent.width
             height: 6/10 * parent.height
-            color: "#ffffff"
-            border.width: 2
-            anchors { top:infoJoueurId.bottom; topMargin:0}
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+
+                Chat{
+                    id: chatIn
+                    anchors.fill: parent
+
+                }
         }
 
         Rectangle {

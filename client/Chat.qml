@@ -5,13 +5,9 @@ import QtWebSockets 1.0
 
 Item {
     // Change here the Layout and anchors of the message
+    id:chatField
 
-    width:150
-    height: 200
-    anchors.bottom:parent.bottom
-    anchors.left:parent.left
-
-
+    width: parent.width
     // List of messages
 
     ColumnLayout {
@@ -33,17 +29,18 @@ Item {
           // Text Field to send Message
             Rectangle{
                   id:rectField
-                  width:0.9*parent.width
                   height: textToType.implicitHeight +15 //+15 padding
                   border{color: "#F0B27A";width: 1}
                   radius: 10
-                  anchors{leftMargin: 2;rightMargin: 2}
+                  Layout.fillWidth: true
+                  anchors{leftMargin: 2;rightMargin: 2;bottom: parent.bottom}
 
                     TextInput {
                         id: textToType
                         width:parent.width
                         anchors.centerIn: parent
                         leftPadding: 10
+                        rightPadding: 10
                         text: "Type ..."
                         onTextEdited: rectField.border.width = 2.5
                         onFocusChanged: textToType.clear()
