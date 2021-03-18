@@ -9,7 +9,8 @@ class Cerbere::Request
 		change_colour: ChangeColour,
 		play_action: PlayAction,
 		change_position: ChangePosition,
-		bridge_confirm: BridgeConfirm
+		bridge_confirm: BridgeConfirm,
+		portal_confirm: PortalConfirm
 	}
 	
 	def handle(game : Game, player : Player)
@@ -99,7 +100,7 @@ class Cerbere::Request
 					if @effet == 0
 						game.play_action(player, 2, 0)
 						game.action_played = true
-						if (game.board.pont_queue.size == 0)
+						if (game.board.pont_queue.size == 0 && game.board.portal_queue.size == 0)
 							game.new_turn()
 						end
 					end
@@ -107,11 +108,18 @@ class Cerbere::Request
 				end
 
 				players_queue : Array(Player) = [] of Player
-				game.board.pont_queue.each do |plyr|
-					players_queue << plyr[0]
-				end
-				if players_queue.size != 0
+				if game.board.pont_queue.size != 0
+					game.board.pont_queue.each do |plyr|
+						players_queue << plyr[0]
+					end
 					player.send(Response::UseBridge.new(players_queue))
+				end
+				if game.board.portal_queue.size != 0
+					players_queue.clear()
+					game.board.portal_queue.each do |plyr|
+						players_queue << plyr[0]
+					end
+					player.send(Response::UsePortal.new(players_queue))
 				end
 			end
 		end
@@ -138,6 +146,35 @@ class Cerbere::Request
 				game.board.action_deplacer_moi(plyr[0], new_force)
 			end
 			game.board.pont_queue.clear()
+			game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
+			game.new_turn()
+		end
+	end
+
+	class PortalConfirm < Request
+		property type = "portalConfirm"
+		property survivors : Array(Player)
+		property used : Bool
+
+		def handle(game : Game, player : Player)
+			game.board.portal_queue.each do |plyr|
+				id_portal = game.board.nodes[plyr[0].position].effect.force
+				saved_player = nil
+				survivors.each do |survivor|
+					if survivor.colour == plyr[0].colour
+						saved_player = survivor
+					end
+				end
+				if used == true && !saved_player.nil?
+					plyr[0].position += id_portal == 1 ? -3 : 3 #On se sert de la force pour déterminer de quel côté du portail on se trouve
+				else
+					plyr[0].position += id_portal == 1 ? -1 : 1 
+				end
+				plyr[1][0] -= 1
+				new_force = id_portal == 1 ? plyr[1][0] * (-1) : plyr[1][0]
+				game.board.action_deplacer_moi(plyr[0], new_force)
+			end
+			game.board.portal_queue.clear()
 			game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
 			game.new_turn()
 		end
@@ -214,6 +251,14 @@ class Cerbere::Response
 		property pontQueue : Array(Player)
 		
 		def initialize(@pontQueue)
+		end
+	end
+
+	class UsePortal < Response
+		property type = "usePortal"
+		property portalQueue : Array(Player)
+
+		def initialize(@portalQueue)
 		end
 	end
 end

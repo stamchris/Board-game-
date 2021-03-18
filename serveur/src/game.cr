@@ -70,6 +70,15 @@ class Cerbere::Game
 		end
 		board.pont_queue.clear()
 
+		board.portal_queue.each do |plyr|
+			id_portal = board.nodes[plyr[0].position].effect.force
+			plyr[0].position += id_portal == 1 ? -1 : 1 
+			plyr[1][0] -= 1
+			new_force = id_portal == 1 ? plyr[1][0] * (-1) : plyr[1][0]
+			board.action_deplacer_moi(plyr[0], new_force)
+		end
+		board.portal_queue.clear()
+
 		@active_player += 1
 		@active_player %= players.size
 		@nb_turns += 1

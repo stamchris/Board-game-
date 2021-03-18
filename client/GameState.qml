@@ -11,6 +11,7 @@ Item{
     property variant players: []
     property string active_player : "0"
     property var pont_queue: []
+    property var portal_queue: []
 
     signal _loginChanged()
     signal _colorChanged()
@@ -81,7 +82,12 @@ Item{
 
     function useBridge(new_queue) {
         pont_queue = new_queue
-        parent.board.popupBarque.open()
+        parent.board.popupBridge.open()
+    }
+
+    function usePortal(new_queue) {
+        portal_queue = new_queue
+        parent.board.popupPortal.open()
     }
 
     function initGame(newPlayers, newDifficulty) {

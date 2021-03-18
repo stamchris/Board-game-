@@ -17,6 +17,7 @@ class Cerbere::Board
     property pioche_survie : DeckSurvie = DeckSurvie.new
     property pioche_trahison : DeckTrahison = DeckTrahison.new
     property pont_queue : Array(Tuple(Player, Array(Int32))) = [] of Tuple(Player, Array(Int32))
+    property portal_queue : Array(Tuple(Player, Array(Int32))) = [] of Tuple(Player, Array(Int32))
 
     def initialize(difficulty : Int32, @players)
         # Choix du plateau
@@ -188,15 +189,7 @@ class Cerbere::Board
       end
 
       if(actif)
-        res = demander(moi, "Prendre le portail ? O/N")
-        if(res != "O")
-          puts "Refus"
-          emprunte = false
-        elsif(id_portail == 1)
-          moi.position -= 3
-        else
-          moi.position += 3
-        end
+        portal_queue << {moi, args}
       else
         puts "Portail non disponible !"
         emprunte = false

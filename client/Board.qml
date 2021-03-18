@@ -13,10 +13,11 @@ Item {
     property alias infoJoueurId: infoJoueurId
     property alias joueurId: joueurId
     property alias rectGroupsId: rectGroupsId
-    property alias popupBarque: popupBarque
+    property alias popupBridge: popupBridge
+    property alias popupPortal: popupPortal
 
     Popup {
-        id: popupBarque
+        id: popupBridge
         anchors.centerIn: parent
         width: 250
         height: 200
@@ -38,7 +39,7 @@ Item {
             height: 50
             y: 30
             horizontalAlignment: Image.AlignHCenter
-                source: "images/" + window.parent.state.pont_queue[0].colour + "_pion.png"
+            source: "images/" + window.parent.state.pont_queue[0].colour + "_pion.png"
         }
 
         RowLayout {
@@ -52,7 +53,7 @@ Item {
                         used: true
                     })
                     window.parent.state.pont_queue = []
-                    popupBarque.close()
+                    popupBridge.close()
                 }
             }
 
@@ -65,11 +66,77 @@ Item {
                             survivor: window.parent.state.pont_queue[0],
                             used: false
                         })
-                        popupBarque.close()
+                        popupBridge.close()
                     } else {
-                        popupBarque.children[1].source = "images/" + window.parent.state.pont_queue[1].colour + "_pion.png"
+                        popupBridge.children[1].source = "images/" + window.parent.state.pont_queue[1].colour + "_pion.png"
                     }
                     window.parent.state.pont_queue.shift()
+                }
+            }
+        }
+    }
+
+    Popup {
+        id: popupPortal
+        anchors.centerIn: parent
+        width: 250
+        height: 200
+        modal: true
+        closePolicy: Popup.NoAutoClose
+        background: Rectangle {
+            color: "#ffd194"
+            radius: 3
+        }
+        property var queue : []
+
+        Text {
+            y: 100
+            horizontalAlignment: Text.AlignHCenter
+            text: "Prendre le portail ?"
+        }
+
+        Image {
+            width: 50
+            height: 50
+            y: 30
+            horizontalAlignment: Image.AlignHCenter
+            source: "images/" + window.parent.state.portal_queue[0].colour + "_pion.png"
+        }
+
+        RowLayout {
+            y: 200
+            Button {
+                text: "Oui"
+                onClicked: {
+                    popupPortal.queue.push(window.parent.state.portal_queue.shift())
+                    if (window.parent.state.portal_queue.length == 0) {
+                        window.parent.state.send({
+                            type: "portal_confirm",
+                            survivors: popupPortal.queue,
+                            used: true
+                        })
+                        window.parent.state.portal_queue = []
+                        popupPortal.close()
+                    } else {
+                        popupPortal.children[1].source = "images/" + window.parent.state.portal_queue[1].colour + "_pion.png"
+                    }
+                }
+            }
+
+            Button {
+                text: "Non"
+                onClicked: {
+                    if (window.parent.state.portal_queue.length == 1) {
+                        window.parent.state.send({
+                            type: "portal_confirm",
+                            survivors: window.parent.state.portal_queue,
+                            used: false
+                        })
+                        popupPortal.close()
+                    } else {
+                        popupPortal.children[1].source = "images/" + window.parent.state.portal_queue[1].colour + "_pion.png"
+                    }
+                    window.parent.state.portal_queue.shift()
                 }
             }
         }
@@ -559,7 +626,6 @@ Item {
                     onClicked: {
                         //mise en place de la liaison reseau ici pour changer 
                         // le nom de la carte à ajouter
-                        window.popupBarque.open()
                         rectGroupsId.notifyCard2(inputaddcard.text)
                     }
                 }
