@@ -10,6 +10,7 @@ Item{
     property string pont: "1"
     property variant players: []
     property string active_player : "0"
+    property var pont_queue: []
 
     signal _loginChanged()
     signal _colorChanged()
@@ -76,6 +77,11 @@ Item{
 
     function newBonus(new_bonus) {
         _newBonus("Carte_" + new_bonus + ".png")
+    }
+
+    function useBridge(new_queue) {
+        pont_queue = new_queue
+        parent.board.popupBarque.open()
     }
 
     function initGame(newPlayers, newDifficulty) {

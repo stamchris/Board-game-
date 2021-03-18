@@ -16,6 +16,7 @@ class Cerbere::Board
     property nombre_pions_jauge : Int32
     property pioche_survie : DeckSurvie = DeckSurvie.new
     property pioche_trahison : DeckTrahison = DeckTrahison.new
+    property pont_queue : Array(Tuple(Player, Array(Int32))) = [] of Tuple(Player, Array(Int32))
 
     def initialize(difficulty : Int32, @players)
         # Choix du plateau
@@ -53,6 +54,10 @@ class Cerbere::Board
         while (nb_moves > 0)
           # Si l'effet de la case n'a pas changé la position du joueur et qu'il n'essaye pas d'avancer ou reculer hors du plateau
           has_moved = faire_action(moi, nodes[moi.position].effect, [nb_moves, force])
+          if has_moved
+            return
+          end
+
           if !has_moved && (moi.position > 1 || moi.position < nodes.size - 1)
             moi.position += force > 0 ? 1 : -1 # Déplacement vers la gauche ou la droite
           end
@@ -137,17 +142,8 @@ class Cerbere::Board
         return false
       end
       emprunte = true # permet d'indiquer si on a emprunté le pont à la fonction deplacer_moi
-      res = demander(moi, "Prendre le pont ? O/N")
-      # Si un joueur prend le pont de cordes, il s'écroule et n'est plus utilisable
-      if(res == "O")
-        nodes[moi.position].effect.evenement = Evenement::RIEN
-        moi.position += id_pont == 1 ? -4 : 4 #On se sert de la force pour déterminer de quel côté du pont on se trouve
-        nodes[moi.position].effect.evenement = Evenement::RIEN
-        @pont = 0
-      else
-        puts "Refus"
-        emprunte = false
-      end
+
+      pont_queue << {moi, args}
 
       return emprunte
     end

@@ -20,14 +20,14 @@
         <file>images/Carte_Vio.png</file>
         <file>images/Carte_Ego.png</file>
         <file>images/pontv2.png</file>
-        <file>images/belu_pion.png</file>
-        <file>images/orange_pion.png</file>
-        <file>images/rouge_pion.png</file>
-        <file>images/rose_pion.png</file>
-        <file>images/vert_pion.png</file>
-        <file>images/cyan_pion.png</file>
-        <file>images/blanc_pion.png</file>
-        <file>images/cerbere_pion.png</file>
+        <file>images/Blue_pion.png</file>
+        <file>images/Orange_pion.png</file>
+        <file>images/Red_pion.png</file>
+        <file>images/Pink_pion.png</file>
+        <file>images/Green_pion.png</file>
+        <file>images/Cyan_pion.png</file>
+        <file>images/White_pion.png</file>
+        <file>images/Cerbere_pion.png</file>
 	    <file>images/plateauv2.jpg</file>
         <file>images/aventurier_image.png</file>
         <file>images/barque_1place.png</file>

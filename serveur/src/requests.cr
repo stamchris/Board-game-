@@ -8,7 +8,8 @@ class Cerbere::Request
 		ready: Ready,
 		change_colour: ChangeColour,
 		play_action: PlayAction,
-		change_position: ChangePosition
+		change_position: ChangePosition,
+		bridge_confirm: BridgeConfirm
 	}
 	
 	def handle(game : Game, player : Player)
@@ -98,11 +99,47 @@ class Cerbere::Request
 					if @effet == 0
 						game.play_action(player, 2, 0)
 						game.action_played = true
-						game.new_turn()
+						if (game.board.pont_queue.size == 0)
+							game.new_turn()
+						end
 					end
 				else
 				end
+
+				players_queue : Array(Player) = [] of Player
+				game.board.pont_queue.each do |plyr|
+					players_queue << plyr[0]
+				end
+				if players_queue.size != 0
+					player.send(Response::UseBridge.new(players_queue))
+				end
 			end
+		end
+	end
+
+	class BridgeConfirm < Request
+		property type = "bridgeConfirm"
+		property survivor : Player
+		property used : Bool
+
+		def handle(game : Game, player : Player)
+			game.board.pont_queue.each do |plyr|
+				id_pont = game.board.nodes[plyr[0].position].effect.force
+				if used == true && survivor.colour == plyr[0].colour
+					game.board.nodes[plyr[0].position].effect.evenement = Evenement::RIEN
+					plyr[0].position += id_pont == 1 ? -4 : 4 #On se sert de la force pour déterminer de quel côté du pont on se trouve
+					game.board.nodes[plyr[0].position].effect.evenement = Evenement::RIEN
+					game.board.pont = 0
+				else
+					plyr[0].position += id_pont == 1 ? -1 : 1 
+				end
+				plyr[1][0] -= 1
+				new_force = id_pont == 1 ? plyr[1][0] * (-1) : plyr[1][0]
+				game.board.action_deplacer_moi(plyr[0], new_force)
+			end
+			game.board.pont_queue.clear()
+			game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
+			game.new_turn()
 		end
 	end
 end
@@ -169,6 +206,14 @@ class Cerbere::Response
 		property cardname : String
 
 		def initialize(@cardname)
+		end
+	end
+
+	class UseBridge < Response
+		property type = "useBridge"
+		property pontQueue : Array(Player)
+		
+		def initialize(@pontQueue)
 		end
 	end
 end

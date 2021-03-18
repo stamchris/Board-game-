@@ -60,6 +60,16 @@ class Cerbere::Game
 		if (!@action_played)
 			play_action(players[active_player], 0, 0)
 		end
+		
+		board.pont_queue.each do |plyr|
+			id_pont = board.nodes[plyr[0].position].effect.force
+			plyr[0].position += id_pont == 1 ? -1 : 1 
+			plyr[1][0] -= 1
+			new_force = id_pont == 1 ? plyr[1][0] * (-1) : plyr[1][0]
+			board.action_deplacer_moi(plyr[0], new_force)
+		end
+		board.pont_queue.clear()
+
 		@active_player += 1
 		@active_player %= players.size
 		@nb_turns += 1

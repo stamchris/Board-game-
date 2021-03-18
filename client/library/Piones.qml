@@ -77,7 +77,7 @@ Rectangle {
 
             Image {
                 anchors.fill : parent
-                source : "../images/cerbere_pion.png"
+                source : "../images/Cerbere_pion.png"
             }  
         }
 
@@ -90,7 +90,7 @@ Rectangle {
 
             Image {
                 anchors.fill: parent
-                source: "../images/cyan_pion.png"
+                source: "../images/Cyan_pion.png"
             }
         }
 
@@ -103,7 +103,7 @@ Rectangle {
         
             Image {
                 anchors.fill: parent
-                source: "../images/orange_pion.png"
+                source: "../images/Orange_pion.png"
             }
         }
 
@@ -116,7 +116,7 @@ Rectangle {
             
             Image {
                 anchors.fill: parent
-                source: "../images/vert_pion.png"
+                source: "../images/Green_pion.png"
             }
         }
 
@@ -129,7 +129,7 @@ Rectangle {
 
             Image {
                 anchors.fill: parent
-                source: "../images/blanc_pion.png"
+                source: "../images/White_pion.png"
             }   
         }
 
@@ -142,7 +142,7 @@ Rectangle {
 
             Image {
                 anchors.fill: parent
-                source: "../images/rose_pion.png"
+                source: "../images/Pink_pion.png"
             }
         }
 
@@ -156,7 +156,7 @@ Rectangle {
 
             Image {
                 anchors.fill: parent
-                source: "../images/belu_pion.png"
+                source: "../images/Blue_pion.png"
             }
         }
 
@@ -169,7 +169,7 @@ Rectangle {
 
             Image {
                 anchors.fill: parent
-                source: "../images/rouge_pion.png"
+                source: "../images/Red_pion.png"
             }
         }
     }

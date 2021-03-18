@@ -13,6 +13,67 @@ Item {
     property alias infoJoueurId: infoJoueurId
     property alias joueurId: joueurId
     property alias rectGroupsId: rectGroupsId
+    property alias popupBarque: popupBarque
+
+    Popup {
+        id: popupBarque
+        anchors.centerIn: parent
+        width: 250
+        height: 200
+        modal: true
+        closePolicy: Popup.NoAutoClose
+        background: Rectangle {
+            color: "#ffd194"
+            radius: 3
+        }
+
+        Text {
+            y: 100
+            horizontalAlignment: Text.AlignHCenter
+            text: "Prendre le pont ?"
+        }
+
+        Image {
+            width: 50
+            height: 50
+            y: 30
+            horizontalAlignment: Image.AlignHCenter
+                source: "images/" + window.parent.state.pont_queue[0].colour + "_pion.png"
+        }
+
+        RowLayout {
+            y: 200
+            Button {
+                text: "Oui"
+                onClicked: {
+                    window.parent.state.send({
+                        type: "bridge_confirm",
+                        survivor: window.parent.state.pont_queue[0],
+                        used: true
+                    })
+                    window.parent.state.pont_queue = []
+                    popupBarque.close()
+                }
+            }
+
+            Button {
+                text: "Non"
+                onClicked: {
+                    if (window.parent.state.pont_queue.length == 1) {
+                        window.parent.state.send({
+                            type: "bridge_confirm",
+                            survivor: window.parent.state.pont_queue[0],
+                            used: false
+                        })
+                        popupBarque.close()
+                    } else {
+                        popupBarque.children[1].source = "images/" + window.parent.state.pont_queue[1].colour + "_pion.png"
+                    }
+                    window.parent.state.pont_queue.shift()
+                }
+            }
+        }
+    }
 
     ImagePopUp {
         id: imgEffetDeCarteId
@@ -498,6 +559,7 @@ Item {
                     onClicked: {
                         //mise en place de la liaison reseau ici pour changer 
                         // le nom de la carte à ajouter
+                        window.popupBarque.open()
                         rectGroupsId.notifyCard2(inputaddcard.text)
                     }
                 }

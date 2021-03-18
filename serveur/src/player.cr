@@ -27,7 +27,7 @@ class Cerbere::Player
 
 	property ready = false
 	property name : String = ""
-	property colour : Colour = Colour::Cyan
+	property colour : Colour = Cerbere::Colour::Cyan
 	@[JSON::Field(ignore: true)]
 	getter socket : HTTP::WebSocket | Nil
 	

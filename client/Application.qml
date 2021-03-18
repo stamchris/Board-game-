@@ -64,10 +64,14 @@ ApplicationWindow {
 					game.state.changeRage(message.rage)
 					game.state.changeVitesse(message.vitesse)
 					game.state.changePont(message.pont)
+					game.board.popupBarque.close()
 					break
 				case "newBonus":
 					game.state.newBonus(message.cardname)
 					break
+                case "useBridge":
+                    game.state.useBridge(message.pontQueue)
+                    break
 			}
 		}
 
