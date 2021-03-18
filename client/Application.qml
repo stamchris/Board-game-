@@ -2,12 +2,19 @@ import QtQuick 2.10
 import QtQuick.Layouts 1.10
 import QtQuick.Controls 2.10
 import QtWebSockets 1.0
+import QtQuick.Window 2.12
 
 ApplicationWindow {
 	id: app
+    title: "Cerbère - jeu de société"
 
-	minimumWidth: 800
-	minimumHeight: 400
+    minimumWidth: 1024
+    minimumHeight: 768
+
+    FontLoader {
+            id: stoneyard
+            source: "images/Stoneyard.ttf"
+        }
 	
 	visible: true
 	WebSocket {
@@ -95,7 +102,7 @@ ApplicationWindow {
 			}
 		}
 
-		initialItem: "Login.qml"
+        initialItem: "Login.qml"
 	}
 
 	Game {
