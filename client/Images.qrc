@@ -22,5 +22,6 @@
 	<file>images/rouge_pion.png</file>
 	<file>images/blanc_icone.png</file>
 	<file>images/blanc_pion.png</file>
+	<file>images/cerbere_logo.png</file>
     </qresource>
 </RCC>
