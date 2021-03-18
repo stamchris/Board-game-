@@ -8,5 +8,21 @@
         <file>images/Carte2.png</file>
         <file>images/Carte1.png</file>
         <file>images/client_plateau-redimensionne.png</file>
+	<file>images/cyan_icone.png</file>
+	<file>images/cyan_pion.png</file>
+	<file>images/orange_icone.png</file>
+	<file>images/orange_pion.png</file>
+	<file>images/bleu_icone.png</file>
+	<file>images/bleu_pion.png</file>
+	<file>images/rose_icone.png</file>
+	<file>images/rose_pion.png</file>
+	<file>images/vert_icone.png</file>
+	<file>images/vert_pion.png</file>
+	<file>images/rouge_icone.png</file>
+	<file>images/rouge_pion.png</file>
+	<file>images/blanc_icone.png</file>
+	<file>images/blanc_pion.png</file>
+	<file>images/cerbere_logo.png</file>
+	<file>images/Stoneyard.ttf</file>
     </qresource>
 </RCC>
