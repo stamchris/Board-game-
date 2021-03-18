@@ -362,7 +362,7 @@ Window {
                 id: plateauImageId
                 anchors.fill: parent
                 horizontalAlignment: Image.AlignHCenter
-                source: "images/client_plateau-redimensionné.png"
+                source: "images/client_plateau-redimensionne.png"
                 z: 1
                 fillMode: Image.Stretch
                 
