@@ -113,7 +113,7 @@ Item {
 
 
                         onClicked: {
-                            socket.send({type:"change_colour",colour:"White"})
+                            socket.send({type:"change_colour",colour:"Cyan"})
                         }
                     }
 
@@ -157,7 +157,7 @@ Item {
 
 
                         onClicked: {
-                            socket.send({type:"change_colour",colour:"White"})
+                            socket.send({type:"change_colour",colour:"Orange"})
                         }
                     }
 
@@ -201,7 +201,7 @@ Item {
 
 
                         onClicked: {
-                            socket.send({type:"change_colour",colour:"White"})
+                            socket.send({type:"change_colour",colour:"Green"})
                         }
                     }
 
@@ -245,7 +245,7 @@ Item {
 
 
                         onClicked: {
-                            socket.send({type:"change_colour",colour:"White"})
+                            socket.send({type:"change_colour",colour:"Pink"})
                         }
                     }
 
@@ -289,7 +289,7 @@ Item {
 
 
                         onClicked: {
-                            socket.send({type:"change_colour",colour:"White"})
+                            socket.send({type:"change_colour",colour:"Blue"})
                         }
                     }
 
@@ -333,7 +333,7 @@ Item {
 
 
                         onClicked: {
-                            socket.send({type:"change_colour",colour:"White"})
+                            socket.send({type:"change_colour",colour:"Red"})
                         }
                     }
 
