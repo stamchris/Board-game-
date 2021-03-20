@@ -80,25 +80,57 @@ class Cerbere::Request
 		property type = "playAction"
 		property effet : Int32
 		property carte : String
+		property args : Array(String)
 
 		def handle(game : Game, player : Player)
+			new_args = [] of Int32
+			args.each do |arg|
+				game.players.each do |plyr|
+					if arg == plyr.colour.to_s
+						new_args << plyr.lobby_id
+						break
+					end
+				end
+			end
 			if (player.colour == game.players[game.active_player].colour)
 				case @carte
 				when "1"
 					if @effet == 0
-						game.play_action(player, 0, 0)
+						game.play_action(player, 0, 0, new_args)
 						game.action_played = true
 						game.new_turn()
 					end
 				when "2"
 					if @effet == 0
-						game.play_action(player, 1, 0)
+						game.play_action(player, 1, 0, new_args)
 						game.action_played = true
 						game.new_turn()
+					elsif @effet == 1
+						new_args.insert(0, -1)
+						game.play_action(player, 1, 1, new_args)
+						game.action_played = true
+						if (game.board.pont_queue.size == 0 && game.board.portal_queue.size == 0)
+							game.new_turn()
+						end
 					end
 				when "3"
 					if @effet == 0
-						game.play_action(player, 2, 0)
+						game.play_action(player, 2, 0, new_args)
+						game.action_played = true
+						if (game.board.pont_queue.size == 0 && game.board.portal_queue.size == 0)
+							game.new_turn()
+						end
+					elsif @effet == 1
+						game.play_action(player, 2, 1, new_args)
+						game.action_played = true
+						if (game.board.pont_queue.size == 0 && game.board.portal_queue.size == 0)
+							game.new_turn()
+						end
+					end
+				when "4"
+					if @effet == 0
+						new_args.insert(0, -1)
+						game.play_action(player, 3, 0, new_args)
 						game.action_played = true
 						if (game.board.pont_queue.size == 0 && game.board.portal_queue.size == 0)
 							game.new_turn()

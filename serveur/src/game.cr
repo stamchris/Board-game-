@@ -45,20 +45,22 @@ class Cerbere::Game
 		@players.all? { |player| player.colour != colour}
 	end
 
-	def play_action(player : Player, card : Int32, choice : Int32)
+	def play_action(player : Player, card : Int32, choice : Int32, args : Array(Int32))
 		player.hand.action[card] = false
 		card = Hand.actions_of(player.type)[card]
 		choice = card.choix[choice]
-		args : Array(Int32) = [] of Int32
 		board.faire_action(player, choice.cout, args)
 		choice.effets.each_index do |i|
 			board.faire_action(player, choice.effets[i], args)
+			if args.size != 0
+				args.shift()
+			end
 		end
 	end
 
 	def new_turn()
 		if (!@action_played)
-			play_action(players[active_player], 0, 0)
+			play_action(players[active_player], 0, 0, [] of Int32)
 		end
 		
 		board.pont_queue.each do |plyr|

@@ -15,18 +15,160 @@ Item {
     property alias rectGroupsId: rectGroupsId
     property alias popupBridge: popupBridge
     property alias popupPortal: popupPortal
+    property alias playersChoice: playersChoice
+
+    function choosePlayers(choices, action_todo, effect) {
+        playersChoice.choices = choices
+        playersChoice.action_todo = action_todo
+        playersChoice.effect = effect
+        playersChoice.args = []
+        playersChoice.msg.text = choices[0]
+        var plyr
+        for (var i = 0; i < 7; i++) {
+            playersChoice.rowPlayers.children[i].visible = false
+            for (plyr of window.parent.state.players) {
+                if (plyr.type == 0 && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && plyr.colour != window.parent.state.color) {
+                    playersChoice.rowPlayers.children[i].visible = true
+                    break
+                }
+            }
+        }
+        playersChoice.open()
+    }
 
     Popup {
-        id: popupBridge
+        id: playersChoice
         anchors.centerIn: parent
-        width: 250
-        height: 200
+        width: 350
+        height: 50
         modal: true
         closePolicy: Popup.NoAutoClose
         background: Rectangle {
             color: "#ffd194"
             radius: 3
         }
+        property alias msg: msg
+        property alias rowPlayers: rowPlayers
+        property var choices : []
+        property var action_todo : ""
+        property var effect
+        property var args : []
+
+        function choosePlayer(button_color) {
+            if(choices.length == 1) {
+                args.push(button_color.slice(12, button_color.length - 9))
+                window.parent.state.send({
+                    type: "play_action",
+                    effet: effect,
+                    carte: action_todo,
+                    args: args
+                })
+                playersChoice.close()
+            } else {
+                choices.shift()
+                args.push(button_color.slice(12, button_color.length - 9))
+                playersChoice.msg.text = choices[0]
+                var plyr
+                for (var i = 0; i < 7; i++) {
+                    playersChoice.rowPlayers.children[i].visible = false
+                    for (plyr of window.parent.state.players) {
+                        if (plyr.type == 0 && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && !args.includes(plyr.colour) && plyr.colour != window.parent.state.color) {
+                            playersChoice.rowPlayers.children[i].visible = true
+                            break
+                        }
+                    }
+                }
+            }
+        }
+
+        Text {
+            id: msg
+            y: 10
+            horizontalAlignment: Text.AlignHCenter
+            text: "Choisissez un joueur"
+        }
+
+        RowLayout {
+            id: rowPlayers
+            y: 50
+
+            Button {
+                visible: false
+                icon.color: "transparent"
+                icon.source: "images/Red_pion.png"
+                onClicked: {
+                    playersChoice.choosePlayer(icon.source.toString())
+                }
+            }
+
+            Button {
+                visible: false
+                icon.color: "transparent"
+                icon.source: "images/Cyan_pion.png"
+                onClicked: {
+                    playersChoice.choosePlayer(icon.source.toString())
+                }
+            }
+
+            Button {
+                visible: false
+                icon.color: "transparent"
+                icon.source: "images/Green_pion.png"
+                onClicked: {
+                    playersChoice.choosePlayer(icon.source.toString())
+                }
+            }
+
+            Button {
+                visible: false
+                icon.color: "transparent"
+                icon.source: "images/Blue_pion.png"
+                onClicked: {
+                    playersChoice.choosePlayer(icon.source.toString())
+                }
+            }
+
+            Button {
+                visible: false
+                icon.color: "transparent"
+                icon.source: "images/White_pion.png"
+                onClicked: {
+                    playersChoice.choosePlayer(icon.source.toString())
+                }
+            }
+
+            Button {
+                visible: false
+                icon.color: "transparent"
+                icon.source: "images/Pink_pion.png"
+                onClicked: {
+                    playersChoice.choosePlayer(icon.source.toString())
+                }
+            }
+
+            Button {
+                visible: false
+                icon.color: "transparent"
+                icon.source: "images/Orange_pion.png"
+                onClicked: {
+                    playersChoice.choosePlayer(icon.source.toString())
+                }
+            }
+        }
+    }
+
+    Popup {
+        id: popupBridge
+        anchors.centerIn: parent
+        width: 200
+        height: 150
+        modal: true
+        closePolicy: Popup.NoAutoClose
+        background: Rectangle {
+            color: "#ffd194"
+            radius: 3
+        }
+        property alias imgPlayerBridge: imgPlayerBridge
 
         Text {
             y: 100
@@ -35,15 +177,16 @@ Item {
         }
 
         Image {
+            id: imgPlayerBridge
             width: 50
             height: 50
             y: 30
             horizontalAlignment: Image.AlignHCenter
-            source: "images/" + window.parent.state.pont_queue[0].colour + "_pion.png"
+            source: "images/Cyan_pion.png"
         }
 
         RowLayout {
-            y: 200
+            y: 150
             Button {
                 text: "Oui"
                 onClicked: {
@@ -68,7 +211,7 @@ Item {
                         })
                         popupBridge.close()
                     } else {
-                        popupBridge.children[1].source = "images/" + window.parent.state.pont_queue[1].colour + "_pion.png"
+                        popupBridge.imgPlayerBridge.source = "images/" + window.parent.state.pont_queue[1].colour + "_pion.png"
                     }
                     window.parent.state.pont_queue.shift()
                 }
@@ -79,8 +222,8 @@ Item {
     Popup {
         id: popupPortal
         anchors.centerIn: parent
-        width: 250
-        height: 200
+        width: 200
+        height: 150
         modal: true
         closePolicy: Popup.NoAutoClose
         background: Rectangle {
@@ -88,6 +231,7 @@ Item {
             radius: 3
         }
         property var queue : []
+        property alias imgPlayerPortal: imgPlayerPortal
 
         Text {
             y: 100
@@ -96,20 +240,21 @@ Item {
         }
 
         Image {
+            id: imgPlayerPortal
             width: 50
             height: 50
             y: 30
             horizontalAlignment: Image.AlignHCenter
-            source: "images/" + window.parent.state.portal_queue[0].colour + "_pion.png"
+            source: "images/Cyan_pion.png"
         }
 
         RowLayout {
-            y: 200
+            y: 150
             Button {
                 text: "Oui"
                 onClicked: {
-                    popupPortal.queue.push(window.parent.state.portal_queue.shift())
-                    if (window.parent.state.portal_queue.length == 0) {
+                    popupPortal.queue.push(window.parent.state.portal_queue[0])
+                    if (window.parent.state.portal_queue.length == 1) {
                         window.parent.state.send({
                             type: "portal_confirm",
                             survivors: popupPortal.queue,
@@ -118,8 +263,9 @@ Item {
                         window.parent.state.portal_queue = []
                         popupPortal.close()
                     } else {
-                        popupPortal.children[1].source = "images/" + window.parent.state.portal_queue[1].colour + "_pion.png"
+                        popupPortal.imgPlayerPortal.source = "images/" + window.parent.state.portal_queue[1].colour + "_pion.png"
                     }
+                    window.parent.state.portal_queue.shift()
                 }
             }
 
@@ -134,7 +280,7 @@ Item {
                         })
                         popupPortal.close()
                     } else {
-                        popupPortal.children[1].source = "images/" + window.parent.state.portal_queue[1].colour + "_pion.png"
+                        popupPortal.imgPlayerPortal.source = "images/" + window.parent.state.portal_queue[1].colour + "_pion.png"
                     }
                     window.parent.state.portal_queue.shift()
                 }
@@ -626,6 +772,7 @@ Item {
                     onClicked: {
                         //mise en place de la liaison reseau ici pour changer 
                         // le nom de la carte à ajouter
+                        window.playersChoice.open()
                         rectGroupsId.notifyCard2(inputaddcard.text)
                     }
                 }
