@@ -123,28 +123,28 @@ CREATE TABLE `tab_achievement` (
 --
 
 INSERT INTO `tab_achievement` (`id_achievement`, `libelle_achievement`, `descriptif_achievement`, `niveau_achievement`) VALUES
-('001', 'Une petite faim ', 'Manger son premier Aventurier en tant que Cerbère', 'Niveau Facile'),
-('002', 'On a réussi! ', 'Réussir à s\'enfuir pour la première fois en barque en tant qu\'Aventurier', 'Niveau Facile'),
-('003', 'Vitesse lumière ', 'Avancer son pion de 5 cases en un seul tour', 'Niveau Facile'),
+('001', 'Une petite faim', 'Manger son premier Aventurier en tant que Cerbère', 'Niveau Facile'),
+('002', 'On a réussi!', 'Réussir à s\'enfuir pour la première fois en barque en tant qu\'Aventurier', 'Niveau Facile'),
+('003', 'Vitesse lumière', 'Avancer son pion de 5 cases en un seul tour', 'Niveau Facile'),
 ('004', 'Dépression avancée', 'Jouer la carte Fatalisme et atterrir sur la case de Cerbère', 'Niveau Facile'),
 ('005', 'Personne ne m\'aime', 'Être devoré par Cerbère sur le 1er plateau', 'Niveau Facile'),
 ('006', 'La faim justifie les moyens', 'Trahir une promesse faite à un joueur', 'Niveau Facile'),
 ('007', 'Victoire à l\'aveugle', 'Retourner la barque en entrant sur le 4ème plateau sans que la personne n\'ait regardé les barques pendant la partie', 'Niveau Facile'),
-('008', 'Désir de vivre', 'Réussir a gagner en Aventurier en partant seul(e) avec la barque à 1 place dans une partie de difficulté 14', 'Niveau Impossible'),
-('009', 'J\'ai les crocs ', 'Gagner en tant que Cerbère dans une partie de difficulté 8', 'Niveau Impossible'),
+('008', 'Désir de vivre', 'Réussir à gagner en Aventurier en partant seul(e) avec la barque à 1 place dans une partie de difficulté 14', 'Niveau Impossible'),
+('009', 'J\'ai les crocs', 'Gagner en tant que Cerbère dans une partie de difficulté 8', 'Niveau Impossible'),
 ('010', 'Chien de Troupeau', 'Gagner en Cerbère avant qu\'un seul Aventurier ne rentre sur le 4ème plateau', 'Niveau Impossible'),
 ('011', 'Plus fort que la mort', 'Avoir réussi toutes les Réussites Magistrales du jeu', 'Niveau Impossible'),
 ('012', 'Vous ne passerez pas!', 'Dévorer le dernier Aventurier sur la dernière case du dernier plateau et gagner en tant que Cerbère', 'Niveau Difficile'),
 ('013', 'D\'un cheveu', 'Gagner en tant qu\'Aventurier alors que Cerbère est à moins de 4 cases de la barque', 'Niveau Difficile'),
-('014', 'Fin négociateur', 'Réussir à faire payer le coût de la carte Favoritisme par 3 autres joueurs ', 'Niveau Difficile'),
+('014', 'Fin négociateur', 'Réussir à faire payer le coût de la carte Favoritisme par 3 autres joueurs', 'Niveau Difficile'),
 ('015', 'La fin d\'une amitié', 'Faire payer le coût de la carte Opportunisme à un joueur et le reculer au lieu de l\'avancer', 'Niveau Difficile'),
 ('016', 'Tous pour 1 et 1 pour tous', 'Réussir à gagner avec la barque à 3 places dans une partie à 3 joueurs', 'Niveau Difficile'),
 ('017', 'Oups!', 'Se faire attraper par Cerbère alors qu\'on a au moins 4 cartes Survie en main', 'Niveau Difficile'),
 ('018', 'Tous aux abris!', 'Tous les Aventuriers encore en jeu survivent à une chasse de Cerbère de 8 cases', 'Niveau Difficile'),
 ('019', 'La vraie victoire', 'Réussir à gagner en Aventurier en partant seul(e) avec la barque à 1 place', 'Niveau Difficile'),
 ('020', 'Égoïsme total', 'Réussir à gagner en Aventurier en partant seul(e) avec la barque à 1 place dans une partie avec 5 joueurs ou plus', 'Niveau Difficile'),
-('021', 'Ça croque sous la dent ', 'Réussir en tant que Cerbère à dévorer d\'un coup 2 Aventuriers ou plus', 'Niveau Difficile'),
-('022', 'Effet 3 en 1', 'Réussir en tant que Cerbère à dévorer d\'un coup 3 Aventuriers ou plus ', 'Niveau Difficile');
+('021', 'Ça croque sous la dent', 'Réussir en tant que Cerbère à dévorer d\'un coup 2 Aventuriers ou plus', 'Niveau Difficile'),
+('022', 'Effet 3 en 1', 'Réussir en tant que Cerbère à dévorer d\'un coup 3 Aventuriers ou plus', 'Niveau Difficile');
 
 -- --------------------------------------------------------
 --
