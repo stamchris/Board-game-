@@ -1,4 +1,3 @@
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -9,7 +8,16 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `Cerber_db`
 --
+--
+-- Structure de la table `rel_achievement_s_j`
+--
 
+CREATE TABLE `rel_achievement_s_j` (
+  `id_session` varchar(255) NOT NULL,
+  `id_joueur` varchar(255) NOT NULL,
+  `id_achievement` varchar(255) NOT NULL,
+  `id_temps_realisaion` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 -- --------------------------------------------------------
 
 --
@@ -99,7 +107,46 @@ CREATE TABLE `rel_session_joueur_carte` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
+--
+-- Structure de la table `tab_achievement`
+--
 
+CREATE TABLE `tab_achievement` (
+  `id_achievement` varchar(255) NOT NULL,
+  `libelle_achievement` varchar(255) DEFAULT NULL,
+  `descriptif_achievement` varchar(255) DEFAULT NULL,
+  `niveau_achievement` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `tab_achievement`
+--
+
+INSERT INTO `tab_achievement` (`id_achievement`, `libelle_achievement`, `descriptif_achievement`, `niveau_achievement`) VALUES
+('001', 'Achiev1', 'Une petite faim : Manger son premiEr Aventurier en tant que cerbère', 'Niveau Facile'),
+('002', 'Achiev2', 'On a reussi : Réussir a s enfuir pour la première fois en barque en tant qu aventurier', 'Niveau Facile'),
+('003', 'Achiev3', 'Vitesse lumière : Avancer son pion de 5 cases en un seul tour', 'Niveau Facile'),
+('004', 'Achiev4', 'Depression avancée: Jouer la carte Fatalisme et atterrir sur la case de cerbère', 'Niveau Facile'),
+('005', 'Achiev5', 'Personne ne m aime: etre devoré par cerbère sur le 1er plateau', 'Niveau Facile'),
+('006', 'Achiev6', 'La faim justifie les moyens: Trahir une promesse faite à un joueur', 'Niveau Facile'),
+('007', 'Achiev7', 'Victoire à l aveugle: Retourner la barque en entrant sur le 4eme plateau sans que la personne n ait regardé les barques pendant la partie', 'Niveau Facile'),
+('008', 'Achiev8', 'Desir de vivre: Réussir a gagner en Aventurier en partant seul(e) avec la barque à 1 place dans une partie de difficulté 14', 'Niveau Impossible'),
+('009', 'Achiev9', 'J ai les crocs :Gagner en tant que cerbère dans une partie de difficulté 8', 'Niveau Impossible'),
+('010', 'Achiev10', 'Chien de Troupeau: Gagner en cerbère avant qu un seul aventurier ne rentre sur le 4ème plateau', 'Niveau Impossible'),
+('011', 'Achiev11', 'Plus fort que la mort:Avoir reussi toutes les Réussites Magistrales de jeu', 'Niveau Impossible'),
+('012', 'Achiev12', 'Vous ne passerez pas !: Dévorer le dernier Aventurier sur la dernière case du dernier plateau et gagner en tant que cerbère', 'Niveau Difficile'),
+('013', 'Achiev13', 'D un cheveu: Gagner entant qu aventurier alors que Cerbère est a moins de 4 cases de la barque', 'Niveau Difficile'),
+('014', 'Achiev14', 'Fin négociateur: Réussir à faire payer le coût de la carte favoritisme par 3 autres joueurs ', 'Niveau Difficile'),
+('015', 'Achiev15', 'La fin d une amitié : Faire payer le coût de la carte opportinisme à un joueur et reculer au lieu de l avancer', 'Niveau Difficile'),
+('016', 'Achiev16', 'Tous pour 1 et 1 pour tous: Reussir à gagner avec la barque à 3 dans une partie à 3 joueurs', 'Niveau Difficile'),
+('017', 'Achiev17', 'Oups!:Se faire attraper par cerbère alors qu on a au moins 4 cartes survie en main', 'Niveau Difficile'),
+('018', 'Achiev18', 'Tous aux abris !: Tous les aventuriers encore en jeu survivant à une chasse de cerbere de 8 cases', 'Niveau Difficile'),
+('019', 'Achiev19', 'La vraie victoire : Reussir a gagner en aventuruier en partant seul(e) avec la barque a 1 place', 'Niveau Difficile'),
+('020', 'Achiev20', 'Egoisme total : Reussir a gagner en Aventurier en partant seul(e) avec la barque a 1 place dans une partie avec 5 joueurs ou plus', 'Niveau Difficile'),
+('021', 'Achiev21', 'Ca croque sous la dent : Reussir en tant que cerbere a devorer d un coup 2 aventurier ou plus', 'Niveau Difficile'),
+('022', 'Achiev22', 'Effet 3 en 1 : Reussir en tant que cerber e a devorer d un coup 3 aventurier ou plus ', 'Niveau Difficile');
+
+-- --------------------------------------------------------
 --
 -- Structure de la table `rel_session_joueur_case`
 --
@@ -356,8 +403,19 @@ CREATE TABLE `tab_plateau` (
   `libelle_plateau` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
+-- --------------------------------------------------------
+--
+-- Structure de la table `tab_temps_realisation`
+--
+
+CREATE TABLE `tab_temps_realisation` (
+  `id_temps_relaisation` varchar(255) NOT NULL,
+  `jour_realisation` datetime DEFAULT NULL,
+  `heure_relaisation` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
 --
 -- Structure de la table `tab_session`
 --
@@ -433,6 +491,12 @@ INSERT INTO `tab_zone` (`id_zone`, `libelle_zone`, `id_plateau`) VALUES
 --
 -- Index pour les tables déchargées
 --
+ALTER TABLE `rel_achievement_s_j`
+  ADD PRIMARY KEY (`id_session`,`id_joueur`,`id_achievement`,`id_temps_realisaion`),
+  ADD KEY `id_achievement` (`id_achievement`),
+  ADD KEY `id_joueur` (`id_joueur`),
+  ADD KEY `id_session` (`id_session`),
+  ADD KEY `id_temps_realisaion` (`id_temps_realisaion`);
 --
 -- Index pour la table `rel_action_effet`
 --
@@ -448,6 +512,21 @@ ALTER TABLE `rel_score`
   ADD PRIMARY KEY (`id_session`,`id_joueur`),
   ADD KEY `id_joueur` (`id_joueur`),
   ADD KEY `id_session` (`id_session`);
+
+--
+-- Index pour la table `tab_achievement`
+--
+ALTER TABLE `tab_achievement`
+  ADD PRIMARY KEY (`id_achievement`),
+  ADD UNIQUE KEY `id_achievement` (`id_achievement`);
+
+--
+-- Index pour la table `tab_temps_realisation`
+--
+ALTER TABLE `tab_temps_realisation`
+  ADD PRIMARY KEY (`id_temps_relaisation`),
+  ADD UNIQUE KEY `id_temps_relaisation` (`id_temps_relaisation`);
+
 
 --
 -- Index pour la table `rel_session_joueur_carte`
@@ -545,6 +624,14 @@ ALTER TABLE `tab_zone`
 --
 -- Contraintes pour les tables déchargées
 --
+--
+-- Contraintes pour la table `rel_achievement_s_j`
+--
+ALTER TABLE `rel_achievement_s_j`
+  ADD CONSTRAINT `rel_achievement_s_j_ibfk_1` FOREIGN KEY (`id_achievement`) REFERENCES `tab_achievement` (`id_achievement`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `rel_achievement_s_j_ibfk_2` FOREIGN KEY (`id_joueur`) REFERENCES `tab_joueur` (`id_joueur`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `rel_achievement_s_j_ibfk_3` FOREIGN KEY (`id_session`) REFERENCES `tab_session` (`id_session`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `rel_achievement_s_j_ibfk_4` FOREIGN KEY (`id_temps_realisaion`) REFERENCES `tab_temps_realisation` (`id_temps_relaisation`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `rel_action_effet`
