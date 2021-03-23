@@ -36,12 +36,12 @@ ApplicationWindow {
 					game.view = "Board"
 					break
 				case "updatePlayer":
-					game.players = game.players.map( player =>
-						(player.name==message.player.name) ?
-							message.player
-						:
+					game.players = game.players.map( function(player){
+							(player.name==message.player.name) ?
+								message.player
+							:
 							player
-						)
+					})
 					break
 			}
 		}
