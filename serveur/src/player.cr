@@ -17,9 +17,9 @@ enum Cerbere::Colour
 end
 
 enum TypeJoueur
-    AVENTURIER # Joueur dans le camp Aventurier
-    CERBERE # Joueur dans le camp Cerbère
-    MORT # Joueur éliminé
+	AVENTURIER # Joueur dans le camp Aventurier
+	CERBERE # Joueur dans le camp Cerbère
+	MORT # Joueur éliminé
 end
 
 class Cerbere::Player
