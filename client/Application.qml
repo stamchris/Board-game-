@@ -13,10 +13,10 @@ ApplicationWindow {
 	property alias socket: socket
 	title : "Cerbere"
 
-    FontLoader {
-               id: stoneyard
-               source: "images/Stoneyard.ttf"
-           }
+	FontLoader {
+		id: stoneyard
+		source: "images/Stoneyard.ttf"
+	}
 
 	WebSocket {
 		id: socket
@@ -152,8 +152,8 @@ ApplicationWindow {
 
 			if (status == WebSocket.Open && socket.waiting4Connect) {
 				socket.sendTextMessage(JSON.stringify({
-				type: "login",
-				name:socket.login
+					type: "login",
+					name:socket.login
 				}))
 			}
 		}
@@ -186,7 +186,7 @@ ApplicationWindow {
 			}
 		}
 
-        initialItem: "Login.qml"
+		initialItem: "Login.qml"
 	}
 
 	Game {

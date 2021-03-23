@@ -8,10 +8,10 @@ CONFIG += resources_big
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        main.cpp
+	main.cpp
 
 RESOURCES += qml.qrc \
-    Images.qrc
+	Images.qrc
 
 INCLUDEPATH += ..
 INCLUDEPATH += /usr/lib/gcc/x86_64-linux-gnu/9/include/
