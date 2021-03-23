@@ -18,34 +18,34 @@ Window {
             source:"images/effetDeCarte.jpg"
     }
 
-       Rectangle {
+    Rectangle {
         id: menuBarId
         height: 60
         color: "#0ba360"
         gradient: Gradient {
             GradientStop {
                 position: 0
-                color: "#30cfd0"
+                color : "indianred"
             }
 
             GradientStop {
                 position: 1
-                color: "#330867"
+                color : "#740912"
             }
         }
         border{color: "#e51111" ; width:2;}
         anchors { left: parent.left; right:parent.right; top: parent.top }
 
 
-          Image {
-                id: imglogoId
-                width: 120
-                height: 50
-                anchors { bottom: parent.bottom; left:parent.left; top: parent.top; leftMargin: 8; topMargin: 5 }
-                horizontalAlignment: Image.AlignHCenter
-                source: "images/cerbere_logo.png"
-                fillMode: Image.Stretch
-            }
+        Image {
+            id: imglogoId
+            width: 120
+            height: 50
+            anchors { bottom: parent.bottom; left:parent.left; top: parent.top; leftMargin: 8; topMargin: 5 }
+            horizontalAlignment: Image.AlignHCenter
+            source: "images/cerbere_logo.png"
+            fillMode: Image.Stretch
+        }
 
        Rectangle {
            id: loginId
@@ -185,16 +185,25 @@ Window {
             border.width: 2
             anchors { left: underBarId.left; top: underBarId.top; leftMargin:2}
 
+            Image {
+                id : img_chrono
+                height : 80/100*parent.height 
+                width : 50    
+                anchors.verticalCenter : parent.verticalCenter 
+                anchors {left : parent.left ; leftMargin : 5; top : parent.top; topMargin : 10}
+                source : "images/chrono.png"
+            }
+
             Text {
                 id: chronoTimeId
-                width: 95
-                height: 17
+                anchors { left : img_chrono.right; leftMargin : 10; top : parent.top; topMargin : 10}
+                anchors.verticalCenter : parent.verticalCenter
+                verticalAlignment: Text.AlignVCenter
+                width: 2*parent.width/3
+                height: parent.height/5
                 color: "#e51111"
                 text: qsTr("01:00")
                 font.pixelSize: 22
-                anchors.verticalCenter: parent.verticalCenter
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
                 font.bold: true
             }
         }
@@ -218,13 +227,26 @@ Window {
             border.color: "#3fe219"
             border.width: 2
             anchors { top: underBarId.top; left: progressBarId.right; leftMargin: 5; right: parent.right; rightMargin: 2 }
+            Column {
+                anchors.centerIn : parent
+                Text {
+                    anchors.horizontalCenter : parent.horizontalCenter
+                    id : txt_player
+                    text : "Player_X play ! "
+                }
+                Text {
+                    anchors.horizontalCenter : parent.horizontalCenter
+                    id : txt_timeout
+                    text : "Temps restant : 5 m 36 s"
+                }
+            }
         }
 
     }
 
         Rectangle {
             id: chatId
-            height: 250
+            height:  34/100*parent.height
             width: 2/10 * parent.width
             color: "#ffffff"
             border.width: 2
@@ -333,6 +355,20 @@ Window {
                             rowbonusid.children[i].children[0].source = new_source
                         } 
                     }
+                    function change_hand() {
+                        var i = 1
+                        console.log("coucou")
+                        while (i < 5) {
+                            joueurId.children[i-1].children[0].source = "images/Cerbere"+i+".png"
+                            i += 1
+                        }
+                        var i = 0
+                        while (i < 4) {
+                            rowbonusid.children[i].visible = false
+                            rowbonusid.children[i].children[0].source = ""
+                            i += 1
+                        }
+                    }
 
                     property int positionCounterPion1: -1
                     property int positionCounterPion2: -1
@@ -348,25 +384,25 @@ Window {
                     width: 150
 
                     Rectangle{
-                    id:whiteId
-                    color: "white"
-                    height: parent.height /4
-                    width: parent.width /4
-                    anchors{top: parent.top;left: parent.left}
-                    Text {
-                        id: texxxxt
-                        text: "+1"
+                        id:whiteId
+                        color: "white"
+                        height: parent.height /4
+                        width: parent.width /4
+                        anchors{top: parent.top;left: parent.left}
+                        Text {
+                            id: texxxxt
+                            text: "+1"
+                        }
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            rectGroupsId.positionCounterPion1++
+                            rectGroupsId.notifyPion(rectGroupsId.positionCounterPion1,"player1")
+
+                        }
                     }
-                   MouseArea{
-                       anchors.fill: parent
-                    onClicked: {
-                        rectGroupsId.positionCounterPion1++
-                        rectGroupsId.notifyPion(rectGroupsId.positionCounterPion1,"player1")
 
                     }
-                   }
-
-                }
                     Rectangle{
                     id:blueId
                     color: "blue"
@@ -453,10 +489,14 @@ Window {
                                 var good = -1
                                 var int_player = parseInt(inputchangetype.text,10)
 
-                                good = ((int_player < 7) ? ((int_player > 0) ? good = int_player : good = -1) : good = -1)
+                                good = ((int_player < 7) ? ((int_player > -1) ? good = int_player : good = -1) : good = -1)
 
                                 if(good != -1) {
-                                    rowId.children[good-1].children[0].children[1].changetype(inputchangetype.text) 
+                                   if(good == 0) {//hand_player
+                                    rectGroupsId.change_hand()
+                                    }
+                                    else 
+                                        rowId.children[good-1].children[0].children[1].changetype(inputchangetype.text) 
                                 }
                             }
                         }   
@@ -555,7 +595,7 @@ Window {
             }
         }
     
-     Rectangle {
+    Rectangle {
         id: infoJoueurId
         width: 8/10 * parent.width
         height: 40
@@ -564,7 +604,7 @@ Window {
         Row {
             id: rowId
             anchors.fill: parent
-            //spacing: 3
+            spacing : (width - (rowId.children[0].width*rowId.children.length)) / (rowId.children.length - 1) - 1
 
             Rectangle{
                 id: user1InfoId
@@ -592,9 +632,12 @@ Window {
                     }
                     
                     InfosJoueur {
-                        anchors.leftMargin : 10
                         id: news_usr_1
                     }
+                }
+
+                Component.onCompleted : {
+                    news_usr_1.update_color("Blue")
                 }
                 
             }
@@ -627,6 +670,9 @@ Window {
                         id: news_usr_2
                     }
                 }
+                Component.onCompleted : {
+                    news_usr_2.update_color("White")
+                }
             }
 
             Rectangle{
@@ -655,6 +701,9 @@ Window {
                     InfosJoueur {
                         id: news_usr_3
                     }
+                }
+                Component.onCompleted : {
+                    news_usr_3.update_color("Orange")
                 }
             }
 
@@ -686,6 +735,9 @@ Window {
                         id: news_usr_4
                     }
                 }
+                Component.onCompleted : {
+                    news_usr_4.update_color("Green")
+                }
             }
 
             Rectangle{
@@ -715,6 +767,9 @@ Window {
                     InfosJoueur {
                         id: news_usr_5
                     }
+                }
+                Component.onCompleted : {
+                    news_usr_5.update_color("Red")
                 }
             }
 
@@ -746,8 +801,10 @@ Window {
                         id: news_usr_6
                     }
                 }
+                Component.onCompleted : {
+                    news_usr_6.update_color("Pink")
+                }
             }
-
         }
     }
 

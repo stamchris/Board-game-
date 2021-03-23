@@ -43,6 +43,17 @@ Row {
        
     }
 
+    function update_color(color) 
+    {
+        var i = 1 
+        //while (i < 4) {
+            rowinfos.children[i].children[0].source = "../images/"+color+""+i+".png"
+            i += 1
+        //}
+    }
+
+
+
     width : 5/6*parent.width
     height : parent.height
     Rectangle {
@@ -80,11 +91,9 @@ Row {
         border.color : "white"
         color  : "transparent"
         x : parent.width 
-        Text {
-            id : txt_la1_usr
-            anchors.centerIn : parent
-            text:"A"
-            color : "white" 
+        Image {
+                anchors.fill : parent
+                source : ""
         }
     }
 

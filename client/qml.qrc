@@ -12,8 +12,9 @@
         <file>library/Piones.qml</file>
         <file>Login.qml</file>
         <file>Lobby.qml</file>
+        <file>Game.qml</file>
         <file>library/movePions.js</file>
         <file>library/ShowEffect.qml</file>
-	<file>library/InfosJoueur.qml</file>
+	    <file>library/InfosJoueur.qml</file>
     </qresource>
 </RCC>

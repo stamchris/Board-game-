@@ -86,18 +86,26 @@ Item {
             if(cerbereBarId.value < 4) { // green
                 position0.color = "#11af14"
                 position1.color = "#08660a"
+                row_rectid.children[cerbereBarId.value - 1].visible = true
             } else {
                 if(cerbereBarId.value < 7) { // orange
                     position0.color = "#F19619"
                     position1.color = "#AB6404"
+                    row_rectid.children[cerbereBarId.value - 1].visible = true
                 } else {
-                    if(cerbereBarId.value == 10) { // green
+                    if(cerbereBarId.value == 9) { // green
                         cerbereBarId.value = 1
                         position0.color = "#11af14"
                         position1.color = "#08660a"
+                        var i = 1
+                        while (i < 8) {
+                            row_rectid.children[i].visible = false
+                            i += 1
+                        }
                     } else { // red
                         position0.color= "#E11C0C"
                         position1.color="#A01F14"
+                        row_rectid.children[cerbereBarId.value - 1].visible = true
                     }
                 }
             }
@@ -155,6 +163,136 @@ Item {
                     leftMargin: 15;
                     rightMargin: 15
                 }
+
+                Row {
+                    id : row_rectid
+                    width : parent.width
+                    height : parent.height
+                    spacing : 0
+                    Rectangle {
+                        height: parent.height
+                        width : cerbereBarId.width/9+3
+                        color : "transparent"
+                        border.width : 1
+                        border.color : "white"
+                        visible : false
+                        Text {
+                            id:txt1
+                            color : "white"
+                            text : "1"
+                            anchors.centerIn : parent
+                            
+                        }
+                    }
+                    Rectangle {
+                        height: parent.height
+                        width : cerbereBarId.width/9+3
+                        color : "transparent"
+                        border.width : 1
+                        border.color : "white"
+                        visible : false
+                        Text {
+                            id:txt2
+                            text : "2"
+                            color : "white"
+                            anchors.centerIn : parent
+                            
+                        }
+                    }
+                    Rectangle {
+                        height: parent.height
+                        width : cerbereBarId.width/9+3
+                        color : "transparent"
+                        border.width : 1
+                        border.color : "white"
+                        visible : false
+                        Text {
+                            id:txt3
+                            text : "3"
+                            color : "white"
+                            anchors.centerIn : parent
+                            
+                        }
+                    }
+                    Rectangle {
+                        height: parent.height
+                        width : cerbereBarId.width/9+3
+                        color : "transparent"
+                        border.width : 1
+                        border.color : "white"
+                        visible : false
+                        Text {
+                            id:txt4
+                            text : "4"
+                            color : "white"
+                            anchors.centerIn : parent
+                            
+                        }
+                    }
+                    Rectangle {
+                        height: parent.height
+                        width : cerbereBarId.width/9+2
+                        color : "transparent"
+                        border.width : 1
+                        border.color : "white"
+                        visible : false
+                        Text {
+                            id:txt5
+                            text : "5"
+                            color : "white"
+                            anchors.centerIn : parent
+                            
+                        }
+                    }
+                    Rectangle {
+                        height: parent.height
+                        width : cerbereBarId.width/9+2
+                        color : "transparent"
+                        border.width : 1
+                        border.color : "white"
+                        visible : false
+                        Text {
+                            id:txt6
+                            text : "6"
+                            color : "white"
+                            anchors.centerIn : parent
+                            
+                        }
+                    }
+                    Rectangle {
+                        height: parent.height
+                        width : cerbereBarId.width/9+2
+                        color : "transparent"
+                        border.width : 1
+                        border.color : "white"
+                        visible : false
+                        Text {
+                            id:txt7
+                            text : "7"
+                            color : "white"
+                            anchors.centerIn : parent
+                            
+                        }
+                    }     
+
+                    Rectangle {
+                        height: parent.height
+                        width : cerbereBarId.width/9+2
+                        color : "transparent"
+                        border.width : 1
+                        border.color : "white"
+                        visible : false
+                        Text {
+                            id:txt8
+                            text : "8"
+                            color : "white"
+                            anchors.centerIn : parent
+                            
+                        }
+                    }   
+                }
+
+
 
                 gradient: Gradient {
                     GradientStop {

@@ -44,12 +44,9 @@ Row {
 
     Rectangle {
         id: firstPlateauid
-        width: parent.width*29/100
+        width: parent.width*294/1000
         color: "transparent"
         height: parent.height
-        border.color: "red"
-        border.width: 1
-
 
         ShowEffect{
             id:msg1
@@ -60,7 +57,7 @@ Row {
             width : parent.width
             height : parent.height
             x : 11
-            spacing : 3
+            spacing : 1/150*parent.width
 
             Rectangle {
                 id : case0Id
@@ -68,8 +65,6 @@ Row {
                 height: 30/100 * parent.height
                 y: height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                 Grid {
                     id:layoutPawn0
@@ -84,8 +79,6 @@ Row {
                 height: 29/100 * parent.height
                 y : 85/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                 MouseArea{
                     anchors.fill: parent
@@ -105,7 +98,7 @@ Row {
                     id:layoutPawn1
                     columns:2
                     spacing : 2
-                    y : 1/5*parent.y
+                    y : 1/10*parent.y
                 }
             }
             Rectangle {
@@ -114,8 +107,6 @@ Row {
                 height: 40/100 *parent.height
                 y : 70/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                 MouseArea{
                     anchors.fill: parent
@@ -144,8 +135,6 @@ Row {
                 height: 32/100*parent.height
                 y: 70/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                 MouseArea{
                     anchors.fill: parent
@@ -174,8 +163,6 @@ Row {
                 height: 32/100*parent.height
                 y : 128/100 * height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                 MouseArea{
                     anchors.fill: parent
@@ -195,7 +182,7 @@ Row {
                     id:layoutPawn4
                     columns:2
                     spacing : 2
-                    y : 1/5*parent.y
+                    y : 1/15*parent.y
                 }
             }
             Rectangle {
@@ -204,14 +191,13 @@ Row {
                 height:33/100*parent.height
                 y : 65/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                 Grid {
                     id:layoutPawn5
                     columns:2
                     spacing : 2
                     y : 1/5*parent.y
+                    x : 1/20*parent.x
                 }
             }
             Rectangle {
@@ -220,8 +206,6 @@ Row {
                 height:29/100*parent.height
                 y : 138/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                 MouseArea{
                     anchors.fill: parent
@@ -241,7 +225,8 @@ Row {
                     id:layoutPawn6
                     columns:2
                     spacing : 2
-                    y : 1/5*parent.y
+                    x : 1/30*parent.x
+                    y : 1/25*parent.y
                 }
             }
         }
@@ -251,8 +236,7 @@ Row {
         width: 17/100* parent.width
         color: "transparent"
         height: parent.height
-        border.color :"red"
-        border.width: 1
+       
 
         ShowEffect{
             id:msg2
@@ -271,28 +255,26 @@ Row {
                 height:25/100*parent.height
                 y : 165/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
-
-                    MouseArea{
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        onHoveredChanged:{
-                            if(containsMouse == true)
-                                 {
-                                    msg2.msgText = "Cerberus\nCheckpoint"
-                                    msg2.visible = true
-                                 }
-                            else
-                                msg2.visible = false
+               
+                MouseArea{
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onHoveredChanged:{
+                        if(containsMouse == true)
+                        {
+                            msg2.msgText = "Cerberus\nCheckpoint"
+                            msg2.visible = true
                         }
+                        else
+                            msg2.visible = false
                     }
+                }
 
                 Grid {
                     id:layoutPawn7
                     columns:2
                     spacing : 2
-                    y : 1/5*parent.y
+                    x : 3
                 }
             }
             Row {
@@ -315,14 +297,12 @@ Row {
                             y : 115/100*height
                             x : 56/100*width
                             color: "transparent"
-                            border.color :"black"
-                            border.width: 1
+                            
 
                             Grid {
                                 id:layoutPawn9
                                 columns:2
                                 spacing : 2
-                                y : 1/5*parent.y
                             }
                         }
                         Rectangle {
@@ -331,9 +311,7 @@ Row {
                             height: 45/100*parent.height
                             y : 50/100*height
                             color: "transparent"
-                            border.color :"black"
-                            border.width: 1
-
+                           
                             MouseArea{
                                 anchors.fill: parent
                                 hoverEnabled: true
@@ -361,14 +339,11 @@ Row {
                             height : 47/100*parent.height
                             y : 95/100*height
                             color: "transparent"
-                            border.color :"black"
-                            border.width: 1
 
                             Grid {
                                 id:layoutPawn11
                                 columns:2
                                 spacing : 2
-                                y : parent.y
                             }
                         }
                     }
@@ -382,8 +357,6 @@ Row {
                             width: 25/100*parent.width
                             height: 64/100*parent.height
                             color: "transparent"
-                            border.color :"black"
-                            border.width: 1
                             radius : 15
 
                             MouseArea{
@@ -395,10 +368,10 @@ Row {
                                         msg2.msgText = "Si le joueur se pose\n sur la case bleu,\nil peut passer le pont"
                                         msg2.width = thirdPlateauid.width /1.4
                                         msg2.visible = true
-                                        case8Id.opacity = 0.25
-                                        case12Id.opacity = 0.25
                                         case8Id.color = "cyan"
+                                        case8Id.color = Qt.rgba(case8Id.color.r,case8Id.color.g,case8Id.color.b,0.25)
                                         case12Id.color="cyan"
+                                        case12Id.color = Qt.rgba(case12Id.color.r,case12Id.color.g,case12Id.color.b,0.25)
                                     }
                                     else
                                     {
@@ -441,8 +414,6 @@ Row {
                             width: 15/100* parent.width
                             height: 65/100* parent.height
                             color: "transparent"
-                            border.color :"black"
-                            border.width: 1
                             radius : 18
 
                             MouseArea{
@@ -454,18 +425,17 @@ Row {
                                         msg2.msgText = "Si le joueur se pose\n sur la case bleu,\nil peut passer le pont"
                                         msg2.width = thirdPlateauid.width /1.4
                                         msg2.visible = true
-                                        case8Id.opacity = 0.25
-                                        case12Id.opacity = 0.25
                                         case8Id.color = "cyan"
+                                        case8Id.color = Qt.rgba(case8Id.color.r,case8Id.color.g,case8Id.color.b,0.25)
                                         case12Id.color="cyan"
-                                        case12Id.running = true
+                                        case12Id.color = Qt.rgba(case12Id.color.r,case12Id.color.g,case12Id.color.b,0.25)
                                     }
                                     else
                                     {
                                         msg2.visible = false
                                         msg2.width = thirdPlateauid.width /2.2
-                                        case8Id.opacity = 0.1
-                                        case12Id.opacity = 0.1
+                                        case8Id.opacity = 1
+                                        case12Id.opacity = 1
                                         case8Id.color="transparent"
                                         case12Id.color="transparent"
                                     }
@@ -490,8 +460,6 @@ Row {
         width: 20/100* parent.width
         color: "transparent"
         height: parent.height
-        border.color :"red"
-        border.width: 1
 
         ShowEffect{
             id:msg3
@@ -499,13 +467,12 @@ Row {
             height: parent.height/5.5
         }
 
-
         Row {
             id:rowThirdPlateauid
             width : parent.width
             height : parent.height
-            x : 20
-            spacing : 3
+            x : 1/17*parent.width
+            spacing : 1/150*parent.width
 
             Rectangle {
                 id: case13Id
@@ -514,28 +481,25 @@ Row {
                 y : 120/100*height
                 x : 120/100*width
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
-                        MouseArea{
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onHoveredChanged:{
-                                if(containsMouse == true)
-                                     {
-                                        msg3.msgText = "Cerberus\nCheckpoint"
-                                        msg3.visible = true
-                                     }
-                                else
-                                    msg3.visible = false
-                            }
+                MouseArea{
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onHoveredChanged:{
+                        if(containsMouse == true)
+                        {
+                            msg3.msgText = "Cerberus\nCheckpoint"
+                            msg3.visible = true
                         }
+                        else
+                            msg3.visible = false
+                        }
+                    }
 
                 Grid {
                     id:layoutPawn13
                     columns:2
                     spacing : 2
-                    y : 1/5*parent.y
                 }
             }
 
@@ -552,8 +516,6 @@ Row {
                     x : 40/100*width
                     color: "transparent"
                     radius: 15
-                    border.color :"black"
-                    border.width: 1
 
                     MouseArea{
                         anchors.fill: parent
@@ -561,27 +523,33 @@ Row {
                         onHoveredChanged:{
                             if(containsMouse == true)
                             {
-                                    msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
-                                    msg3.width = thirdPlateauid.width /1.6
-                                    msg3.visible = true
-                                    case16Id.color = "cyan"
-                                    case17Id.color="red"
-                                    case14Id.color="red"
-                                    case16Id.opacity=0.25
-                                    case17Id.opacity=0.25
-                                    case14Id.opacity=0.25
-
+                                msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
+                                msg3.width = thirdPlateauid.width /1.6
+                                msg3.visible = true
+                                case16Id.color = "red"
+                                case16Id.color= Qt.rgba(case16Id.color.r,case16Id.color.g, case16Id.color.b,0.25)
+                                case14Id.color = "cyan"
+                                case14Id.color = Qt.rgba(case14Id.color.r,case14Id.color.g, case14Id.color.b,0.25)
+                                case17Id.color = "cyan"
+                                case17Id.color = Qt.rgba(case17Id.color.r,case17Id.color.g, case17Id.color.b,0.25)
+                                case15Id.color = "brown"
+                                case15Id.color = Qt.rgba(case15Id.color.r,case15Id.color.g, case15Id.color.b,0.25)
                             }
                             else
                             {
                                 msg3.visible = false
                                 msg3.width = thirdPlateauid.width /2.2
-                                case16Id.color="transparent"
-                                case17Id.color="transparent"
-                                case14Id.color="transparent"
-                                case16Id.opacity=1
-                                case17Id.opacity=1
-                                case14Id.opacity=1
+                                if(!layoutPawn16.children[0]) {
+                                    console.log("non occupé")
+                                    case16Id.color="transparent"
+                                    case17Id.color="transparent"
+                                    case14Id.color="transparent"
+                                    case15Id.color="transparent"
+                                    case15Id.opacity = 1
+                                    case16Id.opacity = 1
+                                    case17Id.opacity = 1
+                                    case14Id.opacity = 1
+                                }
                             }
                         }
                     }
@@ -599,22 +567,20 @@ Row {
                     width: 50/100* parent.width
                     height: 65/100* parent.height
                     color: "transparent"
-                    border.color :"black"
-                    border.width: 1
 
-                        MouseArea{
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onHoveredChanged:{
-                                if(containsMouse == true)
-                                     {
-                                        msg3.msgText = "Cerberus\nCheckpoint"
-                                        msg3.visible = true
-                                     }
-                                else
-                                    msg3.visible = false
+                    MouseArea{
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onHoveredChanged:{
+                            if(containsMouse == true)
+                            {
+                                msg3.msgText = "Cerberus\nCheckpoint"
+                                msg3.visible = true
                             }
+                            else
+                                msg3.visible = false
                         }
+                    }
 
                     Grid {
                         id:layoutPawn15
@@ -638,8 +604,6 @@ Row {
                     height: 85/100*parent.height
                     color: "transparent"
                     radius: 15
-                    border.color :"black"
-                    border.width: 1
 
                     MouseArea{
                         anchors.fill: case17Id
@@ -647,27 +611,35 @@ Row {
                         onHoveredChanged:{
                             if(containsMouse == true)
                             {
-                                    msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
-                                    msg3.width = thirdPlateauid.width /1.6
-                                    msg3.visible = true
-                                    case16Id.color = "cyan"
-                                    case17Id.color="red"
-                                    case14Id.color="red"
-                                    case16Id.opacity=0.25
-                                    case17Id.opacity=0.25
-                                    case14Id.opacity=0.25
+                                msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
+                                msg3.width = thirdPlateauid.width /1.6
+                                msg3.visible = true
+                                case16Id.color = "red"
+                                case16Id.color= Qt.rgba(case16Id.color.r,case16Id.color.g, case16Id.color.b,0.25)
+                                case14Id.color = "cyan"
+                                case14Id.color = Qt.rgba(case14Id.color.r,case14Id.color.g, case14Id.color.b,0.25)
+                                case17Id.color = "cyan"
+                                case17Id.color = Qt.rgba(case17Id.color.r,case17Id.color.g, case17Id.color.b,0.25)
+                                case15Id.color = "brown"
+                                case15Id.color = Qt.rgba(case15Id.color.r,case15Id.color.g, case15Id.color.b,0.25)
 
                             }
                             else
                             {
                                 msg3.visible = false
                                 msg3.width = thirdPlateauid.width /2.2
-                                case16Id.color="transparent"
-                                case17Id.color="transparent"
-                                case14Id.color="transparent"
-                                case16Id.opacity=1
-                                case17Id.opacity=1
-                                case14Id.opacity=1
+                                if(!layoutPawn16.children[0]) {
+                                    console.log("non occupé")
+                                    case16Id.color="transparent"
+                                    case17Id.color="transparent"
+                                    case14Id.color="transparent"
+                                    case15Id.color="transparent"
+                                    case15Id.opacity = 1
+                                    case16Id.opacity = 1
+                                    case17Id.opacity = 1
+                                    case14Id.opacity = 1
+                                    
+                                }
                             }
                         }
                     }
@@ -683,8 +655,6 @@ Row {
                     height: 65/100* parent.height
                     color: "transparent"
                     radius: 15
-                    border.color :"black"
-                    border.width: 1
 
                     MouseArea{
                         anchors.fill: parent
@@ -692,28 +662,33 @@ Row {
                         onHoveredChanged:{
                             if(containsMouse == true)
                             {
-                                    msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
-                                    msg3.width = thirdPlateauid.width /1.6
-                                    msg3.visible = true
-                                    case16Id.color = "cyan"
-                                    case17Id.color="red"
-                                    case14Id.color="red"
-                                    case16Id.opacity=0.25
-                                    case17Id.opacity=0.25
-                                    case14Id.opacity=0.25
-
-
+                                msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
+                                msg3.width = thirdPlateauid.width /1.6
+                                msg3.visible = true
+                                case16Id.color = "red"
+                                case16Id.color= Qt.rgba(case16Id.color.r,case16Id.color.g, case16Id.color.b,0.25)
+                                case14Id.color = "cyan"
+                                case14Id.color = Qt.rgba(case14Id.color.r,case14Id.color.g, case14Id.color.b,0.25)
+                                case17Id.color = "cyan"
+                                case17Id.color = Qt.rgba(case17Id.color.r,case17Id.color.g, case17Id.color.b,0.25)
+                                case15Id.color = "brown"
+                                case15Id.color = Qt.rgba(case15Id.color.r,case15Id.color.g, case15Id.color.b,0.25)
                             }
                             else
                             {
                                 msg3.visible = false
                                 msg3.width = thirdPlateauid.width /2.2
-                                case16Id.color="transparent"
-                                case17Id.color="transparent"
-                                case14Id.color="transparent"
-                                case16Id.opacity=1
-                                case17Id.opacity=1
-                                case14Id.opacity=1
+                                if(!layoutPawn16.children[0]) {
+                                    console.log("non occupé")
+                                    case16Id.color="transparent"
+                                    case16Id.opacity = 1
+                                    case17Id.color="transparent"
+                                    case17Id.opacity = 1
+                                    case14Id.color="transparent"
+                                    case14Id.opacity = 1
+                                    case15Id.color="transparent"
+                                    case15Id.opacity = 1
+                                }
                             }
                         }
                     }
@@ -746,37 +721,35 @@ Row {
             id:rowEndPlateauid
             width : parent.width
             height : parent.height
-            x : 8
+            x : 1/65*parent.width
             spacing : 4
 
             Rectangle {
                 id: case18Id
                 width: 10/100*parent.width
-                height : 1/5*parent.height
-                y : 188/100*height
+                height : 23/100*parent.height
+                y : 155/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
-                        MouseArea{
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onHoveredChanged:{
-                                if(containsMouse == true)
-                                     {
-                                        msg4.msgText = "Cerberus\nCheckpoint"
-                                        msg4.visible = true
-                                     }
-                                else
-                                    msg4.visible = false
-                            }
+                MouseArea{
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onHoveredChanged:{
+                        if(containsMouse == true)
+                        {
+                            msg4.msgText = "Cerberus\nCheckpoint"
+                            msg4.visible = true
                         }
+                        else
+                            msg4.visible = false
+                    }
+                }
 
                 Grid {
                     id:layoutPawn18
                     columns:2
                     spacing : 2
-                    y : 1/5*parent.y
+                    x : 10
                 }
             }
             Rectangle {
@@ -785,8 +758,6 @@ Row {
                 height : 24/100*parent.height
                 y : 94/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                 Grid {
                     id:layoutPawn19
@@ -801,14 +772,12 @@ Row {
                 height : 1/4*parent.height
                 y : 150/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                 Grid {
                     id:layoutPawn20
                     columns:2
                     spacing : 2
-                    y : 1/5*parent.y
+                    x : 1/9*parent.x
                 }
             }
             Rectangle {
@@ -817,44 +786,40 @@ Row {
                 height : 1/4*parent.height
                 y : 90/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
                 Grid {
                     id:layoutPawn21
                     columns:2
                     spacing : 2
-                    y : 1/5*parent.y
+                    x : 1/12*parent.x
                 }
             }
-             Rectangle {
+            Rectangle {
                 id: case22Id
                 width: 11/100*parent.width
                 height : 1/4*parent.height
                 y : 140/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
 
-                        MouseArea{
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onHoveredChanged:{
-                                if(containsMouse == true)
-                                     {
-                                        msg4.msgText = "Rage de\nCerbere+1"
-                                        msg4.visible = true
-                                     }
-                                else
-                                    msg4.visible = false
-                            }
+                MouseArea{
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onHoveredChanged:{
+                        if(containsMouse == true)
+                        {
+                            msg4.msgText = "Rage de\nCerbere+1"
+                            msg4.visible = true
                         }
+                        else
+                            msg4.visible = false
+                    }
+                }
 
                 Grid {
                     id:layoutPawn22
                     columns:2
                     spacing : 2
-                    y : 1/5*parent.y
+                    x : 1/20*parent.x
                 }
             }
             Rectangle {
