@@ -23,12 +23,13 @@ Row {
         source_player_choice = ".."+source_player_choice.substring(i+1,source_player_choice.length)
         if ((good != -1) && (source_player_choice == "../images/aventurier_image.png")) {
             typejoueur.children[0].source = "../images/cerbere_pion.png"
-            var i = 0
-            while( i < 4) {
+            var i = 1
+            while( i < 5) {
                 //joueurId.children[0].children[i+4].visible = false 
                 //remplacer la main du joueur (ça commence par les cartes bonus)
                 //puis les cartes action ; niveau serveur c'est defausser_tout ou catch_survivor
-                rowinfos.children[i+1].children[0].text = "S"
+                var new_source = "../images/Cerbere"+i+".png"
+                rowinfos.children[i].children[0].source = new_source
                 i += 1
             }
             typejoueur.children[1].children[0].text = "0"
@@ -78,11 +79,9 @@ Row {
         border.color : "white"
         color  : "transparent"
         x : parent.width 
-        Text {
-            id : txt_la1_usr
-            anchors.centerIn : parent
-            text:"A"
-            color : "white" 
+        Image {
+            anchors.fill : parent
+            source : ""
         }
     }
 
@@ -92,11 +91,9 @@ Row {
         width : parent.width/5 -2 
         border.color : "white"
         color  : "transparent"
-        Text {
-            id : txt_la2_usr
-            anchors.centerIn : parent
-            text:"A"
-            color : "white" 
+        Image {
+            anchors.fill : parent
+            source : ""
         }
     }
 
@@ -106,11 +103,9 @@ Row {
         width : parent.width/5 -2 
         border.color : "white"
         color  : "transparent"
-        Text {
-            id : txt_la3_usr
-            anchors.centerIn : parent
-            text:"A"
-            color : "white" 
+        Image {
+            anchors.fill : parent
+            source : ""
         }
     }
 
@@ -120,11 +115,9 @@ Row {
         width : parent.width/5 -2 
         border.color : "white"
         color  : "transparent"
-        Text {
-            id : txt_la4_usr
-            anchors.centerIn : parent
-            text:"A"
-            color : "white" 
+        Image {
+            anchors.fill : parent
+            source : ""
         }
     }
 }

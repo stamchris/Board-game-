@@ -2,8 +2,8 @@ import QtQuick 2.10
 
 Column {
     id: columnId
-    height: 210
-    width: 170
+    height: parent.height
+    width: parent.width
 
     anchors {
         top: parent.top;

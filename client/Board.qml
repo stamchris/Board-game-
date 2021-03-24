@@ -307,12 +307,12 @@ Item {
         gradient: Gradient {
             GradientStop {
                 position: 0
-                color: "#30cfd0"
+                color : "indianred"
             }
 
             GradientStop {
                 position: 1
-                color: "#330867"
+                color : "#740912"
             }
         }
 
@@ -508,16 +508,28 @@ Item {
                 leftMargin:2
             }
 
+            Image {
+                id : img_chrono
+                height : 80/100*parent.height 
+                width : 50    
+                anchors.verticalCenter : parent.verticalCenter 
+                anchors {
+                    left : parent.left ; leftMargin : 5; 
+                    top : parent.top; topMargin : 10
+                }
+                source : "images/chrono.png"
+            }
+
             Text {
                 id: chronoTimeId
-                width: 95
-                height: 17
+                anchors { left : img_chrono.right; leftMargin : 10; top : parent.top; topMargin : 10}
+                anchors.verticalCenter : parent.verticalCenter
+                verticalAlignment: Text.AlignVCenter
+                width: 2*parent.width/3
+                height: parent.height/5
                 color: "#e51111"
                 text: qsTr("01:00")
                 font.pixelSize: 22
-                anchors.verticalCenter: parent.verticalCenter
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
                 font.bold: true
             }
         }
@@ -584,18 +596,11 @@ Item {
 
     Rectangle {
         id: chatId
-        height: 250
-        width: parent.width*2/10
+        height:  34/100*parent.height
+        width: 2/10 * parent.width
         color: "#ffffff"
         border.width: 2
-
-        anchors {
-            topMargin: 0;
-            bottom: parent.bottom;
-            left: parent.left;
-            leftMargin: 2;
-            bottomMargin: 5
-        }
+        anchors {topMargin:0;bottom:parent.bottom;left: parent.left;leftMargin: 2; bottomMargin: 5}
     }
 
     Rectangle {
@@ -619,164 +624,189 @@ Item {
             id: plateauImageId
             anchors.fill: parent
             horizontalAlignment: Image.AlignHCenter
-            source: "images/plateauv2.jpg"
+            source: "images/plateauv3_2s.png"
             fillMode: Image.Stretch
             property alias boardId: boardId
             
             Plateau {
                 id: boardId
             }
-        }
+            
 
-        Rectangle {
-            id: rectGroupsId
-            height: 200
-            width: 150
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
+            Rectangle{
+                id:rectGroupsId
+                signal notifyPion ( string counter, string player) // Declare signal
 
-            signal notifyCard2 (string source)
+                signal notifyCard2 ( string source ) //Declare signal
 
-            function receiveaddCard2(source) {
-                var i = 0
-                var source_string = ""
-                var found_same = - 1
-
-                while((rowbonusid.children[i].visible != false) && (i< 4)) {
-                    if(rowbonusid.children[i].children.length > 0) {
-                        source_string = source_string + rowbonusid.children[i].children[0].source
-                        var length2 = source_string.length
-
-                        while(source_string[length2-1] != '/'  && length2 > 0) {
-                            length2 -=1
+                function receiveaddCard2(source) {
+                    //addCard
+                    var i = 0
+                    var source_string = ""
+                    var found_same = - 1
+                    while ((rowbonusid.children[i].visible != false) && (i< 4)) {
+                        if(rowbonusid.children[i].children.length > 0) {
+                            source_string = source_string + rowbonusid.children[i].children[0].source
+                            var length2 = source_string.length
+                            while(source_string[length2-1] != '/'  && length2 > 0) {
+                                length2 -=1
+                            }
+                            var subsource_string = source_string.substring(length2,source_string.length)
+                            if(subsource_string == source) {
+                                found_same = i
+                                break
+                            }
                         }
+                        i += 1
+                    }
+                
 
-                        var subsource_string = source_string.substring(length2,source_string.length)
-
-                        if(subsource_string == source) {
-                            found_same = i
+                    var new_source = "images/" + source
+                    console.log("found_same :"+found_same)
+                    if(found_same >= 0 ) {
+                        //addcompteur and image
+                        switch(i) {
+                            case 0:
+                                var add = parseInt(txtcb1.text,10)
+                                if(add < 4) {
+                                    txtcb1.text = ""+((parseInt(txtcb1.text,10)+1))
+                                }
+                                else {
+                                    console.log("4 maximum")
+                                }
+                            break
+                            case 1:
+                                var add = parseInt(txtcb2.text,10)
+                                if(add < 4) {
+                                    txtcb2.text = ""+((parseInt(txtcb2.text,10)+1))
+                                }
+                                else {
+                                    console.log("4 maximum")
+                                }
+                            break
+                            case 2:
+                                var add = parseInt(txtcb3.text,10)
+                                if(add < 4) {
+                                    txtcb3.text = ""+((parseInt(txtcb3.text,10)+1))
+                                }
+                                else {
+                                    console.log("4 maximum")
+                                }   
+                            break
+                            case 3:
+                                var add = parseInt(txtcb4.text,10)
+                                if(add < 4) {
+                                    txtcb4.text = ""+((parseInt(txtcb4.text,10)+1))
+                                }
+                                else {
+                                    console.log("4 maximum")
+                                }
                             break
                         }
                     }
-
-                    i += 1
+                    else {
+                        //creation 
+                        rowbonusid.children[i].visible = true
+                        rowbonusid.children[i].children[0].source = new_source
+                    } 
                 }
-
-                var new_source = "images/" + source
-
-                if(found_same >= 0 ) {
-                    switch(i) {
-                        case 0:
-                            var add = parseInt(txtcb1.text, 10)
-
-                            if(add < 4)
-                                txtcb1.text = "" + ((parseInt(txtcb1.text, 10) + 1))
-                            break
-                        case 1:
-                            var add = parseInt(txtcb2.text, 10)
-
-                            if(add < 4)
-                                txtcb2.text = "" + ((parseInt(txtcb2.text, 10) + 1))
-                            break
-                        case 2:
-                            var add = parseInt(txtcb3.text, 10)
-
-                            if(add < 4)
-                                txtcb3.text = "" + ((parseInt(txtcb3.text, 10) + 1))
-                            break
-                        case 3:
-                            var add = parseInt(txtcb4.text, 10)
-
-                            if(add < 4)
-                                txtcb4.text = "" + ((parseInt(txtcb4.text, 10) + 1))
-                            break
+                function change_hand() {
+                    var i = 1
+                    while (i < 5) {
+                        joueurId.children[i-1].children[0].source = "images/Cerbere"+i+".png"
+                        i += 1
                     }
-                } else {
-                    rowbonusid.children[i].visible = true
-                    rowbonusid.children[i].children[0].source = new_source
-                }
-            }
-
-            Rectangle {
-                id: typechangeId
-                color: "yellow"
-                height: 50
-                width: 50
-
-                anchors {
-                    top: parent.top;
-                    left: parent.left
+                    var i = 0
+                    while (i < 4) {
+                        rowbonusid.children[i].visible = false
+                        rowbonusid.children[i].children[0].source = ""
+                        i += 1
+                    }
                 }
 
-                TextInput {  
-                    id : inputchangetype
-                    text: "Plyr"
-                    focus: true
-                    cursorVisible: false
-                    anchors.left: typechangeId.right
+                property int positionCounterPion1: -1
+                property int positionCounterPion2: -1
+                property int positionCounterPion3: -1
+                property int positionCounterPion4: -1
+                property int positionCounterPion5: -1
+                property int positionCounterPion6: -1
+                property int positionCounterPion7: -1
 
-                    onAccepted: console.log("Accepted")
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                height: 100
+                width: 150
+
+                Rectangle{
+                    id:whiteId
+                    color: "white"
+                    height: parent.height /4
+                    width: parent.width /4
+                    anchors{top: parent.top;left: parent.left}
+                    Text {
+                        id: texxxxt
+                        text: "+1"
+                    }
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            rectGroupsId.positionCounterPion1++
+                            rectGroupsId.notifyPion(rectGroupsId.positionCounterPion1,"player1")
+
+                        }
+                    }
+
                 }
-
-                Text {
-                    id: txtchangetype
-                    color: "black"
-                    text: "C/M"
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-
-                    onClicked: {                       
-                        var good = -1
-                        var int_player = parseInt(inputchangetype.text, 10)
-
-                        good = ((int_player < 7) ? ((int_player > 0) ? good = int_player : good = -1) : good = -1)
-
-                        if(good != -1)
-                            rowId.children[good-1].children[0].children[1].changetype(inputchangetype.text) 
+                Rectangle{
+                    id:blueId
+                    color: "blue"
+                    height: parent.height /4
+                    width: parent.width /4
+                    anchors{top: parent.top;left: whiteId.right}
+                    Text {
+                        id: texxxt
+                        text: "+1"
                     }
                 }   
-            }
 
-            Rectangle {
-                id: addCardBid
-                color: "black"
-                height: 50
-                width: 50
+                Rectangle {
+                    id: addCardBid
+                    color: "black"
+                    height: 50
+                    width: 50
 
-                anchors {
-                    top: typechangeId.bottom
-                    left: parent.left
-                }
+                    anchors {
+                        top: typechangeId.bottom
+                        left: parent.left
+                    }
 
-                TextInput {
-                    anchors.left: addCardBid.right
-                    id: inputaddcard
-                    text: "Image source"
-                    focus: true
-                    cursorVisible: false
+                    TextInput {
+                        anchors.left: addCardBid.right
+                        id: inputaddcard
+                        text: "Image source"
+                        focus: true
+                        cursorVisible: false
 
-                    onAccepted: console.log("Accepted")
-                }
+                        onAccepted: console.log("Accepted")
+                    }
 
-                Text {
-                    id: txtaddCard
-                    color: "white"
-                    text: "+1CB"
-                }
+                    Text {
+                        id: txtaddCard
+                        color: "white"
+                        text: "+1CB"
+                    }
 
-                MouseArea {
-                    anchors.fill: parent
+                    MouseArea {
+                        anchors.fill: parent
 
-                    onClicked: {
-                        //mise en place de la liaison reseau ici pour changer 
-                        // le nom de la carte à ajouter
-                        window.playersChoice.open()
-                        rectGroupsId.notifyCard2(inputaddcard.text)
+                        onClicked: {
+                            //mise en place de la liaison reseau ici pour changer 
+                            // le nom de la carte à ajouter
+                            window.playersChoice.open()
+                            rectGroupsId.notifyCard2(inputaddcard.text)
+                        }
                     }
                 }
-            }
 
             Rectangle {
                 id: ptid
@@ -803,133 +833,151 @@ Item {
                 }
             }
 
-            Rectangle {
-                id: rbid
-                color: "orange"
-                height: 50
-                width: 50
-                anchors {
-                    left: ptid.right
-                    verticalCenter: ptid.verticalCenter
-                }
-
-                Text {
-                    id: texxxtrb
-                    text: "RB"
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-
-                    onClicked: {
-                        boardId.revealbarque("2")
-                    }
-                }
+        Rectangle {
+            id: rbid
+            color: "orange"
+            height: 50
+            width: 50
+            anchors {
+                left: ptid.right
+                verticalCenter: ptid.verticalCenter
             }
 
-            Rectangle {
-                id: plusOne
-                height: 50
-                width: 50
-                color: "Yellow"
-
-                anchors {
-                    bottom: parent.bottom;
-                    left: parent.left
-                }
-
-                Text {
-                    text: "+1"
-
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        horizontalCenter: parent.horizontalCenter
-                    }
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    
-                    onClicked: {
-                        window.parent.state.send({
-                            type: "change_position",
-                            change: 1,
-                            login: window.parent.state.login
-                        })
-                    }
-                }
+            Text {
+                id: texxxtrb
+                text: "RB"
             }
 
-            Rectangle {
-                id: plusTwo
-                height: 50
-                width: 50
-                color: "Orange"
-            
-                anchors {
-                    bottom: parent.bottom;
-                    left: plusOne.right
+            MouseArea {
+                anchors.fill: parent
+
+                onClicked: {
+                    boardId.revealbarque("2")
                 }
-
-                Text {
-                    text: "+2"
-
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        horizontalCenter: parent.horizontalCenter
-                    }
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    
-                    onClicked: {
-                        window.parent.state.send({
-                            type: "change_position",
-                            change: 2,
-                            login: window.parent.state.login
-                        })
-                    }
-                }
-            }
-
-            Rectangle {
-                id: plusThree
-                height: 50
-                width: 50
-                color: "Red"
-            
-                anchors {
-                    bottom: parent.bottom;
-                    left: plusTwo.right
-                }
-
-                Text {
-                    text: "+3"
-
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        horizontalCenter: parent.horizontalCenter
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-                    
-                        onClicked: {
-                            window.parent.state.send({
-                                type: "change_position",
-                                change: 3,
-                                login: window.parent.state.login
-                            })
-                        }
-                    }
-                }
-            }
-            
-            Component.onCompleted: {
-                rectGroupsId.notifyCard2.connect(receiveaddCard2)
             }
         }
+
+        Rectangle {
+            id: plusOne
+            height: 50
+            width: 50
+            color: "Yellow"
+
+            anchors {
+                bottom: parent.bottom;
+                left: parent.left
+            }
+
+            Text {
+                text: "+1"
+
+                anchors {
+                    verticalCenter: parent.verticalCenter
+                    horizontalCenter: parent.horizontalCenter
+                }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                
+                onClicked: {
+                    window.parent.state.send({
+                        type: "change_position",
+                        change: 1,
+                        login: window.parent.state.login
+                    })
+                }
+            }
+        }
+
+        Rectangle {
+            id: plusTwo
+            height: 50
+            width: 50
+            color: "Orange"
+        
+            anchors {
+                bottom: parent.bottom;
+                left: plusOne.right
+            }
+
+            Text {
+                text: "+2"
+
+                anchors {
+                    verticalCenter: parent.verticalCenter
+                    horizontalCenter: parent.horizontalCenter
+                }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                
+                onClicked: {
+                    window.parent.state.send({
+                        type: "change_position",
+                        change: 2,
+                        login: window.parent.state.login
+                    })
+                }
+            }
+        }
+
+        Rectangle {
+            id: plusThree
+            height: 50
+            width: 50
+            color: "Red"
+        
+            anchors {
+                bottom: parent.bottom;
+                left: plusTwo.right
+            }
+
+            Text {
+                text: "+3"
+
+                anchors {
+                    verticalCenter: parent.verticalCenter
+                    horizontalCenter: parent.horizontalCenter
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                
+                    onClicked: {
+                        window.parent.state.send({
+                            type: "change_position",
+                            change: 3,
+                            login: window.parent.state.login
+                        })
+                    }
+                } 
+            }
+        }
+        Rectangle{
+            id:sbid
+            color: "orange"
+            height: parent.height /4
+            width: parent.width /4
+            anchors{top: addCardBid.bottom;left: rbid.right}
+            Text {
+                id: texxxtsb
+                text: "SB"
+            }
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                        boardId.swapbarque("1","2")                        
+                    }
+            }
+        }
+        
+        Component.onCompleted: {
+            rectGroupsId.notifyCard2.connect(receiveaddCard2)
+        }
+    }
+    }
     }
                     
     Rectangle {
@@ -950,6 +998,7 @@ Item {
             id: rowId
             layoutDirection: Qt.RightToLeft
             anchors.fill: parent
+            spacing : (width - (rowId.children[0].width*rowId.children.length)) / (rowId.children.length - 1) - 1
 
             Rectangle {
                 id: user1InfoId
@@ -964,7 +1013,7 @@ Item {
                     height : parent.height
 
                     Rectangle {
-                        width : parent.width/6
+                        width : parent.width/5
                         height : parent.height
                         color : "transparent"
                         Text {
@@ -976,10 +1025,14 @@ Item {
                     }
                     
                     InfosJoueur {
-                        anchors.leftMargin : 10
                         id: news_usr_1
                     }
                 }
+
+                Component.onCompleted : {
+                    news_usr_1.update_color("Blue")
+                }
+                
             }
 
             Rectangle{
@@ -1011,6 +1064,9 @@ Item {
                         id: news_usr_2
                     }
                 }
+                Component.onCompleted : {
+                    news_usr_2.update_color("White")
+                }
             }
 
             Rectangle{
@@ -1040,6 +1096,9 @@ Item {
                     InfosJoueur {
                         id: news_usr_3
                     }
+                }
+                Component.onCompleted : {
+                    news_usr_3.update_color("Orange")
                 }
             }
 
@@ -1072,6 +1131,9 @@ Item {
                         id: news_usr_4
                     }
                 }
+                Component.onCompleted : {
+                    news_usr_4.update_color("Green")
+                }
             }
 
             Rectangle{
@@ -1103,6 +1165,9 @@ Item {
                         id: news_usr_5
                     }
                 }
+                Component.onCompleted : {
+                    news_usr_5.update_color("Red")
+                }
             }
 
             Rectangle{
@@ -1133,6 +1198,9 @@ Item {
                     InfosJoueur {
                         id: news_usr_6
                     }
+                }
+                Component.onCompleted : {
+                    news_usr_6.update_color("Pink")
                 }
             }
         }
