@@ -34,7 +34,7 @@ Row {
     }
 
     function swapbarque(barqswap1,barqswap2) {
-       var tmp = ""
+        var tmp = ""
 
         switch(barqswap1) {
             case "1": 
@@ -82,14 +82,6 @@ Row {
             break
         }
     }
-
-    Component.onCompleted: {
-        notifyPiones.connect(pionesId.children[0].receiveCounterPiones) //connect button to Pion
-    }
-    //////////////////////////////////////////////
-
-    id: rowId
-    anchors.fill: parent
 
     Piones {
         id: pionesId
@@ -769,8 +761,6 @@ Row {
         width: 34/100* parent.width
         color: "transparent"
         height: parent.height
-        border.color :"red"
-        border.width: 1
 
         ShowEffect{
             id:msg4

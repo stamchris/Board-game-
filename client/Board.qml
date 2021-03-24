@@ -659,7 +659,6 @@ Item {
                         }
                         i += 1
                     }
-                
 
                     var new_source = "images/" + source
                     console.log("found_same :"+found_same)
@@ -776,7 +775,7 @@ Item {
                     width: 50
 
                     anchors {
-                        top: typechangeId.bottom
+                        top: parent.top
                         left: parent.left
                     }
 
@@ -1028,11 +1027,6 @@ Item {
                         id: news_usr_1
                     }
                 }
-
-                Component.onCompleted : {
-                    news_usr_1.update_color("Blue")
-                }
-                
             }
 
             Rectangle{
@@ -1064,9 +1058,6 @@ Item {
                         id: news_usr_2
                     }
                 }
-                Component.onCompleted : {
-                    news_usr_2.update_color("White")
-                }
             }
 
             Rectangle{
@@ -1096,9 +1087,6 @@ Item {
                     InfosJoueur {
                         id: news_usr_3
                     }
-                }
-                Component.onCompleted : {
-                    news_usr_3.update_color("Orange")
                 }
             }
 
@@ -1131,9 +1119,6 @@ Item {
                         id: news_usr_4
                     }
                 }
-                Component.onCompleted : {
-                    news_usr_4.update_color("Green")
-                }
             }
 
             Rectangle{
@@ -1165,9 +1150,6 @@ Item {
                         id: news_usr_5
                     }
                 }
-                Component.onCompleted : {
-                    news_usr_5.update_color("Red")
-                }
             }
 
             Rectangle{
@@ -1198,9 +1180,6 @@ Item {
                     InfosJoueur {
                         id: news_usr_6
                     }
-                }
-                Component.onCompleted : {
-                    news_usr_6.update_color("Pink")
                 }
             }
         }

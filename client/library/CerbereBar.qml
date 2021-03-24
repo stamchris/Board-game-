@@ -4,80 +4,86 @@ import QtQuick.Controls 2.10
 Item {
     id: rowroot
     width: parent.width
+    height: parent.height
     property alias cerbereBar: cerbereBarId
+
+    anchors {
+        top: parent.top;
+        left: parent.left
+    }
 
     function updateVitesse(new_vitesse) {
         var source_str = "../images/"+new_vitesse+".png"
-        cubeid.source = source_str 
+        cubeid.source = source_str
     }
 
     function updateRage(new_rage) {
         cerbereBar.value = new_rage
         if(cerbereBar.value < 4) { // green
-                position0.color = "#11af14"
-                position1.color = "#08660a"
+            position0.color = "#11af14"
+            position1.color = "#08660a"
+            row_rectid.children[cerbereBar.value - 1].visible = true
+
+            if(cerbereBar.value >= 2) {
+                row_rectid.children[cerbereBar.value - 2].children[0].visible = false
+            }
+
+        } else {
+            if(cerbereBar.value < 7) { // orange
+                position0.color = "#F19619"
+                position1.color = "#AB6404"
                 row_rectid.children[cerbereBar.value - 1].visible = true
-                if(cerbereBar.value >= 2) {
-                    row_rectid.children[cerbereBar.value - 2].children[0].visible = false
-                }
+                row_rectid.children[cerbereBar.value - 2].children[0].visible = false
             } else {
-                if(cerbereBarId.value < 7) { // orange
-                    position0.color = "#F19619"
-                    position1.color = "#AB6404"
+                if(cerbereBarId.value == 9) { // green
+                    cerbereBar.value = 1
+                    position0.color = "#11af14"
+                    position1.color = "#08660a"
+                    var i = 1
+                    while (i < 8) {
+                        row_rectid.children[i].children[0].visible = true
+                        row_rectid.children[i].visible = false
+                        i += 1
+                    }
+                    row_rectid.children[0].children[0].visible = true
+                } else { // red
+                    position0.color= "#E11C0C"
+                    position1.color="#A01F14"
                     row_rectid.children[cerbereBar.value - 1].visible = true
                     row_rectid.children[cerbereBar.value - 2].children[0].visible = false
-                } else {
-                    if(cerbereBarId.value == 9) { // green
-                        cerbereBar.value = 1
-                        position0.color = "#11af14"
-                        position1.color = "#08660a"
-                        var i = 1
-                        while (i < 8) {
-                            row_rectid.children[i].children[0].visible = true
-                            row_rectid.children[i].visible = false
-                            i += 1
-                        }
-                        row_rectid.children[0].children[0].visible = true
-                    } else { // red
-                        position0.color= "#E11C0C"
-                        position1.color="#A01F14"
-                        row_rectid.children[cerbereBar.value - 1].visible = true
-                        row_rectid.children[cerbereBar.value - 2].children[0].visible = false
-                    }
                 }
             }
         }
     }
 
-    anchors {
-        top: parent.top;
-        left: parent.left;
-        topMargin: 0;
-        leftMargin: 0
-    }
-
-
     Rectangle {
-        id : speedid
-        width : parent.width*0.30
-        height : parent.height*0.90
+        id: speedid
+        width: parent.width*0.30
+        height: parent.height*0.90
+
         anchors {
-            top : parent.top ; topMargin : 3 ;
-            left : parent.left ; leftMargin : 3
+            top: parent.top;
+            topMargin: 3;
+            left: parent.left;
+            leftMargin: 3
         }
 
         Row {
             height : parent.height
             width : parent.width
+
             anchors {
-                left : parent.left ; leftMargin : width/4;
-                top : parent.top ; topMargin : height/8
-                }
-            spacing : width/10
+                left: parent.left;
+                leftMargin : width/4;
+                top: parent.top;
+                topMargin : height/8
+            }
+
             Rectangle {
                 id: vitesseCerbereIcone
                 width: parent.width*0.1
                 height: parent.height*0.8
+
                 Image {
                     width : parent.width
                     height : parent.height
@@ -89,6 +95,7 @@ Item {
                 id : vitesseCerbereCube
                 height : parent.height*0.8
                 width : parent.width*0.2
+
                 Image {
                     id:cubeid
                     anchors.fill : parent
@@ -100,16 +107,17 @@ Item {
         }
     }
 
-
     Rectangle {
-        id : iconerageid
-        height : parent.height*0.60
-        width : 20
+        id: iconerageid
+        height: parent.height*0.60
+        width: 20
+
         anchors {
-            left : speedid.right ; leftMargin : 3
-            right : buttonCerbId.left; rightMargin : 3
+            left: speedid.right ; leftMargin : 3
+            right : cerbereBarId.left; rightMargin : 3
         }
         anchors.verticalCenter : parent.verticalCenter
+
         Image {
             height : parent.height
             width : parent.width
@@ -117,8 +125,6 @@ Item {
 
         }
     }
-
-   
 
     ProgressBar {
         id: cerbereBarId
