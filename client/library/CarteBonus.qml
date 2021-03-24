@@ -10,7 +10,7 @@ Column {
             left: parent.left
         }
 
-        //signal clickCard()
+        signal clickCard()
 
         function blockCard() {
             var nb_same_card_bonus = columnIdB.parent.children[1].children[0].text

@@ -30,6 +30,56 @@ Row {
         }
     }
 
+    function swapbarque(barqswap1,barqswap2) {
+       var tmp = ""
+
+        switch(barqswap1) {
+            case "1": 
+             console.log(img_barquetxt.text)
+                if(barqswap2 == "2") {
+                    tmp = ""+img_barquetxt.text
+                    img_barquetxt.text = img_barque2txt.text
+                    img_barque2txt.text = tmp
+                }
+                else if(barqswap2 == "3") {
+                    tmp = ""+img_barquetxt.text
+                    img_barquetxt.Text = img_barque3txt.text
+                    img_barque3txt.text = tmp
+                }
+                 console.log(img_barquetxt.text)
+            break
+            case "2":
+                console.log(img_barque2txt.text)
+                if(barqswap2 == "1") {
+                    tmp = ""+img_barque2txt.text
+                    img_barque2txt.text = img_barquetxt.text
+                    img_barquetxt.text = tmp
+                }
+                else if(barqswap2 == "3") {
+                    tmp = ""+img_barque2txt.text
+                    img_barque2txt.Text = img_barque3txt.text
+                    img_barque3txt.text = tmp
+                }
+                console.log(img_barque2txt.text)       
+        
+            break
+            case "3":
+                console.log(img_barque3txt.text)
+                if(barqswap2 == "2") {
+                    tmp = ""+img_barque3txt.text
+                    img_barque3txt.text = img_barque2txt.text
+                    img_barque2txt.text = tmp
+                }
+                else if(barqswap2 == "1") {
+                    tmp = ""+img_barque3txt.text
+                    img_barque3txt.text = img_barquetxt.text
+                    img_barquetxt.text = tmp
+                }
+                console.log(img_barque3txt.text)
+            break
+        }
+    }
+
     Component.onCompleted: {
         notifyPiones.connect(pionesId.children[0].receiveCounterPiones) //connect button to Pion
     }
@@ -293,11 +343,11 @@ Row {
                         Rectangle {
                             id: case9Id
                             width: 23/100*parent.width
-                            height : 45/100*parent.height
-                            y : 115/100*height
+                            height : 68/100*parent.height
+                            y : 42/100*height
                             x : 56/100*width
                             color: "transparent"
-                            
+                            rotation : -11
 
                             Grid {
                                 id:layoutPawn9
@@ -308,8 +358,8 @@ Row {
                         Rectangle {
                             id: case10Id
                             width: 24/100*parent.width
-                            height: 45/100*parent.height
-                            y : 50/100*height
+                            height: 65/100*parent.height
+                            y : 3/100*height
                             color: "transparent"
                            
                             MouseArea{
@@ -336,14 +386,15 @@ Row {
                         Rectangle {
                             id: case11Id
                             width: 27/100*parent.width
-                            height : 47/100*parent.height
-                            y : 95/100*height
+                            height : 62/100*parent.height
+                            y : 46/100*height
                             color: "transparent"
 
                             Grid {
                                 id:layoutPawn11
                                 columns:2
                                 spacing : 2
+                                x : 2
                             }
                         }
                     }
@@ -828,14 +879,21 @@ Row {
                 height : 37/100*parent.height
                 y : 85/100*height
                 color: "transparent"
-                border.color :"black"
-                border.width: 1
-
+        
                 Image {
                     id:img_barque
                     height : parent.height
                     width : parent.width
-                    source : "../images/barque_1place.png"
+                    source : "../images/barque_unknown.png"
+                }
+
+                Text {
+                    id: img_barquetxt
+                    text : "1"
+                    height : 10
+                    width : 10
+                    color : "white"
+                    visible : true
                 }
 
                 Column {
@@ -845,6 +903,54 @@ Row {
                     y : 20/100*height
                     id:layoutPawnBarque
                     spacing : 2
+                }
+            }
+
+             Rectangle {
+                id: caseBarque2Id
+                width: 12/100*parent.width
+                height : 37/100*parent.height
+                y : 85/100*height
+                color: "transparent"
+
+                Image {
+                    id:img_barque2
+                    height : parent.height
+                    width : parent.width
+                    source : "../images/barque_unknown.png"
+                }
+
+                Text {
+                    id: img_barque2txt
+                    text : "2"
+                    height : 10
+                    width : 10
+                    color : "white"
+                    visible : true
+                }
+            }
+            
+            Rectangle {
+                id: caseBarque3Id
+                width: 12/100*parent.width
+                height : 37/100*parent.height
+                y : 85/100*height
+                color: "transparent"
+
+                Image {
+                    id:img_barque3
+                    height : parent.height
+                    width : parent.width
+                    source : "../images/barque_unknown.png"
+                } 
+
+                Text {
+                    id: img_barque3txt
+                    text : "3"
+                    height : 10
+                    width : 10
+                    color : "white"
+                    visible : true
                 }
             }
         }

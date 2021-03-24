@@ -9,61 +9,80 @@ Item {
     anchors {
         top: parent.top;
         left: parent.left;
-        topMargin: 3;
+        topMargin: 0;
         leftMargin: 0
     }
 
     signal changeVitesse()
 
     function incrementVitesse() {
-        if(vitesse < 6) {
+        if(vitesse < 6) 
             vitesse += 1
-        } else {
-            if(vitesse < 8) {
+        else {
+            if(vitesse < 8) 
                 vitesse += 1
-                vitesseCerbereTextId.color = "red"
-            } else { //vitesse = 8
+            else  //vitesse = 8
                 vitesse = 3
-                vitesseCerbereTextId.color = "green"
-            }
         }
+        var source_str = "../images/"+vitesse+".png"
+        cubeid.source = source_str 
     }
 
-    Button {
-            text: "+1"
-            width: parent.width*0.05
-            height: 60
+    Rectangle {
+        id : speedid
+        width : parent.width*0.30
+        height : parent.height*0.90
+        anchors {
+            top : parent.top ; topMargin : 3 ;
+            left : parent.left ; leftMargin : 3
+        }
 
+        Row {
+            height : parent.height
+            width : parent.width
             anchors {
-                right: vitesseCerbereTextId.left
+                left : parent.left ; leftMargin : width/4;
+                top : parent.top ; topMargin : height/8
+                }
+            spacing : width/10
+            Rectangle {
+                id: vitesseCerbereIcone
+                width: parent.width*0.1
+                height: parent.height*0.8
+                Image {
+                    width : parent.width
+                    height : parent.height
+                    source : "../images/vitesse_icone.png"
+                }   
             }
 
-            onClicked: {
-                rowroot.changeVitesse()
+            Rectangle {
+                id : vitesseCerbereCube
+                height : parent.height*0.8
+                width : parent.width*0.2
+                Image {
+                    id:cubeid
+                    anchors.fill : parent
+                    z: 1
+                    fillMode: Image.Stretch
+                    source : "../images/3.png"
+                }
             }
-    }
 
-    Text {
-        id: vitesseCerbereTextId
-        width: parent.width*0.3
-        height: 60
-        color: "green"
-        text: "Vitesse de cerbere : " + vitesse
-        horizontalAlignment: Text.AlignHCenter
+            Rectangle {
+                width : parent.width*0.12
+                height : parent.height*0.8
+                Button {
+                    text: "+1"
+                    width: 20
+                    height: parent.height
+                    anchors.fill : parent
 
-        anchors{
-            top: parent.top;
-            topMargin: 15;
-            right: buttonCerbId.left
-        }
-
-        font {
-            styleName: "Normal";
-            weight: Font.Bold;
-            strikeout: false;
-            bold: true;
-            family: "Arial";
-            pointSize: 16 
+                    onClicked: {
+                        rowroot.changeVitesse()
+                    }
+                }
+            }
         }
     }
 
@@ -72,14 +91,32 @@ Item {
         changeVitesse.connect(rowroot.incrementVitesse)
     }
 
+    Rectangle {
+        id : iconerageid
+        height : parent.height*0.60
+        width : 20
+        anchors {
+            left : speedid.right ; leftMargin : 3
+            right : buttonCerbId.left; rightMargin : 3
+        }
+        anchors.verticalCenter : parent.verticalCenter
+        Image {
+            height : parent.height
+            width : parent.width
+            source : "../images/colere_icone.png"
+
+        }
+    }
+
     Button {
         id: buttonCerbId
         text: "+1"
         width: parent.width*0.05
-        height: 60
+        height: 55
         
         anchors {
-            right: cerbereBarId.left
+            right: cerbereBarId.left; 
+            top : parent.top ; topMargin : 7
         }
 
         onClicked: {
@@ -87,11 +124,15 @@ Item {
                 position0.color = "#11af14"
                 position1.color = "#08660a"
                 row_rectid.children[cerbereBarId.value - 1].visible = true
+                if(cerbereBarId.value >= 2) {
+                    row_rectid.children[cerbereBarId.value - 2].children[0].visible = false
+                }
             } else {
                 if(cerbereBarId.value < 7) { // orange
                     position0.color = "#F19619"
                     position1.color = "#AB6404"
                     row_rectid.children[cerbereBarId.value - 1].visible = true
+                    row_rectid.children[cerbereBarId.value - 2].children[0].visible = false
                 } else {
                     if(cerbereBarId.value == 9) { // green
                         cerbereBarId.value = 1
@@ -99,13 +140,16 @@ Item {
                         position1.color = "#08660a"
                         var i = 1
                         while (i < 8) {
+                            row_rectid.children[i].children[0].visible = true
                             row_rectid.children[i].visible = false
                             i += 1
                         }
+                        row_rectid.children[0].children[0].visible = true
                     } else { // red
                         position0.color= "#E11C0C"
                         position1.color="#A01F14"
                         row_rectid.children[cerbereBarId.value - 1].visible = true
+                        row_rectid.children[cerbereBarId.value - 2].children[0].visible = false
                     }
                 }
             }
@@ -117,7 +161,7 @@ Item {
     ProgressBar {
         id: cerbereBarId
         from: 1
-        to: 10
+        to: 9
         padding: 2
         width: parent.width*0.595
         height: 55
@@ -126,7 +170,7 @@ Item {
             right: parent.right;
             rightMargin: 3;
             top: parent.top;
-            topMargin: 4
+            topMargin: 6
         }
 
         background: Rectangle {
@@ -158,7 +202,7 @@ Item {
 
                 anchors {
                     top:parent.top;
-                    topMargin: 15;
+                    topMargin: 11;
                     left:parent.left;
                     leftMargin: 15;
                     rightMargin: 15
@@ -286,13 +330,10 @@ Item {
                             id:txt8
                             text : "8"
                             color : "white"
-                            anchors.centerIn : parent
-                            
+                            anchors.centerIn : parent 
                         }
                     }   
                 }
-
-
 
                 gradient: Gradient {
                     GradientStop {

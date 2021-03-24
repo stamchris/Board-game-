@@ -33,7 +33,7 @@ Window {
                 color : "#740912"
             }
         }
-        border{color: "#e51111" ; width:2;}
+        //border{color: "#e51111" ; width:2;}
         anchors { left: parent.left; right:parent.right; top: parent.top }
 
 
@@ -125,17 +125,14 @@ Window {
             }
 
             MouseArea{
-                    anchors.fill: parent
-                    onClicked:{
-                               if (imgEffetDeCarteId.visible == false)
-                                {
-                                   imgEffetDeCarteId.visible = true
-                                } else {
-                                   imgEffetDeCarteId.visible = false
-                               }
-                    }
+                anchors.fill: parent
+                onClicked:{
+                    if (imgEffetDeCarteId.visible == false)
+                        imgEffetDeCarteId.visible = true
+                    else 
+                        imgEffetDeCarteId.visible = false         
+                }
             }
-
         }
 
         Rectangle {
@@ -162,9 +159,7 @@ Window {
                     var window    = component.createObject("window2")
                     window.show()
                 }
-
             }
-
         }
     }
     Rectangle {
@@ -190,7 +185,10 @@ Window {
                 height : 80/100*parent.height 
                 width : 50    
                 anchors.verticalCenter : parent.verticalCenter 
-                anchors {left : parent.left ; leftMargin : 5; top : parent.top; topMargin : 10}
+                anchors {
+                    left : parent.left ; leftMargin : 5; 
+                    top : parent.top; topMargin : 10
+                }
                 source : "images/chrono.png"
             }
 
@@ -268,16 +266,14 @@ Window {
                 id: plateauImageId
                 anchors.fill: parent
                 horizontalAlignment: Image.AlignHCenter
-                source: "images/plateauv2.jpg"
+                source: "images/plateauv3_2s.png"
                 z: 1
                 fillMode: Image.Stretch
-                
-
+            
                 Plateau {
                     id: boardId
                     
                 }
-
 
                 Rectangle{
                     id:rectGroupsId
@@ -357,7 +353,6 @@ Window {
                     }
                     function change_hand() {
                         var i = 1
-                        console.log("coucou")
                         while (i < 5) {
                             joueurId.children[i-1].children[0].source = "images/Cerbere"+i+".png"
                             i += 1
@@ -587,6 +582,25 @@ Window {
                             }
                         }
                     }
+
+                    Rectangle{
+                        id:sbid
+                        color: "orange"
+                        height: parent.height /4
+                        width: parent.width /4
+                        anchors{top: addCardBid.bottom;left: rbid.right}
+                        Text {
+                            id: texxxtsb
+                            text: "SB"
+                        }
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked: {
+                                    boardId.swapbarque("1","2")                        
+                                }
+                        }
+                    }
+
                     Component.onCompleted: {
                        rectGroupsId.notifyPion.connect(boardId.receiveCounter) //connect button to Pion
                        rectGroupsId.notifyCard2.connect(receiveaddCard2) //connect button to Card
@@ -619,7 +633,7 @@ Window {
                     width : parent.width
                     height : parent.height
                     Rectangle {
-                        width : parent.width/6
+                        width : parent.width/5
                         height : parent.height
                         color : "transparent"
                         Text {

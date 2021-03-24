@@ -1,5 +1,11 @@
 <RCC>
     <qresource prefix="/">
+        <file>images/3.png</file>
+        <file>images/4.png</file>
+        <file>images/5.png</file>
+        <file>images/6.png</file>
+        <file>images/7.png</file>
+        <file>images/8.png</file>
         <file>images/plateau.png</file>
         <file>images/effetDeCarte.jpg</file>
         <file>images/cerbere_logo.png</file>
@@ -16,6 +22,7 @@
         <file>images/Carte2.png</file>
         <file>images/Carte1.png</file>
         <file>images/client_plateau-redimensionné.png</file>
+        <file>images/plateauv3_2s.png</file>
         <file>images/Carte_Arro.png</file>
         <file>images/Carte_Couar.png</file>
         <file>images/Carte_Embu.png</file>
@@ -37,16 +44,39 @@
 	    <file>images/Carte_Ego.png</file>
 	    <file>images/plateauv2.jpg</file>
         <file>images/chrono.png</file>
+        <file>images/colere_icone.png</file>
+        <file>images/vitesse_icone.png</file>
         <file>images/Cerbere1.png</file>
         <file>images/Cerbere2.png</file>
         <file>images/Cerbere3.png</file>
         <file>images/Cerbere4.png</file>
         <file>images/Cyan1.png</file>
+        <file>images/Cyan2.png</file>
+        <file>images/Cyan3.png</file>
+        <file>images/Cyan4.png</file>
         <file>images/White1.png</file>
+        <file>images/White2.png</file>
+        <file>images/White3.png</file>
+        <file>images/White4.png</file>
         <file>images/Green1.png</file>
+        <file>images/Green2.png</file>
+        <file>images/Green3.png</file>
+        <file>images/Green4.png</file>
         <file>images/Orange1.png</file>
+        <file>images/Orange2.png</file>
+        <file>images/Orange3.png</file>
+        <file>images/Orange4.png</file>
         <file>images/Pink1.png</file>
+        <file>images/Pink2.png</file>
+        <file>images/Pink3.png</file>
+        <file>images/Pink4.png</file>
         <file>images/Red1.png</file>
+        <file>images/Red2.png</file>
+        <file>images/Red3.png</file>
+        <file>images/Red4.png</file>
         <file>images/Blue1.png</file>
+        <file>images/Blue2.png</file>
+        <file>images/Blue3.png</file>
+        <file>images/Blue4.png</file>
     </qresource>
 </RCC>
