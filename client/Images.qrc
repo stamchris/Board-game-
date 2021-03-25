@@ -6,7 +6,7 @@
         <file>images/6.png</file>
         <file>images/7.png</file>
         <file>images/8.png</file>
-        <file>images/plateau.png</file>
+        <file>images/aventurier_image.png</file>
         <file>images/effetDeCarte.jpg</file>
         <file>images/cerbere_logo.png</file>
         <file>images/aventurier_image.png</file>
@@ -17,8 +17,8 @@
         <file>images/Regle1.jpg</file>
         <file>images/Regle3.jpg</file>
         <file>images/Regle2.jpg</file>
-        <file>images/client_plateau-redimensionné.png</file>
         <file>images/plateauv3_2s.png</file>
+        <file>images/pontv2.png</file>
         <file>images/Carte_Arro.png</file>
         <file>images/Carte_Couar.png</file>
         <file>images/Carte_Embu.png</file>
@@ -27,11 +27,11 @@
         <file>images/Carte_Four.png</file>
         <file>images/Carte_Oppo.png</file>
         <file>images/Carte_Perf.png</file>
+        <file>images/Carte_Ranc.png</file>
         <file>images/Carte_Sabo.png</file>
         <file>images/Carte_Sac.png</file>
         <file>images/Carte_Vio.png</file>
         <file>images/Carte_Ego.png</file>
-        <file>images/pontv2.png</file>
         <file>images/Blue_pion.png</file>
         <file>images/Orange_pion.png</file>
         <file>images/Red_pion.png</file>
@@ -40,48 +40,6 @@
         <file>images/Cyan_pion.png</file>
         <file>images/White_pion.png</file>
         <file>images/Cerbere_pion.png</file>
-	    <file>images/plateauv2.jpg</file>
-        <file>images/aventurier_image.png</file>
-        <file>images/barque_1place.png</file>
-        <file>images/barque_2places.png</file>
-        <file>images/barque_3places.png</file>
-        <file>images/barque_unknown.png</file>
-        <file>images/Red4.png</file>
-        <file>images/Red3.png</file>
-        <file>images/Red2.png</file>
-        <file>images/Red1.png</file>
-        <file>images/Green4.png</file>
-        <file>images/Green3.png</file>
-        <file>images/Green2.png</file>
-        <file>images/Green1.png</file>
-        <file>images/Pink4.png</file>
-        <file>images/Pink3.png</file>
-        <file>images/Pink2.png</file>
-        <file>images/Pink1.png</file>
-        <file>images/Blue4.png</file>
-        <file>images/Blue3.png</file>
-        <file>images/Blue2.png</file>
-        <file>images/Blue1.png</file>
-        <file>images/White4.png</file>
-        <file>images/White3.png</file>
-        <file>images/White2.png</file>
-        <file>images/White1.png</file>
-        <file>images/Orange4.png</file>
-        <file>images/Orange3.png</file>
-        <file>images/Orange2.png</file>
-        <file>images/Orange1.png</file>
-        <file>images/Cyan4.png</file>
-        <file>images/Cyan3.png</file>
-        <file>images/Cyan2.png</file>
-        <file>images/Cyan1.png</file>
-        <file>images/belu_pion.png</file>
-        <file>images/orange_pion.png</file>
-        <file>images/rouge_pion.png</file>
-        <file>images/rose_pion.png</file>
-        <file>images/vert_pion.png</file>
-        <file>images/cyan_pion.png</file>
-	    <file>images/Carte_Ego.png</file>
-	    <file>images/plateauv2.jpg</file>
         <file>images/chrono.png</file>
         <file>images/colere_icone.png</file>
         <file>images/vitesse_icone.png</file>
