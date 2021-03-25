@@ -5,8 +5,8 @@ import QtWebSockets 1.0
 
 ApplicationWindow {
 	id: app
-	minimumWidth: 1200
-	minimumHeight: 540
+	width: 1600
+	height: width/16*9
 	visible: true
 	property alias game: game
 	property alias socket: socket

@@ -1,321 +1,297 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.10
 
-Item {
+Rectangle {
     id: rowroot
     width: parent.width
     height: parent.height
-    property alias cerbereBar: cerbereBarId
+    anchors.fill: parent
+    color: "#e8e1cd"
+    border.color: "#740912"
+    border.width: 2
 
-    anchors {
-        top: parent.top;
-        left: parent.left
+    function updateVitesse(newVitesse) {
+        cubeid.source = "../images/"+newVitesse+".png"
     }
 
-    function updateVitesse(new_vitesse) {
-        var source_str = "../images/"+new_vitesse+".png"
-        cubeid.source = source_str
-    }
+    function updateRage(newRage) {
+        var newBarColor = "#00ff00";
 
-    function updateRage(new_rage) {
-        cerbereBar.value = new_rage
-        if(cerbereBar.value < 4) { // green
-            position0.color = "#11af14"
-            position1.color = "#08660a"
-            row_rectid.children[cerbereBar.value - 1].visible = true
+        switch(newRage) {
+            case "1":
+                newBarColor = "#00ff00";
+                break;
+            case "2":
+                newBarColor = "#33ff00";
+                break;
+            case "3":
+                newBarColor = "#66ff00";
+                break;
+            case "4":
+                newBarColor = "#99ff00";
+                break;
+            case "5":
+                newBarColor = "#ccff00";
+                break;
+            case "6":
+                newBarColor = "#ffcc00";
+                break;
+            case "7":
+                newBarColor = "#ff9900";
+                break;
+            case "8":
+                newBarColor = "#ff6600";
+                break;
+            case "9":
+                newBarColor = "#ff3300";
+                break;
+            case "10":
+                newBarColor = "#ff0000";
+                break;    
+            default:
+                break;
+        }
 
-            if(cerbereBar.value >= 2) {
-                row_rectid.children[cerbereBar.value - 2].children[0].visible = false
+        for (var i = 0; i < 10; i++) {
+            if (i < newRage) {
+                rageBar.children[i].color = newBarColor
+            } else {
+                rageBar.children[i].color = "indianred"
             }
 
-        } else {
-            if(cerbereBar.value < 7) { // orange
-                position0.color = "#F19619"
-                position1.color = "#AB6404"
-                row_rectid.children[cerbereBar.value - 1].visible = true
-                row_rectid.children[cerbereBar.value - 2].children[0].visible = false
-            } else {
-                if(cerbereBarId.value == 9) { // green
-                    cerbereBar.value = 1
-                    position0.color = "#11af14"
-                    position1.color = "#08660a"
-                    var i = 1
-                    while (i < 8) {
-                        row_rectid.children[i].children[0].visible = true
-                        row_rectid.children[i].visible = false
-                        i += 1
-                    }
-                    row_rectid.children[0].children[0].visible = true
-                } else { // red
-                    position0.color= "#E11C0C"
-                    position1.color="#A01F14"
-                    row_rectid.children[cerbereBar.value - 1].visible = true
-                    row_rectid.children[cerbereBar.value - 2].children[0].visible = false
-                }
+            rageBar.children[i].children[0].text.visible = false
+
+            if (i == newRage - 1) {
+                rageBar.children[i].children[0].text.visible = true 
             }
         }
     }
 
+    function updateBar(players) {
+
+    }
+
     Rectangle {
-        id: speedid
-        width: parent.width*0.30
-        height: parent.height*0.90
+        id: cerbereBarId
+        height: parent.height*90/100
+        width: parent.width - parent.height*10/100
+        color: "#e8e1cd"
 
         anchors {
-            top: parent.top;
-            topMargin: 3;
-            left: parent.left;
-            leftMargin: 3
+            verticalCenter: parent.verticalCenter;
+            horizontalCenter: parent.horizontalCenter;
         }
 
         Row {
             height : parent.height
             width : parent.width
-
-            anchors {
-                left: parent.left;
-                leftMargin : width/4;
-                top: parent.top;
-                topMargin : height/8
-            }
+            anchors.fill: parent
 
             Rectangle {
-                id: vitesseCerbereIcone
-                width: parent.width*0.1
-                height: parent.height*0.8
+                id: iconeVitesse
+                height: parent.height
+                width: parent.height
+                color: "#e8e1cd"
 
                 Image {
-                    width : parent.width
-                    height : parent.height
-                    source : "../images/vitesse_icone.png"
+                    height: parent.height
+                    width: parent.width
+                    source: "../images/vitesse_icone.png"
+                    fillMode: Image.PreserveAspectFit
                 }   
             }
 
             Rectangle {
-                id : vitesseCerbereCube
-                height : parent.height*0.8
-                width : parent.width*0.2
+                id: vitesseCerbere
+                height: parent.height
+                width: parent.height
+                color: "#e8e1cd"
 
                 Image {
                     id:cubeid
-                    anchors.fill : parent
-                    z: 1
-                    fillMode: Image.Stretch
-                    source : "../images/3.png"
+                    height: parent.height
+                    width: parent.width
+                    source: "../images/3.png"
+                    fillMode: Image.PreserveAspectFit
                 }
-            }  
-        }
-    }
+            } 
 
-    Rectangle {
-        id: iconerageid
-        height: parent.height*0.60
-        width: 20
-
-        anchors {
-            left: speedid.right ; leftMargin : 3
-            right : cerbereBarId.left; rightMargin : 3
-        }
-        anchors.verticalCenter : parent.verticalCenter
-
-        Image {
-            height : parent.height
-            width : parent.width
-            source : "../images/colere_icone.png"
-
-        }
-    }
-
-    ProgressBar {
-        id: cerbereBarId
-        from: 1
-        to: 9
-        padding: 2
-        width: parent.width*0.595
-        height: 55
-        
-        anchors {
-            right: parent.right;
-            rightMargin: 3;
-            top: parent.top;
-            topMargin: 6
-        }
-
-        /*background: Rectangle {
-            implicitWidth: parent.width
-            implicitHeight: 60
-            radius: 15
-
-            gradient: Gradient {
-                GradientStop {
-                    position: 0.0;
-                    color: "#F4F6F6"
-                }
-
-                GradientStop { 
-                    position: 0.5;
-                    color: "#D5F5E3"
-                }
+            Rectangle{
+                height: parent.height
+                width: parent.height*0.5
+                color: "#e8e1cd"
             }
-        }*/
-
-        contentItem: Item {
-            implicitWidth: 200
-            implicitHeight: 5
 
             Rectangle {
-                width: cerbereBarId.visualPosition*cerbereBarId.width*0.92 //cerbereBarId.visualPosition * 460
-                height: 30
-                radius: 2
+                id: iconeRage
+                height: parent.height
+                width: parent.height
+                color: "#e8e1cd"
 
-                anchors {
-                    top:parent.top;
-                    topMargin: 11;
-                    left:parent.left;
-                    leftMargin: 15;
-                    rightMargin: 15
-                }
-
-                Row {
-                    id : row_rectid
-                    width : parent.width
+                Image {
                     height : parent.height
-                    spacing : 0
-                    Rectangle {
-                        height: parent.height
-                        width : cerbereBarId.width/9+3
-                        color : "transparent"
-                        border.width : 1
-                        border.color : "white"
-                        visible : false
-                        Text {
-                            id:txt1
-                            color : "white"
-                            text : "1"
-                            anchors.centerIn : parent
-                            
-                        }
-                    }
-                    Rectangle {
-                        height: parent.height
-                        width : cerbereBarId.width/9+3
-                        color : "transparent"
-                        border.width : 1
-                        border.color : "white"
-                        visible : false
-                        Text {
-                            id:txt2
-                            text : "2"
-                            color : "white"
-                            anchors.centerIn : parent
-                            
-                        }
-                    }
-                    Rectangle {
-                        height: parent.height
-                        width : cerbereBarId.width/9+3
-                        color : "transparent"
-                        border.width : 1
-                        border.color : "white"
-                        visible : false
-                        Text {
-                            id:txt3
-                            text : "3"
-                            color : "white"
-                            anchors.centerIn : parent
-                            
-                        }
-                    }
-                    Rectangle {
-                        height: parent.height
-                        width : cerbereBarId.width/9+3
-                        color : "transparent"
-                        border.width : 1
-                        border.color : "white"
-                        visible : false
-                        Text {
-                            id:txt4
-                            text : "4"
-                            color : "white"
-                            anchors.centerIn : parent
-                            
-                        }
-                    }
-                    Rectangle {
-                        height: parent.height
-                        width : cerbereBarId.width/9+2
-                        color : "transparent"
-                        border.width : 1
-                        border.color : "white"
-                        visible : false
-                        Text {
-                            id:txt5
-                            text : "5"
-                            color : "white"
-                            anchors.centerIn : parent
-                            
-                        }
-                    }
-                    Rectangle {
-                        height: parent.height
-                        width : cerbereBarId.width/9+2
-                        color : "transparent"
-                        border.width : 1
-                        border.color : "white"
-                        visible : false
-                        Text {
-                            id:txt6
-                            text : "6"
-                            color : "white"
-                            anchors.centerIn : parent
-                            
-                        }
-                    }
-                    Rectangle {
-                        height: parent.height
-                        width : cerbereBarId.width/9+2
-                        color : "transparent"
-                        border.width : 1
-                        border.color : "white"
-                        visible : false
-                        Text {
-                            id:txt7
-                            text : "7"
-                            color : "white"
-                            anchors.centerIn : parent
-                            
-                        }
-                    }     
+                    width : parent.height
+                    source : "../images/colere_icone.png"
+                    fillMode: Image.PreserveAspectFit
+                }
+            }
 
-                    Rectangle {
-                        height: parent.height
-                        width : cerbereBarId.width/9+2
-                        color : "transparent"
-                        border.width : 1
-                        border.color : "white"
-                        visible : false
-                        Text {
-                            id:txt8
-                            text : "8"
-                            color : "white"
-                            anchors.centerIn : parent 
-                        }
-                    }   
+            Row {
+                id: rageBar
+                height : parent.height*0.66
+                width : parent.width - 3.5*parent.height
+                anchors.verticalCenter: parent.verticalCenter
+
+                Rectangle {
+                    height: parent.height
+                    width : parent.width/10
+                    color : "indianred"
+                    border.color: "#740912"
+                    border.width: 1
+
+                    Text {
+                        visible: false
+                        color: "white"
+                        text: "1"
+                        anchors.centerIn: parent
+                    }
                 }
 
-                gradient: Gradient {
-                    GradientStop {
-                        id: position0
-                        position: 0
-                        color: "#11af14"
-                    }
+                Rectangle {
+                    height: parent.height
+                    width : parent.width/10
+                    color : "indianred"
+                    border.color: "#740912"
+                    border.width: 1
 
-                    GradientStop {
-                        id: position1
-                        position: 1
-                        color: "#08660a"
+                    Text {
+                        visible: false
+                        text : "2"
+                        color : "white"
+                        anchors.centerIn : parent
                     }
                 }
+
+                Rectangle {
+                    height: parent.height
+                    width : parent.width/10
+                    color : "indianred"
+                    border.color: "#740912"
+                    border.width: 1
+
+                    Text {
+                        visible: false
+                        text : "3"
+                        color : "white"
+                        anchors.centerIn : parent
+                        
+                    }
+                }
+
+                Rectangle {
+                    height: parent.height
+                    width : parent.width/10
+                    color : "indianred"
+                    border.color: "#740912"
+                    border.width: 1
+
+                    Text {
+                        visible: false
+                        text : "4"
+                        color : "white"
+                        anchors.centerIn : parent
+                    }
+                }
+
+                Rectangle {
+                    height: parent.height
+                    width : parent.width/10
+                    color : "indianred"
+                    border.color: "#740912"
+                    border.width: 1
+
+                    Text {
+                        visible: false
+                        text : "5"
+                        color : "white"
+                        anchors.centerIn : parent
+                    }
+                }
+
+                Rectangle {
+                    height: parent.height
+                    width : parent.width/10
+                    color : "indianred"
+                    border.color: "#740912"
+                    border.width: 1
+
+                    Text {
+                        visible: false
+                        text : "6"
+                        color : "white"
+                        anchors.centerIn : parent   
+                    }
+                }
+
+                Rectangle {
+                    height: parent.height
+                    width : parent.width/10
+                    color : "indianred"
+                    border.color: "#740912"
+                    border.width: 1
+
+                    Text {
+                        visible: false
+                        text : "7"
+                        color : "white"
+                        anchors.centerIn : parent
+                    }
+                }     
+
+                Rectangle {
+                    height: parent.height
+                    width : parent.width/10
+                    color : "indianred"
+                    border.color: "#740912"
+                    border.width: 1
+
+                    Text {
+                        visible: false
+                        text : "8"
+                        color : "white"
+                        anchors.centerIn : parent 
+                    }
+                }
+
+                Rectangle {
+                    height: parent.height
+                    width : parent.width/10
+                    color : "indianred"
+                    border.color: "#740912"
+                    border.width: 1
+
+                    Text {
+                        visible: false
+                        text: "9"
+                        color: "white"
+                        anchors.centerIn: parent 
+                    }
+                }  
+
+                Rectangle {
+                    height: parent.height
+                    width: parent.width/10
+                    color: "indianred"
+                    border.color: "#740912"
+                    border.width: 1
+
+                    Text {
+                        visible: false
+                        text: "10"
+                        color: "white"
+                        anchors.centerIn: parent 
+                    }
+                }   
             }
         }
     }

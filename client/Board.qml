@@ -296,7 +296,6 @@ Item {
     Rectangle {
         id: menuBarId
         height: 60
-        color: "#0ba360"
         
         anchors { 
             left: parent.left;
@@ -322,7 +321,7 @@ Item {
             height: 50
             horizontalAlignment: Image.AlignHCenter
             source: "images/cerbere_logo.png"
-            fillMode: Image.Stretch
+            fillMode: Image.PreserveAspectFit
 
             anchors {
                 bottom: parent.bottom;
@@ -337,9 +336,9 @@ Item {
             id: loginId
             width: 50
             height: 50
-            color: "#ffffff"
+            color: "#e8e1cd"
             radius: 40
-            border.color: "#1143c8"
+            border.color: "#740912"
             border.width: 2
 
             anchors {
@@ -362,9 +361,9 @@ Item {
             id: sonId
             width: 50
             height: 50
-            color: "#ffffff"
+            color: "#e8e1cd"
             radius: 40
-            border.color: "#1143c8"
+            border.color: "#740912"
             border.width: 2
 
             anchors {
@@ -387,9 +386,9 @@ Item {
             id: bugId
             width: 50
             height: 50
-            color: "#ffffff"
+            color: "#e8e1cd"
             radius: 40
-            border.color: "#1143c8"
+            border.color: "#740912"
             border.width: 2
 
             anchors {
@@ -412,9 +411,9 @@ Item {
             id: effetcarteId
             width: 50
             height: 50
-            color: "#ffffff"
+            color: "#e8e1cd"
             radius: 40
-            border.color: "#1143c8"
+            border.color: "#740912"
             border.width: 2
 
             anchors {
@@ -450,9 +449,9 @@ Item {
             id: regleId
             width: 50
             height: 50
-            color: "#ffffff"
+            color: "#e8e1cd"
             radius: 40
-            border.color: "#1143c8"
+            border.color: "#740912"
             border.width: 2
 
             anchors {
@@ -486,11 +485,9 @@ Item {
     Rectangle {
         id: underBarId
         height: 68
-        color: "#ffffff"
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: menuBarId.bottom
-        anchors.topMargin: 5
         property alias playerInfo: actionId.playerInfo
         property alias progressBar: progressBarId
 
@@ -498,14 +495,13 @@ Item {
             id: chronoId
             width: underBarId.width*1/10
             height: underBarId.height
-            color: "#ffffff"
-            border.color: "#3fe219"
+            border.color: "#740912"
             border.width: 2
+            color: "#e8e1cd"
 
             anchors {
                 left: underBarId.left;
                 top: underBarId.top;
-                leftMargin:2
             }
 
             Image {
@@ -536,14 +532,12 @@ Item {
 
         Rectangle {
             id: progressBarId
-            width: underBarId.width*6/10
+            width: underBarId.width*7/10
             height: underBarId.height
-            color: "#ffffff"
 
             anchors {
                 top:underBarId.top;
                 left: chronoId.right;
-                leftMargin: 5
             }
 
             CerbereBar{}
@@ -560,17 +554,15 @@ Item {
         Rectangle {
             id: actionId
             height: underBarId.height
-            color: "#ffffff"
-            border.color: "#3fe219"
+            width: underBarId.width*2/10
+            color: "#e8e1cd"
+            border.color: "#740912"
             border.width: 2
             property alias playerInfo: playerInfoId
 
             anchors {
                 top: underBarId.top;
                 left: progressBarId.right;
-                right: parent.right;
-                leftMargin: 5;
-                rightMargin: 2
             }
 
             Text {
@@ -596,28 +588,26 @@ Item {
 
     Rectangle {
         id: chatId
-        height:  34/100*parent.height
-        width: 2/10 * parent.width
-        color: "#ffffff"
+        height: parent.height*34/100
+        width: parent.width*2/10
+        color: "#e8e1cd"
+        border.color: "#740912"
         border.width: 2
-        anchors {topMargin:0;bottom:parent.bottom;left: parent.left;leftMargin: 2; bottomMargin: 5}
+
+        anchors {
+            bottom: parent.bottom;
+            left: parent.left;
+        }
     }
 
     Rectangle {
         id: plateauId
         width: parent.width
-        color: "#ffffff"
         property alias rectGroupsId: rectGroupsId
 
         anchors {
             top: underBarId.bottom;
             bottom: chatId.top;
-            right: parent.right;
-            left: parent.left;
-            topMargin: 5;
-            bottomMargin: 2;
-            rightMargin: 2;
-            leftMargin: 2
         }
         
         Image {
@@ -632,18 +622,22 @@ Item {
                 id: boardId
             }
             
-
             Rectangle{
                 id:rectGroupsId
-                signal notifyPion ( string counter, string player) // Declare signal
+                height: 100
+                width: 150
 
-                signal notifyCard2 ( string source ) //Declare signal
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+
+                signal notifyCard2(string source)
 
                 function receiveaddCard2(source) {
                     //addCard
                     var i = 0
                     var source_string = ""
                     var found_same = - 1
+                    
                     while ((rowbonusid.children[i].visible != false) && (i< 4)) {
                         if(rowbonusid.children[i].children.length > 0) {
                             source_string = source_string + rowbonusid.children[i].children[0].source
@@ -661,7 +655,7 @@ Item {
                     }
 
                     var new_source = "images/" + source
-                    console.log("found_same :"+found_same)
+
                     if(found_same >= 0 ) {
                         //addcompteur and image
                         switch(i) {
@@ -709,6 +703,7 @@ Item {
                         rowbonusid.children[i].children[0].source = new_source
                     } 
                 }
+
                 function change_hand() {
                     var i = 1
                     while (i < 5) {
@@ -722,51 +717,6 @@ Item {
                         i += 1
                     }
                 }
-
-                property int positionCounterPion1: -1
-                property int positionCounterPion2: -1
-                property int positionCounterPion3: -1
-                property int positionCounterPion4: -1
-                property int positionCounterPion5: -1
-                property int positionCounterPion6: -1
-                property int positionCounterPion7: -1
-
-                anchors.bottom: parent.bottom
-                anchors.right: parent.right
-                height: 100
-                width: 150
-
-                Rectangle{
-                    id:whiteId
-                    color: "white"
-                    height: parent.height /4
-                    width: parent.width /4
-                    anchors{top: parent.top;left: parent.left}
-                    Text {
-                        id: texxxxt
-                        text: "+1"
-                    }
-                    MouseArea{
-                        anchors.fill: parent
-                        onClicked: {
-                            rectGroupsId.positionCounterPion1++
-                            rectGroupsId.notifyPion(rectGroupsId.positionCounterPion1,"player1")
-
-                        }
-                    }
-
-                }
-                Rectangle{
-                    id:blueId
-                    color: "blue"
-                    height: parent.height /4
-                    width: parent.width /4
-                    anchors{top: parent.top;left: whiteId.right}
-                    Text {
-                        id: texxxt
-                        text: "+1"
-                    }
-                }   
 
                 Rectangle {
                     id: addCardBid
@@ -785,8 +735,6 @@ Item {
                         text: "Image source"
                         focus: true
                         cursorVisible: false
-
-                        onAccepted: console.log("Accepted")
                     }
 
                     Text {
@@ -807,197 +755,201 @@ Item {
                     }
                 }
 
-            Rectangle {
-                id: ptid
-                color: "purple"
-                height: 50
-                width: 50
+                Rectangle {
+                    id: ptid
+                    color: "purple"
+                    height: 50
+                    width: 50
 
-                anchors {
-                    top: addCardBid.bottom;
-                    left: parent.left
-                }
+                    anchors {
+                        top: addCardBid.bottom;
+                        left: parent.left
+                    }
 
-                Text {
-                    id: texxxtp
-                    text: "Pont"
-                }
+                    Text {
+                        id: texxxtp
+                        text: "Pont"
+                    }
 
-                MouseArea {
-                    anchors.fill: parent
+                    MouseArea {
+                        anchors.fill: parent
 
-                    onClicked: {
-                        boardId.changepont("true")    
+                        onClicked: {
+                            boardId.changepont("true")    
+                        }
                     }
                 }
-            }
 
-        Rectangle {
-            id: rbid
-            color: "orange"
-            height: 50
-            width: 50
-            anchors {
-                left: ptid.right
-                verticalCenter: ptid.verticalCenter
-            }
-
-            Text {
-                id: texxxtrb
-                text: "RB"
-            }
-
-            MouseArea {
-                anchors.fill: parent
-
-                onClicked: {
-                    boardId.revealbarque("2")
-                }
-            }
-        }
-
-        Rectangle {
-            id: plusOne
-            height: 50
-            width: 50
-            color: "Yellow"
-
-            anchors {
-                bottom: parent.bottom;
-                left: parent.left
-            }
-
-            Text {
-                text: "+1"
-
-                anchors {
-                    verticalCenter: parent.verticalCenter
-                    horizontalCenter: parent.horizontalCenter
-                }
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                
-                onClicked: {
-                    window.parent.state.send({
-                        type: "change_position",
-                        change: 1,
-                        login: window.parent.state.login
-                    })
-                }
-            }
-        }
-
-        Rectangle {
-            id: plusTwo
-            height: 50
-            width: 50
-            color: "Orange"
-        
-            anchors {
-                bottom: parent.bottom;
-                left: plusOne.right
-            }
-
-            Text {
-                text: "+2"
-
-                anchors {
-                    verticalCenter: parent.verticalCenter
-                    horizontalCenter: parent.horizontalCenter
-                }
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                
-                onClicked: {
-                    window.parent.state.send({
-                        type: "change_position",
-                        change: 2,
-                        login: window.parent.state.login
-                    })
-                }
-            }
-        }
-
-        Rectangle {
-            id: plusThree
-            height: 50
-            width: 50
-            color: "Red"
-        
-            anchors {
-                bottom: parent.bottom;
-                left: plusTwo.right
-            }
-
-            Text {
-                text: "+3"
-
-                anchors {
-                    verticalCenter: parent.verticalCenter
-                    horizontalCenter: parent.horizontalCenter
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                
-                    onClicked: {
-                        window.parent.state.send({
-                            type: "change_position",
-                            change: 3,
-                            login: window.parent.state.login
-                        })
+                Rectangle {
+                    id: rbid
+                    color: "orange"
+                    height: 50
+                    width: 50
+                    anchors {
+                        left: ptid.right
+                        verticalCenter: ptid.verticalCenter
                     }
-                } 
-            }
-        }
-        Rectangle{
-            id:sbid
-            color: "orange"
-            height: parent.height /4
-            width: parent.width /4
-            anchors{top: addCardBid.bottom;left: rbid.right}
-            Text {
-                id: texxxtsb
-                text: "SB"
-            }
-            MouseArea{
-                anchors.fill: parent
-                onClicked: {
-                        boardId.swapbarque("1","2")                        
+
+                    Text {
+                        id: texxxtrb
+                        text: "RB"
                     }
-            }
-        }
+
+                    MouseArea {
+                        anchors.fill: parent
+
+                        onClicked: {
+                            boardId.revealbarque("2")
+                        }
+                    }
+                }
+
+                Rectangle {
+                    id: plusOne
+                    height: 50
+                    width: 50
+                    color: "Yellow"
+
+                    anchors {
+                        bottom: parent.bottom;
+                        left: parent.left
+                    }
+
+                    Text {
+                        text: "+1"
+
+                        anchors {
+                            verticalCenter: parent.verticalCenter
+                            horizontalCenter: parent.horizontalCenter
+                        }
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        
+                        onClicked: {
+                            window.parent.state.send({
+                                type: "change_position",
+                                change: 1,
+                                login: window.parent.state.login
+                            })
+                        }
+                    }
+                }
+
+                Rectangle {
+                    id: plusTwo
+                    height: 50
+                    width: 50
+                    color: "Orange"
+                
+                    anchors {
+                        bottom: parent.bottom;
+                        left: plusOne.right
+                    }
+
+                    Text {
+                        text: "+2"
+
+                        anchors {
+                            verticalCenter: parent.verticalCenter
+                            horizontalCenter: parent.horizontalCenter
+                        }
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        
+                        onClicked: {
+                            window.parent.state.send({
+                                type: "change_position",
+                                change: 2,
+                                login: window.parent.state.login
+                            })
+                        }
+                    }
+                }
+
+                Rectangle {
+                    id: plusThree
+                    height: 50
+                    width: 50
+                    color: "Red"
+                
+                    anchors {
+                        bottom: parent.bottom;
+                        left: plusTwo.right
+                    }
+
+                    Text {
+                        text: "+3"
+
+                        anchors {
+                            verticalCenter: parent.verticalCenter
+                            horizontalCenter: parent.horizontalCenter
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                        
+                            onClicked: {
+                                window.parent.state.send({
+                                    type: "change_position",
+                                    change: 3,
+                                    login: window.parent.state.login
+                                })
+                            }
+                        } 
+                    }
+                }
+
+                Rectangle{
+                    id: sbid
+                    color: "orange"
+                    height: parent.height /4
+                    width: parent.width /4
+
+                    anchors {
+                        top: addCardBid.bottom;
+                        left: rbid.right
+                    }
+
+                    Text {
+                        id: texxxtsb
+                        text: "SB"
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+
+                        onClicked: {
+                            boardId.swapbarque("1","2")                        
+                        }
+                    }
+                }
         
-        Component.onCompleted: {
-            rectGroupsId.notifyCard2.connect(receiveaddCard2)
+                Component.onCompleted: {
+                    rectGroupsId.notifyCard2.connect(receiveaddCard2)
+                }
+            }       
         }
-    }
-    }
     }
                     
     Rectangle {
         id: infoJoueurId
         width: parent.width*8/10
         height: 40
-        color: "#ffffff"
+        color: "#e8e1cd"
 
         anchors {
             top: plateauId.bottom;
             left:chatId.right;
-            topMargin:2;
-            rightMargin: 2;
-            leftMargin: 3
         }
 
         Row {
             id: rowId
             layoutDirection: Qt.RightToLeft
             anchors.fill: parent
-            spacing : (width - (rowId.children[0].width*rowId.children.length)) / (rowId.children.length - 1) - 1
 
             Rectangle {
                 id: user1InfoId
@@ -1034,7 +986,7 @@ Item {
                 width:  1/6* parent.width
                 visible: false
                 radius: 3
-                height:parent.height
+                height: parent.height
                 color: "Cyan"
                 
                 Row {
@@ -1217,27 +1169,23 @@ Item {
     Rectangle {
         id: joueurId
         width: parent.width*8/10
-        height: 210
-        color: "#ffffff"
+        height: parent.height*34/100 - 40
+        color: "#e8e1cd"
 
         anchors {
             bottom: parent.bottom;
             right: parent.right;
-            bottomMargin: 5;
-            leftMargin: 2;
-            rightMargin: 2
         }
 
         Rectangle {
             id: carte_Action1Id
             width: 1/8*parent.width
-            height: 210
+            height: parent.height
             anchors.left: parent.left
 
             Image {
                 id:imgCAction1
                 anchors.fill: parent
-                anchors.leftMargin: 0
                 horizontalAlignment: Image.AlignHCenter
                 z: 1
                 fillMode: Image.Stretch
@@ -1250,13 +1198,12 @@ Item {
         Rectangle {
             id: carte_Action2Id
             width: 1/8*parent.width
-            height: 210
+            height: parent.height
             anchors.left: carte_Action1Id.right
             
             Image {
                 id:imgCAction2
                 anchors.fill: parent
-                anchors.leftMargin: 5
                 horizontalAlignment: Image.AlignHCenter
                 z: 1
                 fillMode: Image.Stretch
@@ -1269,13 +1216,12 @@ Item {
         Rectangle {
             id: carte_Action3Id
             width: 1/8*parent.width
-            height: 210
+            height: parent.height
             anchors.left: carte_Action2Id.right
         
             Image {
                id: imgCAction3
                anchors.fill: parent
-               anchors.leftMargin: 5
                horizontalAlignment: Image.AlignHCenter
                z: 1
                fillMode: Image.Stretch
@@ -1288,7 +1234,7 @@ Item {
         Rectangle {
             id: carte_Action4Id
             width: 1/8*parent.width
-            height: 210
+            height: parent.height
             anchors.left: carte_Action3Id.right
         
             Image {
@@ -1296,7 +1242,6 @@ Item {
                 anchors.fill: parent
                 horizontalAlignment: Image.AlignHCenter
                 z: 1
-                anchors.leftMargin: 5
                 fillMode: Image.Stretch
                 source: "images/Cyan4.png"
 
@@ -1307,8 +1252,9 @@ Item {
         Row {
             id : rowbonusid
             anchors.left:carte_Action4Id.right
+            height: parent.height
             width : parent.width
-            height : parent.height
+
             Rectangle {
                 id : carte_Bonus1Id
                 width: 1/8*parent.width
@@ -1320,7 +1266,6 @@ Item {
                     anchors.fill: parent
                     horizontalAlignment: Image.AlignHCenter
                     z: 1
-                    anchors.leftMargin:5
                     fillMode: Image.Stretch
                     source:"images/Carte_Ego.png"
                     CarteBonus {}
@@ -1353,7 +1298,6 @@ Item {
                     anchors.fill: parent
                     horizontalAlignment: Image.AlignHCenter
                     z: 1
-                    anchors.leftMargin:5
                     fillMode: Image.Stretch
                     source:"images/Carte_Ego.png"
                     CarteBonus {}
@@ -1385,7 +1329,6 @@ Item {
                     anchors.fill: parent
                     horizontalAlignment: Image.AlignHCenter
                     z: 1
-                    anchors.leftMargin:5
                     fillMode: Image.Stretch
                     source:"images/Carte_Ego.png"
                     CarteBonus {}
@@ -1417,7 +1360,6 @@ Item {
                     anchors.fill: parent
                     horizontalAlignment: Image.AlignHCenter
                     z: 1
-                    anchors.leftMargin:5
                     fillMode: Image.Stretch
                     source:"images/Carte_Ego.png"
                     CarteBonus {}
