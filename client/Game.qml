@@ -19,14 +19,9 @@ Item {
 		visible:view == "Lobby"
 
 		Chat {
-			id: chat
 			width: parent.width/2
 			height: parent.height/2
-			
-			anchors {
-				bottom: parent.bottom;
-				right: parent.right
-			}
+			Layout.alignment: Qt.AlignBottom
 		}
 	}
 

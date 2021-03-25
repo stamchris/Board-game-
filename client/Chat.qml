@@ -29,8 +29,9 @@ Item {
         Rectangle {
             id: rectField
             height: textToType.implicitHeight + 15
-            border.color: "#e8e1cd"
+            border.color: "#740912"
             border.width: 1
+            color: "White"
             radius: 10
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignBottom
@@ -61,6 +62,11 @@ Item {
             id: rectId
             width: parent.width
             height: textId.implicitHeight + 10
+            color: modelData.player.colour
+            opacity: 0.50
+            border.width: 1
+            border.color: modelData.player.colour
+            radius: 10
 
             Text {
                 id: textId

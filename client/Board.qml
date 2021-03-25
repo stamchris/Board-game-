@@ -607,7 +607,9 @@ Item {
 
         Chat{
             id: chatIn
-            anchors.fill: parent
+            height: parent.height - 6
+            width: parent.width - 6
+            anchors.centerIn: parent
         }
     }
 
