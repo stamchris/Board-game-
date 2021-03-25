@@ -1186,18 +1186,23 @@ Item {
 
         function updatePlayerInfo(players) {
             var order = 0
-            for(var i = 0; i < players.length - 1; i++){
+            var k
+
+            for (var i = 0; i < players.length - 1; i++){
                 if(players[order].name != window.parent.state.login) {
                     rowId.children[6-i-1].color = players[order].colour
                     rowId.children[6-i-1].visible = true
                     rowId.children[6-i-1].children[0].children[0].children[0].text = players[order].name
+
                     for (var j = 0; j < 4; j++) {
+                        k = i + 1
                         if (players[order].hand.action[j] == true) {
-                            rowId.children[6-i-1].children[0].children[1].children[j+1].children[0].text = "A"
+                            rowId.children[6-i-1].children[0].children[1].children[j+1].children[0].source = "images/"+players[order].colour+k+".png"
                         } else {
-                            rowId.children[6-i-1].children[0].children[1].children[j+1].children[0].text = "X"
+                            rowId.children[6-i-1].children[0].children[1].children[j+1].children[0].source = "images/Carte_Arro.png"
                         }
                     }
+
                     rowId.children[6-i-1].children[0].children[1].children[0].children[1].children[0].text = "" + players[order].hand.bonus_size
                 } else {
                     i--

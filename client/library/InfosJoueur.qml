@@ -5,6 +5,9 @@ import QtWebSockets 1.0
 
 Row {
     id : rowinfos
+    width: parent.width*5/6
+    height: parent.height
+    
     function changetype(player) {
         var good = -1
         var int_player = parseInt(player,10)
@@ -41,19 +44,17 @@ Row {
         //}   
     }
 
-    width: 5/6*parent.width
-    height: parent.height
-
     Rectangle {
-        id : typejoueur
-        width : parent.width/5
-        height : parent.height
-        color : "transparent"
-        Image {
-            anchors.fill : parent
-            source : "../images/aventurier_image.png"
+        id: typejoueur
+        width: parent.width/5
+        height: parent.height
+        color: "transparent"
 
+        Image {
+            anchors.fill: parent
+            source: "../images/aventurier_image.png"
         }
+
         Rectangle {
             id: nb_bonus
             width : parent.width/2
@@ -63,22 +64,24 @@ Row {
             border.color : "gold"
             color : "black"
             radius : 25
+
             Text {
-                anchors.centerIn : parent
+                anchors.centerIn: parent
                 id: nb_bonus_txt
-                text : "0"
-                color : "gold"
+                text: "0"
+                color: "Gold"
             }
         }
     }
 
     Rectangle {
-        id:little_action1_usr
-        height : parent.height
-        width : parent.width/5 -2 
-        border.color : "white"
-        color  : "transparent"
-        x : parent.width 
+        id: little_action1_usr
+        height: parent.height
+        width: parent.width/5 -2 
+        border.color: "white"
+        color: "transparent"
+        x: parent.width
+
         Image {
             anchors.fill : parent
             source : ""
@@ -86,38 +89,41 @@ Row {
     }
 
     Rectangle {
-        id:little_action2_usr
-        height : parent.height
-        width : parent.width/5 -2 
-        border.color : "white"
-        color  : "transparent"
+        id: little_action2_usr
+        height: parent.height
+        width: parent.width/5 -2 
+        border.color: "white"
+        color: "transparent"
+
         Image {
-            anchors.fill : parent
-            source : ""
+            anchors.fill: parent
+            source: ""
         }
     }
 
     Rectangle {
         id:little_action3_usr
-        height : parent.height
-        width : parent.width/5 -2 
-        border.color : "white"
-        color  : "transparent"
+        height: parent.height
+        width: parent.width/5-2 
+        border.color: "white"
+        color: "transparent"
+
         Image {
-            anchors.fill : parent
-            source : ""
+            anchors.fill: parent
+            source: ""
         }
     }
 
     Rectangle {
-        id:little_action4_usr
-        height : parent.height
-        width : parent.width/5 -2 
-        border.color : "white"
-        color  : "transparent"
+        id: little_action4_usr
+        height: parent.height
+        width: parent.width/5-2 
+        border.color: "white"
+        color: "transparent"
+
         Image {
-            anchors.fill : parent
-            source : ""
+            anchors.fill: parent
+            source: ""
         }
     }
 }
