@@ -59,16 +59,29 @@ Rectangle {
                 rageBar.children[i].color = "indianred"
             }
 
-            rageBar.children[i].children[0].text.visible = false
+            rageBar.children[i].children[0].visible = false
 
             if (i == newRage - 1) {
-                rageBar.children[i].children[0].text.visible = true 
+                rageBar.children[i].children[0].visible = true 
             }
         }
     }
 
     function updateBar(players) {
+        var colors = ["Cyan", "Orange", "Green", "White", "Pink", "Blue", "Red"]
 
+        for (var i = 0; i < players.length; i++) {
+            for (var j = 0; j < colors.length; j++){
+                if ((players[i].colour == colors[j]) && (players[i].type == "aventurier")) {
+                    colors.splice(j, 1)
+                    break
+                }
+            }
+        }
+        
+        for (var k = 0; k < colors.length; k++) {
+            rageBar.children[k].children[1].source = "../images/" + colors[k] + "_pion.png"
+        }
     }
 
     Rectangle {
@@ -155,6 +168,14 @@ Rectangle {
                         text: "1"
                         anchors.centerIn: parent
                     }
+
+                    Image {
+                        height : parent.height
+                        width : parent.height
+                        anchors.centerIn: parent
+                        source : ""
+                        fillMode: Image.PreserveAspectFit
+                    }
                 }
 
                 Rectangle {
@@ -170,6 +191,14 @@ Rectangle {
                         color : "white"
                         anchors.centerIn : parent
                     }
+
+                    Image {
+                        height : parent.height
+                        width : parent.height
+                        anchors.centerIn: parent
+                        source : ""
+                        fillMode: Image.PreserveAspectFit
+                    }
                 }
 
                 Rectangle {
@@ -183,8 +212,15 @@ Rectangle {
                         visible: false
                         text : "3"
                         color : "white"
-                        anchors.centerIn : parent
-                        
+                        anchors.centerIn : parent 
+                    }
+
+                    Image {
+                        height : parent.height
+                        width : parent.height
+                        anchors.centerIn: parent
+                        source : ""
+                        fillMode: Image.PreserveAspectFit
                     }
                 }
 
@@ -201,6 +237,14 @@ Rectangle {
                         color : "white"
                         anchors.centerIn : parent
                     }
+
+                    Image {
+                        height : parent.height
+                        width : parent.height
+                        anchors.centerIn: parent
+                        source : ""
+                        fillMode: Image.PreserveAspectFit
+                    }
                 }
 
                 Rectangle {
@@ -215,6 +259,14 @@ Rectangle {
                         text : "5"
                         color : "white"
                         anchors.centerIn : parent
+                    }
+
+                    Image {
+                        height : parent.height
+                        width : parent.height
+                        anchors.centerIn: parent
+                        source : ""
+                        fillMode: Image.PreserveAspectFit
                     }
                 }
 
@@ -231,6 +283,14 @@ Rectangle {
                         color : "white"
                         anchors.centerIn : parent   
                     }
+
+                    Image {
+                        height : parent.height
+                        width : parent.height
+                        anchors.centerIn: parent
+                        source : ""
+                        fillMode: Image.PreserveAspectFit
+                    }
                 }
 
                 Rectangle {
@@ -245,6 +305,14 @@ Rectangle {
                         text : "7"
                         color : "white"
                         anchors.centerIn : parent
+                    }
+
+                    Image {
+                        height : parent.height
+                        width : parent.height
+                        anchors.centerIn: parent
+                        source : ""
+                        fillMode: Image.PreserveAspectFit
                     }
                 }     
 

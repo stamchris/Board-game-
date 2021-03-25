@@ -26,8 +26,9 @@ Item {
         var plyr
         for (var i = 0; i < 7; i++) {
             playersChoice.rowPlayers.children[i].visible = false
-            for (plyr of window.parent.state.players) {
-                if (plyr.type == 0 && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && plyr.colour != window.parent.state.color) {
+            for (var j = 0; j < window.parent.state.players.length; j++) {
+                plyr = window.parent.state.players[j]
+                if (plyr.type == "aventurier" && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && plyr.colour != window.parent.state.color) {
                     playersChoice.rowPlayers.children[i].visible = true
                     break
                 }
@@ -71,8 +72,9 @@ Item {
                 var plyr
                 for (var i = 0; i < 7; i++) {
                     playersChoice.rowPlayers.children[i].visible = false
-                    for (plyr of window.parent.state.players) {
-                        if (plyr.type == 0 && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && !args.includes(plyr.colour) && plyr.colour != window.parent.state.color) {
+                    for (var j = 0; j < window.parent.state.players.length; j++) {
+                        plyr = window.parent.state.players[j]
+                        if (plyr.type == "aventurier" && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && !args.includes(plyr.colour) && plyr.colour != window.parent.state.color) {
                             playersChoice.rowPlayers.children[i].visible = true
                             break
                         }
@@ -548,6 +550,10 @@ Item {
 
             function updateRage() {
                 progressBarId.children[0].updateRage(window.parent.state.rage)
+            }
+
+            function updateBar() {
+                progressBarId.children[0].updateBar(window.parent.state.players)
             }
         }
 

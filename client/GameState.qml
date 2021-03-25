@@ -22,6 +22,7 @@ Item{
     signal _positionChanged(string newPosition, string color)
     signal _pontChanged()
     signal _showPlayerPieces(variant players)
+    signal _updatePlayersOnBar(variant players)
     signal _newBonus(string new_bonus)
 
     function changeLogin(newlogin) {
@@ -99,6 +100,7 @@ Item{
         changeVitesse(3 + newDifficulty)
         changePosCerbere("0")
         _showPlayerPieces(players)
+        _updatePlayersOnBar(players)
     }
     
     Component.onCompleted: {
@@ -111,6 +113,7 @@ Item{
         _pontChanged.connect(parent.board.boardId.changepont)
         _rageChanged.connect(parent.board.progressBar.updateRage)
         _vitesseChanged.connect(parent.board.progressBar.updateVitesse)
+        _updatePlayersOnBar.connect(parent.board.progressBar.updateBar)
         _newBonus.connect(parent.board.rectGroupsId.receiveaddCard2)
     }
 }
