@@ -1195,11 +1195,12 @@ Item {
                     rowId.children[6-i-1].children[0].children[0].children[0].text = players[order].name
 
                     for (var j = 0; j < 4; j++) {
-                        k = i + 1
+                        k = j + 1
+
                         if (players[order].hand.action[j] == true) {
                             rowId.children[6-i-1].children[0].children[1].children[j+1].children[0].source = "images/"+players[order].colour+k+".png"
                         } else {
-                            rowId.children[6-i-1].children[0].children[1].children[j+1].children[0].source = "images/Carte_Arro.png"
+                            rowId.children[6-i-1].children[0].children[1].children[j+1].children[0].source = "images/verso.png"
                         }
                     }
 
