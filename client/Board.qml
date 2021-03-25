@@ -1393,7 +1393,7 @@ Item {
             for(var i = 0; i < players.length; i++){
                 if(players[i].name == window.parent.state.login) {
                     var newsource = "images/"
-                    if (players[i].type == 1) {
+                    if (players[i].type == "cerbere") {
                         newsource += "Cerbere"
                     } else {
                         newsource += players[i].colour
