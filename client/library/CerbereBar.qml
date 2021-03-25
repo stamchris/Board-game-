@@ -164,7 +164,7 @@ Rectangle {
 
                     Text {
                         visible: false
-                        color: "white"
+                        color: "Black"
                         text: "1"
                         anchors.centerIn: parent
                     }
@@ -188,7 +188,7 @@ Rectangle {
                     Text {
                         visible: false
                         text : "2"
-                        color : "white"
+                        color : "Black"
                         anchors.centerIn : parent
                     }
 
@@ -211,7 +211,7 @@ Rectangle {
                     Text {
                         visible: false
                         text : "3"
-                        color : "white"
+                        color : "Black"
                         anchors.centerIn : parent 
                     }
 
@@ -234,7 +234,7 @@ Rectangle {
                     Text {
                         visible: false
                         text : "4"
-                        color : "white"
+                        color : "Black"
                         anchors.centerIn : parent
                     }
 
@@ -257,7 +257,7 @@ Rectangle {
                     Text {
                         visible: false
                         text : "5"
-                        color : "white"
+                        color : "Black"
                         anchors.centerIn : parent
                     }
 
@@ -280,7 +280,7 @@ Rectangle {
                     Text {
                         visible: false
                         text : "6"
-                        color : "white"
+                        color : "Black"
                         anchors.centerIn : parent   
                     }
 
@@ -303,7 +303,7 @@ Rectangle {
                     Text {
                         visible: false
                         text : "7"
-                        color : "white"
+                        color : "Black"
                         anchors.centerIn : parent
                     }
 
@@ -326,7 +326,7 @@ Rectangle {
                     Text {
                         visible: false
                         text : "8"
-                        color : "white"
+                        color : "Black"
                         anchors.centerIn : parent 
                     }
                 }
@@ -341,7 +341,7 @@ Rectangle {
                     Text {
                         visible: false
                         text: "9"
-                        color: "white"
+                        color: "Black"
                         anchors.centerIn: parent 
                     }
                 }  
@@ -356,7 +356,7 @@ Rectangle {
                     Text {
                         visible: false
                         text: "10"
-                        color: "white"
+                        color: "Black"
                         anchors.centerIn: parent 
                     }
                 }   

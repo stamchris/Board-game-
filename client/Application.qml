@@ -43,6 +43,7 @@ ApplicationWindow {
 					}
 					game.state.initGame(message.players, message.difficulty)
 					game.view = "Board"
+					game.lobbyChat.destoy()
 					break
 				case "updatePlayer":
 					for (var i = 0; i < game.players.length; i++) {
@@ -76,6 +77,10 @@ ApplicationWindow {
 				case "usePortal":
 					game.state.usePortal(message.portalQueue)
 					break
+				case "chatResponse":
+					game.addMessage(message.player, message.message)
+					break
+					
 			}
 		}
 

@@ -604,6 +604,11 @@ Item {
             bottom: parent.bottom;
             left: parent.left;
         }
+
+        Chat{
+            id: chatIn
+            anchors.fill: parent
+        }
     }
 
     Rectangle {

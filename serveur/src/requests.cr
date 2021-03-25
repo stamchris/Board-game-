@@ -10,7 +10,9 @@ class Cerbere::Request
 		play_action: PlayAction,
 		change_position: ChangePosition,
 		bridge_confirm: BridgeConfirm,
-		portal_confirm: PortalConfirm
+		portal_confirm: PortalConfirm,
+		changeColour: ChangeColour,
+		chatMessage: ChatMessage
 	}
 	
 	def handle(game : Game, player : Player)
@@ -56,7 +58,7 @@ class Cerbere::Request
 			if game.check_colour(@colour)
 				player.colour = @colour
 				game.send_all(Response::UpdatePlayer.new(player))
-			#Fixme : envoyer une resynchronisation sinon
+			#FIXME : envoyer une resynchronisation sinon
 			end
 		end
 	end
@@ -211,10 +213,30 @@ class Cerbere::Request
 			game.new_turn()
 		end
 	end
+
+	class ChatMessage < Request
+		property type = "chatMessage"
+		#FIXME : timer les messages
+		# property timestamp : Int32
+		property message : String
+
+		def handle(game : Game, player : Player)
+			game.send_all(Response::Chat.new(player,message))
+		end
+	end
 end
 
 class Cerbere::Response
 	include JSON::Serializable
+
+	class Chat < Response
+		property type = "chatResponse"
+		property player : Player
+		property message : String
+
+		def initialize(@player, @message)
+		end
+	end
 
 	class NewPlayer < Response
 		property type = "newPlayer"
