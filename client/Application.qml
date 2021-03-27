@@ -36,8 +36,8 @@ ApplicationWindow {
 				case "starter":
 					for (var i = 0; i < game.players.length; i++) {
 						if (game.players[i].name == login) {
-							game.state.changeLogin(game.players[i].name)
-							game.state.changeColor(game.players[i].colour)
+							game.state.login = game.players[i].name
+							game.state.color = game.players[i].colour
 							break
 						}
 					}

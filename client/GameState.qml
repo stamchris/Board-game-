@@ -9,12 +9,12 @@ Item{
     property string posCerbere: "0"
     property string pont: "1"
     property variant players: []
-    property string active_player : "0"
+    property string currentPlayer : "0"
+    property string currentPlayerColor : ""
     property var pont_queue: []
     property var portal_queue: []
 
-    signal _loginChanged()
-    signal _colorChanged()
+    signal _currentPlayerChanged(string newCurrentPlayer, string newCurrentPlayerColor)
     signal _difficultyChanged()
     signal _rageChanged()
     signal _vitesseChanged()
@@ -47,14 +47,10 @@ Item{
         }
     }
 
-    function changeLogin(newlogin) {
-        login = newlogin
-        _loginChanged()
-    }
-
-    function changeColor(newcolor) {
-        color = newcolor
-        _colorChanged()
+    function changeCurrentPlayer(newCurrentPlayer, newCurrentPlayerColor) {
+        currentPlayer = newCurrentPlayer
+        currentPlayerColor = newCurrentPlayerColor
+        _currentPlayerChanged(currentPlayer, currentPlayerColor)
     }
 
     function changeDifficulty(newDifficulty) {
@@ -77,10 +73,10 @@ Item{
         _positionChanged(posCerbere, "Black")
     }
 
-    function changePlayers(newPlayers, new_turn) {
+    function changePlayers(newPlayers, newCurrentPlayer) {
         players = newPlayers
-        active_player = new_turn
-        _playersChanged(players, active_player)
+        changeCurrentPlayer(players[newCurrentPlayer].name, players[newCurrentPlayer].colour)
+        _playersChanged(players, newCurrentPlayer)
     }
 
     function changePosition(color, newPosition) {
@@ -116,7 +112,7 @@ Item{
     }
 
     function initGame(newPlayers, newDifficulty) {
-        changePlayers(newPlayers, active_player)
+        changePlayers(newPlayers, 0)
         changeDifficulty(newDifficulty)
         changeRage(8 - newPlayers.length)
         changeVitesse(3 + newDifficulty)
@@ -127,8 +123,7 @@ Item{
     }
     
     Component.onCompleted: {
-        _loginChanged.connect(parent.board.playerInfo.updateLogin)
-        _colorChanged.connect(parent.board.playerInfo.updateColor)
+        _currentPlayerChanged.connect(parent.board.actionId.updateCurrentPlayer)
         _positionChanged.connect(parent.board.boardId.receiveCounter)
         _playersChanged.connect(parent.board.infoJoueurId.updatePlayerInfo)
         _playersChanged.connect(parent.board.joueurId.updatePlayerAction)
@@ -139,5 +134,6 @@ Item{
         _updatePlayersOnBar.connect(parent.board.progressBar.updateBar)
         _newBonus.connect(parent.board.rectGroupsId.receiveaddCard2)
         _secondPassed.connect(parent.board.chronoId.updateTime)
+        _secondPassed.connect(parent.board.actionId.updateCurrentPlayerTimer)
     }
 }

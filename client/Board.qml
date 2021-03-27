@@ -7,7 +7,7 @@ import "library"
 
 Item {
     id: window
-    property alias playerInfo: underBarId.playerInfo
+    property alias actionId: actionId
     property alias progressBar: underBarId.progressBar
     property alias boardId: boardId
     property alias infoJoueurId: infoJoueurId
@@ -491,7 +491,7 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: menuBarId.bottom
-        property alias playerInfo: actionId.playerInfo
+        property alias actionId: actionId
         property alias progressBar: progressBarId
         property alias chronoId: chronoId
 
@@ -584,32 +584,108 @@ Item {
             id: actionId
             height: underBarId.height
             width: underBarId.width*2/10
-            color: "#e8e1cd"
             border.color: "#740912"
             border.width: 2
-            property alias playerInfo: playerInfoId
+            property var currentPlayerTimer: 30
 
             anchors {
                 top: underBarId.top;
                 left: progressBarId.right;
             }
 
-            Text {
-                id: playerInfoId
-                text: window.parent.state.login
-                color: window.parent.state.color 
+            Rectangle {
+                height: parent.height - 4
+                width: parent.width - 4
+                anchors.centerIn: parent
 
-                anchors {
-                    verticalCenter: parent.verticalCenter
-                    horizontalCenter: parent.horizontalCenter
+                Rectangle {
+                    height: parent.height/2
+                    width:  parent.width - parent.height
+                    color: "#e8e1cd"
+
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                    }
+
+                    Text {
+                        id: currentPlayerId
+                        text: ""
+                        color: "Black"
+                        font.pixelSize: 22
+                        font.bold: true
+
+                        anchors {
+                            verticalCenter: parent.verticalCenter
+                            horizontalCenter: parent.horizontalCenter
+                        }
+                    }
                 }
 
-                function updateLogin() {
-                    text: window.parent.state.login
+                Rectangle {
+                    height: parent.height/2
+                    width: parent.width - parent.height
+                    color: "#e8e1cd"
+
+                    anchors {
+                        bottom: parent.bottom
+                        left: parent.left
+                    }
+
+                    Text {
+                        text: "est en train de jouer"
+                        color: "Black"
+
+                        anchors {
+                            verticalCenter: parent.verticalCenter
+                            horizontalCenter: parent.horizontalCenter
+                        }
+                    }
                 }
 
-                function updateColor() {
-                    color: window.parent.state.color
+                Rectangle {
+                    height: parent.height
+                    width: parent.height
+                    color: "#e8e1cd"
+
+                    anchors {
+                        bottom: parent.bottom
+                        right: parent.right
+                    }
+
+                    Text {
+                        id: currentPlayerTimerId
+                        text: "30"
+                        color: "Green"
+                        font.pixelSize: 22
+                        font.bold: true
+
+                        anchors {
+                            verticalCenter: parent.verticalCenter
+                            horizontalCenter: parent.horizontalCenter
+                        }
+                    }
+                }
+            }
+
+            function updateCurrentPlayer(newCurrentPlayer, newCurrentPlayerColor) {
+                currentPlayerId.text = newCurrentPlayer    
+                currentPlayerId.color = newCurrentPlayerColor
+                currentPlayerTimer = 31
+                updateCurrentPlayerTimer()
+            }
+
+            function updateCurrentPlayerTimer() {
+                currentPlayerTimer += -1
+
+                currentPlayerTimerId.text = currentPlayerTimer
+
+                if (currentPlayerTimer < 10) {
+                    currentPlayerTimerId.color = "Red"
+                } else if (currentPlayerTimer < 15) {
+                    currentPlayerTimerId.color = "Orange"
+                } else {
+                   currentPlayerTimerId.color = "Green" 
                 }
             }
         }

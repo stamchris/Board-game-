@@ -13,10 +13,10 @@ Column {
     function blockCard() {
         hover1Id.hoverEnabled = false
         up.color = "gray"
-        up.opacity = 0.9
+        up.opacity = 0.75
         hover2Id.hoverEnabled = false
         down.color = "gray"
-        down.opacity = 0.9
+        down.opacity = 0.75
     }
 
     function unblockCard() {
