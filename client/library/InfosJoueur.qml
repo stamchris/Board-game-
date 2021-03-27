@@ -48,7 +48,7 @@ Row {
         id: typejoueur
         width: parent.width/5
         height: parent.height
-        color: "transparent"
+        color: "#e8e1cd"
 
         Image {
             anchors.fill: parent

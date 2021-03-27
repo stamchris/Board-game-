@@ -21,7 +21,6 @@ Column {
                 var nb_card = parseInt(nb_same_card_bonus,10)
                 var new_nb_card = nb_card - 1
                 var str_nb_card = ""+new_nb_card
-                console.log(str_nb_card)
                 columnIdB.parent.children[1].children[0].text = str_nb_card
             }
         }

@@ -57,7 +57,7 @@ Item {
 
         function choosePlayer(button_color) {
             if(choices.length == 1) {
-                args.push(button_color.slice(12, button_color.length - 9))
+                args.push(button_color)
                 window.parent.state.send({
                     type: "play_action",
                     effet: effect,
@@ -67,7 +67,7 @@ Item {
                 playersChoice.close()
             } else {
                 choices.shift()
-                args.push(button_color.slice(12, button_color.length - 9))
+                args.push(button_color)
                 playersChoice.msg.text = choices[0]
                 var plyr
                 for (var i = 0; i < 7; i++) {
@@ -99,7 +99,7 @@ Item {
                 icon.color: "transparent"
                 icon.source: "images/Red_pion.png"
                 onClicked: {
-                    playersChoice.choosePlayer(icon.source.toString())
+                    playersChoice.choosePlayer("Red")
                 }
             }
 
@@ -108,7 +108,7 @@ Item {
                 icon.color: "transparent"
                 icon.source: "images/Cyan_pion.png"
                 onClicked: {
-                    playersChoice.choosePlayer(icon.source.toString())
+                    playersChoice.choosePlayer("Cyan")
                 }
             }
 
@@ -117,7 +117,7 @@ Item {
                 icon.color: "transparent"
                 icon.source: "images/Green_pion.png"
                 onClicked: {
-                    playersChoice.choosePlayer(icon.source.toString())
+                    playersChoice.choosePlayer("Green")
                 }
             }
 
@@ -126,7 +126,7 @@ Item {
                 icon.color: "transparent"
                 icon.source: "images/Blue_pion.png"
                 onClicked: {
-                    playersChoice.choosePlayer(icon.source.toString())
+                    playersChoice.choosePlayer("Blue")
                 }
             }
 
@@ -135,7 +135,7 @@ Item {
                 icon.color: "transparent"
                 icon.source: "images/White_pion.png"
                 onClicked: {
-                    playersChoice.choosePlayer(icon.source.toString())
+                    playersChoice.choosePlayer("White")
                 }
             }
 
@@ -144,7 +144,7 @@ Item {
                 icon.color: "transparent"
                 icon.source: "images/Pink_pion.png"
                 onClicked: {
-                    playersChoice.choosePlayer(icon.source.toString())
+                    playersChoice.choosePlayer("Pink")
                 }
             }
 
@@ -153,7 +153,7 @@ Item {
                 icon.color: "transparent"
                 icon.source: "images/Orange_pion.png"
                 onClicked: {
-                    playersChoice.choosePlayer(icon.source.toString())
+                    playersChoice.choosePlayer("Orange")
                 }
             }
         }
@@ -651,7 +651,7 @@ Item {
                     var source_string = ""
                     var found_same = - 1
                     
-                    while ((rowbonusid.children[i].visible != false) && (i< 4)) {
+                    while ((rowbonusid.children[i].visible != false) && (i< 7)) {
                         if(rowbonusid.children[i].children.length > 0) {
                             source_string = source_string + rowbonusid.children[i].children[0].source
                             var length2 = source_string.length
@@ -674,40 +674,32 @@ Item {
                         switch(i) {
                             case 0:
                                 var add = parseInt(txtcb1.text,10)
-                                if(add < 4) {
-                                    txtcb1.text = ""+((parseInt(txtcb1.text,10)+1))
-                                }
-                                else {
-                                    console.log("4 maximum")
-                                }
-                            break
+                                txtcb1.text = ""+((parseInt(txtcb1.text,10)+1))
+                                break
                             case 1:
                                 var add = parseInt(txtcb2.text,10)
-                                if(add < 4) {
-                                    txtcb2.text = ""+((parseInt(txtcb2.text,10)+1))
-                                }
-                                else {
-                                    console.log("4 maximum")
-                                }
-                            break
+                                txtcb2.text = ""+((parseInt(txtcb2.text,10)+1))
+                                break
                             case 2:
                                 var add = parseInt(txtcb3.text,10)
-                                if(add < 4) {
-                                    txtcb3.text = ""+((parseInt(txtcb3.text,10)+1))
-                                }
-                                else {
-                                    console.log("4 maximum")
-                                }   
-                            break
+                                txtcb3.text = ""+((parseInt(txtcb3.text,10)+1))
+                                break
                             case 3:
                                 var add = parseInt(txtcb4.text,10)
-                                if(add < 4) {
-                                    txtcb4.text = ""+((parseInt(txtcb4.text,10)+1))
-                                }
-                                else {
-                                    console.log("4 maximum")
-                                }
-                            break
+                                txtcb4.text = ""+((parseInt(txtcb4.text,10)+1))
+                                break
+                            case 4:
+                                var add = parseInt(txtcb4.text,10)
+                                txtcb5.text = ""+((parseInt(txtcb5.text,10)+1))
+                                break
+                            case 5:
+                                var add = parseInt(txtcb4.text,10)
+                                txtcb6.text = ""+((parseInt(txtcb6.text,10)+1))
+                                break
+                            case 6:
+                                var add = parseInt(txtcb4.text,10)
+                                txtcb7.text = ""+((parseInt(txtcb7.text,10)+1))
+                                break
                         }
                     }
                     else {
@@ -963,6 +955,7 @@ Item {
             id: rowId
             layoutDirection: Qt.RightToLeft
             anchors.fill: parent
+            spacing: 1
 
             Rectangle {
                 id: user1InfoId
@@ -971,10 +964,13 @@ Item {
                 visible: false
                 radius: 3
                 color: "Blue"
+                border.color: "#740912"
+                border.width: 1
 
                 Row {
-                    width : parent.width
-                    height : parent.height
+                    width : parent.width - 4
+                    height : parent.height - 4
+                    anchors.centerIn: parent
 
                     Rectangle {
                         width : parent.width/5
@@ -990,6 +986,7 @@ Item {
                     
                     InfosJoueur {
                         id: news_usr_1
+                        visible: true
                     }
                 }
             }
@@ -1001,10 +998,13 @@ Item {
                 radius: 3
                 height: parent.height
                 color: "Cyan"
+                border.color: "#740912"
+                border.width: 1
                 
                 Row {
-                    width : parent.width
-                    height : parent.height
+                    width : parent.width - 4
+                    height : parent.height - 4
+                    anchors.centerIn: parent
         
                     Rectangle {
                         width : parent.width/5
@@ -1021,6 +1021,7 @@ Item {
 
                     InfosJoueur {
                         id: news_usr_2
+                        visible: true
                     }
                 }
             }
@@ -1032,10 +1033,13 @@ Item {
                 visible: false
                 radius: 3
                 color: "Orange"
+                border.color: "#740912"
+                border.width: 1
 
                 Row {
-                    width : parent.width
-                    height : parent.height
+                    width : parent.width - 4
+                    height : parent.height - 4
+                    anchors.centerIn: parent
                 
                     Rectangle {
                         width : parent.width/5
@@ -1051,6 +1055,7 @@ Item {
 
                     InfosJoueur {
                         id: news_usr_3
+                        visible: true
                     }
                 }
             }
@@ -1062,10 +1067,13 @@ Item {
                 visible: false
                 radius: 3
                 color: "Green"
+                border.color: "#740912"
+                border.width: 1
 
                 Row {
-                    width : parent.width
-                    height : parent.height
+                    width : parent.width - 4
+                    height : parent.height - 4
+                    anchors.centerIn: parent
             
                     Rectangle {
                         width : parent.width/5
@@ -1082,6 +1090,7 @@ Item {
 
                     InfosJoueur {
                         id: news_usr_4
+                        visible: true
                     }
                 }
             }
@@ -1093,10 +1102,13 @@ Item {
                 visible: false
                 radius: 3
                 color: "Red"
+                border.color: "#740912"
+                border.width: 1
                 
                 Row {
-                    width : parent.width
-                    height : parent.height
+                    width : parent.width - 4
+                    height : parent.height - 4
+                    anchors.centerIn: parent
         
                     Rectangle {
                         width : parent.width/5
@@ -1113,6 +1125,7 @@ Item {
 
                     InfosJoueur {
                         id: news_usr_5
+                        visible: true
                     }
                 }
             }
@@ -1124,10 +1137,13 @@ Item {
                 visible: false
                 radius: 3
                 color: "Pink"
+                border.color: "#740912"
+                border.width: 1
             
                 Row {
-                    width : parent.width
-                    height : parent.height
+                    width : parent.width - 4
+                    height : parent.height - 4
+                    anchors.centerIn: parent
                     
                     Rectangle {
                         width : parent.width/5
@@ -1144,37 +1160,71 @@ Item {
 
                     InfosJoueur {
                         id: news_usr_6
+                        visible: true
+                    }
+                }
+            }
+
+            Rectangle{
+                id:user7InfoId
+                width: 1/6* parent.width
+                height: parent.height
+                visible: false
+                radius: 3
+                color: "White"
+                border.color: "#740912"
+                border.width: 1
+            
+                Row {
+                    width : parent.width - 4
+                    height : parent.height - 4
+                    anchors.centerIn: parent
+
+                    Rectangle {
+                        width : parent.width/5
+                        height : parent.height
+                        color : "transparent"
+    
+                        Text {
+                            id: text7
+                            text: qsTr("USER7")
+                            anchors.centerIn : parent
+                            font.pixelSize: 15   
+                        }
+                    }
+
+                    InfosJoueur {
+                        id: news_usr_7
+                        visible: true
                     }
                 }
             }
         }
 
         function updatePlayerInfo(players) {
-            var order = 0
             var k
 
-            for (var i = 0; i < players.length - 1; i++){
-                if(players[order].name != window.parent.state.login) {
-                    rowId.children[6-i-1].color = players[order].colour
-                    rowId.children[6-i-1].visible = true
-                    rowId.children[6-i-1].children[0].children[0].children[0].text = players[order].name
+            for (var i = 0; i < players.length; i++){
+                rowId.children[7-i-1].color = players[i].colour
+                rowId.children[7-i-1].visible = true
+                rowId.children[7-i-1].children[0].children[0].children[0].text = players[i].name
 
+                if(players[i].name != window.parent.state.login) {
                     for (var j = 0; j < 4; j++) {
                         k = j + 1
 
-                        if (players[order].hand.action[j] == true) {
-                            rowId.children[6-i-1].children[0].children[1].children[j+1].children[0].source = "images/"+players[order].colour+k+".png"
+                        if (players[i].hand.action[j] == true) {
+                            rowId.children[7-i-1].children[0].children[1].children[j+1].children[0].source = "images/"+players[i].colour+k+".png"
                         } else {
-                            rowId.children[6-i-1].children[0].children[1].children[j+1].children[0].source = "images/verso.png"
+                            rowId.children[7-i-1].children[0].children[1].children[j+1].children[0].source = "images/verso.png"
                         }
                     }
-
-                    rowId.children[6-i-1].children[0].children[1].children[0].children[1].children[0].text = "" + players[order].hand.bonus_size
+                    rowId.children[7-i-1].children[0].children[1].children[0].children[1].children[0].text = "" + players[i].hand.bonus_size
                 } else {
-                    i--
+                    rowId.children[7-i-1].width = rowId.children[7-i-1].children[0].children[0].width
+                    rowId.children[7-i-1].children[0].children[0].width = rowId.children[7-i-1].width
+                    rowId.children[7-i-1].children[0].children[1].visible = false
                 }
-
-                order++
             }
         }
     }
@@ -1262,137 +1312,256 @@ Item {
             }
         }
 
-        Row {
-            id : rowbonusid
-            anchors.left:carte_Action4Id.right
+        Rectangle {
+            clip: true
             height: parent.height
-            width : parent.width
+            width : parent.width/2
+            color: "#e8e1cd"
+            anchors.left: carte_Action4Id.right
 
-            Rectangle {
-                id : carte_Bonus1Id
-                width: 1/8*parent.width
-                height : parent.height
-                visible : false
-
-                Image {
-                    id: imgCBonus1
-                    anchors.fill: parent
-                    horizontalAlignment: Image.AlignHCenter
-                    z: 1
-                    fillMode: Image.Stretch
-                    source:"images/Carte_Ego.png"
-                    CarteBonus {}
-                                                        
-                    Rectangle {
-                        id:boxNumber_cb
-                        height : 30
-                        width : 30
-                        border.color : "white"
-                        color  : "transparent"
-                        x : parent.width - (width + 3)
-                        Text {
-                            id : txtcb1
-                            anchors.centerIn : parent
-                            text:"1"
-                            color : "white" 
-                        }
-                    }
-                }   
+            ScrollBar{
+                id: scrollBarBonus
+                policy: ScrollBar.AlwaysOn
+                hoverEnabled: true
+                active: hovered || pressed
+                orientation: Qt.Horizontal
+                size: parent.width/rowbonusid.width
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                z: 10
+                height: parent.height/20
             }
-                
-            Rectangle{
-                id: carte_Bonus2Id
-                width: 1/8*parent.width
-                height : parent.height
-                visible : false
-
-                Image {
-                    id: imgCBonus2
-                    anchors.fill: parent
-                    horizontalAlignment: Image.AlignHCenter
-                    z: 1
-                    fillMode: Image.Stretch
-                    source:"images/Carte_Ego.png"
-                    CarteBonus {}
-                                                        
-                    Rectangle {
-                        id:boxNumber_cb2
-                        height : 30
-                        width : 30
-                        border.color : "white"
-                        color  : "transparent"
-                        x : parent.width - (width + 3)
-                        Text {
-                            id : txtcb2
-                            anchors.centerIn : parent
-                            text:"1"
-                            color : "white" 
-                        }
-                    }
-                }    
-            }
-            Rectangle{
-                id: carte_Bonus3Id
-                width: 1/8*parent.width
-                height : parent.height
-                visible : false
-
-                Image {
-                    id: imgCBonus3
-                    anchors.fill: parent
-                    horizontalAlignment: Image.AlignHCenter
-                    z: 1
-                    fillMode: Image.Stretch
-                    source:"images/Carte_Ego.png"
-                    CarteBonus {}
-                                                        
-                     Rectangle {
-                        id:boxNumber_cb3
-                        height : 30
-                        width : 30
-                        border.color : "white"
-                        color  : "transparent"
-                        x : parent.width - (width + 3)
-                        Text {
-                            id : txtcb3
-                            anchors.centerIn : parent
-                            text:"1"
-                            color : "white" 
-                        }
-                    }
-                }  
-            }
-
-            Rectangle {
-                id: carte_Bonus4Id
-                width: 1/8*parent.width
+            
+            Row {
+                id : rowbonusid
                 height: parent.height
-                visible : false
-                Image {
-                    id: imgCBonus4
-                    anchors.fill: parent
-                    horizontalAlignment: Image.AlignHCenter
-                    z: 1
-                    fillMode: Image.Stretch
-                    source:"images/Carte_Ego.png"
-                    CarteBonus {}
-                                                        
-                     Rectangle {
-                        id:boxNumber_cb4
-                        height : 30
-                        width : 30
-                        border.color : "white"
-                        color  : "transparent"
-                        x : parent.width - (width + 3)
-                        
-                        Text {
-                            id : txtcb4
-                            anchors.centerIn : parent
-                            text:"1"
-                            color : "white" 
+                width : joueurId.width/8*7
+                x: -scrollBarBonus.position*width
+
+                Rectangle {
+                    id : carte_Bonus1Id
+                    width: parent.width/7
+                    height : parent.height
+                    visible : false
+
+                    Image {
+                        id: imgCBonus1
+                        anchors.fill: parent
+                        horizontalAlignment: Image.AlignHCenter
+                        z: 1
+                        fillMode: Image.Stretch
+                        source:"images/Carte_Ego.png"
+                        CarteBonus {}
+                                                            
+                        Rectangle {
+                            id:boxNumber_cb
+                            height : 30
+                            width : 30
+                            border.color : "white"
+                            color  : "transparent"
+                            x : parent.width - (width + 3)
+                            Text {
+                                id : txtcb1
+                                anchors.centerIn : parent
+                                text:"1"
+                                color : "white" 
+                            }
+                        }
+                    }   
+                }
+                    
+                Rectangle{
+                    id: carte_Bonus2Id
+                    width: parent.width/7
+                    height : parent.height
+                    visible : false
+
+                    Image {
+                        id: imgCBonus2
+                        anchors.fill: parent
+                        horizontalAlignment: Image.AlignHCenter
+                        z: 1
+                        fillMode: Image.Stretch
+                        source:"images/Carte_Ego.png"
+                        CarteBonus {}
+                                                            
+                        Rectangle {
+                            id:boxNumber_cb2
+                            height : 30
+                            width : 30
+                            border.color : "white"
+                            color  : "transparent"
+                            x : parent.width - (width + 3)
+                            Text {
+                                id : txtcb2
+                                anchors.centerIn : parent
+                                text:"1"
+                                color : "white" 
+                            }
+                        }
+                    }    
+                }
+
+                Rectangle{
+                    id: carte_Bonus3Id
+                    width: parent.width/7
+                    height : parent.height
+                    visible : false
+
+                    Image {
+                        id: imgCBonus3
+                        anchors.fill: parent
+                        horizontalAlignment: Image.AlignHCenter
+                        z: 1
+                        fillMode: Image.Stretch
+                        source:"images/Carte_Ego.png"
+                        CarteBonus {}
+                                                            
+                        Rectangle {
+                            id:boxNumber_cb3
+                            height : 30
+                            width : 30
+                            border.color : "white"
+                            color  : "transparent"
+                            x : parent.width - (width + 3)
+                            Text {
+                                id : txtcb3
+                                anchors.centerIn : parent
+                                text:"1"
+                                color : "white" 
+                            }
+                        }
+                    }  
+                }
+
+                Rectangle {
+                    id: carte_Bonus4Id
+                    width: parent.width/7
+                    height: parent.height
+                    visible : false
+                    Image {
+                        id: imgCBonus4
+                        anchors.fill: parent
+                        horizontalAlignment: Image.AlignHCenter
+                        z: 1
+                        fillMode: Image.Stretch
+                        source:"images/Carte_Ego.png"
+                        CarteBonus {}
+                                                            
+                        Rectangle {
+                            id:boxNumber_cb4
+                            height : 30
+                            width : 30
+                            border.color : "white"
+                            color  : "transparent"
+                            x : parent.width - (width + 3)
+                            
+                            Text {
+                                id : txtcb4
+                                anchors.centerIn : parent
+                                text:"1"
+                                color : "white" 
+                            }
+                        }
+                    }    
+                }
+
+                Rectangle {
+                    id: carte_Bonus5Id
+                    width: parent.width/7
+                    height: parent.height
+                    visible : false
+                    Image {
+                        id: imgCBonus5
+                        anchors.fill: parent
+                        horizontalAlignment: Image.AlignHCenter
+                        z: 1
+                        fillMode: Image.Stretch
+                        source:"images/Carte_Ego.png"
+                        CarteBonus {}
+                                                            
+                        Rectangle {
+                            id:boxNumber_cb5
+                            height : 30
+                            width : 30
+                            border.color : "white"
+                            color  : "transparent"
+                            x : parent.width - (width + 3)
+                            
+                            Text {
+                                id : txtcb5
+                                anchors.centerIn : parent
+                                text:"1"
+                                color : "white" 
+                            }
                         }
                     }
-                }    
+                }
+                    
+                Rectangle {
+                    id: carte_Bonus6Id
+                    width: parent.width/7
+                    height: parent.height
+                    visible : false
+                    Image {
+                        id: imgCBonus6
+                        anchors.fill: parent
+                        horizontalAlignment: Image.AlignHCenter
+                        z: 1
+                        fillMode: Image.Stretch
+                        source:"images/Carte_Ego.png"
+                        CarteBonus {}
+                                                            
+                        Rectangle {
+                            id:boxNumber_cb6
+                            height : 30
+                            width : 30
+                            border.color : "white"
+                            color  : "transparent"
+                            x : parent.width - (width + 3)
+                            
+                            Text {
+                                id : txtcb6
+                                anchors.centerIn : parent
+                                text:"1"
+                                color : "white" 
+                            }
+                        }
+                    }    
+                }
+
+                Rectangle {
+                    id: carte_Bonus7Id
+                    width: parent.width/7
+                    height: parent.height
+                    visible : false
+                    Image {
+                        id: imgCBonus7
+                        anchors.fill: parent
+                        horizontalAlignment: Image.AlignHCenter
+                        z: 1
+                        fillMode: Image.Stretch
+                        source:"images/Carte_Ego.png"
+                        CarteBonus {}
+                                                            
+                        Rectangle {
+                            id:boxNumber_cb7
+                            height : 30
+                            width : 30
+                            border.color : "white"
+                            color  : "transparent"
+                            x : parent.width - (width + 3)
+                            
+                            Text {
+                                id : txtcb7
+                                anchors.centerIn : parent
+                                text:"1"
+                                color : "white" 
+                            }
+                        }
+                    }    
+                }
             }
         }
 
