@@ -43,7 +43,6 @@ ApplicationWindow {
 					}
 					game.state.initGame(message.players, message.difficulty)
 					game.view = "Board"
-					game.lobbyChat.destoy()
 					break
 				case "updatePlayer":
 					for (var i = 0; i < game.players.length; i++) {

@@ -24,6 +24,28 @@ Item{
     signal _showPlayerPieces(variant players)
     signal _updatePlayersOnBar(variant players)
     signal _newBonus(string new_bonus)
+    signal _secondPassed(var minutes, var seconds)
+
+    Timer {
+        id: globalTimer
+        property var seconds: 0
+        property var minutes: 0
+
+        interval: 1000
+        repeat: true
+        running: false
+
+        onTriggered: {
+            seconds += 1
+
+            if(seconds == 60){
+                seconds = 0
+                minutes += 1
+            }
+            
+            _secondPassed(minutes, seconds)
+        }
+    }
 
     function changeLogin(newlogin) {
         login = newlogin
@@ -101,6 +123,7 @@ Item{
         changePosCerbere("0")
         _showPlayerPieces(players)
         _updatePlayersOnBar(players)
+        globalTimer.start()
     }
     
     Component.onCompleted: {
@@ -115,5 +138,6 @@ Item{
         _vitesseChanged.connect(parent.board.progressBar.updateVitesse)
         _updatePlayersOnBar.connect(parent.board.progressBar.updateBar)
         _newBonus.connect(parent.board.rectGroupsId.receiveaddCard2)
+        _secondPassed.connect(parent.board.chronoId.updateTime)
     }
 }

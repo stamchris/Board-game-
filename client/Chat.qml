@@ -17,6 +17,7 @@ Item {
             delegate: delegateId
             Layout.fillWidth: true
             Layout.fillHeight: true
+            spacing: 2
 
             onCountChanged: {
                 var newIndex = count - 1 // last index

@@ -15,6 +15,7 @@ Item {
     property alias rectGroupsId: rectGroupsId
     property alias popupBridge: popupBridge
     property alias popupPortal: popupPortal
+    property alias chronoId: chronoId
     property alias playersChoice: playersChoice
 
     function choosePlayers(choices, action_todo, effect) {
@@ -492,6 +493,7 @@ Item {
         anchors.top: menuBarId.bottom
         property alias playerInfo: actionId.playerInfo
         property alias progressBar: progressBarId
+        property alias chronoId: chronoId
 
         Rectangle {
             id: chronoId
@@ -506,29 +508,50 @@ Item {
                 top: underBarId.top;
             }
 
-            Image {
-                id : img_chrono
-                height : 80/100*parent.height 
-                width : 50    
-                anchors.verticalCenter : parent.verticalCenter 
-                anchors {
-                    left : parent.left ; leftMargin : 5; 
-                    top : parent.top; topMargin : 10
+            function updateTime(newMinutes, newSeconds){
+                var newTime = newMinutes + " : " + newSeconds
+                if (newSeconds < 10) {
+                    newTime = newMinutes + " : 0" + newSeconds
+                } else {
+                    newTime = newMinutes + " : " + newSeconds
                 }
-                source : "images/chrono.png"
+                chronoTimeId.text = newTime
             }
 
-            Text {
-                id: chronoTimeId
-                anchors { left : img_chrono.right; leftMargin : 10; top : parent.top; topMargin : 10}
-                anchors.verticalCenter : parent.verticalCenter
-                verticalAlignment: Text.AlignVCenter
-                width: 2*parent.width/3
-                height: parent.height/5
-                color: "#e51111"
-                text: qsTr("01:00")
-                font.pixelSize: 22
-                font.bold: true
+            Image {
+                id: img_chrono
+                width: parent.height - 8
+                source : "images/chrono.png"
+                fillMode: Image.PreserveAspectFit
+
+                anchors {
+                    verticalCenter: parent.verticalCenter
+                    left: parent.left; 
+                    leftMargin : 4; 
+                    top: parent.top;
+                }
+            }
+
+            Rectangle {
+                height: parent.height - 4
+                width: parent.width - parent.height - 4
+                color: "#e8e1cd"
+
+                anchors {
+                    left : img_chrono.right;
+                    leftMargin: 4
+                    verticalCenter: parent.verticalCenter
+                }
+
+                Text {
+                    id: chronoTimeId
+                    verticalAlignment: Text.AlignVCenter
+                    color: "#740912"
+                    text: "0 : 00"
+                    font.pixelSize: 22
+                    font.bold: true
+                    anchors.centerIn: parent
+                }
             }
         }
 
