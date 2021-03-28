@@ -104,6 +104,13 @@ class Cerbere::Request
 					if @effet == 0
 						game.play_action(player, 0, 0, new_args)
 						game.action_played = true
+					elsif @effet == 1
+						new_args = [] of Int32
+						args.each do |arg|
+							new_args << arg.to_i32
+						end
+						game.play_action(player, 0, 1, new_args)
+						game.action_played = true
 					end
 				when "2"
 					if @effet == 0

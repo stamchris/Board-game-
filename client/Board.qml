@@ -16,6 +16,9 @@ Item {
     property alias popupPortal: popupPortal
     property alias chronoId: chronoId
     property alias playersChoice: playersChoice
+    property alias popupChooseBarquesEffect: popupChooseBarquesEffect
+    property alias popupSwapBarques: popupSwapBarques
+    property alias popupSeeBarques: popupSeeBarques
 
     function choosePlayers(choices, action_todo, effect, requestType) {
         playersChoice.choices = choices
@@ -287,6 +290,257 @@ Item {
                         popupPortal.imgPlayerPortal.source = "images/" + window.parent.state.portal_queue[1].colour + "_pion.png"
                     }
                     window.parent.state.portal_queue.shift()
+                }
+            }
+        }
+    }
+
+    function chooseBarquesEffect(action_todo, effect, requestType) {
+        popupChooseBarquesEffect.action_todo = action_todo
+        popupChooseBarquesEffect.effect = effect
+        popupChooseBarquesEffect.requestType = requestType
+        popupChooseBarquesEffect.args = []
+        popupChooseBarquesEffect.open()
+    }
+
+    Popup {
+        id: popupChooseBarquesEffect
+        anchors.centerIn: parent
+        width: 230
+        height: 150
+        modal: true
+        closePolicy: Popup.NoAutoClose
+
+        background: Rectangle {
+            color: "#ffd194"
+            radius: 3
+        }
+
+        property var action_todo : ""
+        property var effect
+        property var requestType : ""
+        property var args : []
+
+        function openBarquesPopup(choice) {
+            if (choice == 0) {    
+                popupSeeBarques.action_todo = action_todo
+                popupSeeBarques.effect = effect
+                popupSeeBarques.requestType = requestType
+                popupSeeBarques.args = ["0"]
+                popupSeeBarques.open()
+            } else {
+                popupSwapBarques.action_todo = action_todo
+                popupSwapBarques.effect = effect
+                popupSwapBarques.requestType = requestType
+                popupSwapBarques.args = ["1"]
+                popupSwapBarques.open()
+            }
+            popupChooseBarquesEffect.close()
+        }
+
+        Text {
+            y: 0
+            horizontalAlignment: Text.AlignHCenter
+            text: "Quelle action effectuer ?"
+        }
+
+        RowLayout {
+            y: 50
+            Button {
+                text: "Voir\n1 barque"
+                onClicked: {
+                    popupChooseBarquesEffect.openBarquesPopup(0)
+                }
+            }
+
+            Button {
+                text: "Echanger\n2 barques"
+                onClicked: {
+                    popupChooseBarquesEffect.openBarquesPopup(1)
+                }
+            }
+        }
+    }
+
+    Popup {
+        id: popupSwapBarques
+        anchors.centerIn: parent
+        width: 200
+        height: 240
+        modal: true
+        closePolicy: Popup.NoAutoClose
+
+        background: Rectangle {
+            color: "#ffd194"
+            radius: 3
+        }
+
+        property var action_todo : ""
+        property var effect
+        property var requestType : ""
+        property var args : []
+
+        function swapBarques(choice) {
+            args.push(choice)
+            
+            if (args.length < 3) {
+                popupSwapBarques.children[1].children[choice].children[0].enabled = false
+            } else {
+                window.parent.state.send({
+                    type: requestType,
+                    effet: effect,
+                    carte: action_todo,
+                    args: args
+                })
+                popupSwapBarques.close()
+            }
+        }
+
+        Text {
+            id: questionSwapBarques
+            y: 0
+            horizontalAlignment: Text.AlignHCenter
+            text: "Quelles barques echanger ?"
+        }
+
+        Row {
+            y: 30
+            spacing:10
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            Image {
+                id: imgSwapBarque1
+                width: 50
+                fillMode: Image.PreserveAspectFit
+                source: "images/barque_unknown.png"
+
+                MouseArea {
+                    anchors.fill: parent
+                    enabled: true
+
+                    onClicked: {
+                        popupSwapBarques.swapBarques("0")
+                    }
+                }
+            }
+
+            Image {
+                id: imgSwapBarque2
+                width: 50
+                fillMode: Image.PreserveAspectFit
+                source: "images/barque_unknown.png"
+
+                MouseArea {
+                    anchors.fill: parent
+                    enabled: true
+
+                    onClicked: {
+                        popupSwapBarques.swapBarques("1")
+                    }
+                }
+            }
+
+            Image {
+                id: imgSwapBarque3
+                width: 50
+                fillMode: Image.PreserveAspectFit
+                source: "images/barque_unknown.png"
+
+                MouseArea {
+                    anchors.fill: parent
+                    enabled: true
+
+                    onClicked: {
+                        popupSwapBarques.swapBarques("2")
+                    }
+                }
+            }
+        }
+    }
+
+    Popup {
+        id: popupSeeBarques
+        anchors.centerIn: parent
+        width: 200
+        height: 240
+        modal: true
+        closePolicy: Popup.NoAutoClose
+
+        background: Rectangle {
+            color: "#ffd194"
+            radius: 3
+        }
+
+        property var action_todo : ""
+        property var effect
+        property var requestType : ""
+        property var args : []
+
+        function seeBarques(choice) {
+            args.push(choice)
+            window.parent.state.send({
+                type: requestType,
+                effet: effect,
+                carte: action_todo,
+                args: args
+            })
+            popupSeeBarques.close()
+        }
+
+        Text {
+            id: questionSeeBarques
+            y: 0
+            horizontalAlignment: Text.AlignHCenter
+            text: "Quelle barque consulter ?"
+        }
+
+        Row {
+            y: 30
+            spacing:10
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            Image {
+                id: imgSeeBarque1
+                width: 50
+                fillMode: Image.PreserveAspectFit
+                source: "images/barque_unknown.png"
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    onClicked: {
+                        popupSeeBarques.seeBarques("0")
+                    }
+                }
+            }
+
+            Image {
+                id: imgSeeBarque2
+                width: 50
+                fillMode: Image.PreserveAspectFit
+                source: "images/barque_unknown.png"
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    onClicked: {
+                        popupSeeBarques.seeBarques("1")
+                    }
+                }
+            }
+
+            Image {
+                id: imgSeeBarque3
+                width: 50
+                fillMode: Image.PreserveAspectFit
+                source: "images/barque_unknown.png"
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    onClicked: {
+                        popupSeeBarques.seeBarques("2")
+                    } 
                 }
             }
         }
@@ -1409,7 +1663,7 @@ Item {
 
                 MouseArea {
                     anchors.fill: parent
-                    
+
                     onClicked: {
                         window.parent.state.send({
                             type: "skip_turn"
