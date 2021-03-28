@@ -17,7 +17,6 @@
         <file>library/movePions.js</file>
         <file>library/ShowEffect.qml</file>
         <file>GameState.qml</file>
-        <file>Game.qml</file>
-	    <file>library/InfosJoueur.qml</file>
+        <file>Chat.qml</file>
     </qresource>
 </RCC>

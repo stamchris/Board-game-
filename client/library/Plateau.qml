@@ -23,13 +23,13 @@ Row {
         switch(entier) {
             case "1": 
                 img_barque.source = "../images/barque_1place.png"
-            break
+                break
             case "2":
                 img_barque.source = "../images/barque_2places.png"
-            break
+                break
             case "3":
                 img_barque.source = "../images/barque_3places.png"
-            break
+                break
         }
     }
 
@@ -835,6 +835,7 @@ Row {
                     x : 1/12*parent.x
                 }
             }
+            
             Rectangle {
                 id: case22Id
                 width: 11/100*parent.width
@@ -897,11 +898,11 @@ Row {
                 }
             }
 
-             Rectangle {
+            Rectangle {
                 id: caseBarque2Id
                 width: 12/100*parent.width
-                height : 37/100*parent.height
-                y : 85/100*height
+                height: 37/100*parent.height
+                y: 85/100*height
                 color: "transparent"
 
                 Image {

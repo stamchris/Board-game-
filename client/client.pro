@@ -13,6 +13,9 @@ SOURCES += \
 RESOURCES += qml.qrc \
     Images.qrc
 
+INCLUDEPATH += ..
+INCLUDEPATH += /usr/lib/gcc/x86_64-linux-gnu/9/include/
+
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 
