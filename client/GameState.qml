@@ -126,7 +126,7 @@ Item{
         _currentPlayerChanged.connect(parent.board.actionId.updateCurrentPlayer)
         _positionChanged.connect(parent.board.boardId.receiveCounter)
         _playersChanged.connect(parent.board.infoJoueurId.updatePlayerInfo)
-        _playersChanged.connect(parent.board.joueurId.updatePlayerAction)
+        _playersChanged.connect(parent.board.joueurId.updatePlayerCards)
         _showPlayerPieces.connect(parent.board.boardId.pionesId.children[0].unhideNonPlayerPieces)
         _pontChanged.connect(parent.board.boardId.changepont)
         _rageChanged.connect(parent.board.progressBar.updateRage)

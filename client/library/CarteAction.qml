@@ -21,10 +21,10 @@ Column {
 
     function unblockCard() {
         hover1Id.hoverEnabled = true
-        up.color = "blue"
+        up.color = "White"
         up.opacity = 0
         hover2Id.hoverEnabled = true
-        down.color = "red"
+        down.color = "White"
         down.opacity = 0
     }
 
@@ -64,7 +64,7 @@ Column {
             onHoveredChanged: {
                 if (hoverEnabled == true) {
                     if (containsMouse == true) {
-                        up.opacity = 0.4
+                        up.opacity = 0.25
                     } else {
                         up.opacity = 0
                     }
@@ -95,7 +95,7 @@ Column {
             onHoveredChanged: {
                 if (hoverEnabled == true) {
                     if (containsMouse == true) {
-                        down.opacity = 0.4
+                        down.opacity = 0.25
                     } else {
                         down.opacity = 0
                     }
