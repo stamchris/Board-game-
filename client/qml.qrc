@@ -13,12 +13,7 @@
         <file>library/Piones.qml</file>
         <file>Login.qml</file>
         <file>Lobby.qml</file>
-<<<<<<< HEAD
         <file>Game.qml</file>
-=======
-	<file>Game.qml</file>
-	<file>Chat.qml</file>
->>>>>>> origin/Chat
         <file>library/movePions.js</file>
         <file>library/ShowEffect.qml</file>
         <file>GameState.qml</file>

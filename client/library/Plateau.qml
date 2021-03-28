@@ -38,48 +38,38 @@ Row {
 
         switch(barqswap1) {
             case "1": 
-             console.log(img_barquetxt.text)
                 if(barqswap2 == "2") {
                     tmp = ""+img_barquetxt.text
                     img_barquetxt.text = img_barque2txt.text
                     img_barque2txt.text = tmp
-                }
-                else if(barqswap2 == "3") {
+                } else if(barqswap2 == "3") {
                     tmp = ""+img_barquetxt.text
                     img_barquetxt.Text = img_barque3txt.text
                     img_barque3txt.text = tmp
                 }
-                 console.log(img_barquetxt.text)
-            break
+                break
             case "2":
-                console.log(img_barque2txt.text)
                 if(barqswap2 == "1") {
                     tmp = ""+img_barque2txt.text
                     img_barque2txt.text = img_barquetxt.text
                     img_barquetxt.text = tmp
-                }
-                else if(barqswap2 == "3") {
+                } else if(barqswap2 == "3") {
                     tmp = ""+img_barque2txt.text
                     img_barque2txt.Text = img_barque3txt.text
                     img_barque3txt.text = tmp
-                }
-                console.log(img_barque2txt.text)       
-        
-            break
+                }    
+                break
             case "3":
-                console.log(img_barque3txt.text)
                 if(barqswap2 == "2") {
                     tmp = ""+img_barque3txt.text
                     img_barque3txt.text = img_barque2txt.text
                     img_barque2txt.text = tmp
-                }
-                else if(barqswap2 == "1") {
+                } else if(barqswap2 == "1") {
                     tmp = ""+img_barque3txt.text
                     img_barque3txt.text = img_barquetxt.text
                     img_barquetxt.text = tmp
                 }
-                console.log(img_barque3txt.text)
-            break
+                break
         }
     }
 
@@ -593,7 +583,6 @@ Row {
                                 msg3.visible = false
                                 msg3.width = thirdPlateauid.width /2.2
                                 if(!layoutPawn16.children[0]) {
-                                    console.log("non occupé")
                                     case16Id.color="transparent"
                                     case17Id.color="transparent"
                                     case14Id.color="transparent"
@@ -682,7 +671,6 @@ Row {
                                 msg3.visible = false
                                 msg3.width = thirdPlateauid.width /2.2
                                 if(!layoutPawn16.children[0]) {
-                                    console.log("non occupé")
                                     case16Id.color="transparent"
                                     case17Id.color="transparent"
                                     case14Id.color="transparent"
@@ -731,7 +719,6 @@ Row {
                                 msg3.visible = false
                                 msg3.width = thirdPlateauid.width /2.2
                                 if(!layoutPawn16.children[0]) {
-                                    console.log("non occupé")
                                     case16Id.color="transparent"
                                     case17Id.color="transparent"
                                     case14Id.color="transparent"

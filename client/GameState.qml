@@ -3,6 +3,7 @@ import QtQuick 2.10
 Item{
     property string login: "login"
     property string color: "#000000"
+    property string playerType: "aventurier"
     property string difficulty: "0"
     property string rage: "0"
     property string vitesse: "0"
@@ -18,12 +19,15 @@ Item{
     signal _difficultyChanged()
     signal _rageChanged()
     signal _vitesseChanged()
-    signal _playersChanged(variant players, string new_turn)
+    signal _playersChanged(variant players, string newTurn)
     signal _positionChanged(string newPosition, string color)
     signal _pontChanged()
     signal _showPlayerPieces(variant players)
     signal _updatePlayersOnBar(variant players)
-    signal _newBonus(string new_bonus)
+    signal _newBonus(string newBonus)
+    signal _updateActionCards(string playerType)
+    signal _lockAction()
+    signal _lockBonus()
     signal _secondPassed(var minutes, var seconds)
 
     Timer {
@@ -74,6 +78,16 @@ Item{
     }
 
     function changePlayers(newPlayers, newCurrentPlayer) {
+        for (var i = 0; i < newPlayers.length; i++) {
+            if (newPlayers[i].type != players[i].type) {
+                _updatePlayersOnBar(newPlayers)
+
+                if (newPlayers[i].colour == color){
+                    _updateActionCards(newPlayers[i].type)
+                }
+            }
+        }
+
         players = newPlayers
         changeCurrentPlayer(players[newCurrentPlayer].name, players[newCurrentPlayer].colour)
         _playersChanged(players, newCurrentPlayer)
@@ -111,7 +125,16 @@ Item{
         parent.board.popupPortal.open()
     }
 
+    function lockCards(type) {
+        if (type == "action") {
+            _lockAction()
+        } else if (type == "bonus") {
+            _lockBonus()
+        }
+    }
+
     function initGame(newPlayers, newDifficulty) {
+        players = newPlayers
         changePlayers(newPlayers, 0)
         changeDifficulty(newDifficulty)
         changeRage(8 - newPlayers.length)
@@ -119,6 +142,7 @@ Item{
         changePosCerbere("0")
         _showPlayerPieces(players)
         _updatePlayersOnBar(players)
+        _updateActionCards("aventurier")
         globalTimer.start()
     }
     
@@ -132,8 +156,11 @@ Item{
         _rageChanged.connect(parent.board.progressBar.updateRage)
         _vitesseChanged.connect(parent.board.progressBar.updateVitesse)
         _updatePlayersOnBar.connect(parent.board.progressBar.updateBar)
-        _newBonus.connect(parent.board.rectGroupsId.receiveaddCard2)
+        _newBonus.connect(parent.board.joueurId.addBonusCard)
+        _updateActionCards.connect(parent.board.joueurId.loadActionCards)
         _secondPassed.connect(parent.board.chronoId.updateTime)
         _secondPassed.connect(parent.board.actionId.updateCurrentPlayerTimer)
+        _lockAction.connect(parent.board.joueurId.lockActionCards)
+        _lockBonus.connect(parent.board.joueurId.lockBonusCards)
     }
 }

@@ -8,6 +8,7 @@ class Cerbere::Request
 		ready: Ready,
 		change_colour: ChangeColour,
 		play_action: PlayAction,
+		play_bonus: PlayBonus,
 		change_position: ChangePosition,
 		bridge_confirm: BridgeConfirm,
 		portal_confirm: PortalConfirm,
@@ -86,6 +87,7 @@ class Cerbere::Request
 
 		def handle(game : Game, player : Player)
 			new_args = [] of Int32
+
 			args.each do |arg|
 				game.players.each do |plyr|
 					if arg == plyr.colour.to_s
@@ -94,66 +96,153 @@ class Cerbere::Request
 					end
 				end
 			end
+
 			if (player.colour == game.players[game.active_player].colour)
 				case @carte
 				when "1"
 					if @effet == 0
 						game.play_action(player, 0, 0, new_args)
 						game.action_played = true
-						game.new_turn()
 					end
 				when "2"
 					if @effet == 0
 						game.play_action(player, 1, 0, new_args)
 						game.action_played = true
-						game.new_turn()
 					elsif @effet == 1
 						new_args.insert(0, -1)
 						game.play_action(player, 1, 1, new_args)
 						game.action_played = true
-						if (game.board.pont_queue.size == 0 && game.board.portal_queue.size == 0)
-							game.new_turn()
-						end
 					end
 				when "3"
 					if @effet == 0
 						game.play_action(player, 2, 0, new_args)
 						game.action_played = true
-						if (game.board.pont_queue.size == 0 && game.board.portal_queue.size == 0)
-							game.new_turn()
-						end
 					elsif @effet == 1
 						game.play_action(player, 2, 1, new_args)
 						game.action_played = true
-						if (game.board.pont_queue.size == 0 && game.board.portal_queue.size == 0)
-							game.new_turn()
-						end
 					end
 				when "4"
 					if @effet == 0
 						new_args.insert(0, -1)
 						game.play_action(player, 3, 0, new_args)
 						game.action_played = true
-						if (game.board.pont_queue.size == 0 && game.board.portal_queue.size == 0)
-							game.new_turn()
-						end
 					end
 				else
 				end
 
+				if game.action_played == true 
+					player.send(Response::ActionPlayed.new())
+					game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
+				end
+
 				players_queue : Array(Player) = [] of Player
+
 				if game.board.pont_queue.size != 0
 					game.board.pont_queue.each do |plyr|
 						players_queue << plyr[0]
 					end
 					player.send(Response::UseBridge.new(players_queue))
 				end
+
 				if game.board.portal_queue.size != 0
 					players_queue.clear()
 					game.board.portal_queue.each do |plyr|
 						players_queue << plyr[0]
 					end
 					player.send(Response::UsePortal.new(players_queue))
+				end
+
+				if game.action_played && (game.bonus_played || player.hand.bonus_size == 0)
+					game.new_turn()
+				end
+			end
+		end
+	end
+
+	class PlayBonus < Request
+		property type = "playBonus"
+		property effet : Int32
+		property carte : String
+		property args : Array(String)
+
+		def handle(game : Game, player : Player)
+			new_args = [] of Int32
+
+			args.each do |arg|
+				game.players.each do |plyr|
+					if arg == plyr.colour.to_s
+						new_args << plyr.lobby_id
+						break
+					end
+				end
+			end
+
+			if (player.colour == game.players[game.active_player].colour)
+				case @carte
+				when "Arro"
+					if @effet == 0
+						new_args.insert(0, -1)
+						game.play_bonus(player, "Arro", 0, new_args)
+						game.bonus_played = true
+					end
+				when "Ego"
+					if @effet == 0
+						game.play_bonus(player, "Ego", 0, new_args)
+						game.bonus_played = true
+					end
+				when "Fata"
+					if @effet == 0
+						game.play_bonus(player, "Fata", 0, new_args)
+						game.bonus_played = true
+					elsif @effet == 1
+						game.play_bonus(player, "Fata", 1, new_args)
+						game.bonus_played = true
+					end
+				when "Fav"
+					if @effet == 0
+						new_args.insert(0, -1)
+						game.play_bonus(player, "Fav", 0, new_args)
+						game.bonus_played = true
+					end
+				when "Oppo"
+					if @effet == 0
+						new_args.insert(0, -1)
+						game.play_bonus(player, "Oppo", 0, new_args)
+						game.bonus_played = true
+					end
+				when "Sac"
+					if @effet == 0
+						new_args.insert(0, -1)
+						game.play_bonus(player, "Sac", 0, new_args)
+						game.bonus_played = true
+					end
+				else
+				end
+
+				if game.bonus_played == true 
+					player.send(Response::BonusPlayed.new())
+					game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
+				end
+
+				players_queue : Array(Player) = [] of Player
+
+				if game.board.pont_queue.size != 0
+					game.board.pont_queue.each do |plyr|
+						players_queue << plyr[0]
+					end
+					player.send(Response::UseBridge.new(players_queue))
+				end
+
+				if game.board.portal_queue.size != 0
+					players_queue.clear()
+					game.board.portal_queue.each do |plyr|
+						players_queue << plyr[0]
+					end
+					player.send(Response::UsePortal.new(players_queue))
+				end
+
+				if game.action_played && game.bonus_played
+					game.new_turn()
 				end
 			end
 		end
@@ -297,6 +386,20 @@ class Cerbere::Response
 		property cardname : String
 
 		def initialize(@cardname)
+		end
+	end
+
+	class ActionPlayed < Response
+		property type = "actionPlayed"
+		
+		def initialize()
+		end
+	end
+
+	class BonusPlayed < Response
+		property type = "bonusPlayed"
+		
+		def initialize()
 		end
 	end
 

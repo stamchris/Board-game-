@@ -58,6 +58,28 @@ class Cerbere::Game
 		end
 	end
 
+	def play_bonus(player : Player, card : String, choice : Int32, args : Array(Int32))
+		index_card = 0
+
+		player.hand.bonus.each do |bonus_card|
+			if bonus_card.name == card
+				choice = bonus_card.choix[choice]
+				board.defausser(player, index_card)
+				board.faire_action(player, choice.cout, args)
+		
+				choice.effets.each_index do |i|
+					board.faire_action(player, choice.effets[i], args)
+					if args.size != 0
+						args.shift()
+					end
+				end
+				
+				break
+			end
+			index_card += 1
+		end
+	end
+
 	def new_turn()
 		if (!@action_played)
 			play_action(players[active_player], 0, 0, [] of Int32)

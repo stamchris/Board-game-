@@ -12,16 +12,16 @@ Item {
     property alias boardId: boardId
     property alias infoJoueurId: infoJoueurId
     property alias joueurId: joueurId
-    property alias rectGroupsId: rectGroupsId
     property alias popupBridge: popupBridge
     property alias popupPortal: popupPortal
     property alias chronoId: chronoId
     property alias playersChoice: playersChoice
 
-    function choosePlayers(choices, action_todo, effect) {
+    function choosePlayers(choices, action_todo, effect, requestType) {
         playersChoice.choices = choices
         playersChoice.action_todo = action_todo
         playersChoice.effect = effect
+        playersChoice.requestType = requestType
         playersChoice.args = []
         playersChoice.msg.text = choices[0]
         var plyr
@@ -54,13 +54,14 @@ Item {
         property var choices : []
         property var action_todo : ""
         property var effect
+        property var requestType : ""
         property var args : []
 
         function choosePlayer(button_color) {
             if(choices.length == 1) {
                 args.push(button_color)
                 window.parent.state.send({
-                    type: "play_action",
+                    type: requestType,
                     effet: effect,
                     carte: action_todo,
                     args: args
@@ -715,7 +716,6 @@ Item {
     Rectangle {
         id: plateauId
         width: parent.width
-        property alias rectGroupsId: rectGroupsId
 
         anchors {
             top: underBarId.bottom;
@@ -732,310 +732,7 @@ Item {
             
             Plateau {
                 id: boardId
-            }
-            
-            Rectangle{
-                id:rectGroupsId
-                height: 100
-                width: 150
-
-                anchors.bottom: parent.bottom
-                anchors.right: parent.right
-
-                signal notifyCard2(string source)
-
-                function receiveaddCard2(source) {
-                    //addCard
-                    var i = 0
-                    var source_string = ""
-                    var found_same = - 1
-                    
-                    while ((rowbonusid.children[i].visible != false) && (i< 7)) {
-                        if(rowbonusid.children[i].children.length > 0) {
-                            source_string = source_string + rowbonusid.children[i].children[0].source
-                            var length2 = source_string.length
-                            while(source_string[length2-1] != '/'  && length2 > 0) {
-                                length2 -=1
-                            }
-                            var subsource_string = source_string.substring(length2,source_string.length)
-                            if(subsource_string == source) {
-                                found_same = i
-                                break
-                            }
-                        }
-                        i += 1
-                    }
-
-                    var new_source = "images/" + source
-
-                    if(found_same >= 0 ) {
-                        //addcompteur and image
-                        switch(i) {
-                            case 0:
-                                var add = parseInt(txtcb1.text,10)
-                                txtcb1.text = ""+((parseInt(txtcb1.text,10)+1))
-                                break
-                            case 1:
-                                var add = parseInt(txtcb2.text,10)
-                                txtcb2.text = ""+((parseInt(txtcb2.text,10)+1))
-                                break
-                            case 2:
-                                var add = parseInt(txtcb3.text,10)
-                                txtcb3.text = ""+((parseInt(txtcb3.text,10)+1))
-                                break
-                            case 3:
-                                var add = parseInt(txtcb4.text,10)
-                                txtcb4.text = ""+((parseInt(txtcb4.text,10)+1))
-                                break
-                            case 4:
-                                var add = parseInt(txtcb4.text,10)
-                                txtcb5.text = ""+((parseInt(txtcb5.text,10)+1))
-                                break
-                            case 5:
-                                var add = parseInt(txtcb4.text,10)
-                                txtcb6.text = ""+((parseInt(txtcb6.text,10)+1))
-                                break
-                            case 6:
-                                var add = parseInt(txtcb4.text,10)
-                                txtcb7.text = ""+((parseInt(txtcb7.text,10)+1))
-                                break
-                        }
-                    }
-                    else {
-                        //creation 
-                        rowbonusid.children[i].visible = true
-                        rowbonusid.children[i].children[0].source = new_source
-                    } 
-                }
-
-                function change_hand() {
-                    var i = 1
-                    while (i < 5) {
-                        joueurId.children[i-1].children[0].source = "images/Cerbere"+i+".png"
-                        i += 1
-                    }
-                    var i = 0
-                    while (i < 4) {
-                        rowbonusid.children[i].visible = false
-                        rowbonusid.children[i].children[0].source = ""
-                        i += 1
-                    }
-                }
-
-                Rectangle {
-                    id: addCardBid
-                    color: "black"
-                    height: 50
-                    width: 50
-
-                    anchors {
-                        top: parent.top
-                        left: parent.left
-                    }
-
-                    TextInput {
-                        anchors.left: addCardBid.right
-                        id: inputaddcard
-                        text: "Image source"
-                        focus: true
-                        cursorVisible: false
-                    }
-
-                    Text {
-                        id: txtaddCard
-                        color: "white"
-                        text: "+1CB"
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-
-                        onClicked: {
-                            //mise en place de la liaison reseau ici pour changer 
-                            // le nom de la carte à ajouter
-                            window.playersChoice.open()
-                            rectGroupsId.notifyCard2(inputaddcard.text)
-                        }
-                    }
-                }
-
-                Rectangle {
-                    id: ptid
-                    color: "purple"
-                    height: 50
-                    width: 50
-
-                    anchors {
-                        top: addCardBid.bottom;
-                        left: parent.left
-                    }
-
-                    Text {
-                        id: texxxtp
-                        text: "Pont"
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-
-                        onClicked: {
-                            boardId.changepont("true")    
-                        }
-                    }
-                }
-
-                Rectangle {
-                    id: rbid
-                    color: "orange"
-                    height: 50
-                    width: 50
-                    anchors {
-                        left: ptid.right
-                        verticalCenter: ptid.verticalCenter
-                    }
-
-                    Text {
-                        id: texxxtrb
-                        text: "RB"
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-
-                        onClicked: {
-                            boardId.revealbarque("2")
-                        }
-                    }
-                }
-
-                Rectangle {
-                    id: plusOne
-                    height: 50
-                    width: 50
-                    color: "Yellow"
-
-                    anchors {
-                        bottom: parent.bottom;
-                        left: parent.left
-                    }
-
-                    Text {
-                        text: "+1"
-
-                        anchors {
-                            verticalCenter: parent.verticalCenter
-                            horizontalCenter: parent.horizontalCenter
-                        }
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-                        
-                        onClicked: {
-                            window.parent.state.send({
-                                type: "change_position",
-                                change: 1,
-                                login: window.parent.state.login
-                            })
-                        }
-                    }
-                }
-
-                Rectangle {
-                    id: plusTwo
-                    height: 50
-                    width: 50
-                    color: "Orange"
-                
-                    anchors {
-                        bottom: parent.bottom;
-                        left: plusOne.right
-                    }
-
-                    Text {
-                        text: "+2"
-
-                        anchors {
-                            verticalCenter: parent.verticalCenter
-                            horizontalCenter: parent.horizontalCenter
-                        }
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-                        
-                        onClicked: {
-                            window.parent.state.send({
-                                type: "change_position",
-                                change: 2,
-                                login: window.parent.state.login
-                            })
-                        }
-                    }
-                }
-
-                Rectangle {
-                    id: plusThree
-                    height: 50
-                    width: 50
-                    color: "Red"
-                
-                    anchors {
-                        bottom: parent.bottom;
-                        left: plusTwo.right
-                    }
-
-                    Text {
-                        text: "+3"
-
-                        anchors {
-                            verticalCenter: parent.verticalCenter
-                            horizontalCenter: parent.horizontalCenter
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                        
-                            onClicked: {
-                                window.parent.state.send({
-                                    type: "change_position",
-                                    change: 3,
-                                    login: window.parent.state.login
-                                })
-                            }
-                        } 
-                    }
-                }
-
-                Rectangle{
-                    id: sbid
-                    color: "orange"
-                    height: parent.height /4
-                    width: parent.width /4
-
-                    anchors {
-                        top: addCardBid.bottom;
-                        left: rbid.right
-                    }
-
-                    Text {
-                        id: texxxtsb
-                        text: "SB"
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-
-                        onClicked: {
-                            boardId.swapbarque("1","2")                        
-                        }
-                    }
-                }
-        
-                Component.onCompleted: {
-                    rectGroupsId.notifyCard2.connect(receiveaddCard2)
-                }
-            }       
+            }     
         }
     }
                     
@@ -1333,6 +1030,8 @@ Item {
         width: parent.width*8/10
         height: parent.height*34/100 - 40
         color: "#e8e1cd"
+        property var actionLocked: 0
+        property var bonusLocked: 0
 
         anchors {
             bottom: parent.bottom;
@@ -1351,7 +1050,7 @@ Item {
                 horizontalAlignment: Image.AlignHCenter
                 z: 1
                 fillMode: Image.Stretch
-                source: "images/Cyan1.png"
+                source: ""
 
                 CarteAction{}
             }
@@ -1369,7 +1068,7 @@ Item {
                 horizontalAlignment: Image.AlignHCenter
                 z: 1
                 fillMode: Image.Stretch
-                source: "images/Cyan2.png"
+                source: ""
 
                 CarteAction{}
             }
@@ -1387,7 +1086,7 @@ Item {
                horizontalAlignment: Image.AlignHCenter
                z: 1
                fillMode: Image.Stretch
-               source: "images/Cyan3.png"
+               source: ""
 
                CarteAction{}
             }
@@ -1405,7 +1104,7 @@ Item {
                 horizontalAlignment: Image.AlignHCenter
                 z: 1
                 fillMode: Image.Stretch
-                source: "images/Cyan4.png"
+                source: ""
 
                 CarteAction{}
             }
@@ -1484,6 +1183,7 @@ Item {
                         z: 1
                         fillMode: Image.Stretch
                         source:"images/Carte_Ego.png"
+
                         CarteBonus {}
                                                             
                         Rectangle {
@@ -1516,6 +1216,7 @@ Item {
                         z: 1
                         fillMode: Image.Stretch
                         source:"images/Carte_Ego.png"
+
                         CarteBonus {}
                                                             
                         Rectangle {
@@ -1547,6 +1248,7 @@ Item {
                         z: 1
                         fillMode: Image.Stretch
                         source:"images/Carte_Ego.png"
+
                         CarteBonus {}
                                                             
                         Rectangle {
@@ -1579,6 +1281,7 @@ Item {
                         z: 1
                         fillMode: Image.Stretch
                         source:"images/Carte_Ego.png"
+
                         CarteBonus {}
                                                             
                         Rectangle {
@@ -1611,6 +1314,7 @@ Item {
                         z: 1
                         fillMode: Image.Stretch
                         source:"images/Carte_Ego.png"
+
                         CarteBonus {}
                                                             
                         Rectangle {
@@ -1643,6 +1347,7 @@ Item {
                         z: 1
                         fillMode: Image.Stretch
                         source:"images/Carte_Ego.png"
+
                         CarteBonus {}
                                                             
                         Rectangle {
@@ -1667,27 +1372,122 @@ Item {
 
         function updatePlayerCards(players, active_player) {
             for(var i = 0; i < players.length; i++){
-                if ((players[i].name == window.parent.state.login) && (i == active_player)) {
-                    for (var j = 0; j < 4; j++) {
-                        if (players[i].hand.action[j] == true) {
-                            joueurId.children[j].children[0].children[0].unblockCard()
+                if (players[i].name == window.parent.state.login) {
+                    if (i == active_player) {
+                        if (actionLocked == 0) {
+                            for (var j = 0; j < 4; j++) {
+                                if (players[i].hand.action[j] == true) {
+                                    joueurId.children[j].children[0].children[0].unblockCard()
+                                }
+                            }
                         }
-                    }
 
-                    for (var j = 0; j < 7; j++) {
-                        joueurId.children[4].children[1].children[j].children[0].children[0].unblockCard()
-                    }
-                    break
-                } else {
-                    for (var j = 0; j < 4; j++) {
-                        joueurId.children[j].children[0].children[0].blockCard()
-                    }
-
-                    for (var j = 0; j < 7; j++) {
-                        joueurId.children[4].children[1].children[j].children[0].children[0].blockCard()
+                        if (bonusLocked == 0) {
+                            for (var j = 0; j < 7; j++) {
+                                joueurId.children[4].children[1].children[j].children[0].children[0].unblockCard()
+                            }
+                        }
+                        break
+                    } else {
+                        lockActionCards()
+                        lockBonusCards()
+                        actionLocked = 0
+                        bonusLocked = 0
+                        break
                     }
                 }
             }
+        }
+
+        function lockActionCards() {
+            actionLocked = 1
+            for (var j = 0; j < 4; j++) {
+                joueurId.children[j].children[0].children[0].blockCard()
+            }
+        }
+
+        function lockBonusCards() {
+            bonusLocked = 1
+            for (var j = 0; j < 7; j++) {
+                joueurId.children[4].children[1].children[j].children[0].children[0].blockCard()
+            }
+        }
+
+        function loadActionCards(playerType) {
+            if (playerType == "aventurier") {
+                for (var j = 0; j < 4; j++){
+                    joueurId.children[j].children[0].source = "images/" + window.parent.state.color + (j+1) + ".png"
+                }
+            } else if (playerType == "cerbere") {
+                for (var j = 0; j < 4; j++){
+                    joueurId.children[j].children[0].source = "images/Cerbere" + (j+1) + ".png"
+                }
+
+                for (var j = 0; j < 7; j++) {
+                    joueurId.children[4].children[1].children[j].visible = false
+                    joueurId.children[4].children[1].children[j].children[0].children[1].children[0].text = "1"
+                }
+            }
+        }
+
+        function addBonusCard(source) {
+            var i = 0
+            var source_string = ""
+            var found_same = - 1
+            
+            while ((rowbonusid.children[i].visible != false) && (i< 7)) {
+                if(rowbonusid.children[i].children.length > 0) {
+                    source_string = source_string + rowbonusid.children[i].children[0].source
+                    var length2 = source_string.length
+                    while(source_string[length2-1] != '/'  && length2 > 0) {
+                        length2 -=1
+                    }
+                    var subsource_string = source_string.substring(length2,source_string.length)
+                    if(subsource_string == source) {
+                        found_same = i
+                        break
+                    }
+                }
+                i += 1
+            }
+
+            var new_source = "images/" + source
+
+            if (found_same >= 0) {
+                switch(i) {
+                    case 0:
+                        var add = parseInt(txtcb1.text,10)
+                        txtcb1.text = ""+((parseInt(txtcb1.text,10)+1))
+                        break
+                    case 1:
+                        var add = parseInt(txtcb2.text,10)
+                        txtcb2.text = ""+((parseInt(txtcb2.text,10)+1))
+                        break
+                    case 2:
+                        var add = parseInt(txtcb3.text,10)
+                        txtcb3.text = ""+((parseInt(txtcb3.text,10)+1))
+                        break
+                    case 3:
+                        var add = parseInt(txtcb4.text,10)
+                        txtcb4.text = ""+((parseInt(txtcb4.text,10)+1))
+                        break
+                    case 4:
+                        var add = parseInt(txtcb4.text,10)
+                        txtcb5.text = ""+((parseInt(txtcb5.text,10)+1))
+                        break
+                    case 5:
+                        var add = parseInt(txtcb4.text,10)
+                        txtcb6.text = ""+((parseInt(txtcb6.text,10)+1))
+                        break
+                    case 6:
+                        var add = parseInt(txtcb4.text,10)
+                        txtcb7.text = ""+((parseInt(txtcb7.text,10)+1))
+                        break
+                }
+            } else {
+                rowbonusid.children[i].visible = true
+                rowbonusid.children[i].children[0].source = new_source
+            } 
         }
     }
 }

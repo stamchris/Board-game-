@@ -32,11 +32,11 @@ Column {
         var num_carte = parent.source.toString()
         num_carte = num_carte.charAt(num_carte.length - 5)
         if (num_carte == '3' && choix == 1) {
-            window.choosePlayers(["Choisissez un joueur à faire avancer de 3 cases", "Choisissez un joueur à faire avancer d'1 case"], num_carte, choix)
+            window.choosePlayers(["Choisissez un joueur à faire avancer de 3 cases", "Choisissez un joueur à faire avancer d'1 case"], num_carte, choix, "play_action")
         } else if (num_carte == '2' && choix == 1) {
-            window.choosePlayers(["Choisissez un joueur à faire piocher 1 carte", "Choisissez un joueur à faire piocher 1 carte"], num_carte, choix)
+            window.choosePlayers(["Choisissez un joueur à faire piocher 1 carte", "Choisissez un joueur à faire piocher 1 carte"], num_carte, choix, "play_action")
         } else if (num_carte == '4' && choix == 0) {
-            window.choosePlayers(["Choisissez un joueur à faire avancer d'1 case"], num_carte, choix)
+            window.choosePlayers(["Choisissez un joueur à faire avancer d'1 case"], num_carte, choix, "play_action")
         } else {
             window.parent.state.send({
                 type: "play_action",

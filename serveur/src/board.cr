@@ -451,7 +451,7 @@ class Cerbere::Board
         end
 
         carte : CarteBonus = joueur.hand.bonus.delete_at(num_carte)
-        joueur.hand.bonus_size += 1
+        joueur.hand.bonus_size += -1
 
         if(joueur.type == TypeJoueur::CERBERE)
             pioche_trahison.dis_card(carte.as(CarteTrahison))

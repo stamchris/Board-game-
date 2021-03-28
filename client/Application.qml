@@ -58,7 +58,9 @@ ApplicationWindow {
 					break
 				case "updateBoard":
 					for (var i = 0; i < game.players.length; i++) {
-						game.state.changePosition(message.players[i].colour, message.players[i].position)
+						if ((game.state.players[i].position != message.players[i].position) && (message.players[i].type == "aventurier")) {
+							game.state.changePosition(message.players[i].colour, message.players[i].position)
+						}
 					}
 					game.state.changePlayers(message.players, message.active_player)
 					game.state.changeRage(message.rage)
@@ -78,6 +80,12 @@ ApplicationWindow {
 					break
 				case "chatResponse":
 					game.addMessage(message.player, message.message)
+					break
+				case "actionPlayed":
+					game.state.lockCards("action")
+					break
+				case "bonusPlayed":
+					game.state.lockCards("bonus")
 					break
 					
 			}

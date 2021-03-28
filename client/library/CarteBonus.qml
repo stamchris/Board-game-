@@ -40,6 +40,31 @@ Column {
         down.opacity = 0
     }
 
+    function playBonus(choix) {
+        var carteBonusName = parent.source.toString()
+        carteBonusName = carteBonusName.slice(carteBonusName.indexOf("_", carteBonusName.length-10))
+        carteBonusName = carteBonusName.slice(1, carteBonusName.length - 4)
+
+        if (carteBonusName == 'Arro' && choix == 0) {
+            window.choosePlayers(["Choisissez un joueur à faire avancer de 1 case", "Choisissez un joueur à faire avancer d'1 case"], carteBonusName, choix, "play_bonus")
+        } else if (carteBonusName == 'Fata' && choix == 1) {
+            window.choosePlayers(["Choisissez un joueur à faire avancer de 3 cases"], carteBonusName, choix, "play_bonus")
+        } else if (carteBonusName == "Fav" && choix == 0) {
+            window.choosePlayers(["Choisissez un joueur à faire avancer d'1 case"], carteBonusName, choix, "play_bonus")
+        } else if (carteBonusName == "Oppo" && choix == 0) {
+            window.choosePlayers(["Choisissez un joueur à faire reculer d'1 case"], carteBonusName, choix, "play_bonus")
+        } else if (carteBonusName == "Sac" && choix == 0) {
+            window.choosePlayers(["Choisissez un joueur à faire reculer d'1 case"], carteBonusName, choix, "play_bonus")
+        } else {
+            window.parent.state.send({
+                type: "play_bonus",
+                effet: choix,
+                carte: carteBonusName,
+                args: []
+            })
+        }
+    }
+
     Rectangle {
         id: empty
         width: columnIdB.width
@@ -73,6 +98,7 @@ Column {
 
             onClicked: {
                 if (hover1Id.hoverEnabled == true) {
+                    playBonus(0)
                     columnIdB.discardBonus()
                 }
             }
@@ -104,6 +130,7 @@ Column {
 
             onClicked: {
                 if (hover2Id.hoverEnabled == true) {
+                    playBonus(1)
                     columnIdB.discardBonus()
                 }
             }

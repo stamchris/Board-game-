@@ -96,7 +96,6 @@ function findYposition(count, choosePlayer) {
             choosePlayer.parent = layoutPawn15
             return choosePlayer.yPosition = layoutPawn15.height
         case '16':
-            console.log("portail activé")
             case16Id.color = "red"
             case16Id.color= Qt.rgba(case16Id.color.r,case16Id.color.g, case16Id.color.b,0.25)
             case14Id.color = "cyan"
@@ -118,7 +117,6 @@ function findYposition(count, choosePlayer) {
                 case17Id.opacity = 1
                 case15Id.color = "transparent"
                 case15Id.opacity = 1
-                console.log("portail désactivé")
             }
             return choosePlayer.yPosition = layoutPawn17.height
         case '18':
