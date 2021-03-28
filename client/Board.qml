@@ -1370,6 +1370,55 @@ Item {
             }
         }
 
+        Rectangle {
+            id: skipTurnId
+            height: parent.height
+            width: parent.width/2
+            color: "transparent"
+            visible: false
+
+            anchors {
+                bottom: parent.bottom
+                left: parent.left
+            }
+
+            Rectangle {
+                id: skipTurnButtonId
+                height: parent.height/4
+                width: parent.width/4
+                radius: 20
+                anchors.centerIn: parent
+
+                gradient: Gradient {
+                    GradientStop {
+                        position: 0
+                        color : "indianred"
+                    }
+
+                    GradientStop {
+                        position: 1
+                        color : "#740912"
+                    }
+                }
+
+                Text {
+                    text: "Passer mon tour"
+                    font.bold: true
+                    anchors.centerIn: parent
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    
+                    onClicked: {
+                        window.parent.state.send({
+                            type: "skip_turn"
+                        })
+                    }  
+                }
+            }
+        }
+
         function updatePlayerCards(players, active_player) {
             for(var i = 0; i < players.length; i++){
                 if (players[i].name == window.parent.state.login) {
@@ -1380,6 +1429,8 @@ Item {
                                     joueurId.children[j].children[0].children[0].unblockCard()
                                 }
                             }
+                        } else {
+                            skipTurnId.visible = true
                         }
 
                         if (bonusLocked == 0) {
@@ -1390,6 +1441,7 @@ Item {
                         break
                     } else {
                         lockActionCards()
+                        skipTurnId.visible = false
                         lockBonusCards()
                         actionLocked = 0
                         bonusLocked = 0

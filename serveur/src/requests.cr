@@ -12,6 +12,7 @@ class Cerbere::Request
 		change_position: ChangePosition,
 		bridge_confirm: BridgeConfirm,
 		portal_confirm: PortalConfirm,
+		skip_turn: SkipTurn,
 		changeColour: ChangeColour,
 		chatMessage: ChatMessage
 	}
@@ -299,6 +300,14 @@ class Cerbere::Request
 			end
 			game.board.portal_queue.clear()
 			game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
+			game.new_turn()
+		end
+	end
+
+	class SkipTurn < Request
+		property type = "skipTurn"
+
+		def handle(game : Game, player : Player)
 			game.new_turn()
 		end
 	end
