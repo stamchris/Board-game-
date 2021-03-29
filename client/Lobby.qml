@@ -4,40 +4,23 @@ import QtQuick.Controls 2.12
 import QtWebSockets 1.12
 
 Item {
-
     Rectangle {
-        id: rectangle
-        x: 0
-        y: 0
-        width: parent.width
-        height: parent.height
+		id: rectangle
+		anchors.fill: parent
         color: "#ffffde"
-
     }
 
-    ScrollView {
+	UsersView {
+		users: game.players
+        Layout.fillHeight:true
+		Layout.alignment: Qt.AlignHCenter
+
+		// WTF???
         x: 0
         y: app.height - 78
         width: 355
         height: 78
-        Layout.fillHeight:true
-        Layout.alignment: Qt.AlignHCenter
-
-        ListView {
-            x: 0
-            y: parent.height - 78
-            model: game.players
-            delegate:Text {
-                color: modelData.colour
-                text: modelData.name + " est connecté"
-                font.pointSize: 12
-                font.family: "Stoneyard"
-                Layout.alignment: Qt.AlignHCenter
-
-            }
-        }
-    }
-
+	}
 
     ColumnLayout {
 
