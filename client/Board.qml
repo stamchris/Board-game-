@@ -19,13 +19,14 @@ Item {
     property alias popupChooseBarquesEffect: popupChooseBarquesEffect
     property alias popupSwapBarques: popupSwapBarques
     property alias popupSeeBarques: popupSeeBarques
+    property alias popupChooseCardsToDiscard: popupChooseCardsToDiscard
 
-    function choosePlayers(choices, action_todo, effect, requestType) {
+    function choosePlayers(choices, action_todo, effect, requestType, previousArgs) {
         playersChoice.choices = choices
         playersChoice.action_todo = action_todo
         playersChoice.effect = effect
         playersChoice.requestType = requestType
-        playersChoice.args = []
+        playersChoice.args = previousArgs
         playersChoice.msg.text = choices[0]
         var plyr
         for (var i = 0; i < 7; i++) {
@@ -552,6 +553,107 @@ Item {
 
                     onClicked: {
                         popupSeeBarques.seeBarques("2")
+                    } 
+                }
+            }
+        }
+    }
+
+    function chooseCardsToDiscard(action_todo, effect, amount, requestType) {
+        popupChooseCardsToDiscard.action_todo = action_todo
+        popupChooseCardsToDiscard.effect = effect
+        popupChooseCardsToDiscard.amount = amount
+        popupChooseCardsToDiscard.requestType = requestType
+        popupChooseCardsToDiscard.args = []
+        popupChooseCardsToDiscard.open()
+    }
+
+    Popup {
+        id: popupChooseCardsToDiscard
+        anchors.centerIn: parent
+        width: 230
+        height: 150
+        modal: true
+        closePolicy: Popup.NoAutoClose
+
+        background: Rectangle {
+            color: "#ffd194"
+            radius: 3
+        }
+
+        property var action_todo : ""
+        property var effect
+        property var amount
+        property var requestType : ""
+        property var args : []
+
+        function addCardToArgs(sourceOfSelectedCard) {
+            var carteBonusName = sourceOfSelectedCard.toString()
+            carteBonusName = carteBonusName.slice(carteBonusName.indexOf("_", carteBonusName.length-10))
+            carteBonusName = carteBonusName.slice(1, carteBonusName.length - 4)
+            args.push(carteBonusName)
+
+            if (args.length == 1) {
+                popupChooseCardsToDiscard.close()
+
+                if (action_todo == '4' && effect == 1) {
+                    choosePlayers(["Choisissez un joueur à faire avancer de 2 cases"], action_todo, effect, "play_action", args)
+                }
+            }
+        }
+
+        Text {
+            y: 0
+            horizontalAlignment: Text.AlignHCenter
+            text: "Choisissez " + amount + " cartes à défausser"
+        }
+
+        Row {
+            y: 30
+            spacing:10
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            Image {
+                id: imgCarteBonus1
+                width: 50
+                fillMode: Image.PreserveAspectFit
+                source: "images/Carte_Ego.png"
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    onClicked: {
+                        popupChooseCardsToDiscard.addCardToArgs(parent.source)
+                    }
+                }
+            }
+
+            Image {
+                id: imgCarteBonus2
+                width: 50
+                fillMode: Image.PreserveAspectFit
+                source: "images/Carte_Arro.png"
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    onClicked: {
+                        popupChooseCardsToDiscard.addCardToArgs(parent.source)
+                    }
+                }
+            }
+
+            Image {
+                id: imgCarteBonus3
+                width: 50
+                fillMode: Image.PreserveAspectFit
+                source: "images/Carte_Fata.png"
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    onClicked: {
+                        popupChooseCardsToDiscard.addCardToArgs(parent.source)
                     } 
                 }
             }
