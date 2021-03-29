@@ -51,12 +51,6 @@ Item{
         }
     }
 
-    function changeCurrentPlayer(newCurrentPlayer, newCurrentPlayerColor) {
-        currentPlayer = newCurrentPlayer
-        currentPlayerColor = newCurrentPlayerColor
-        _currentPlayerChanged(currentPlayer, currentPlayerColor)
-    }
-
     function changeDifficulty(newDifficulty) {
         difficulty = newDifficulty
         _difficultyChanged()
@@ -89,7 +83,7 @@ Item{
         }
 
         players = newPlayers
-        changeCurrentPlayer(players[newCurrentPlayer].name, players[newCurrentPlayer].colour)
+        _currentPlayerChanged(players[newCurrentPlayer].name, players[newCurrentPlayer].colour)
         _playersChanged(players, newCurrentPlayer)
     }
 

@@ -58,7 +58,7 @@ ApplicationWindow {
 					break
 				case "updateBoard":
 					for (var i = 0; i < game.players.length; i++) {
-						if ((game.state.players[i].position != message.players[i].position) && (message.players[i].type == "aventurier")) {
+						if ((game.state.players[i].position != message.players[i].position) && (message.players[i].type == "0")) {
 							game.state.changePosition(message.players[i].colour, message.players[i].position)
 						}
 					}
@@ -68,6 +68,10 @@ ApplicationWindow {
 					game.state.changePont(message.pont)
 					game.board.popupBridge.close()
 					game.board.popupPortal.close()
+					game.board.playersChoice.close()
+					game.board.popupChooseBarquesEffect.close()
+					game.board.popupSwapBarques.close()
+					game.board.popupSeeBarques.close()
 					break
 				case "newBonus":
 					game.state.newBonus(message.cardname)

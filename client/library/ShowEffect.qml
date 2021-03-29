@@ -28,7 +28,7 @@ Rectangle{
         styleColor: "red"
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        text: qsTr("Cerberus\nCheckpoint")
+        text: qsTr("Checkpoint\nCerbere")
         anchors.fill: parent
     }
 }

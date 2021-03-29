@@ -32,7 +32,7 @@ Item {
             playersChoice.rowPlayers.children[i].visible = false
             for (var j = 0; j < window.parent.state.players.length; j++) {
                 plyr = window.parent.state.players[j]
-                if (plyr.type == "aventurier" && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && plyr.colour != window.parent.state.color) {
+                if (plyr.type == "0" && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && plyr.colour != window.parent.state.color) {
                     playersChoice.rowPlayers.children[i].visible = true
                     break
                 }
@@ -79,7 +79,7 @@ Item {
                     playersChoice.rowPlayers.children[i].visible = false
                     for (var j = 0; j < window.parent.state.players.length; j++) {
                         plyr = window.parent.state.players[j]
-                        if (plyr.type == "aventurier" && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && !args.includes(plyr.colour) && plyr.colour != window.parent.state.color) {
+                        if (plyr.type == "0" && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && !args.includes(plyr.colour) && plyr.colour != window.parent.state.color) {
                             playersChoice.rowPlayers.children[i].visible = true
                             break
                         }
@@ -333,6 +333,10 @@ Item {
                 popupSwapBarques.effect = effect
                 popupSwapBarques.requestType = requestType
                 popupSwapBarques.args = ["1"]
+                for (var i = 0; i < 3; i++) {
+                    popupSwapBarques.rowImgSwapBarque.children[choice].enabled = true
+                    popupSwapBarques.rowImgSwapBarque.children[i].opacity = 1
+                }
                 popupSwapBarques.open()
             }
             popupChooseBarquesEffect.close()
@@ -379,12 +383,14 @@ Item {
         property var effect
         property var requestType : ""
         property var args : []
+        property alias rowImgSwapBarque: rowImgSwapBarque
 
         function swapBarques(choice) {
             args.push(choice)
             
             if (args.length < 3) {
-                popupSwapBarques.children[1].children[choice].children[0].enabled = false
+                rowImgSwapBarque.children[choice].enabled = false
+                rowImgSwapBarque.children[choice].opacity = 0.75
             } else {
                 window.parent.state.send({
                     type: requestType,
@@ -404,6 +410,7 @@ Item {
         }
 
         Row {
+            id: rowImgSwapBarque
             y: 30
             spacing:10
             anchors.horizontalCenter: parent.horizontalCenter
@@ -924,10 +931,14 @@ Item {
             }
 
             function updateCurrentPlayer(newCurrentPlayer, newCurrentPlayerColor) {
-                currentPlayerId.text = newCurrentPlayer    
-                currentPlayerId.color = newCurrentPlayerColor
-                currentPlayerTimer = 31
-                updateCurrentPlayerTimer()
+                if (window.parent.state.currentPlayer != newCurrentPlayer) {
+                    currentPlayerId.text = newCurrentPlayer    
+                    currentPlayerId.color = newCurrentPlayerColor
+                    currentPlayerTimer = 31
+                    updateCurrentPlayerTimer()
+                    window.parent.state.currentPlayer = newCurrentPlayer
+                    window.parent.state.currentPlayerColor = newCurrentPlayerColor
+                }
             }
 
             function updateCurrentPlayerTimer() {

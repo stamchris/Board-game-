@@ -124,7 +124,7 @@ Row {
                     onHoveredChanged:{
                         if(containsMouse == true)
                              {
-                                msg1.msgText = "Cerberus\nCheckpoint"
+                                msg1.msgText = "Checkpoint\nCerbere"
                                 msg1.visible = true
                              }
                         else
@@ -153,7 +153,7 @@ Row {
                     onHoveredChanged:{
                     if(containsMouse == true)
                     {
-                        msg1.msgText = "+2 Cartes de\nde Trahison"
+                        msg1.msgText = "+2 Cartes\n Trahison"
                         msg1.visible = true
                     }
                     else
@@ -182,7 +182,7 @@ Row {
                     onHoveredChanged:{
                         if(containsMouse == true)
                         {
-                            msg1.msgText = "+1 Carte de\n Survie"
+                            msg1.msgText = "+1 Carte\n Survie"
                             msg1.visible = true
                         }
                         else
@@ -211,7 +211,7 @@ Row {
                     onHoveredChanged:{
                         if(containsMouse == true)
                              {
-                                msg1.msgText = "Cerberus\nCheckpoint"
+                                msg1.msgText = "Checkpoint\nCerbere"
                                 msg1.visible = true
                              }
                         else
@@ -256,7 +256,7 @@ Row {
                     onHoveredChanged:{
                         if(containsMouse == true)
                         {
-                            msg1.msgText = "+1 Carte de\nde Trahison"
+                            msg1.msgText = "+1 Carte\nTrahison"
                             msg1.visible = true
                         }
                         else
@@ -306,7 +306,7 @@ Row {
                     onHoveredChanged:{
                         if(containsMouse == true)
                         {
-                            msg2.msgText = "Cerberus\nCheckpoint"
+                            msg2.msgText = "Checkpoint\nCerbere"
                             msg2.visible = true
                         }
                         else
@@ -362,7 +362,7 @@ Row {
                                 onHoveredChanged:{
                                     if(containsMouse == true)
                                     {
-                                        msg2.msgText = "Cerberus\nCheckpoint"
+                                        msg2.msgText = "Checkpoint\nCerbere"
                                         msg2.visible = true
                                     }
                                     else
@@ -408,7 +408,7 @@ Row {
                                 onHoveredChanged:{
                                     if(containsMouse == true)
                                     {
-                                        msg2.msgText = "Si le joueur se pose\n sur la case bleu,\nil peut passer le pont"
+                                        msg2.msgText = "Un seul joueur peut\n emprunter le pont !"
                                         msg2.width = thirdPlateauid.width /1.4
                                         msg2.visible = true
                                         case8Id.color = "cyan"
@@ -466,7 +466,7 @@ Row {
                                 onHoveredChanged:{
                                     if(containsMouse == true)
                                     {
-                                        msg2.msgText = "Si le joueur se pose\n sur la case bleu,\nil peut passer le pont"
+                                        msg2.msgText = "Un seul joueur peut\n emprunter le pont !"
                                         msg2.width = thirdPlateauid.width /1.4
                                         msg2.visible = true
                                         case8Id.color = "cyan"
@@ -532,7 +532,7 @@ Row {
                     onHoveredChanged:{
                         if(containsMouse == true)
                         {
-                            msg3.msgText = "Cerberus\nCheckpoint"
+                            msg3.msgText = "Checkpoint\nCerbere"
                             msg3.visible = true
                         }
                         else
@@ -566,7 +566,7 @@ Row {
                         hoverEnabled: true
                         onHoveredChanged:{
                             if(containsMouse == true) {
-                                msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
+                                msg3.msgText = "Si un joueur est\n sur la stèle, le\nportail est disponible !"
                                 msg3.width = thirdPlateauid.width /1.6
                                 msg3.visible = true
                                 case16Id.color = "red"
@@ -617,7 +617,7 @@ Row {
                         onHoveredChanged:{
                             if(containsMouse == true)
                             {
-                                msg3.msgText = "Cerberus\nCheckpoint"
+                                msg3.msgText = "Checkpoint\nCerbere"
                                 msg3.visible = true
                             }
                             else
@@ -654,7 +654,7 @@ Row {
                         onHoveredChanged:{
                             if(containsMouse == true)
                             {
-                                msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
+                                msg3.msgText = "Si un joueur est\n sur la stèle, le\nportail est disponible !"
                                 msg3.width = thirdPlateauid.width /1.6
                                 msg3.visible = true
                                 case16Id.color = "red"
@@ -702,7 +702,7 @@ Row {
                         onHoveredChanged:{
                             if(containsMouse == true)
                             {
-                                msg3.msgText = "Si le joueur se pose\n sur la case bleu,\nle portail ouvre"
+                                msg3.msgText = "Si un joueur est\n sur la stèle, le\nportail est disponible !"
                                 msg3.width = thirdPlateauid.width /1.6
                                 msg3.visible = true
                                 case16Id.color = "red"
@@ -775,7 +775,7 @@ Row {
                     onHoveredChanged:{
                         if(containsMouse == true)
                         {
-                            msg4.msgText = "Cerberus\nCheckpoint"
+                            msg4.msgText = "Checkpoint\nCerbere"
                             msg4.visible = true
                         }
                         else

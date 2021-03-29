@@ -95,18 +95,25 @@ class Cerbere::Board
                 raise "Argument choix manquant pour BARQUE"
             end
             choix : Int32 = args[0]
+            srvr = @players[0].dup()
+            srvr.name = "Server"
+            srvr.colour = nil
             if(choix == 0) # Consulter une barque
                 if(args.size() < 2 || args[1] < 0 || args[1] > 2)
                     raise "Argument barque manquant ou invalide pour BARQUE consulter"
                 end
-                info_barque : String = "Capacité de la barque #{args[1]}: #{barques[args[1]]}"
+                info_barque : String = "Capacité de la barque #{args[1] + 1}: #{barques[args[1]]}"
                 envoyer(moi,info_barque)
+                moi.send(Response::Chat.new(srvr, info_barque))
             elsif(choix == 1) # Echanger deux barques
                 if(args.size() < 3 || args[1] < 0 || args[1] > 2 || args[2] < 0 || args[2] > 2 || args[1] == args[2])
                     raise "Arguments barques manquants ou invalides pour BARQUE échanger"
                 end
                 barques.swap(args[1],args[2])
                 broadcast("Les barques #{args[1]} et #{args[2]} ont été échangées.")
+                players.each do |plyr|
+                    plyr.send(Response::Chat.new(srvr, "Les barques #{args[1] + 1} et #{args[2] + 1} ont été échangées."))
+                end
             end
         end
     end

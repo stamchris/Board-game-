@@ -72,7 +72,7 @@ Rectangle {
 
         for (var i = 0; i < players.length; i++) {
             for (var j = 0; j < colors.length; j++){
-                if ((players[i].colour == colors[j]) && (players[i].type == "aventurier")) {
+                if ((players[i].colour == colors[j]) && (players[i].type == "0")) {
                     colors.splice(j, 1)
                     break
                 }
