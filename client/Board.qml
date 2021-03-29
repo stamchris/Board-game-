@@ -44,12 +44,13 @@ Item {
     Popup {
         id: playersChoice
         anchors.centerIn: parent
-        width: 350
-        height: 50
+        width: 400
+        height: 100
         modal: true
         closePolicy: Popup.NoAutoClose
         background: Rectangle {
             color: "#ffd194"
+            opacity: 0.3
             radius: 3
         }
         property alias msg: msg
@@ -90,16 +91,20 @@ Item {
 
         Text {
             id: msg
-            y: 10
+            anchors{top: parent.top;topMargin: 2}
             horizontalAlignment: Text.AlignHCenter
+            font.weight: Font.DemiBold
+            fontSizeMode:Text.Fit
             text: "Choisissez un joueur"
         }
 
         RowLayout {
             id: rowPlayers
-            y: 50
+            spacing:5
+            anchors{top: msg.bottom;topMargin:5}
+            height: 20
 
-            Button {
+            RoundButton {
                 visible: false
                 icon.color: "transparent"
                 icon.source: "images/Red_pion.png"
@@ -108,7 +113,7 @@ Item {
                 }
             }
 
-            Button {
+            RoundButton {
                 visible: false
                 icon.color: "transparent"
                 icon.source: "images/Cyan_pion.png"
@@ -117,7 +122,7 @@ Item {
                 }
             }
 
-            Button {
+            RoundButton {
                 visible: false
                 icon.color: "transparent"
                 icon.source: "images/Green_pion.png"
@@ -126,7 +131,7 @@ Item {
                 }
             }
 
-            Button {
+           RoundButton {
                 visible: false
                 icon.color: "transparent"
                 icon.source: "images/Blue_pion.png"
@@ -135,7 +140,7 @@ Item {
                 }
             }
 
-            Button {
+            RoundButton {
                 visible: false
                 icon.color: "transparent"
                 icon.source: "images/White_pion.png"
@@ -144,7 +149,7 @@ Item {
                 }
             }
 
-            Button {
+            RoundButton {
                 visible: false
                 icon.color: "transparent"
                 icon.source: "images/Pink_pion.png"
@@ -153,7 +158,7 @@ Item {
                 }
             }
 
-            Button {
+            RoundButton {
                 visible: false
                 icon.color: "transparent"
                 icon.source: "images/Orange_pion.png"
