@@ -45,6 +45,7 @@ class Cerbere::Player
 	@[JSON::Field(ignore: true)]
 	property hand : Hand = Hand.new# Classe temporaire representant les utilisateurs provenant du lobby
 	property type : TypeJoueur = TypeJoueur::AVENTURIER
+	property owner = false
 
 	def send(response : Response)
 		unless (@socket.nil?)

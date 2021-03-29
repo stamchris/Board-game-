@@ -6,7 +6,8 @@ class Cerbere::Request
 	use_json_discriminator "type", {
 		login: Login,
 		ready: Ready,
-		change_colour: ChangeColour
+		change_colour: ChangeColour,
+		game_config: GameConfig
 	}
 	
 	def handle(game : Game, player : Player)
@@ -18,11 +19,15 @@ class Cerbere::Request
 
 		def handle(game : Game, player : Player)
 			player.name = @name
-			game << player
+			
+			if game.players.size == 0
+				player.owner = true
+			end
 
+			game << player
 			game.send_all Response::NewPlayer.new player
 
-			player.send(Response::Welcome.new game.players)
+			player.send(Response::Welcome.new game.players, game.players.size-1)
 		end
 	end
 
@@ -51,6 +56,25 @@ class Cerbere::Request
 			end
 		end
 	end
+
+	class GameConfig < Request
+		property type = "gameConfig"
+		property difficulty : Int32
+		property maxPlayers : Int32
+		#FIXME : property board
+		
+		def handle(game : Game, player : Player)
+			if player.owner
+				game.difficulty=@difficulty
+				game.number_players=@maxPlayers
+				game.send_all(Response::GameConfigUpdated.new())
+				#FIXME : send boards too
+			else
+				#FIXME : raise error
+			end
+		end
+	end
+
 end
 
 class Cerbere::Response
@@ -67,8 +91,9 @@ class Cerbere::Response
 	class Welcome < Response
 		property type = "welcome"
 		property players : Array(Player)
-		
-		def initialize(@players)
+		property rank : Int32
+
+		def initialize(@players,@rank)
 		end
 	end
 
@@ -84,6 +109,13 @@ class Cerbere::Response
 		property player : Player
 
 		def initialize(@player)
+		end
+	end
+
+	class GameConfigUpdated < Response
+		property type = "gameConfigUpdated"
+		
+		def initialize()
 		end
 	end
 end

@@ -31,7 +31,7 @@ ListView {
 
 		Button {
 			width: 32
-			text: "👑"
+			text: "^^^"
 			font.family: "Noto Emoji"
 		}
 	}
@@ -41,7 +41,7 @@ ListView {
 
 		Button {
 			width: 32
-			text: "❌"
+			text: "X"
 			font.family: "Noto Emoji"
 		}
 	}

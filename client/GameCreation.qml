@@ -7,9 +7,15 @@ Item {
 	property int maxPlayers: 3
 	property string boardType: "default"
 	property bool teamChat: false // not bound in its widget, careful
-
+	
 	RowLayout {
 		anchors.fill: parent
+		Button {
+			anchors.top: parent.top
+			anchors.left: parent.left
+			text: "Lobby"
+			onClicked: loader.pop()
+		}
 
 		// FIXME: split each single option in its own widget
 		ColumnLayout {
@@ -26,7 +32,7 @@ Item {
 
 				RowLayout {
 					Button {
-						text: "⭐"
+						text: "*"
 						checked: difficulty == 3
 						onClicked: difficulty = 3
 						font.family: "Noto Emoji"
@@ -34,7 +40,7 @@ Item {
 					}
 
 					Button {
-						text: "⭐⭐"
+						text: "**"
 						checked: difficulty == 4
 						onClicked: difficulty = 4
 						font.family: "Noto Emoji"
@@ -42,9 +48,17 @@ Item {
 					}
 
 					Button {
-						text: "⭐⭐⭐"
+						text: "***"
 						checked: difficulty == 5
 						onClicked: difficulty = 5
+						font.family: "Noto Emoji"
+						Layout.fillWidth: true
+					}
+
+					Button {
+						text: "****"
+						checked : difficulty == 6
+						onClicked: difficulty = 6
 						font.family: "Noto Emoji"
 						Layout.fillWidth: true
 					}
@@ -70,7 +84,7 @@ Item {
 				RowLayout {
 					Layout.fillWidth: true
 					Button {
-						text: "🌲"
+						text: "1"
 						checked: boardType == "default"
 						onClicked: boardType = "default"
 						font.family: "Noto Emoji"
@@ -78,7 +92,7 @@ Item {
 					}
 
 					Button {
-						text: "🔥"
+						text: "2"
 						checked: boardType == "fire"
 						onClicked: boardType = "fire"
 						font.family: "Noto Emoji"
@@ -86,7 +100,7 @@ Item {
 					}
 
 					Button {
-						text: "💀"
+						text: "3"
 						checked: boardType == "skull"
 						onClicked: boardType = "skull"
 						font.family: "Noto Emoji"
@@ -107,13 +121,19 @@ Item {
 					onCheckedChanged: teamChat = checked
 				}
 			}
+
+			Button {
+				id: submit
+				text: "Configurer"
+				onClicked: socket.send({type: "game_config", difficulty:difficulty, maxPlayers:maxPlayers})
+			}
 		}
 
 		UsersView {
 			width: 300
 			Layout.fillWidth: true
 			height: leftColumn.height
-			//users: game.players
+			users: game.players
 			showKickButtons: true
 			gameOwnerLogin: "???"
 

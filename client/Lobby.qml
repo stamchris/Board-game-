@@ -4,384 +4,395 @@ import QtQuick.Controls 2.12
 import QtWebSockets 1.12
 
 Item {
-    Rectangle {
+	Rectangle {
 		id: rectangle
 		anchors.fill: parent
-        color: "#ffffde"
-    }
+		color: "#ffffde"
+	}
+
+	Button {
+		visible: game.getPlayer().owner
+		anchors.top:parent.top
+		anchors.right:parent.right
+		text: "Configuration"
+		onClicked: loader.push(configScreen)
+	}
+	
+	Component {
+		id: configScreen
+
+		GameCreation {
+			anchors.fill: parent
+		}
+	}
 
 	UsersView {
 		users: game.players
-        Layout.fillHeight:true
+		Layout.fillHeight:true
 		Layout.alignment: Qt.AlignHCenter
-
-		// WTF???
-        x: 0
-        y: app.height - 78
-        width: 355
-        height: 78
+		x: 0
+		y: app.height - 78
+		width: 355
+		height: 78
 	}
 
-    ColumnLayout {
-
-        width: 800
-        height: 600
-
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.verticalCenterOffset: 0
-        anchors.horizontalCenterOffset: 0
-
-        BorderImage {
-            width: 270
-            height: 115
-            y: 150
-            source: "images/cerbere_logo.png"
-            anchors.horizontalCenter: parent.horizontalCenter
-
-        }
-
-        Text{
-            anchors.horizontalCenter: parent.horizontalCenter
-            text : "Choix des joueurs :"
-            font.pointSize: 24
-            font.family: "Stoneyard"
-        }
-
-        RowLayout {
-            id: lobby
-
-            width: parent.width
-            height: 250
-
-            spacing: 10
-
-            anchors.horizontalCenter: parent.horizontalCenter
-
-            Rectangle{
-
-                width: 100
-                height: 300
-                color: "#ffffde"
-
-                anchors.verticalCenter: parent.VerticalCenter
-
-                    BorderImage {
-                        y: 17
-                        width: 100
-                        height: 100
-                        source: "images/cyan_icone.png"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-
-                    BorderImage {
-                        y: 134
-                        width: 100
-                        height: 100
-                        source: "images/cyan_pion.png"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-
-                    Button {
-
-                        text : "Cyan"
-                        font.pointSize: 12
-                        font.family: "Stoneyard"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        y:260
-                        background: Rectangle {
-                            color: "Cyan"
-                            border.color: "black"
-                        }
-
-
-                        onClicked: {
-                            socket.send({type:"change_colour",colour:"Cyan"})
-                        }
-                    }
-
-            }
-
-            Rectangle{
-
-                width: 100
-                height: 300
-                color: "#ffffde"
-
-                anchors.verticalCenter: parent.VerticalCenter
-
-                    BorderImage {
-                        y: 17
-                        width: 100
-                        height: 100
-                        source: "images/orange_icone.png"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-
-                    BorderImage {
-                        y: 134
-                        width: 100
-                        height: 100
-                        source: "images/orange_pion.png"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-
-                    Button {
-
-                        text : "Orange"
-                        font.pointSize: 12
-                        font.family: "Stoneyard"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        y:260
-                        background: Rectangle {
-                            color: "Orange"
-                            border.color: "black"
-                        }
-
-
-                        onClicked: {
-                            socket.send({type:"change_colour",colour:"Orange"})
-                        }
-                    }
-
-            }
-
-            Rectangle{
-
-                width: 100
-                height: 300
-                color: "#ffffde"
-
-                anchors.verticalCenter: parent.VerticalCenter
-
-                    BorderImage {
-                        y: 17
-                        width: 100
-                        height: 100
-                        source: "images/vert_icone.png"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-
-                    BorderImage {
-                        y: 134
-                        width: 100
-                        height: 100
-                        source: "images/vert_pion.png"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-
-                    Button {
-
-                        text : "Green"
-                        font.pointSize: 12
-                        font.family: "Stoneyard"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        y:260
-                        background: Rectangle {
-                            color: "Green"
-                            border.color: "black"
-                        }
-
-
-                        onClicked: {
-                            socket.send({type:"change_colour",colour:"Green"})
-                        }
-                    }
-
-            }
-
-            Rectangle{
-
-                width: 100
-                height: 300
-                color: "#ffffde"
-
-                anchors.verticalCenter: parent.VerticalCenter
-
-                    BorderImage {
-                        y: 17
-                        width: 100
-                        height: 100
-                        source: "images/rose_icone.png"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-
-                    BorderImage {
-                        y: 134
-                        width: 100
-                        height: 100
-                        source: "images/rose_pion.png"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-
-                    Button {
-
-                        text : "Pink"
-                        font.pointSize: 12
-                        font.family: "Stoneyard"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        y:260
-                        background: Rectangle {
-                            color: "Pink"
-                            border.color: "black"
-                        }
-
-
-                        onClicked: {
-                            socket.send({type:"change_colour",colour:"Pink"})
-                        }
-                    }
-
-            }
-
-            Rectangle{
-
-                width: 100
-                height: 300
-                color: "#ffffde"
-
-                anchors.verticalCenter: parent.VerticalCenter
-
-                    BorderImage {
-                        y: 17
-                        width: 100
-                        height: 100
-                        source: "images/bleu_icone.png"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-
-                    BorderImage {
-                        y: 134
-                        width: 100
-                        height: 100
-                        source: "images/bleu_pion.png"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-
-                    Button {
-
-                        text : "Blue"
-                        font.pointSize: 12
-                        font.family: "Stoneyard"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        y:260
-                        background: Rectangle {
-                            color: "Blue"
-                            border.color: "black"
-                        }
-
-
-                        onClicked: {
-                            socket.send({type:"change_colour",colour:"Blue"})
-                        }
-                    }
-
-            }
-
-            Rectangle{
-
-                width: 100
-                height: 300
-                color: "#ffffde"
-
-                anchors.verticalCenter: parent.VerticalCenter
-
-                    BorderImage {
-                        y: 17
-                        width: 100
-                        height: 100
-                        source: "images/rouge_icone.png"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-
-                    BorderImage {
-                        y: 134
-                        width: 100
-                        height: 100
-                        source: "images/rouge_pion.png"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-
-                    Button {
-
-                        text : "Red"
-                        font.pointSize: 12
-                        font.family: "Stoneyard"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        y:260
-                        background: Rectangle {
-                            color: "Red"
-                            border.color: "black"
-                        }
-
-
-                        onClicked: {
-                            socket.send({type:"change_colour",colour:"Red"})
-                        }
-                    }
-
-            }
-
-            Rectangle{
-
-                width: 100
-                height: 300
-                color: "#ffffde"
-
-                anchors.verticalCenter: parent.VerticalCenter
-
-                    BorderImage {
-                        y: 17
-                        width: 100
-                        height: 100
-                        source: "images/blanc_icone.png"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-
-                    BorderImage {
-                        y: 134
-                        width: 100
-                        height: 100
-                        source: "images/blanc_pion.png"
-                        rotation: 270
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-
-                    Button {
-
-                        text : "White"
-                        font.pointSize: 12
-                        font.family: "Stoneyard"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        y:260
-                        background: Rectangle {
-                            color: "White"
-                            border.color: "black"
-                        }
-
-
-                        onClicked: {
-                            socket.send({type:"change_colour",colour:"White"})
-                        }
-                    }
-
-            }
-        }
-
-
-        CheckBox {
-            y: 600
-            anchors.horizontalCenter: parent.horizontalCenter
-            text : "Je suis prêt !"
-            font.pointSize: 12
-            font.family: "Stoneyard"
-            onClicked : {
-                socket.send({type: "ready"})
-            }
-        }
-
-    }
+	ColumnLayout {
+
+		width: 800
+		height: 600
+
+		anchors.horizontalCenter: parent.horizontalCenter
+		anchors.verticalCenter: parent.verticalCenter
+		anchors.verticalCenterOffset: 0
+		anchors.horizontalCenterOffset: 0
+
+		BorderImage {
+			width: 270
+			height: 115
+			y: 150
+			source: "images/cerbere_logo.png"
+			anchors.horizontalCenter: parent.horizontalCenter
+
+		}
+
+		Text{
+			anchors.horizontalCenter: parent.horizontalCenter
+			text : "Choix des joueurs :"
+			font.pointSize: 24
+			font.family: "Stoneyard"
+		}
+
+		RowLayout {
+			id: lobby
+
+			width: parent.width
+			height: 250
+
+			spacing: 10
+
+			anchors.horizontalCenter: parent.horizontalCenter
+
+			Rectangle{
+
+				width: 100
+				height: 300
+				color: "#ffffde"
+
+				anchors.verticalCenter: parent.VerticalCenter
+
+				BorderImage {
+					y: 17
+					width: 100
+					height: 100
+					source: "images/cyan_icone.png"
+					anchors.horizontalCenter: parent.horizontalCenter
+				}
+
+				BorderImage {
+					y: 134
+					width: 100
+					height: 100
+					source: "images/cyan_pion.png"
+					anchors.horizontalCenter: parent.horizontalCenter
+				}
+
+				Button {
+
+					text : "Cyan"
+					font.pointSize: 12
+					font.family: "Stoneyard"
+					anchors.horizontalCenter: parent.horizontalCenter
+					y:260
+					background: Rectangle {
+						color: "Cyan"
+						border.color: "black"
+					}
+
+
+					onClicked: {
+						socket.send({type:"change_colour",colour:"Cyan"})
+					}
+				}
+
+			}
+
+			Rectangle{
+
+				width: 100
+				height: 300
+				color: "#ffffde"
+
+				anchors.verticalCenter: parent.VerticalCenter
+
+				BorderImage {
+					y: 17
+					width: 100
+					height: 100
+					source: "images/orange_icone.png"
+					anchors.horizontalCenter: parent.horizontalCenter
+				}
+
+				BorderImage {
+					y: 134
+					width: 100
+					height: 100
+					source: "images/orange_pion.png"
+					anchors.horizontalCenter: parent.horizontalCenter
+				}
+
+				Button {
+
+					text : "Orange"
+					font.pointSize: 12
+					font.family: "Stoneyard"
+					anchors.horizontalCenter: parent.horizontalCenter
+					y:260
+					background: Rectangle {
+						color: "Orange"
+						border.color: "black"
+					}
+
+
+					onClicked: {
+						socket.send({type:"change_colour",colour:"Orange"})
+					}
+				}
+
+			}
+
+			Rectangle{
+
+				width: 100
+				height: 300
+				color: "#ffffde"
+
+				anchors.verticalCenter: parent.VerticalCenter
+
+				BorderImage {
+					y: 17
+					width: 100
+					height: 100
+					source: "images/vert_icone.png"
+					anchors.horizontalCenter: parent.horizontalCenter
+				}
+
+				BorderImage {
+					y: 134
+					width: 100
+					height: 100
+					source: "images/vert_pion.png"
+					anchors.horizontalCenter: parent.horizontalCenter
+				}
+
+				Button {
+
+					text : "Green"
+					font.pointSize: 12
+					font.family: "Stoneyard"
+					anchors.horizontalCenter: parent.horizontalCenter
+					y:260
+					background: Rectangle {
+						color: "Green"
+						border.color: "black"
+					}
+
+
+					onClicked: {
+						socket.send({type:"change_colour",colour:"Green"})
+					}
+				}
+
+			}
+
+			Rectangle{
+
+				width: 100
+				height: 300
+				color: "#ffffde"
+
+				anchors.verticalCenter: parent.VerticalCenter
+
+				BorderImage {
+					y: 17
+					width: 100
+					height: 100
+					source: "images/rose_icone.png"
+					anchors.horizontalCenter: parent.horizontalCenter
+				}
+
+				BorderImage {
+					y: 134
+					width: 100
+					height: 100
+					source: "images/rose_pion.png"
+					anchors.horizontalCenter: parent.horizontalCenter
+				}
+
+				Button {
+
+					text : "Pink"
+					font.pointSize: 12
+					font.family: "Stoneyard"
+					anchors.horizontalCenter: parent.horizontalCenter
+					y:260
+					background: Rectangle {
+						color: "Pink"
+						border.color: "black"
+					}
+
+
+					onClicked: {
+						socket.send({type:"change_colour",colour:"Pink"})
+					}
+				}
+
+			}
+
+			Rectangle{
+
+				width: 100
+				height: 300
+				color: "#ffffde"
+
+				anchors.verticalCenter: parent.VerticalCenter
+
+				BorderImage {
+					y: 17
+					width: 100
+					height: 100
+					source: "images/bleu_icone.png"
+					anchors.horizontalCenter: parent.horizontalCenter
+				}
+
+				BorderImage {
+					y: 134
+					width: 100
+					height: 100
+					source: "images/bleu_pion.png"
+					anchors.horizontalCenter: parent.horizontalCenter
+				}
+
+				Button {
+
+					text : "Blue"
+					font.pointSize: 12
+					font.family: "Stoneyard"
+					anchors.horizontalCenter: parent.horizontalCenter
+					y:260
+					background: Rectangle {
+						color: "Blue"
+						border.color: "black"
+					}
+
+
+					onClicked: {
+						socket.send({type:"change_colour",colour:"Blue"})
+					}
+				}
+
+			}
+
+			Rectangle{
+
+				width: 100
+				height: 300
+				color: "#ffffde"
+
+				anchors.verticalCenter: parent.VerticalCenter
+
+				BorderImage {
+					y: 17
+					width: 100
+					height: 100
+					source: "images/rouge_icone.png"
+					anchors.horizontalCenter: parent.horizontalCenter
+				}
+
+				BorderImage {
+					y: 134
+					width: 100
+					height: 100
+					source: "images/rouge_pion.png"
+					anchors.horizontalCenter: parent.horizontalCenter
+				}
+
+				Button {
+
+					text : "Red"
+					font.pointSize: 12
+					font.family: "Stoneyard"
+					anchors.horizontalCenter: parent.horizontalCenter
+					y:260
+					background: Rectangle {
+						color: "Red"
+						border.color: "black"
+					}
+
+
+					onClicked: {
+						socket.send({type:"change_colour",colour:"Red"})
+					}
+				}
+
+			}
+
+			Rectangle{
+
+				width: 100
+				height: 300
+				color: "#ffffde"
+
+				anchors.verticalCenter: parent.VerticalCenter
+
+				BorderImage {
+					y: 17
+					width: 100
+					height: 100
+					source: "images/blanc_icone.png"
+					anchors.horizontalCenter: parent.horizontalCenter
+				}
+
+				BorderImage {
+					y: 134
+					width: 100
+					height: 100
+					source: "images/blanc_pion.png"
+					rotation: 270
+					anchors.horizontalCenter: parent.horizontalCenter
+				}
+
+				Button {
+
+					text : "White"
+					font.pointSize: 12
+					font.family: "Stoneyard"
+					anchors.horizontalCenter: parent.horizontalCenter
+					y:260
+					background: Rectangle {
+						color: "White"
+						border.color: "black"
+					}
+
+
+					onClicked: {
+						socket.send({type:"change_colour",colour:"White"})
+					}
+				}
+
+			}
+		}
+
+
+		CheckBox {
+			y: 600
+			anchors.horizontalCenter: parent.horizontalCenter
+			text : "Je suis prêt !"
+			font.pointSize: 12
+			font.family: "Stoneyard"
+			onClicked : {
+				socket.send({type: "ready"})
+			}
+		}
+
+	}
 }
-
-
-

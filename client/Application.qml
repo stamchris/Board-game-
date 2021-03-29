@@ -37,6 +37,7 @@ ApplicationWindow {
 				case "welcome":
 					game.players = message.players
 					game.visible = true
+					game.rank = message.rank
 					loader.push(game)
 					break
 				case "starter":
@@ -49,6 +50,9 @@ ApplicationWindow {
 						:
 							player
 						)
+					break
+				case "gameConfigUpdated":
+					console.log("Received config")
 					break
 			}
 		}

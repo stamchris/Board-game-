@@ -6,7 +6,13 @@ import QtWebSockets 1.0
 Item {
 	property var players:[]
 	property var view:"Login"
+	property var rank: -1
 	
+	function getPlayer()
+	{
+		return players[rank]
+	}
+
 	Lobby {
 		anchors.fill:parent
 		visible:view=="Login"
