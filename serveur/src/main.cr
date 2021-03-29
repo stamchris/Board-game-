@@ -3,8 +3,16 @@ require "kemal"
 
 require "./requests.cr"
 require "./game.cr"
+require	"mysql"
+
 
 game = Cerbere::Game.new
+
+DB.open("mysql://root@localhost/cerbere-bdd")	do	|db|
+puts	typeof(db)#DB::Database
+puts	"connection	ok"
+db.close
+end
 
 ws "/" do |socket|
 
