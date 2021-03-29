@@ -32,7 +32,7 @@ Item {
             playersChoice.rowPlayers.children[i].visible = false
             for (var j = 0; j < window.parent.state.players.length; j++) {
                 plyr = window.parent.state.players[j]
-                if (plyr.type == "0" && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && plyr.colour != window.parent.state.color) {
+                if (plyr.type == "aventurier" && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && plyr.colour != window.parent.state.color) {
                     playersChoice.rowPlayers.children[i].visible = true
                     break
                 }
@@ -79,7 +79,7 @@ Item {
                     playersChoice.rowPlayers.children[i].visible = false
                     for (var j = 0; j < window.parent.state.players.length; j++) {
                         plyr = window.parent.state.players[j]
-                        if (plyr.type == "0" && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && !args.includes(plyr.colour) && plyr.colour != window.parent.state.color) {
+                        if (plyr.type == "aventurier" && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && !args.includes(plyr.colour) && plyr.colour != window.parent.state.color) {
                             playersChoice.rowPlayers.children[i].visible = true
                             break
                         }
@@ -1742,7 +1742,7 @@ Item {
 
                 for (var j = 0; j < 7; j++) {
                     joueurId.children[4].children[1].children[j].visible = false
-                    joueurId.children[4].children[1].children[j].children[0].children[1].children[0].text = "1"
+                    joueurId.children[4].children[1].children[j].children[0].children[1].children[0].text = "0"
                 }
             }
         }
