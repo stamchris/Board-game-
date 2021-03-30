@@ -360,9 +360,10 @@ class Cerbere::Board
     
         if nb_aventuriers <= 2 || pl.position >= dernier_plateau
             pl.type = TypeJoueur::MORT
-            
+            pl.send(Response::ChangeType.new(pl.type))
         else
             pl.type = TypeJoueur::CERBERE
+            pl.send(Response::ChangeType.new(pl.type))
             action_recuperer_carte(pl)
     
             if pl.position <= 2

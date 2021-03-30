@@ -104,11 +104,14 @@ class Cerbere::Request
 					if @effet == 0
 						game.play_action(player, 0, 0, new_args)
 						game.action_played = true
-					elsif @effet == 1
+					elsif player.type == TypeJoueur::AVENTURIER && @effet == 1
 						new_args.clear()
 						args.each do |arg|
 							new_args << arg.to_i32
 						end
+						game.play_action(player, 0, 1, new_args)
+						game.action_played = true
+					elsif player.type == TypeJoueur::CERBERE && @effet == 1
 						game.play_action(player, 0, 1, new_args)
 						game.action_played = true
 					end
@@ -116,8 +119,11 @@ class Cerbere::Request
 					if @effet == 0
 						game.play_action(player, 1, 0, new_args)
 						game.action_played = true
-					elsif @effet == 1
+					elsif player.type == TypeJoueur::AVENTURIER && @effet == 1
 						new_args.insert(0, -1)
+						game.play_action(player, 1, 1, new_args)
+						game.action_played = true
+					elsif player.type == TypeJoueur::CERBERE && @effet == 1
 						game.play_action(player, 1, 1, new_args)
 						game.action_played = true
 					end
@@ -125,16 +131,20 @@ class Cerbere::Request
 					if @effet == 0
 						game.play_action(player, 2, 0, new_args)
 						game.action_played = true
-					elsif @effet == 1
+					elsif player.type == TypeJoueur::AVENTURIER && @effet == 1
+						game.play_action(player, 2, 1, new_args)
+						game.action_played = true
+					elsif player.type == TypeJoueur::CERBERE && @effet == 1
+						new_args.insert(0, 0)
 						game.play_action(player, 2, 1, new_args)
 						game.action_played = true
 					end
 				when "4"
-					if @effet == 0
+					if player.type == TypeJoueur::AVENTURIER && @effet == 0
 						new_args.insert(0, -1)
 						game.play_action(player, 3, 0, new_args)
 						game.action_played = true
-					elsif @effet == 1
+					elsif player.type == TypeJoueur::AVENTURIER && @effet == 1
 						new_args.clear()
 						player.hand.bonus.each_index do |i|
 							if (player.hand.bonus[i].name == args[0])
@@ -150,6 +160,10 @@ class Cerbere::Request
 								end
 							end
 						end
+					elsif player.type == TypeJoueur::CERBERE && @effet == 0
+						game.play_action(player, 3, 0, new_args)
+						game.action_played = true
+					elsif player.type == TypeJoueur::CERBERE && @effet == 1
 						game.play_action(player, 3, 1, new_args)
 						game.action_played = true
 					end
@@ -178,7 +192,7 @@ class Cerbere::Request
 					player.send(Response::UsePortal.new(players_queue))
 				end
 
-				if game.action_played && (game.bonus_played || player.hand.bonus_size == 0)
+				if game.action_played && (game.bonus_played || player.hand.bonus_size == 0) && game.board.pont_queue.size == 0 && game.board.portal_queue.size == 0
 					game.new_turn()
 				end
 			end
@@ -296,7 +310,10 @@ class Cerbere::Request
 			end
 			game.board.pont_queue.clear()
 			game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
-			game.new_turn()
+			
+			if game.action_played && (game.bonus_played || player.hand.bonus_size == 0) && game.board.pont_queue.size == 0 && game.board.portal_queue.size == 0
+				game.new_turn()
+			end
 		end
 	end
 
@@ -325,7 +342,10 @@ class Cerbere::Request
 			end
 			game.board.portal_queue.clear()
 			game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
-			game.new_turn()
+			
+			if game.action_played && (game.bonus_played || player.hand.bonus_size == 0) && game.board.pont_queue.size == 0 && game.board.portal_queue.size == 0
+				game.new_turn()
+			end
 		end
 	end
 
@@ -458,6 +478,14 @@ class Cerbere::Response
 		property portalQueue : Array(Player)
 
 		def initialize(@portalQueue)
+		end
+	end
+
+	class ChangeType < Response
+		property type = "changeType"
+		property new_type : TypeJoueur
+
+		def initialize(@new_type)
 		end
 	end
 end

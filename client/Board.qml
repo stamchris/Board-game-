@@ -21,19 +21,20 @@ Item {
     property alias popupSeeBarques: popupSeeBarques
     property alias popupChooseCardsToDiscard: popupChooseCardsToDiscard
 
-    function choosePlayers(choices, action_todo, effect, requestType, previousArgs) {
+    function choosePlayers(choices, action_todo, effect, requestType, playersType, previousArgs) {
         playersChoice.choices = choices
         playersChoice.action_todo = action_todo
         playersChoice.effect = effect
         playersChoice.requestType = requestType
         playersChoice.args = previousArgs
         playersChoice.msg.text = choices[0]
+        playersChoice.playersType = playersType
         var plyr
         for (var i = 0; i < 7; i++) {
             playersChoice.rowPlayers.children[i].visible = false
             for (var j = 0; j < window.parent.state.players.length; j++) {
                 plyr = window.parent.state.players[j]
-                if (plyr.type == "aventurier" && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && plyr.colour != window.parent.state.color) {
+                if (plyr.type == playersType && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && plyr.colour != window.parent.state.color) {
                     playersChoice.rowPlayers.children[i].visible = true
                     break
                 }
@@ -61,6 +62,7 @@ Item {
         property var effect
         property var requestType : ""
         property var args : []
+        property var playersType : "aventurier"
 
         function choosePlayer(button_color) {
             if(choices.length == 1) {
@@ -81,7 +83,7 @@ Item {
                     playersChoice.rowPlayers.children[i].visible = false
                     for (var j = 0; j < window.parent.state.players.length; j++) {
                         plyr = window.parent.state.players[j]
-                        if (plyr.type == "aventurier" && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && !args.includes(plyr.colour) && plyr.colour != window.parent.state.color) {
+                        if (plyr.type == playersType && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && !args.includes(plyr.colour) && plyr.colour != window.parent.state.color) {
                             playersChoice.rowPlayers.children[i].visible = true
                             break
                         }
@@ -605,7 +607,7 @@ Item {
                 popupChooseCardsToDiscard.close()
 
                 if (action_todo == '4' && effect == 1) {
-                    choosePlayers(["Choisissez un joueur à faire avancer de 2 cases"], action_todo, effect, "play_action", args)
+                    choosePlayers(["Choisissez un joueur à faire avancer de 2 cases"], action_todo, effect, "play_action", "aventurier", args)
                 }
             }
         }
@@ -1070,6 +1072,10 @@ Item {
             function updateBar() {
                 progressBarId.children[0].updateBar(window.parent.state.players)
             }
+
+            function addToBar(player_color) {
+                progressBarId.children[0].addToBar(player_color)
+            }
         }
 
         Rectangle {
@@ -1504,8 +1510,12 @@ Item {
                     for (var j = 0; j < 4; j++) {
                         k = j + 1
 
-                        if (players[i].hand.action[j] == true) {
-                            rowId.children[7-i-1].children[0].children[1].children[j+1].children[0].source = "images/"+players[i].colour+k+".png"
+                        if (players[i].hand.action[j] == true && players[i].type != "mort") {
+                            if (players[i].type == "aventurier") {
+                                rowId.children[7-i-1].children[0].children[1].children[j+1].children[0].source = "images/"+players[i].colour+k+".png"
+                            } else {
+                                rowId.children[7-i-1].children[0].children[1].children[j+1].children[0].source = "images/Cerbere"+k+".png"
+                            }
                         } else {
                             rowId.children[7-i-1].children[0].children[1].children[j+1].children[0].source = "images/verso.png"
                         }
@@ -1972,7 +1982,6 @@ Item {
 
                 for (var j = 0; j < 7; j++) {
                     joueurId.children[4].children[1].children[j].visible = false
-                    joueurId.children[4].children[1].children[j].children[0].children[1].children[0].text = "0"
                 }
             }
         }

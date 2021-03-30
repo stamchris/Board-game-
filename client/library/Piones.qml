@@ -68,6 +68,33 @@ Rectangle {
             }
         }
 
+        function hidePlayerPiece(player_color) {
+            switch(player_color) {
+                case "Cyan":
+                    player1.visible = false
+                    break
+                case "Orange":
+                    player2.visible = false
+                    break
+                case "Green":
+                    player3.visible = false
+                    break
+                case "White":
+                    player4.visible = false
+                    break
+                case "Pink":
+                    player5.visible = false
+                case "Blue":
+                    player6.visible = false
+                    break
+                case "Red":
+                    player7.visible = false
+                    break
+                default:
+                    break
+            }
+        }
+
         Pion {
             id: cerbere
             visible: false

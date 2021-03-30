@@ -58,9 +58,12 @@ ApplicationWindow {
 					break
 				case "updateBoard":
 					for (var i = 0; i < game.players.length; i++) {
-						if ((game.state.players[i].position != message.players[i].position) && (message.players[i].type == "aventurier")) {
+						if ((game.state.players[i].position != message.players[i].position)) {
 							game.state.changePosition(message.players[i].colour, message.players[i].position)
 						}
+					}
+					if (game.state.posCerbere != message.cerberepos) {
+						game.state.changePosCerbere(message.cerberepos)
 					}
 					game.state.changePlayers(message.players, message.active_player)
 					game.state.changeRage(message.rage)
@@ -95,7 +98,9 @@ ApplicationWindow {
 				case "bonusPlayed":
 					game.state.lockCards("bonus")
 					break
-					
+				case "changeType":
+					game.state.changeType(message.new_type)
+					break
 			}
 		}
 

@@ -84,6 +84,17 @@ Rectangle {
         }
     }
 
+    function addToBar(player_color) {
+        var i = window.parent.state.players.length
+        while (rageBar.children[i].children[1].source != "") {
+            if (rageBar.children[i].children[1].source.toString().includes(player_color)) {
+                return
+            }
+            i++
+        }
+        rageBar.children[i].children[1].source = "../images/" + player_color + "_pion.png"
+    }
+
     Rectangle {
         id: cerbereBarId
         height: parent.height*90/100

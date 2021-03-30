@@ -29,6 +29,7 @@ Item{
     signal _updateActionCards(string playerType)
     signal _lockAction()
     signal _lockBonus()
+    signal _addToBar(string player_color)
     signal _secondPassed(var minutes, var seconds)
 
     Timer {
@@ -75,17 +76,18 @@ Item{
     function changePlayers(newPlayers, newCurrentPlayer) {
         for (var i = 0; i < newPlayers.length; i++) {
             if (newPlayers[i].type != players[i].type) {
-                _updatePlayersOnBar(newPlayers)
-
-                if (newPlayers[i].colour == color){
-                    _updateActionCards(newPlayers[i].type)
-                }
+                _addToBar(newPlayers[i].colour)
             }
         }
 
         players = newPlayers
         _currentPlayerChanged(players[newCurrentPlayer].name, players[newCurrentPlayer].colour)
         _playersChanged(players, newCurrentPlayer)
+    }
+
+    function changeType(new_type) {
+        playerType = new_type
+        _updateActionCards(playerType)
     }
 
     function changePosition(color, newPosition) {
@@ -157,6 +159,8 @@ Item{
         _updatePlayersOnBar.connect(parent.board.progressBar.updateBar)
         _newBonus.connect(parent.board.joueurId.updateBonusCard)
         _discardBonus.connect(parent.board.joueurId.updateBonusCard)
+        _addToBar.connect(parent.board.progressBar.addToBar)
+        _addToBar.connect(parent.board.boardId.pionesId.children[0].hidePlayerPiece)
         _updateActionCards.connect(parent.board.joueurId.loadActionCards)
         _secondPassed.connect(parent.board.chronoId.updateTime)
         _secondPassed.connect(parent.board.actionId.updateCurrentPlayerTimer)

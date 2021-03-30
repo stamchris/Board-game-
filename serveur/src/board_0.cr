@@ -6,7 +6,7 @@ BOARD_0 = [
             true),                              # Checkpoint pour Cerbere
 
     Node.new(Effet.new(Evenement::RIEN,0),
-            false),
+            true),
 
     Node.new(Effet.new(Evenement::RIEN,0),
             false),

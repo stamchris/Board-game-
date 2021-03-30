@@ -50,7 +50,7 @@ class Cerbere::Game
 		card = Hand.actions_of(player.type)[num_card]
 		choice = card.choix[effect]
 		board.faire_action(player, choice.cout, args)
-		if ((num_card == 3) && (effect == 1))
+		if ((choice.cout.evenement == Evenement::DEPLACER_AUTRE) || (choice.cout.evenement == Evenement::DEFAUSSER_MOI))
 			args.shift()
 		end
 		choice.effets.each_index do |i|
@@ -108,11 +108,16 @@ class Cerbere::Game
 		end
 		board.portal_queue.clear()
 
-		@active_player += 1
-		@active_player %= players.size
+		loop do
+			@active_player += 1
+			@active_player %= players.size
+			break if players[active_player].type != TypeJoueur::MORT
+		end
 		@nb_turns += 1
 		@action_played = false
 		@bonus_played = false
+		board.cerbere_hunting()
+
 		send_all(Response::UpdateBoard.new(players, board.position_cerbere, board.vitesse_cerbere, board.rage_cerbere, board.pont, active_player))
 		spawn do 
 			save = @nb_turns
