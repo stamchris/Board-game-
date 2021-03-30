@@ -77,7 +77,8 @@ Item {
 					Layout.fillWidth: true
 				}
 			}
-
+			
+			/*
 			LobbyOption {
 				label: "Board"
 
@@ -108,6 +109,7 @@ Item {
 					}
 				}
 			}
+			*/
 
 			LobbyOption {
 				label: "Team Chat"
