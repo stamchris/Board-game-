@@ -104,11 +104,14 @@ class Cerbere::Request
 					if @effet == 0
 						game.play_action(player, 0, 0, new_args)
 						game.action_played = true
-					elsif @effet == 1
+					elsif player.type == TypeJoueur::AVENTURIER && @effet == 1
 						new_args = [] of Int32
 						args.each do |arg|
 							new_args << arg.to_i32
 						end
+						game.play_action(player, 0, 1, new_args)
+						game.action_played = true
+					elsif player.type == TypeJoueur::CERBERE && @effet == 1
 						game.play_action(player, 0, 1, new_args)
 						game.action_played = true
 					end
@@ -116,8 +119,11 @@ class Cerbere::Request
 					if @effet == 0
 						game.play_action(player, 1, 0, new_args)
 						game.action_played = true
-					elsif @effet == 1
+					elsif player.type == TypeJoueur::AVENTURIER && @effet == 1
 						new_args.insert(0, -1)
+						game.play_action(player, 1, 1, new_args)
+						game.action_played = true
+					elsif player.type == TypeJoueur::CERBERE && @effet == 1
 						game.play_action(player, 1, 1, new_args)
 						game.action_played = true
 					end
@@ -125,14 +131,24 @@ class Cerbere::Request
 					if @effet == 0
 						game.play_action(player, 2, 0, new_args)
 						game.action_played = true
-					elsif @effet == 1
+					elsif player.type == TypeJoueur::AVENTURIER && @effet == 1
+						game.play_action(player, 2, 1, new_args)
+						game.action_played = true
+					elsif player.type == TypeJoueur::CERBERE && @effet == 1
+						new_args.insert(0, 0)
 						game.play_action(player, 2, 1, new_args)
 						game.action_played = true
 					end
 				when "4"
-					if @effet == 0
+					if player.type == TypeJoueur::AVENTURIER && @effet == 0
 						new_args.insert(0, -1)
 						game.play_action(player, 3, 0, new_args)
+						game.action_played = true
+					elsif player.type == TypeJoueur::CERBERE && @effet == 0
+						game.play_action(player, 3, 0, new_args)
+						game.action_played = true
+					elsif player.type == TypeJoueur::CERBERE && @effet == 1
+						game.play_action(player, 3, 1, new_args)
 						game.action_played = true
 					end
 				else
@@ -432,6 +448,14 @@ class Cerbere::Response
 		property portalQueue : Array(Player)
 
 		def initialize(@portalQueue)
+		end
+	end
+
+	class ChangeType < Response
+		property type = "changeType"
+		property new_type : TypeJoueur
+
+		def initialize(@new_type)
 		end
 	end
 end
