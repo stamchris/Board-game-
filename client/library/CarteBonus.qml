@@ -10,19 +10,6 @@ Column {
         left: parent.left
     }
 
-    signal clickCard()
-
-    function discardBonus() {
-        var numberOfCards = columnIdB.parent.children[1].children[0].text
-        if (numberOfCards == "1") {
-            columnIdB.parent.parent.visible = false 
-            columnIdB.parent.children[1].children[0].text = "0"
-        } else {
-            var newNumberOfCards = parseInt(numberOfCards, 10) - 1
-            columnIdB.parent.children[1].children[0].text = "" + newNumberOfCards
-        }
-    }
-
     function blockCard() {
         hover1Id.hoverEnabled = false
         up.color = "gray"
@@ -100,7 +87,6 @@ Column {
             onClicked: {
                 if (hover1Id.hoverEnabled == true) {
                     playBonus(0)
-                    columnIdB.discardBonus()
                 }
             }
         }
@@ -132,14 +118,9 @@ Column {
             onClicked: {
                 if (hover2Id.hoverEnabled == true) {
                     playBonus(1)
-                    columnIdB.discardBonus()
                 }
             }
         }
-    }
-
-    Component.onCompleted: {
-        clickCard.connect(columnIdB.discardBonus)
     }
 }
 

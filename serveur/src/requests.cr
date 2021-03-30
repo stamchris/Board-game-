@@ -105,7 +105,7 @@ class Cerbere::Request
 						game.play_action(player, 0, 0, new_args)
 						game.action_played = true
 					elsif @effet == 1
-						new_args = [] of Int32
+						new_args.clear()
 						args.each do |arg|
 							new_args << arg.to_i32
 						end
@@ -133,6 +133,24 @@ class Cerbere::Request
 					if @effet == 0
 						new_args.insert(0, -1)
 						game.play_action(player, 3, 0, new_args)
+						game.action_played = true
+					elsif @effet == 1
+						new_args.clear()
+						player.hand.bonus.each_index do |i|
+							if (player.hand.bonus[i].name == args[0])
+								new_args << i
+								break
+							end
+						end
+						args.each do |arg|
+							game.players.each do |plyr|
+								if arg == plyr.colour.to_s
+									new_args << plyr.lobby_id
+									break
+								end
+							end
+						end
+						game.play_action(player, 3, 1, new_args)
 						game.action_played = true
 					end
 				else
@@ -399,6 +417,14 @@ class Cerbere::Response
 
 	class NewBonus < Response
 		property type = "newBonus"
+		property cardname : String
+
+		def initialize(@cardname)
+		end
+	end
+
+	class DiscardBonus < Response
+		property type = "discardBonus"
 		property cardname : String
 
 		def initialize(@cardname)

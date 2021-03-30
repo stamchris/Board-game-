@@ -72,9 +72,13 @@ ApplicationWindow {
 					game.board.popupChooseBarquesEffect.close()
 					game.board.popupSwapBarques.close()
 					game.board.popupSeeBarques.close()
+					game.board.popupChooseCardsToDiscard.close()
 					break
 				case "newBonus":
 					game.state.newBonus(message.cardname)
+					break
+				case "discardBonus":
+					game.state.discardBonus(message.cardname)
 					break
                 case "useBridge":
                     game.state.useBridge(message.pontQueue)

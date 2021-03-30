@@ -48,7 +48,7 @@ Item {
         width: 400
         height: 100
         modal: true
-        closePolicy: Popup.NoAutoClose
+        closePolicy: Popup.CloseOnPressOutside
         background: Rectangle {
             color: "#ffd194"
             opacity: 0.3
@@ -315,7 +315,7 @@ Item {
         width: 230
         height: 150
         modal: true
-        closePolicy: Popup.NoAutoClose
+        closePolicy: Popup.CloseOnPressOutside
 
         background: Rectangle {
             color: "#ffd194"
@@ -378,7 +378,7 @@ Item {
         width: 200
         height: 240
         modal: true
-        closePolicy: Popup.NoAutoClose
+        closePolicy: Popup.CloseOnPressOutside
 
         background: Rectangle {
             color: "#ffd194"
@@ -477,7 +477,7 @@ Item {
         width: 200
         height: 240
         modal: true
-        closePolicy: Popup.NoAutoClose
+        closePolicy: Popup.CloseOnPressOutside
 
         background: Rectangle {
             color: "#ffd194"
@@ -565,22 +565,30 @@ Item {
         popupChooseCardsToDiscard.amount = amount
         popupChooseCardsToDiscard.requestType = requestType
         popupChooseCardsToDiscard.args = []
+
+        for (var i = 0; i < 7; i++) {
+            popupChooseCardsToDiscard.rowBonus.children[i].visible = window.joueurId.children[4].children[1].children[i].visible
+            popupChooseCardsToDiscard.rowBonus.children[i].source = window.joueurId.children[4].children[1].children[i].children[0].source
+            popupChooseCardsToDiscard.updateRowBonus(action_todo, i, parseInt(window.joueurId.children[4].children[1].children[i].children[0].children[1].children[0].text, 10))
+        }
+
         popupChooseCardsToDiscard.open()
     }
 
     Popup {
         id: popupChooseCardsToDiscard
         anchors.centerIn: parent
-        width: 230
-        height: 150
+        width: 780
+        height: 190
         modal: true
-        closePolicy: Popup.NoAutoClose
+        closePolicy: Popup.CloseOnPressOutside
 
         background: Rectangle {
             color: "#ffd194"
             radius: 3
         }
 
+        property alias rowBonus: rowBonus
         property var action_todo : ""
         property var effect
         property var amount
@@ -593,7 +601,7 @@ Item {
             carteBonusName = carteBonusName.slice(1, carteBonusName.length - 4)
             args.push(carteBonusName)
 
-            if (args.length == 1) {
+            if (args.length == popupChooseCardsToDiscard.amount) {
                 popupChooseCardsToDiscard.close()
 
                 if (action_todo == '4' && effect == 1) {
@@ -602,27 +610,46 @@ Item {
             }
         }
 
+        function updateRowBonus(action_todo, bonusId, numberOfBonusCards) {
+            rowBonus.children[bonusId].nbBonus = numberOfBonusCards
+
+            if (rowBonus.children[bonusId].source.toString().includes(action_todo)){
+                rowBonus.children[bonusId].nbBonus += -1
+
+                if (rowBonus.children[bonusId].source < 1) {
+                    rowBonus.children[bonusId].visible = false
+                }
+            }
+        }
+
         Text {
             y: 0
             horizontalAlignment: Text.AlignHCenter
-            text: "Choisissez " + amount + " cartes à défausser"
+            text: "Choisissez " + popupChooseCardsToDiscard.amount + " carte(s) à défausser ?"
         }
 
         Row {
+            id: rowBonus
             y: 30
             spacing:10
             anchors.horizontalCenter: parent.horizontalCenter
 
             Image {
                 id: imgCarteBonus1
-                width: 50
+                width: 100
                 fillMode: Image.PreserveAspectFit
                 source: "images/Carte_Ego.png"
+                visible: false
+                property var nbBonus: 0
 
                 MouseArea {
                     anchors.fill: parent
 
                     onClicked: {
+                        imgCarteBonus1.nbBonus += -1
+                        if (imgCarteBonus1.nbBonus == 0) {
+                            imgCarteBonus1.visible = false
+                        }
                         popupChooseCardsToDiscard.addCardToArgs(parent.source)
                     }
                 }
@@ -630,14 +657,20 @@ Item {
 
             Image {
                 id: imgCarteBonus2
-                width: 50
+                width: 100
                 fillMode: Image.PreserveAspectFit
                 source: "images/Carte_Arro.png"
+                visible: false
+                property var nbBonus: 0
 
                 MouseArea {
                     anchors.fill: parent
 
                     onClicked: {
+                        imgCarteBonus2.nbBonus += -1
+                        if (imgCarteBonus2.nbBonus == 0) {
+                            imgCarteBonus2.visible = false
+                        }
                         popupChooseCardsToDiscard.addCardToArgs(parent.source)
                     }
                 }
@@ -645,16 +678,106 @@ Item {
 
             Image {
                 id: imgCarteBonus3
-                width: 50
+                width: 100
                 fillMode: Image.PreserveAspectFit
                 source: "images/Carte_Fata.png"
+                visible: false
+                property var nbBonus: 0
 
                 MouseArea {
                     anchors.fill: parent
 
                     onClicked: {
+                        imgCarteBonus3.nbBonus += -1
+                        if (imgCarteBonus3.nbBonus == 0) {
+                            imgCarteBonus3.visible = false
+                        }
                         popupChooseCardsToDiscard.addCardToArgs(parent.source)
                     } 
+                }
+            }
+
+            Image {
+                id: imgCarteBonus4
+                width: 100
+                fillMode: Image.PreserveAspectFit
+                source: "images/Carte_Ego.png"
+                visible: false
+                property var nbBonus: 0
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    onClicked: {
+                        imgCarteBonus4.nbBonus += -1
+                        if (imgCarteBonus4.nbBonus == 0) {
+                            imgCarteBonus4.visible = false
+                        }
+                        popupChooseCardsToDiscard.addCardToArgs(parent.source)
+                    }
+                }
+            }
+
+            Image {
+                id: imgCarteBonus5
+                width: 100
+                fillMode: Image.PreserveAspectFit
+                source: "images/Carte_Ego.png"
+                visible: false
+                property var nbBonus: 0
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    onClicked: {
+                        imgCarteBonus5.nbBonus += -1
+                        if (imgCarteBonus5.nbBonus == 0) {
+                            imgCarteBonus5.visible = false
+                        }
+                        popupChooseCardsToDiscard.addCardToArgs(parent.source)
+                    }
+                }
+            }
+
+            Image {
+                id: imgCarteBonus6
+                width: 100
+                fillMode: Image.PreserveAspectFit
+                source: "images/Carte_Ego.png"
+                visible: false
+                property var nbBonus: 0
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    onClicked: {
+                        imgCarteBonus6.nbBonus += -1
+                        if (imgCarteBonus6.nbBonus == 0) {
+                            imgCarteBonus6.visible = false
+                        }
+                        popupChooseCardsToDiscard.addCardToArgs(parent.source)
+                    }
+                }
+            }
+
+            Image {
+                id: imgCarteBonus7
+                width: 100
+                fillMode: Image.PreserveAspectFit
+                source: "images/Carte_Ego.png"
+                visible: false
+                property var nbBonus: 0
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    onClicked: {
+                        imgCarteBonus7.nbBonus += -1
+                        if (imgCarteBonus7.nbBonus == 0) {
+                            imgCarteBonus7.visible = false
+                        }
+                        popupChooseCardsToDiscard.addCardToArgs(parent.source)
+                    }
                 }
             }
         }
@@ -1521,7 +1644,7 @@ Item {
                         horizontalAlignment: Image.AlignHCenter
                         z: 1
                         fillMode: Image.Stretch
-                        source:"images/Carte_Ego.png"
+                        source:""
 
                         CarteBonus {}
                                                             
@@ -1554,7 +1677,7 @@ Item {
                         horizontalAlignment: Image.AlignHCenter
                         z: 1
                         fillMode: Image.Stretch
-                        source:"images/Carte_Ego.png"
+                        source:""
 
                         CarteBonus {}
                                                             
@@ -1587,7 +1710,7 @@ Item {
                         horizontalAlignment: Image.AlignHCenter
                         z: 1
                         fillMode: Image.Stretch
-                        source:"images/Carte_Ego.png"
+                        source:""
 
                         CarteBonus {}
                                                             
@@ -1619,7 +1742,7 @@ Item {
                         horizontalAlignment: Image.AlignHCenter
                         z: 1
                         fillMode: Image.Stretch
-                        source:"images/Carte_Ego.png"
+                        source:""
 
                         CarteBonus {}
                                                             
@@ -1652,7 +1775,7 @@ Item {
                         horizontalAlignment: Image.AlignHCenter
                         z: 1
                         fillMode: Image.Stretch
-                        source:"images/Carte_Ego.png"
+                        source:""
 
                         CarteBonus {}
                                                             
@@ -1685,7 +1808,7 @@ Item {
                         horizontalAlignment: Image.AlignHCenter
                         z: 1
                         fillMode: Image.Stretch
-                        source:"images/Carte_Ego.png"
+                        source:""
 
                         CarteBonus {}
                                                             
@@ -1718,7 +1841,7 @@ Item {
                         horizontalAlignment: Image.AlignHCenter
                         z: 1
                         fillMode: Image.Stretch
-                        source:"images/Carte_Ego.png"
+                        source:""
 
                         CarteBonus {}
                                                             
@@ -1854,7 +1977,7 @@ Item {
             }
         }
 
-        function addBonusCard(source) {
+        function updateBonusCard(source, type) {
             var i = 0
             var source_string = ""
             var found_same = - 1
@@ -1876,41 +1999,55 @@ Item {
             }
 
             var new_source = "images/" + source
+            var newNumberOfBonus = 0
+            
+            if (type == "add") {
+                newNumberOfBonus += 1
+            } else {
+                newNumberOfBonus += -1    
+            }
 
             if (found_same >= 0) {
                 switch(i) {
                     case 0:
-                        var add = parseInt(txtcb1.text,10)
-                        txtcb1.text = ""+((parseInt(txtcb1.text,10)+1))
+                        newNumberOfBonus += parseInt(txtcb1.text,10)
+                        txtcb1.text = "" + newNumberOfBonus
                         break
                     case 1:
-                        var add = parseInt(txtcb2.text,10)
-                        txtcb2.text = ""+((parseInt(txtcb2.text,10)+1))
+                        newNumberOfBonus += parseInt(txtcb2.text,10)
+                        txtcb2.text = "" + newNumberOfBonus
                         break
                     case 2:
-                        var add = parseInt(txtcb3.text,10)
-                        txtcb3.text = ""+((parseInt(txtcb3.text,10)+1))
+                        newNumberOfBonus += parseInt(txtcb3.text,10)
+                        txtcb3.text = "" + newNumberOfBonus
                         break
                     case 3:
-                        var add = parseInt(txtcb4.text,10)
-                        txtcb4.text = ""+((parseInt(txtcb4.text,10)+1))
+                        newNumberOfBonus += parseInt(txtcb4.text,10)
+                        txtcb4.text = "" + newNumberOfBonus
                         break
                     case 4:
-                        var add = parseInt(txtcb4.text,10)
-                        txtcb5.text = ""+((parseInt(txtcb5.text,10)+1))
+                        newNumberOfBonus += parseInt(txtcb4.text,10)
+                        txtcb5.text = "" + newNumberOfBonus
                         break
                     case 5:
-                        var add = parseInt(txtcb4.text,10)
-                        txtcb6.text = ""+((parseInt(txtcb6.text,10)+1))
+                        newNumberOfBonus += parseInt(txtcb4.text,10)
+                        txtcb6.text = "" + newNumberOfBonus
                         break
                     case 6:
-                        var add = parseInt(txtcb4.text,10)
-                        txtcb7.text = ""+((parseInt(txtcb7.text,10)+1))
+                        newNumberOfBonus += parseInt(txtcb4.text,10)
+                        txtcb7.text = "" + newNumberOfBonus
                         break
                 }
+
+                if (newNumberOfBonus < 1){
+                    rowbonusid.children[i].visible = false
+                    rowbonusid.children[i].children[0].source = ""
+                }
             } else {
-                rowbonusid.children[i].visible = true
-                rowbonusid.children[i].children[0].source = new_source
+                if (type == "add") {
+                    rowbonusid.children[i].visible = true
+                    rowbonusid.children[i].children[0].source = new_source
+                }
             } 
         }
     }

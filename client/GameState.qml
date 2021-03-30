@@ -24,7 +24,8 @@ Item{
     signal _pontChanged()
     signal _showPlayerPieces(variant players)
     signal _updatePlayersOnBar(variant players)
-    signal _newBonus(string newBonus)
+    signal _newBonus(string newBonus, string type)
+    signal _discardBonus(string discardedBonus, string type)
     signal _updateActionCards(string playerType)
     signal _lockAction()
     signal _lockBonus()
@@ -104,7 +105,11 @@ Item{
     }
 
     function newBonus(new_bonus) {
-        _newBonus("Carte_" + new_bonus + ".png")
+        _newBonus("Carte_" + new_bonus + ".png", "add")
+    }
+
+    function discardBonus(discardedBonus) {
+        _discardBonus("Carte_" + discardedBonus + ".png", "remove")
     }
 
     function useBridge(new_queue) {
@@ -150,7 +155,8 @@ Item{
         _rageChanged.connect(parent.board.progressBar.updateRage)
         _vitesseChanged.connect(parent.board.progressBar.updateVitesse)
         _updatePlayersOnBar.connect(parent.board.progressBar.updateBar)
-        _newBonus.connect(parent.board.joueurId.addBonusCard)
+        _newBonus.connect(parent.board.joueurId.updateBonusCard)
+        _discardBonus.connect(parent.board.joueurId.updateBonusCard)
         _updateActionCards.connect(parent.board.joueurId.loadActionCards)
         _secondPassed.connect(parent.board.chronoId.updateTime)
         _secondPassed.connect(parent.board.actionId.updateCurrentPlayerTimer)

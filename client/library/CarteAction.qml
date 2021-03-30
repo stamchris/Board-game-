@@ -40,7 +40,7 @@ Column {
         } else if (num_carte == '4' && choix == 0) {
             window.choosePlayers(["Choisissez un joueur à faire avancer d'1 case"], num_carte, choix, "play_action", [])
         } else if (num_carte == '4' && choix == 1) {
-            window.chooseCardsToDiscard(num_carte, choix, 2, "play_action")
+            window.chooseCardsToDiscard(num_carte, choix, 1, "play_action")
         } else {
             window.parent.state.send({
                 type: "play_action",

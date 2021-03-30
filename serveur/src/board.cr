@@ -420,16 +420,12 @@ class Cerbere::Board
         end
     end
 
-
-
-    #DEPLACER_AUTRE # Le joueur déplace d'autres survivants
-
     def action_move_other_player(moi : Player, force : Int32, args : Array(Int32))
         player_id = args[0] # id du joueur à déplacer
         my_id = moi.lobby_id
 
         if my_id == player_id
-          raise "Le joueur à déplacer ne peut pas être le joueur actif !"
+          raise "Le joueur à déplacer #{player_id} ne peut pas être le joueur actif #{my_id} !"
         end
 
         players.each do |player|
@@ -478,7 +474,7 @@ class Cerbere::Board
     def action_piocher_moi(joueur : Player, nombre : Int32, args : Array(Int32) = [] of Int32) : Nil
         # Si l'on passe par la case piocher mais que l'on ne s'arrête pas, on ne
         # pioche pas de cartes
-        if(args.size() > 0 && args[0] != 0)
+        if((args.size() > 0) && (args[0] != 0) && (args[0] != -1))
             return
         end
         nombre.times do
@@ -518,10 +514,23 @@ class Cerbere::Board
     end
 
     def action_defausser_moi(joueur : Player, nombre : Int32, args : Array(Int32)) : Nil
+        if(nombre < 0 || nombre > joueur.hand.bonus.size())
+            raise "Le joueur #{joueur.lobby_id} ne peut pas défausser #{nombre} carte(s) !"
+        end
+
+        new_args = [] of Int32
+        i = 0
+
+        nombre.times do
+            new_args << args[i]
+            i += 1
+        end
+
         # Supprimer les cartes dans l'ordre croissant des indices :
-        # Les cartes après la carte supprimée voir leur indice baisser de 1
+        # Les cartes après la carte supprimée voient leur indice baisser de 1
         decalage = 0
-        args.sort.each do |carte_index|
+        new_args.sort.each do |carte_index|
+            joueur.send(Response::DiscardBonus.new(joueur.hand.bonus[carte_index - decalage].name))
             defausser(joueur, carte_index - decalage)
             decalage += 1
         end
