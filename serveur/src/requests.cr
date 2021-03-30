@@ -376,12 +376,11 @@ class Cerbere::Request
 
 	class ChatMessage < Request
 		property type = "chatMessage"
-		#FIXME : timer les messages
-		# property timestamp : Int32
+		property timestamp : String
 		property message : String
 
 		def handle(game : Game, player : Player)
-			game.send_all(Response::Chat.new(player,message))
+			game.send_all(Response::Chat.new(player,timestamp,message))
 		end
 	end
 end
@@ -392,9 +391,10 @@ class Cerbere::Response
 	class Chat < Response
 		property type = "chatResponse"
 		property player : Player
+		property timestamp : String
 		property message : String
 
-		def initialize(@player, @message)
+		def initialize(@player, @timestamp, @message)
 		end
 	end
 

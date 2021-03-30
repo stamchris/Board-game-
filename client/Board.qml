@@ -687,7 +687,7 @@ Item {
             if (rowBonus.children[bonusId].source.toString().includes(action_todo)){
                 rowBonus.children[bonusId].nbBonus += -1
 
-                if (rowBonus.children[bonusId].source < 1) {
+                if (rowBonus.children[bonusId].nbBonus < 1) {
                     rowBonus.children[bonusId].visible = false
                 }
             }

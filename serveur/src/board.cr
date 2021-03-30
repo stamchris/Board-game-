@@ -104,7 +104,7 @@ class Cerbere::Board
                 end
                 info_barque : String = "Capacité de la barque #{args[1] + 1}: #{barques[args[1]]}"
                 envoyer(moi,info_barque)
-                moi.send(Response::Chat.new(srvr, info_barque))
+                moi.send(Response::Chat.new(srvr, "", info_barque))
             elsif(choix == 1) # Echanger deux barques
                 if(args.size() < 3 || args[1] < 0 || args[1] > 2 || args[2] < 0 || args[2] > 2 || args[1] == args[2])
                     raise "Arguments barques manquants ou invalides pour BARQUE échanger"
@@ -112,7 +112,7 @@ class Cerbere::Board
                 barques.swap(args[1],args[2])
                 broadcast("Les barques #{args[1]} et #{args[2]} ont été échangées.")
                 players.each do |plyr|
-                    plyr.send(Response::Chat.new(srvr, "Les barques #{args[1] + 1} et #{args[2] + 1} ont été échangées."))
+                    plyr.send(Response::Chat.new(srvr, "", "Les barques #{args[1] + 1} et #{args[2] + 1} ont été échangées."))
                 end
             end
         end
