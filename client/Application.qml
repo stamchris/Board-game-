@@ -90,7 +90,7 @@ ApplicationWindow {
 					game.state.usePortal(message.portalQueue)
 					break
 				case "chatResponse":
-					game.addMessage(message.player, message.message)
+					game.addMessage(message.player, message.timestamp, message.message)
 					break
 				case "actionPlayed":
 					game.state.lockCards("action")

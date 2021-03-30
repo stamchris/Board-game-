@@ -9,8 +9,8 @@ Item {
 	property var messages : []
 	property alias board: window
 	
-	function addMessage(player,message) {
-		messages.push({player:player,message:message})
+	function addMessage(player,timestamp, message) {
+		messages.push({player:player, timestamp:timestamp, message:message})
     	messages = messages
 	}
 	

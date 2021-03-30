@@ -48,7 +48,7 @@ Item {
                 onFocusChanged: textToType.clear()
 
                 onAccepted: {
-                    socket.send({type:"chatMessage",message:text})
+                    socket.send({type:"chatMessage", timestamp:window.chronoId.children[1].children[0].text, message:text})
                     textToType.clear()
                 }
             }
@@ -75,8 +75,7 @@ Item {
                 wrapMode: Text.Wrap
                 anchors.left: parent.left
                 leftPadding: 3
-                text: '<font color = modelData.player.colour><b><>'+modelData.player.name+'</b>' + ' : ' + modelData.message +'</font>'
-                font.pointSize: 8
+                text: "[" + modelData.timestamp + "] "+ '<b>'+modelData.player.name+'</b>' + ' : ' + modelData.message
                 textFormat: Text.StyledText
             }
         }
