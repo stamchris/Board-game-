@@ -176,7 +176,7 @@ class Cerbere::Request
 					player.send(Response::UsePortal.new(players_queue))
 				end
 
-				if game.action_played && (game.bonus_played || player.hand.bonus_size == 0)
+				if game.action_played && (game.bonus_played || player.hand.bonus_size == 0) && game.board.pont_queue.size == 0 && game.board.portal_queue.size == 0
 					game.new_turn()
 				end
 			end
@@ -294,7 +294,10 @@ class Cerbere::Request
 			end
 			game.board.pont_queue.clear()
 			game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
-			game.new_turn()
+			
+			if game.action_played && (game.bonus_played || player.hand.bonus_size == 0) && game.board.pont_queue.size == 0 && game.board.portal_queue.size == 0
+				game.new_turn()
+			end
 		end
 	end
 
@@ -323,7 +326,10 @@ class Cerbere::Request
 			end
 			game.board.portal_queue.clear()
 			game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
-			game.new_turn()
+			
+			if game.action_played && (game.bonus_played || player.hand.bonus_size == 0) && game.board.pont_queue.size == 0 && game.board.portal_queue.size == 0
+				game.new_turn()
+			end
 		end
 	end
 
