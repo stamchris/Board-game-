@@ -221,8 +221,25 @@ class Cerbere::Request
 				case @carte
 				when "Arro"
 					if @effet == 0
-						new_args.insert(0, -1)
 						game.play_bonus(player, "Arro", 0, new_args)
+						game.bonus_played = true
+					elsif @effet == 1
+						new_args.clear()
+						player.hand.bonus.each_index do |i|
+							if (player.hand.bonus[i].name == args[0])
+								new_args << i
+								break
+							end
+						end
+						args.each do |arg|
+							game.players.each do |plyr|
+								if arg == plyr.colour.to_s
+									new_args << plyr.lobby_id
+									break
+								end
+							end
+						end
+						game.play_bonus(player, "Arro", 1, new_args)
 						game.bonus_played = true
 					end
 				when "Ego"

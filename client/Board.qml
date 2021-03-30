@@ -608,6 +608,8 @@ Item {
 
                 if (action_todo == '4' && effect == 1) {
                     choosePlayers(["Choisissez un joueur à faire avancer de 2 cases"], action_todo, effect, "play_action", "aventurier", args)
+                } else if (action_todo == 'Arro' && effect == 1) {
+                    choosePlayers(["Choisissez un joueur à faire avancer de 3 cases"], action_todo, effect, "play_bonus", "aventurier", args)
                 }
             }
         }
@@ -1084,7 +1086,7 @@ Item {
             width: underBarId.width*2/10
             border.color: "#740912"
             border.width: 2
-            property var currentPlayerTimer: 30
+            property var currentPlayerTimer: 60
 
             anchors {
                 top: underBarId.top;
@@ -1153,7 +1155,7 @@ Item {
 
                     Text {
                         id: currentPlayerTimerId
-                        text: "30"
+                        text: "60"
                         color: "Green"
                         font.pixelSize: 22
                         font.bold: true
@@ -1170,7 +1172,7 @@ Item {
                 if (window.parent.state.currentPlayer != newCurrentPlayer) {
                     currentPlayerId.text = newCurrentPlayer    
                     currentPlayerId.color = newCurrentPlayerColor
-                    currentPlayerTimer = 31
+                    currentPlayerTimer = 61
                     updateCurrentPlayerTimer()
                     window.parent.state.currentPlayer = newCurrentPlayer
                     window.parent.state.currentPlayerColor = newCurrentPlayerColor

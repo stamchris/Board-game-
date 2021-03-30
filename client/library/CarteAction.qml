@@ -40,6 +40,8 @@ Column {
                 window.choosePlayers(["Choisissez un joueur à faire piocher 1 carte", "Choisissez un joueur à faire piocher 1 carte"], num_carte, choix, "play_action", "aventurier", [])
             } else if (num_carte == '4' && choix == 0) {
                 window.choosePlayers(["Choisissez un joueur à faire avancer d'1 case"], num_carte, choix, "play_action", "aventurier", [])
+            } else if (num_carte == '4' && choix == 1) {
+                window.chooseCardsToDiscard(num_carte, choix, 1, "play_action")
             } else {
                 window.parent.state.send({
                     type: "play_action",

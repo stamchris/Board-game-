@@ -68,17 +68,20 @@ class Cerbere::Game
 			if bonus_card.name == card
 				choice = bonus_card.choix[effect]
 				board.defausser(player, index_card)
+				player.send(Response::DiscardBonus.new(bonus_card.name))
 				board.faire_action(player, choice.cout, args)
-		
+				puts args
+				if (choice.cout.evenement == Evenement::DEFAUSSER_MOI)
+					args.shift()
+					puts args
+				end
 				choice.effets.each_index do |i|
 					board.faire_action(player, choice.effets[i], args)
 					if args.size != 0
 						args.shift()
+						puts args
 					end
 				end
-				
-				player.send(Response::DiscardBonus.new(bonus_card.name))
-				
 				break
 			end
 			index_card += 1
@@ -121,7 +124,7 @@ class Cerbere::Game
 		send_all(Response::UpdateBoard.new(players, board.position_cerbere, board.vitesse_cerbere, board.rage_cerbere, board.pont, active_player))
 		spawn do 
 			save = @nb_turns
-			sleep(30)
+			sleep(60)
 			if !@finished && save == @nb_turns
 				new_turn()
 			end
