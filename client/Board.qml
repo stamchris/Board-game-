@@ -175,12 +175,13 @@ Item {
     Popup {
         id: popupBridge
         anchors.centerIn: parent
-        width: 200
+        width: 190
         height: 150
         modal: true
         closePolicy: Popup.NoAutoClose
         background: Rectangle {
             color: "#ffd194"
+            opacity: 0.3
             radius: 3
         }
         property alias imgPlayerBridge: imgPlayerBridge
@@ -189,21 +190,60 @@ Item {
             y: 100
             horizontalAlignment: Text.AlignHCenter
             text: "Prendre le pont ?"
+            font.pointSize: 12
+            font.family: "Stoneyard"
         }
 
-        Image {
-            id: imgPlayerBridge
-            width: 50
-            height: 50
-            y: 30
-            horizontalAlignment: Image.AlignHCenter
-            source: "images/Cyan_pion.png"
+        Rectangle{
+            width: 80
+            height: 70
+            anchors.centerIn: parent
+            radius: 40
+            opacity: 0.8
+            color: "#F6DDCC"
+            Image {
+                id: imgPlayerBridge
+                width: 50
+                height: 50
+                anchors.centerIn: parent
+                source: "images/Cyan_pion.png"
+            }
         }
 
         RowLayout {
             y: 150
-            Button {
-                text: "Oui"
+            x:10
+            spacing:2
+            width: 200
+
+            RoundButton {
+                radius:5
+                id: yesButton
+                Rectangle {
+                    height: 40
+                    width: 80
+                    anchors.centerIn: parent
+
+                    gradient: Gradient {
+                        GradientStop {
+                            position: 0
+                            color: "#109a61"
+                        }
+
+                        GradientStop {
+                            position: 1
+                            color: "#0a6d44"
+                        }
+                    }
+
+
+                    Text{
+                        anchors.centerIn: parent
+                        text: "OUI"
+                        font.family: "Stoneyard"
+                    }
+                }
+
                 onClicked: {
                     window.parent.state.send({
                         type: "bridge_confirm",
@@ -215,8 +255,35 @@ Item {
                 }
             }
 
-            Button {
-                text: "Non"
+
+                RoundButton {
+                    radius:5
+                    id: noButton
+
+                        Rectangle {
+                            height: 40
+                            width: 80
+                            anchors.centerIn: parent
+
+                            gradient: Gradient {
+                                GradientStop {
+                                    position: 0
+                                    color : "indianred"
+                                }
+
+                                GradientStop {
+                                    position: 1
+                                    color : "#740912"
+                                }
+                            }
+
+                            Text{
+                                anchors.centerIn: parent
+                                text: "NON"
+                                font.family: "Stoneyard"
+                            }
+                        }
+
                 onClicked: {
                     if (window.parent.state.pont_queue.length == 1) {
                         window.parent.state.send({
