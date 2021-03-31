@@ -81,7 +81,12 @@ Item{
         }
 
         players = newPlayers
-        _currentPlayerChanged(players[newCurrentPlayer].name, players[newCurrentPlayer].colour)
+
+        if (players[newCurrentPlayer].type == "aventurier") {
+            _currentPlayerChanged(players[newCurrentPlayer].name, players[newCurrentPlayer].colour)
+        } else if (players[newCurrentPlayer].type == "cerbere") {
+            _currentPlayerChanged(players[newCurrentPlayer].name, "Black")   
+        }
         _playersChanged(players, newCurrentPlayer)
     }
 
