@@ -244,9 +244,38 @@ class Cerbere::Request
 						game.play_bonus(player, "Arro", 1, new_args)
 						game.bonus_played = true
 					end
+				when "Couar"
+					if @effet == 0
+						new_args.clear()
+						args.each do |arg|
+							new_args << arg.to_i32
+						end
+						game.play_bonus(player, "Couar", 0, new_args)
+						game.bonus_played = true
+					elsif @effet == 1
+						new_args.clear()
+						player.hand.bonus.each_index do |i|
+							if (player.hand.bonus[i].name == args[0])
+								new_args << i
+								break
+							end
+						end
+						game.play_bonus(player, "Couar", 1, new_args)
+						game.bonus_played = true
+					end
 				when "Ego"
 					if @effet == 0
 						game.play_bonus(player, "Ego", 0, new_args)
+						game.bonus_played = true
+					elsif @effet == 1
+						new_args.clear()
+						player.hand.bonus.each_index do |i|
+							if (player.hand.bonus[i].name == args[0])
+								new_args << i
+								break
+							end
+						end
+						game.play_bonus(player, "Ego", 1, new_args)
 						game.bonus_played = true
 					end
 				when "Fata"
@@ -262,17 +291,104 @@ class Cerbere::Request
 						new_args.insert(0, -1)
 						game.play_bonus(player, "Fav", 0, new_args)
 						game.bonus_played = true
+					elsif @effet == 1
+						new_args.clear()
+						# A reecrir !!!
+						player.hand.bonus.each_index do |i|
+							if (player.hand.bonus[i].name == args[0])
+								new_args << i
+								break
+							end
+						end
+						player.hand.bonus.each_index do |i|
+							if ((player.hand.bonus[i].name == args[1]) && (i != new_args[0]))
+								new_args << i
+								break
+							end
+						end
+						player.hand.bonus.each_index do |i|
+							if ((player.hand.bonus[i].name == args[2]) && (i != new_args[0]) && (i != new_args[1]))
+								new_args << i
+								break
+							end
+						end
+						new_args << -1
+						args.each do |arg|
+							game.players.each do |plyr|
+								if arg == plyr.colour.to_s
+									new_args << plyr.lobby_id
+									break
+								end
+							end
+						end
+						game.play_bonus(player, "Fav", 1, new_args)
+						game.bonus_played = true
 					end
 				when "Oppo"
 					if @effet == 0
 						new_args.insert(0, -1)
 						game.play_bonus(player, "Oppo", 0, new_args)
 						game.bonus_played = true
+					elsif @effet == 1
+						new_args.clear()
+						player.hand.bonus.each_index do |i|
+							if (player.hand.bonus[i].name == args[0])
+								new_args << i
+								break
+							end
+						end
+						args.each do |arg|
+							game.players.each do |plyr|
+								if arg == plyr.colour.to_s
+									new_args << plyr.lobby_id
+									break
+								end
+							end
+						end
+						game.play_bonus(player, "Oppo", 1, new_args)
+						game.bonus_played = true
+					elsif @effet == 2
+						new_args.clear()
+						player.hand.bonus.each_index do |i|
+							if (player.hand.bonus[i].name == args[0])
+								new_args << i
+								break
+							end
+						end
+						args.each do |arg|
+							game.players.each do |plyr|
+								if arg == plyr.colour.to_s
+									new_args << plyr.lobby_id
+									break
+								end
+							end
+						end
+						game.play_bonus(player, "Oppo", 2, new_args)
+						game.bonus_played = true
 					end
 				when "Sac"
 					if @effet == 0
 						new_args.insert(0, -1)
 						game.play_bonus(player, "Sac", 0, new_args)
+						game.bonus_played = true
+					elsif @effet == 1
+						new_args.clear()
+						player.hand.bonus.each_index do |i|
+							if (player.hand.bonus[i].name == args[0])
+								new_args << i
+								break
+							end
+						end
+						new_args.insert(0, -1)
+						args.each do |arg|
+							game.players.each do |plyr|
+								if arg == plyr.colour.to_s
+									new_args << plyr.lobby_id
+									break
+								end
+							end
+						end
+						game.play_bonus(player, "Sac", 1, new_args)
 						game.bonus_played = true
 					end
 				else

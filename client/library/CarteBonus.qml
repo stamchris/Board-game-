@@ -37,14 +37,26 @@ Column {
             window.choosePlayers(["Choisissez un joueur à faire avancer de 1 case", "Choisissez un joueur à faire avancer d'1 case"], carteBonusName, choix, "play_bonus", "aventurier", [])
         } else if (carteBonusName == 'Arro' && choix == 1){
             window.chooseCardsToDiscard(carteBonusName, choix, 1, "play_bonus")
+        } else if (carteBonusName == 'Couar' && choix == 0){
+            window.chooseBarquesEffect(carteBonusName, choix, "play_bonus")
+        } else if (carteBonusName == 'Couar' && choix == 1){
+            window.chooseCardsToDiscard(carteBonusName, choix, 1, "play_bonus")
+        } else if (carteBonusName == 'Ego' && choix == 1){
+            window.chooseCardsToDiscard(carteBonusName, choix, 1, "play_bonus")
         } else if (carteBonusName == 'Fata' && choix == 1) {
             window.choosePlayers(["Choisissez un joueur à faire avancer de 3 cases"], carteBonusName, choix, "play_bonus", "aventurier", [])
         } else if (carteBonusName == "Fav" && choix == 0) {
             window.choosePlayers(["Choisissez un joueur à faire avancer d'1 case"], carteBonusName, choix, "play_bonus", "aventurier", [])
+        } else if (carteBonusName == "Fav" && choix == 1) {
+            window.chooseCardsToDiscard(carteBonusName, choix, 3, "play_bonus")
         } else if (carteBonusName == "Oppo" && choix == 0) {
             window.choosePlayers(["Choisissez un joueur à faire reculer d'1 case"], carteBonusName, choix, "play_bonus", "aventurier", [])
+        } else if (carteBonusName == "Oppo" && choix == 1) {
+           window.chooseCardsToDiscard(carteBonusName, choix, 1, "play_bonus")
         } else if (carteBonusName == "Sac" && choix == 0) {
             window.choosePlayers(["Choisissez un joueur à faire reculer d'1 case"], carteBonusName, choix, "play_bonus", "aventurier", [])
+        } else if (carteBonusName == "Sac" && choix == 1) {
+            window.chooseCardsToDiscard(carteBonusName, choix, 1, "play_bonus")
         } else {
             window.parent.state.send({
                 type: "play_bonus",

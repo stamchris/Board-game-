@@ -261,8 +261,7 @@ class Cerbere::Board
             end
         end
         deplacement : Int32 = Math.min(nbJoueursDevant,3)
-        action_deplacer_moi(moi, -2)
-        broadcast("Le joueur #{moi.lobby_id} a avancé de #{deplacement} cases.")
+        action_deplacer_moi(moi, deplacement)
     end
 
     def action_sabotage() : Int32
@@ -518,7 +517,7 @@ class Cerbere::Board
         if(nombre < 0 || nombre > joueur.hand.bonus.size())
             raise "Le joueur #{joueur.lobby_id} ne peut pas défausser #{nombre} carte(s) !"
         end
-
+        puts args
         new_args = [] of Int32
         i = 0
 
@@ -526,7 +525,7 @@ class Cerbere::Board
             new_args << args[i]
             i += 1
         end
-
+        puts new_args
         # Supprimer les cartes dans l'ordre croissant des indices :
         # Les cartes après la carte supprimée voient leur indice baisser de 1
         decalage = 0

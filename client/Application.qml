@@ -76,6 +76,7 @@ ApplicationWindow {
 					game.board.popupSwapBarques.close()
 					game.board.popupSeeBarques.close()
 					game.board.popupChooseCardsToDiscard.close()
+					game.board.popupChooseOppoEffect.close()
 					break
 				case "newBonus":
 					game.state.newBonus(message.cardname)

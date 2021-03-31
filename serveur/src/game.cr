@@ -62,16 +62,12 @@ class Cerbere::Game
 	end
 
 	def play_bonus(player : Player, card : String, effect : Int32, args : Array(Int32))
-		index_card = 0
-
 		player.hand.bonus.each do |bonus_card|
 			if bonus_card.name == card
 				choice = bonus_card.choix[effect]
-				board.defausser(player, index_card)
-				player.send(Response::DiscardBonus.new(bonus_card.name))
 				board.faire_action(player, choice.cout, args)
 				if (choice.cout.evenement == Evenement::DEFAUSSER_MOI)
-					args.shift()
+					args.shift(choice.cout.force)
 				end
 				choice.effets.each_index do |i|
 					board.faire_action(player, choice.effets[i], args)
@@ -79,6 +75,15 @@ class Cerbere::Game
 						args.shift()
 					end
 				end
+				break
+			end
+		end
+
+		index_card = 0
+		player.hand.bonus.each do |bonus_card|
+			if bonus_card.name == card
+				board.defausser(player, index_card)
+				player.send(Response::DiscardBonus.new(bonus_card.name))
 				break
 			end
 			index_card += 1

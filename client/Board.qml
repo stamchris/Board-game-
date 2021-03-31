@@ -20,6 +20,7 @@ Item {
     property alias popupSwapBarques: popupSwapBarques
     property alias popupSeeBarques: popupSeeBarques
     property alias popupChooseCardsToDiscard: popupChooseCardsToDiscard
+    property alias popupChooseOppoEffect: popupChooseOppoEffect
 
     function choosePlayers(choices, action_todo, effect, requestType, playersType, previousArgs) {
         playersChoice.choices = choices
@@ -677,6 +678,19 @@ Item {
                     choosePlayers(["Choisissez un joueur à faire avancer de 2 cases"], action_todo, effect, "play_action", "aventurier", args)
                 } else if (action_todo == 'Arro' && effect == 1) {
                     choosePlayers(["Choisissez un joueur à faire avancer de 3 cases"], action_todo, effect, "play_bonus", "aventurier", args)
+                } else if (action_todo == 'Fav' && effect == 1) {
+                    choosePlayers(["Choisissez un joueur à faire avancer de 2 cases", "Choisissez un joueur à faire avancer de 1 cases"], action_todo, effect, "play_bonus", "aventurier", args)
+                } else if (action_todo == 'Oppo' && effect == 1) {
+                    chooseOppoEffect(action_todo, effect, requestType, args)
+                } else if (action_todo == 'Sac' && effect == 1) {
+                    choosePlayers(["Choisissez un joueur à faire reculer de 2 cases"], action_todo, effect, "play_bonus", "aventurier", args)
+                } else {
+                    window.parent.state.send({
+                        type: requestType,
+                        effet: effect,
+                        carte: action_todo,
+                        args: args
+                    }) 
                 }
             }
         }
@@ -849,6 +863,65 @@ Item {
                         }
                         popupChooseCardsToDiscard.addCardToArgs(parent.source)
                     }
+                }
+            }
+        }
+    }
+
+    function chooseOppoEffect(action_todo, effect, requestType, args) {
+        popupChooseOppoEffect.action_todo = action_todo
+        popupChooseOppoEffect.effect = effect
+        popupChooseOppoEffect.requestType = requestType
+        popupChooseOppoEffect.args = args
+        popupChooseOppoEffect.open()
+    }
+
+    Popup {
+        id: popupChooseOppoEffect
+        anchors.centerIn: parent
+        width: 400
+        height: 150
+        modal: true
+        closePolicy: Popup.CloseOnPressOutside
+
+        background: Rectangle {
+            color: "#ffd194"
+            radius: 3
+        }
+
+        property var action_todo : ""
+        property var effect
+        property var requestType : ""
+        property var args : []
+
+        function openPlayerChoice(choice) {
+            if (choice == 1) {    
+                choosePlayers(["Choisissez un joueur à faire reculer de 2 cases"], action_todo, 1, "play_bonus", "aventurier", args)
+            } else {
+                choosePlayers(["Choisissez un joueur à faire avancer de 2 cases"], action_todo, 2, "play_bonus", "aventurier", args)
+            }
+            popupChooseOppoEffect.close()
+        }
+
+        Text {
+            y: 0
+            horizontalAlignment: Text.AlignHCenter
+            text: "Voulez-vous utiliser l'effet AVANCER ou RECULER ?"
+        }
+
+        RowLayout {
+            y: 50
+            Button {
+                text: "Avancer"
+                onClicked: {
+                    popupChooseOppoEffect.openPlayerChoice(2)
+                }
+            }
+
+            Button {
+                text: "Reculer"
+                onClicked: {
+                    popupChooseOppoEffect.openPlayerChoice(1)
                 }
             }
         }
