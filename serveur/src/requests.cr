@@ -160,6 +160,8 @@ class Cerbere::Request
 								end
 							end
 						end
+						game.play_action(player, 3, 1, new_args)
+						game.action_played = true
 					elsif player.type == TypeJoueur::CERBERE && @effet == 0
 						game.play_action(player, 3, 0, new_args)
 						game.action_played = true

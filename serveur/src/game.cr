@@ -70,16 +70,13 @@ class Cerbere::Game
 				board.defausser(player, index_card)
 				player.send(Response::DiscardBonus.new(bonus_card.name))
 				board.faire_action(player, choice.cout, args)
-				puts args
 				if (choice.cout.evenement == Evenement::DEFAUSSER_MOI)
 					args.shift()
-					puts args
 				end
 				choice.effets.each_index do |i|
 					board.faire_action(player, choice.effets[i], args)
 					if args.size != 0
 						args.shift()
-						puts args
 					end
 				end
 				break
