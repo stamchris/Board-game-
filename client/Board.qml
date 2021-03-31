@@ -2019,40 +2019,12 @@ Item {
             }
 
             if (found_same >= 0) {
-                switch(i) {
-                    case 0:
-                        newNumberOfBonus += parseInt(txtcb1.text,10)
-                        txtcb1.text = "" + newNumberOfBonus
-                        break
-                    case 1:
-                        newNumberOfBonus += parseInt(txtcb2.text,10)
-                        txtcb2.text = "" + newNumberOfBonus
-                        break
-                    case 2:
-                        newNumberOfBonus += parseInt(txtcb3.text,10)
-                        txtcb3.text = "" + newNumberOfBonus
-                        break
-                    case 3:
-                        newNumberOfBonus += parseInt(txtcb4.text,10)
-                        txtcb4.text = "" + newNumberOfBonus
-                        break
-                    case 4:
-                        newNumberOfBonus += parseInt(txtcb4.text,10)
-                        txtcb5.text = "" + newNumberOfBonus
-                        break
-                    case 5:
-                        newNumberOfBonus += parseInt(txtcb4.text,10)
-                        txtcb6.text = "" + newNumberOfBonus
-                        break
-                    case 6:
-                        newNumberOfBonus += parseInt(txtcb4.text,10)
-                        txtcb7.text = "" + newNumberOfBonus
-                        break
-                }
-
+                newNumberOfBonus += parseInt(rowbonusid.children[i].children[0].children[1].children[0].text, 10)
+                rowbonusid.children[i].children[0].children[1].children[0].text = "" + newNumberOfBonus
                 if (newNumberOfBonus < 1){
                     rowbonusid.children[i].visible = false
                     rowbonusid.children[i].children[0].source = ""
+                    rowbonusid.children[i].children[0].children[1].children[0].text = "1"
                 }
             } else {
                 if (type == "add") {
