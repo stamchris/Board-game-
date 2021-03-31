@@ -1571,9 +1571,17 @@ Item {
             var k
 
             for (var i = 0; i < players.length; i++){
-                rowId.children[7-i-1].color = players[i].colour
                 rowId.children[7-i-1].visible = true
                 rowId.children[7-i-1].children[0].children[0].children[0].text = players[i].name
+
+                if (players[i].type == "aventurier") {
+                    rowId.children[7-i-1].color = players[i].colour
+                } else if (players[i].type == "cerbere") {
+                    rowId.children[7-i-1].color = "Black"
+                    rowId.children[7-i-1].children[0].children[0].children[0].color = "White"
+                } else {
+                    rowId.children[7-i-1].visible = false
+                }
 
                 if(players[i].name != window.parent.state.login) {
                     for (var j = 0; j < 4; j++) {
