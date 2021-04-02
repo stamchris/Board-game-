@@ -107,6 +107,9 @@ ApplicationWindow {
 				case "changeType":
 					game.state.changeType(message.new_type)
 					break
+				case "swapBarque":
+					game.state.showSwapBarque(message.barques)
+					break
 			}
 		}
 

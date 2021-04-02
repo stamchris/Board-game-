@@ -26,6 +26,7 @@ Item{
     signal _updatePlayersOnBar(variant players)
     signal _newBonus(string newBonus, string type)
     signal _discardBonus(string discardedBonus, string type)
+    signal _showSwapBarque(string barques)
     signal _updateActionCards(string playerType)
     signal _lockAction()
     signal _lockBonus()
@@ -119,6 +120,12 @@ Item{
         _discardBonus("Carte_" + discardedBonus + ".png", "remove")
     }
 
+    function showSwapBarque(choices) {
+        console.log("choice1"+choices[0])
+        console.log("choice2"+choices[1])
+        _showSwapBarque(choices)
+    }
+
     function useBridge(new_queue) {
         pont_queue = new_queue
         parent.board.popupBridge.imgPlayerBridge.source = "images/" + pont_queue[0].colour + "_pion.png"
@@ -164,6 +171,7 @@ Item{
         _updatePlayersOnBar.connect(parent.board.progressBar.updateBar)
         _newBonus.connect(parent.board.joueurId.updateBonusCard)
         _discardBonus.connect(parent.board.joueurId.updateBonusCard)
+        _showSwapBarque.connect(parent.board.boardId.swapbarque)
         _addToBar.connect(parent.board.progressBar.addToBar)
         _addToBar.connect(parent.board.boardId.pionesId.children[0].hidePlayerPiece)
         _updateActionCards.connect(parent.board.joueurId.loadActionCards)

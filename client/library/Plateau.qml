@@ -33,44 +33,60 @@ Row {
         }
     }
 
-    function swapbarque(barqswap1,barqswap2) {
+    function swapbarque(barqswaps) {
         var tmp = ""
+        console.log("coucou swap")
+        var barqswap1 = barqswaps[0]
+        var barqswap2 = barqswaps[1]
+        console.log(barqswap1)
+        console.log(barqswap2)
 
         switch(barqswap1) {
             case "1": 
                 if(barqswap2 == "2") {
-                    tmp = ""+img_barquetxt.text
-                    img_barquetxt.text = img_barque2txt.text
-                    img_barque2txt.text = tmp
+                    console.log("2")
+                    tmp = ""+img_barquecolor.color
+                    img_barquecolor.color = img_barque2color.color
+                    img_barque2color.color = tmp
+                    imageflecheid.width = 70/100*imageflecheid.parent.width
                 } else if(barqswap2 == "3") {
-                    tmp = ""+img_barquetxt.text
-                    img_barquetxt.Text = img_barque3txt.text
-                    img_barque3txt.text = tmp
+                    tmp = ""+img_barquecolor.color
+                    img_barquecolor.color = img_barque3color.color
+                    img_barque3color.color = tmp
+                    imageflecheid.width = imageflecheid.parent.width
                 }
                 break
             case "2":
                 if(barqswap2 == "1") {
-                    tmp = ""+img_barque2txt.text
-                    img_barque2txt.text = img_barquetxt.text
-                    img_barquetxt.text = tmp
+                    console.log("1")
+                    tmp = ""+img_barque2color.color
+                    img_barque2color.color = img_barquecolor.color
+                    img_barquecolor.color = tmp
+                    imageflecheid.width = 70/100*imageflecheid.parent.width  
                 } else if(barqswap2 == "3") {
-                    tmp = ""+img_barque2txt.text
-                    img_barque2txt.Text = img_barque3txt.text
-                    img_barque3txt.text = tmp
-                }    
+                    tmp = ""+img_barque2color.color
+                    img_barque2color.color = img_barque3color.color
+                    img_barque3color.color = tmp
+                }  
+                imageflecheid.width = 70/100*imageflecheid.parent.width  
                 break
             case "3":
                 if(barqswap2 == "2") {
-                    tmp = ""+img_barque3txt.text
-                    img_barque3txt.text = img_barque2txt.text
-                    img_barque2txt.text = tmp
+                    console.log("3")
+                    tmp = ""+img_barque3color.color
+                    img_barque3color.color = img_barque2color.color
+                    img_barque2color.color = tmp
+                    imageflecheid.width = 70/100*imageflecheid.parent.width
                 } else if(barqswap2 == "1") {
-                    tmp = ""+img_barque3txt.text
-                    img_barque3txt.text = img_barquetxt.text
-                    img_barquetxt.text = tmp
+                    tmp = ""+img_barque3color.color
+                    img_barque3color.color = img_barquecolor.color
+                    img_barquecolor.color = tmp
+                    imageflecheid.width = imageflecheid.parent.width
                 }
                 break
         }
+
+        //imageflecheid.visible = true
     }
 
     Piones {
@@ -865,84 +881,129 @@ Row {
                 }
             }
 
-            Rectangle {
-                id: caseBarqueId
-                width: 12/100*parent.width
-                height : 37/100*parent.height
-                y : 85/100*height
-                color: "transparent"
-        
-                Image {
-                    id:img_barque
-                    height : parent.height
+            Column {
+                width : 39/100*parent.width
+                height : parent.height
+
+                Rectangle {
                     width : parent.width
-                    source : "../images/barque_unknown.png"
-                }
-
-                Text {
-                    id: img_barquetxt
-                    text : "1"
-                    height : 10
-                    width : 10
-                    color : "white"
-                    visible : true
-                }
-
-                Column {
-                    width : parent.width
-                    height : parent.height
-                    x : 20/100*width
-                    y : 20/100*height
-                    id:layoutPawnBarque
-                    spacing : 2
-                }
-            }
-
-            Rectangle {
-                id: caseBarque2Id
-                width: 12/100*parent.width
-                height: 37/100*parent.height
-                y: 85/100*height
-                color: "transparent"
-
-                Image {
-                    id:img_barque2
-                    height : parent.height
-                    width : parent.width
-                    source : "../images/barque_unknown.png"
-                }
-
-                Text {
-                    id: img_barque2txt
-                    text : "2"
-                    height : 10
-                    width : 10
-                    color : "white"
-                    visible : true
-                }
-            }
-            
-            Rectangle {
-                id: caseBarque3Id
-                width: 12/100*parent.width
-                height : 37/100*parent.height
-                y : 85/100*height
-                color: "transparent"
-
-                Image {
-                    id:img_barque3
-                    height : parent.height
-                    width : parent.width
-                    source : "../images/barque_unknown.png"
+                    height : 30/100*parent.height
+                    color : "transparent"
+                    Image {
+                        id : imageflecheid
+                        width : 70/100*parent.width
+                        height : 1/2*parent.height
+                        y : 1/2*parent.height
+                        source : "../images/grande_fleche_bleue_test.png"
+                    }
                 } 
 
-                Text {
-                    id: img_barque3txt
-                    text : "3"
-                    height : 10
-                    width : 10
-                    color : "white"
-                    visible : true
+                Row {
+                    width : parent.width
+                    height : 39/100*parent.height
+
+                    Rectangle {
+                        id: caseBarqueId
+                        width: 1/3*parent.width
+                        //height : 37/100*parent.height
+                        height : parent.height
+                        //y : 85/100*height
+                        color: "transparent"
+                
+                        Image {
+                            id:img_barque
+                            height : parent.height
+                            width : parent.width
+                            source : "../images/barque_unknown.png"
+                        }
+
+                        Rectangle {
+                            id: img_barquecolor
+                            height : 10
+                            width : 10
+                            x : parent.width/2 - width/3
+                            y : 1/15*parent.height
+                            radius : 55
+                            color : "red"
+                            visible : true
+                        }
+
+                        Column {
+                            width : parent.width
+                            height : parent.height
+                            x : 20/100*width
+                            y : 20/100*height
+                            id:layoutPawnBarque
+                            spacing : 2
+                        }
+                    }
+
+                    Rectangle {
+                        id: caseBarque2Id
+                        width: 1/3*parent.width
+                        //height: 37/100*parent.height
+                        height : parent.height
+                        //y: 85/100*height
+                        color: "transparent"
+
+                        Image {
+                            id:img_barque2
+                            height : parent.height
+                            width : parent.width
+                            source : "../images/barque_unknown.png"
+                        }
+
+                        Rectangle {
+                            id: img_barque2color
+                            height : 10
+                            width : 10
+                            x : parent.width/2 - width/3
+                            y : 1/15*parent.height
+                            radius : 55
+                            color : "white"
+                            visible : true
+                        }
+
+                        
+                    }
+                    
+                    Rectangle {
+                        id: caseBarque3Id
+                        width: 1/3*parent.width
+                        //height : 37/100*parent.height
+                        height : parent.height
+                        //y : 85/100*height
+                        color: "transparent"
+
+                        Image {
+                            id:img_barque3
+                            height : parent.height
+                            width : parent.width
+                            source : "../images/barque_unknown.png"
+                        } 
+
+                        Rectangle {
+                            id: img_barque3color
+                            height : 10
+                            width : 10
+                            x : parent.width/2 - width/3
+                            y : 1/15*parent.height
+                            radius : 55
+                            color : "green"
+                            visible : true
+                        }
+                    }
+                }
+
+                Rectangle {
+                    width : parent.width
+                    height : 1/3*parent.height
+                    color : "transparent"
+                    Text {
+                        width : 30
+                        text : "lol"
+                        height : 30
+                    }
                 }
             }
         }

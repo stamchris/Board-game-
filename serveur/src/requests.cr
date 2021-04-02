@@ -586,6 +586,14 @@ class Cerbere::Response
 		end
 	end
 
+	class SwapBarque < Response
+		property type = "swapBarque"
+		property barques : String
+
+		def initialize(@barques)
+		end
+	end
+
 	class ActionPlayed < Response
 		property type = "actionPlayed"
 		

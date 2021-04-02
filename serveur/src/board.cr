@@ -113,6 +113,7 @@ class Cerbere::Board
                 broadcast("Les barques #{args[1]} et #{args[2]} ont été échangées.")
                 players.each do |plyr|
                     plyr.send(Response::Chat.new(srvr, "", "Les barques #{args[1] + 1} et #{args[2] + 1} ont été échangées."))
+                    plyr.send(Response::SwapBarque.new("#{args[1]+1}#{args[2]+1}"))
                 end
             end
         end
