@@ -20,6 +20,7 @@ Row {
     }
 
     function revealbarque(entier) {
+        console.log("reveal : "+entier)
         switch(entier) {
             case "1": 
                 img_barque.source = "../images/barque_1place.png"
@@ -31,20 +32,21 @@ Row {
                 img_barque.source = "../images/barque_3places.png"
                 break
         }
+        
+        img_barque2.source = ""
+        img_barque3.source = ""
+        caseBarque2Id.visible = false
+        caseBarque3Id.visible = false
     }
 
     function swapbarque(barqswaps) {
         var tmp = ""
-        console.log("coucou swap")
         var barqswap1 = barqswaps[0]
         var barqswap2 = barqswaps[1]
-        console.log(barqswap1)
-        console.log(barqswap2)
-
+       
         switch(barqswap1) {
             case "1": 
                 if(barqswap2 == "2") {
-                    console.log("2")
                     tmp = ""+img_barquecolor.color
                     img_barquecolor.color = img_barque2color.color
                     img_barque2color.color = tmp
@@ -58,21 +60,19 @@ Row {
                 break
             case "2":
                 if(barqswap2 == "1") {
-                    console.log("1")
                     tmp = ""+img_barque2color.color
                     img_barque2color.color = img_barquecolor.color
                     img_barquecolor.color = tmp
-                    imageflecheid.width = 70/100*imageflecheid.parent.width  
                 } else if(barqswap2 == "3") {
                     tmp = ""+img_barque2color.color
                     img_barque2color.color = img_barque3color.color
                     img_barque3color.color = tmp
                 }  
                 imageflecheid.width = 70/100*imageflecheid.parent.width  
+                imageflecheid.x = 1/3*imageflecheid.parent.width
                 break
             case "3":
                 if(barqswap2 == "2") {
-                    console.log("3")
                     tmp = ""+img_barque3color.color
                     img_barque3color.color = img_barque2color.color
                     img_barque2color.color = tmp
@@ -82,11 +82,11 @@ Row {
                     img_barque3color.color = img_barquecolor.color
                     img_barquecolor.color = tmp
                     imageflecheid.width = imageflecheid.parent.width
+                    imageflecheid.x = 0
                 }
                 break
         }
-
-        //imageflecheid.visible = true
+        imageflecheid.visible = true
     }
 
     Piones {
@@ -894,7 +894,9 @@ Row {
                         width : 70/100*parent.width
                         height : 1/2*parent.height
                         y : 1/2*parent.height
+                        x : 0
                         source : "../images/grande_fleche_bleue_test.png"
+                        visible : false
                     }
                 } 
 
@@ -999,11 +1001,6 @@ Row {
                     width : parent.width
                     height : 1/3*parent.height
                     color : "transparent"
-                    Text {
-                        width : 30
-                        text : "lol"
-                        height : 30
-                    }
                 }
             }
         }

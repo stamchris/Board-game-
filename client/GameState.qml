@@ -27,6 +27,7 @@ Item{
     signal _newBonus(string newBonus, string type)
     signal _discardBonus(string discardedBonus, string type)
     signal _showSwapBarque(string barques)
+    signal _showRevealBarque(string barque)
     signal _updateActionCards(string playerType)
     signal _lockAction()
     signal _lockBonus()
@@ -121,9 +122,11 @@ Item{
     }
 
     function showSwapBarque(choices) {
-        console.log("choice1"+choices[0])
-        console.log("choice2"+choices[1])
         _showSwapBarque(choices)
+    }
+
+    function showRevealBarque(barque) {
+        _showRevealBarque(barque)
     }
 
     function useBridge(new_queue) {
@@ -172,6 +175,7 @@ Item{
         _newBonus.connect(parent.board.joueurId.updateBonusCard)
         _discardBonus.connect(parent.board.joueurId.updateBonusCard)
         _showSwapBarque.connect(parent.board.boardId.swapbarque)
+        _showRevealBarque.connect(parent.board.boardId.revealbarque)
         _addToBar.connect(parent.board.progressBar.addToBar)
         _addToBar.connect(parent.board.boardId.pionesId.children[0].hidePlayerPiece)
         _updateActionCards.connect(parent.board.joueurId.loadActionCards)

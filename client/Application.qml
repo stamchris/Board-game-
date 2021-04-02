@@ -110,6 +110,9 @@ ApplicationWindow {
 				case "swapBarque":
 					game.state.showSwapBarque(message.barques)
 					break
+				case "revealBarque":
+					game.state.showRevealBarque(message.barque)
+					break
 			}
 		}
 

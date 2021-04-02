@@ -121,9 +121,16 @@ class Cerbere::Board
 
     def action_reveler_barque(moi : Player)
         if(@barques.size == 3)
-          @barques.pop(2)
+            @barques.pop(2)
+            srvr = @players[0].dup()
+            srvr.name = "Server"
+            srvr.colour = nil
+            puts "La barque à #{barques[0]} place(s) a été révélée !"
+            players.each do |plyr|
+                plyr.send(Response::Chat.new(srvr, "","La barque à #{barques[0]} place(s) a été révélée"))
+                plyr.send(Response::RevealBarque.new("#{barques[0]}"))
+            end
         end
-        puts "La barque à #{barques[0]} place(s) a été révélée !"
     end
 
     def action_verif_barque()

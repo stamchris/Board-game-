@@ -492,6 +492,15 @@ class Cerbere::Request
 		end
 	end
 
+	class RevealBark < Request 
+		property type = "revealbark"
+
+		def handle(game : Game, player : Player)
+			game.board.action_reveler_barque(player)	
+		end
+	end
+
+
 	class ChatMessage < Request
 		property type = "chatMessage"
 		property timestamp : String
@@ -591,6 +600,14 @@ class Cerbere::Response
 		property barques : String
 
 		def initialize(@barques)
+		end
+	end
+
+	class RevealBarque < Response 
+		property type = "revealBarque"
+		property barque : String
+
+		def initialize(@barque)
 		end
 	end
 
