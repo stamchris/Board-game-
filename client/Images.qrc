@@ -75,5 +75,6 @@
         <file>images/Blue2.png</file>
         <file>images/Blue3.png</file>
         <file>images/Blue4.png</file>
+	<file>images/Stoneyard.ttf</file>
     </qresource>
 </RCC>

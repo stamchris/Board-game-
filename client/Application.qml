@@ -12,6 +12,11 @@ ApplicationWindow {
 	property alias socket: socket
 	title : "Cerbere"
 
+    FontLoader {
+               id: stoneyard
+               source: "images/Stoneyard.ttf"
+           }
+
 	WebSocket {
 		id: socket
 		property bool waiting4Connect: false
