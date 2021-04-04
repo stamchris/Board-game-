@@ -77,5 +77,19 @@
         <file>images/Blue4.png</file>
 	    <file>images/Stoneyard.ttf</file>
         <file>images/grande_fleche_bleue_test.png</file>
+        <file>images/blanc_icone.png</file>
+        <file>images/blanc_pion.png</file>
+        <file>images/bleu_icone.png</file>
+        <file>images/cyan_icone.png</file>
+        <file>images/cyan_pion.png</file>
+        <file>images/orange_icone.png</file>
+        <file>images/orange_pion.png</file>
+        <file>images/rose_icone.png</file>
+        <file>images/rose_pion.png</file>
+        <file>images/rouge_icone.png</file>
+        <file>images/rouge_pion.png</file>
+        <file>images/vert_icone.png</file>
+        <file>images/vert_pion.png</file>
+        <file>images/belu_pion.png</file>
     </qresource>
 </RCC>

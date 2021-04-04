@@ -15,14 +15,10 @@ Item {
 	}
 	
 	Lobby {
-		anchors.fill: parent
+        anchors.fill: parent
 		visible:view == "Lobby"
 
-		Chat {
-			width: parent.width/2
-			height: parent.height/2
-			Layout.alignment: Qt.AlignBottom
-		}
+
 	}
 
 	Board {
