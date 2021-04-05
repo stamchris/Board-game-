@@ -8,9 +8,22 @@ Item {
         Rectangle {
             id: wrap_container
             anchors.fill: parent
-            color: "#ffffde"
+//          color: "#ffffde"
+            gradient: Gradient {
+                GradientStop { position: 0; color: "#f58226" }
+                GradientStop { position: 0.09; color: "#ffbb4c" }
+                GradientStop { position: 0.36; color: "#ffffde" }
+        }
+
 
         }
+
+        property Gradient bcolor: Gradient {
+                GradientStop { position: 0; color: "#c69c57" }
+                GradientStop { position: 0.22; color: "#f58a11" }
+                GradientStop { position: 0.36; color: "#f0f0d3" }
+        }
+
 
         ColumnLayout {
             anchors{bottom: wrap_container.bottom;right: wrap_container.right;bottomMargin: 5;rightMargin: 5}
@@ -52,7 +65,7 @@ Item {
         GridLayout {
             id:gridLayout
             height: parent.height*0.7
-            width: parent.width *0.6
+            width: parent.width *0.8
             anchors{horizontalCenter: wrap_container.horizontalCenter;top: wrap_container.top}
             columns: 7
             columnSpacing: 10
@@ -64,8 +77,8 @@ Item {
                         height: width/2
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        Layout.maximumWidth: 450
-                        Layout.maximumHeight: 300
+                        Layout.maximumWidth: if(gridLayout.height<650||gridLayout.width<950){350} else{450}
+                        Layout.maximumHeight: if(gridLayout.height<650||gridLayout.width<950){200} else{300}
                         source: "images/cerbere_logo.png"
                         Layout.columnSpan: 7
                         Layout.alignment: Qt.AlignCenter
@@ -76,6 +89,8 @@ Item {
                     Rectangle{
                         id:empty1
                         Layout.fillWidth: true
+                        Layout.minimumHeight: 30
+                        Layout.rightMargin: -50
                         Layout.columnSpan: 3
                         color: "transparent"
                     }
@@ -87,17 +102,20 @@ Item {
                         font.family: "Stoneyard"
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        Layout.maximumWidth: 50
+                        Layout.maximumWidth: 40
                         Layout.maximumHeight: 30
                         Layout.columnSpan: 2
                         Layout.alignment: Qt.AlignLeft
-                        Layout.leftMargin: -40
+                        Layout.leftMargin: -60
+
                     }
 
                     Rectangle{
                         id:empty2
                         Layout.fillWidth: true
                         Layout.columnSpan: 2
+                        Layout.minimumHeight: 30
+                        Layout.leftMargin: 30
                         color: "transparent"
                     }
 
@@ -109,7 +127,7 @@ Item {
                         Layout.fillHeight: true
                         Layout.maximumWidth: 150
                         Layout.maximumHeight: 150
-                        Layout.alignment: Qt.AlignCenter
+                        Layout.alignment: Qt.AlignRight
                         source: "images/cyan_icone.png"
                     }
                     BorderImage {
@@ -169,7 +187,7 @@ Item {
                         Layout.fillHeight: true
                         Layout.maximumWidth: 150
                         Layout.maximumHeight: 150
-                        Layout.alignment: Qt.AlignCenter
+                        Layout.alignment: Qt.AlignLeft
                         source: "images/orange_icone.png"
                     }
 
@@ -179,8 +197,8 @@ Item {
                         height: width
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        Layout.maximumWidth: 100
-                        Layout.maximumHeight: 100
+                        Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{100}
+                        Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{100}
                         Layout.alignment: Qt.AlignCenter
                         Layout.topMargin: 20
                         background:
@@ -199,7 +217,7 @@ Item {
                                 width: parent.width/1.5
                                 source: "images/cyan_pion.png"
                                 rotation: -90
-
+                                }
 
 
                                     MouseArea{
@@ -208,20 +226,19 @@ Item {
                                             onHoveredChanged: {
                                                 if (hoverEnabled == true) {
                                                 if (containsMouse == true) {
-                                                    rec1.color = "#EAECEE"
-//                                                    rec1.border.color= "red"
-//                                                    rec1.border.width = 1
+                                                    rec1.gradient = bcolor
+                                                    rec1.color = "white"
                                                 } else {
                                                     rec1.color = "transparent"
-                                                    rec1.border.width = 0
                                                         }
                                                 }
                                             }
-                                            onClicked: {
-                                                socket.send({type:"change_colour",colour:"Cyan"})
-                                            }
+                                        onClicked: {
+                                            socket.send({type:"change_colour",colour:"Cyan"})
                                         }
                                     }
+
+
                         }   
                     }
                     Button {
@@ -229,8 +246,8 @@ Item {
                         height: width
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        Layout.maximumWidth: 100
-                        Layout.maximumHeight: 100
+                        Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{100}
+                        Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{100}
                         Layout.alignment: Qt.AlignCenter
                         Layout.topMargin: 20
 
@@ -258,13 +275,10 @@ Item {
                                 onHoveredChanged: {
                                     if (hoverEnabled == true) {
                                         if (containsMouse == true) {
-                                            rec2.color = "#EAECEE"
-                                            //rec2.border.color= "red"
-                                            //rec2.border.width = 1
-
+                                            rec2.gradient = bcolor
+                                            rec2.color = "white"
                                         } else {
                                             rec2.color = "transparent"
-                                            rec2.border.width = 0
                                         }
                                     }
                                 }
@@ -285,8 +299,8 @@ Item {
                         height: width
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        Layout.maximumWidth: 100
-                        Layout.maximumHeight: 100
+                        Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{100}
+                        Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{100}
                         Layout.alignment: Qt.AlignCenter
                         Layout.topMargin: 20
 
@@ -311,13 +325,11 @@ Item {
                                 onHoveredChanged: {
                                     if (hoverEnabled == true) {
                                         if (containsMouse == true) {
-                                            rec3.color = "black"
-                                            rec3.border.color= "red"
-                                            rec3.border.width = 2
+                                            rec3.gradient = bcolor
+                                            rec3.color = "white"
 
                                         } else {
                                             rec3.color = "transparent"
-                                            rec3.border.width = 0
                                         }
                                     }
                                 }
@@ -334,8 +346,8 @@ Item {
                         height: width
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        Layout.maximumWidth: 100
-                        Layout.maximumHeight: 100
+                        Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{100}
+                        Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{100}
                         Layout.alignment: Qt.AlignCenter
                         Layout.topMargin: 20
 
@@ -362,13 +374,11 @@ Item {
                                 onHoveredChanged: {
                                     if (hoverEnabled == true) {
                                         if (containsMouse == true) {
-                                            rec4.color = "black"
-                                            rec4.border.color= "red"
-                                            rec4.border.width = 2
+                                            rec4.gradient = bcolor
+                                            rec4.color = "white"
 
                                         } else {
                                             rec4.color = "transparent"
-                                            rec4.border.width = 0
                                         }
                                     }
                                 }
@@ -385,8 +395,8 @@ Item {
                         height: width
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        Layout.maximumWidth: 100
-                        Layout.maximumHeight: 100
+                        Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{100}
+                        Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{100}
                         Layout.alignment: Qt.AlignCenter
                         Layout.topMargin: 20
 
@@ -413,13 +423,11 @@ Item {
                                 onHoveredChanged: {
                                     if (hoverEnabled == true) {
                                         if (containsMouse == true) {
-                                            rec5.color = "black"
-                                            rec5.border.color= "red"
-                                            rec5.border.width = 2
+                                            rec5.gradient = bcolor
+                                            rec5.color = "white"
 
                                         } else {
                                             rec5.color = "transparent"
-                                            rec5.border.width = 0
                                         }
                                     }
                                 }
@@ -435,8 +443,8 @@ Item {
                         height: width
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        Layout.maximumWidth: 100
-                        Layout.maximumHeight: 100
+                        Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{100}
+                        Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{100}
                         Layout.alignment: Qt.AlignCenter
                         Layout.topMargin: 20
 
@@ -463,13 +471,10 @@ Item {
                                 onHoveredChanged: {
                                     if (hoverEnabled == true) {
                                         if (containsMouse == true) {
-                                            rec6.color = "black"
-                                            rec6.border.color= "red"
-                                            rec56.border.width = 2
-
+                                            rec6.gradient = bcolor
+                                            rec6.color = "white"
                                         } else {
                                             rec6.color = "transparent"
-                                            rec6.border.width = 0
                                         }
                                     }
                                 }
@@ -485,8 +490,8 @@ Item {
                         height: width
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        Layout.maximumWidth: 100
-                        Layout.maximumHeight: 100
+                        Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{100}
+                        Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{100}
                         Layout.alignment: Qt.AlignCenter
                         Layout.topMargin: 20
 
@@ -513,13 +518,11 @@ Item {
                                 onHoveredChanged: {
                                     if (hoverEnabled == true) {
                                         if (containsMouse == true) {
-                                            rec7.color = "black"
-                                            rec7.border.color= "red"
-                                            rec7.border.width = 2
+                                            rec7.gradient = bcolor
+                                            rec7.color = "white"
 
                                         } else {
                                             rec7.color = "transparent"
-                                            rec7.border.width = 0
                                         }
                                     }
                                 }
