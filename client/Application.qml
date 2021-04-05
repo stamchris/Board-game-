@@ -113,6 +113,22 @@ ApplicationWindow {
 				case "revealBarque":
 					game.state.showRevealBarque(message.barque)
 					break
+				case "awinner":
+					game.state.showAWinner(message.plyr)
+					break
+				case "aloser":
+					game.state.showALoser(message.plyr)
+					break
+				case "swinner":
+					game.state.showSWinner(message.plyr)
+					break
+				case "sloser":
+					game.state.showSLoser(message.plyr)
+					break
+				case "eliminate":
+					game.state.showEliminate(message.plyr)
+					break
+				
 			}
 		}
 

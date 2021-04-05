@@ -145,8 +145,10 @@ class Cerbere::Board
 
       if(nb_assis == barques[0]) # Barque pleine
         puts "Fin de partie, la barque s'en va !"
+        return true
       else
         puts "Il manque #{barques[0] - nb_assis} personne(s) pour partir !"
+        return false
       end
     end
 
@@ -474,8 +476,9 @@ class Cerbere::Board
     def action_recuperer_carte(joueur : Player) : Nil
         if joueur.type != TypeJoueur::MORT
             joueur.hand.reset(joueur.type)
-        else
-            raise "Vous êtes mort !"
+        #else
+            #raise "Vous êtes mort !" no raise please
+        #    return
         end
     end
 

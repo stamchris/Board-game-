@@ -131,6 +131,8 @@ class Cerbere::Game
 				new_turn()
 			end
 		end
+		#a chaque fin de tour il faut checker la fin de la partie
+		finish(@players)
 	end
 
     def start(@difficulty, @players)
@@ -145,4 +147,76 @@ class Cerbere::Game
 			end
 		end
     end
+
+	def finish(@players)
+		nb_loosers = 0
+		nb_winners = 0
+		nb_rest_in_game = 0
+		@players.each do |p|
+			if(p.type != TypeJoueur::AVENTURIER)
+				nb_loosers += 1
+			elsif(p.position == @board.nodes.size()-1)
+				nb_winners += 1
+			else 
+				nb_rest_in_game += 1
+			end
+		end
+
+		if(nb_loosers==@players.size())
+			@players.each do |p|
+				if(p.type == TypeJoueur::MORT)
+					p.send(Response::EliminatePlayer.new([p]))
+				elsif(p.type == TypeJoueur::CERBERE)
+					p.send(Response::SurvivorWin.new([p]))
+				else 
+					p.send(Response::AdventurerLose.new([p]))
+
+				end
+			end
+			return 
+		end
+
+		if(@board.barques.size() == 1) #reveal barque
+			if(@board.action_verif_barque())
+				if(nb_rest_in_game > 0)
+					@players.each do |p|
+						if(p.type == TypeJoueur::MORT)
+							p.send(Response::EliminatePlayer.new([p]))
+						elsif(p.type == TypeJoueur::CERBERE)
+							p.send(Response::SurvivorLose.new([p]))
+						else 
+							if(p.position == @board.nodes.size() - 1)
+								p.send(Response::AdventurerWin.new([p]))
+							else
+								p.send(Response::AdventurerLose.new([p]))
+							end
+						end
+					end
+				else 
+					@players.each do |p|
+						if(p.type == TypeJoueur::MORT)
+							p.send(Response::EliminatePlayer.new([p]))
+						elsif(p.type == TypeJoueur::CERBERE)
+							p.send(Response::SurvivorLose.new([p]))
+						else 
+							p.send(Response::AdventurerWin.new([p]))
+						end
+					end
+				end
+			else 
+				if(@board.barques[0] > nb_rest_in_game)
+					@players.each do |p|
+						if(p.type == TypeJoueur::MORT)
+							p.send(Response::EliminatePlayer.new([p]))
+						elsif(p.type == TypeJoueur::CERBERE)
+							p.send(Response::SurvivorWin.new([p]))
+						else 
+							p.send(Response::AdventurerLose.new([p]))
+						end
+					end
+				end
+			end
+		end
+	end
+
 end

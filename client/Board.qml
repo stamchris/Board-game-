@@ -21,6 +21,38 @@ Item {
     property alias popupSeeBarques: popupSeeBarques
     property alias popupChooseCardsToDiscard: popupChooseCardsToDiscard
     property alias popupChooseOppoEffect: popupChooseOppoEffect
+    property alias popupFinish: popupFinish
+
+
+    Popup {
+        id : popupFinish
+        anchors.centerIn: parent
+        width: 400
+        height: 100
+        modal: true
+        closePolicy: Popup.CloseOnPressOutside
+
+        property alias finalstateplayer : finalstateplayer
+
+        background: Rectangle {
+            color: "#ffd194"
+            opacity: 0.3
+            radius: 3
+        }
+
+        Text {
+            id: finalstateplayer
+            text : "O"
+            height : parent.height/2
+            width : parent.width/2
+            horizontalAlignment: Text.AlignHCenter
+            font.weight: Font.DemiBold
+            fontSizeMode:Text.Fit
+        }
+
+
+    }
+
 
     function choosePlayers(choices, action_todo, effect, requestType, playersType, previousArgs) {
         playersChoice.choices = choices

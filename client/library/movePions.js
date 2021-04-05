@@ -121,9 +121,6 @@ function findYposition(count, choosePlayer) {
             return choosePlayer.yPosition = layoutPawn17.height
         case '18':
             choosePlayer.parent = layoutPawn18
-            window.parent.state.send({
-                type: "revealbark",
-            })
             return choosePlayer.yPosition = layoutPawn18.height
         case '19':
             choosePlayer.parent = layoutPawn19

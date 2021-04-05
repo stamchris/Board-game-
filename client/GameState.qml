@@ -12,8 +12,10 @@ Item{
     property variant players: []
     property string currentPlayer : "0"
     property string currentPlayerColor : ""
+    property var showfinish_player: []
     property var pont_queue: []
     property var portal_queue: []
+   
 
     signal _currentPlayerChanged(string newCurrentPlayer, string newCurrentPlayerColor)
     signal _difficultyChanged()
@@ -28,6 +30,11 @@ Item{
     signal _discardBonus(string discardedBonus, string type)
     signal _showSwapBarque(string barques)
     signal _showRevealBarque(string barque)
+    /*signal _showAWinner(variant player)
+    signal _showALoser(variant player)
+    signal _showSWinner(variant player)
+    signal _showSLoser(variant player)
+    signal _showEliminate(variant player)*/
     signal _updateActionCards(string playerType)
     signal _lockAction()
     signal _lockBonus()
@@ -127,6 +134,45 @@ Item{
 
     function showRevealBarque(barque) {
         _showRevealBarque(barque)
+    }
+
+    function showAWinner(player) {
+        showfinish_player = player
+        parent.board.popupFinish.finalstateplayer.color = showfinish_player[0].colour
+        parent.board.popupFinish.finalstateplayer.text = ""+ showfinish_player[0].name + " tu a gagne jeune aventurier courageux !"
+        parent.board.popupFinish.open()
+    }
+
+    function showALoser(player) {
+        showfinish_player = player
+        parent.board.popupFinish.finalstateplayer.color = showfinish_player[0].colour
+        parent.board.popupFinish.finalstateplayer.text = ""+ showfinish_player[0].name + " tu a perdu jeune aventurier !"
+        parent.board.popupFinish.open()
+        
+    }
+
+    function showSWinner(player) {
+        showfinish_player = player
+        parent.board.popupFinish.finalstateplayer.color = showfinish_player[0].colour
+        parent.board.popupFinish.finalstateplayer.text = ""+ showfinish_player[0].name + " tu a gagne jeune survivant malicieux ! "
+        parent.board.popupFinish.open()
+       
+    }
+
+    function showSLoser(player) {
+        showfinish_player = player
+        parent.board.popupFinish.finalstateplayer.color = showfinish_player[0].colour
+        parent.board.popupFinish.finalstateplayer.text = ""+ showfinish_player[0].name + " tu a gagne jeune survivant !"
+        parent.board.popupFinish.open()
+       
+    }
+    
+    function showEliminate(player) {
+        showfinish_player = player
+        parent.board.popupFinish.finalstateplayer.color = showfinish_player[0].colour
+        parent.board.popupFinish.finalstateplayer.text = ""+ showfinish_player[0].name + " tu a etait eliminer !"
+        parent.board.popupFinish.open()
+       
     }
 
     function useBridge(new_queue) {
