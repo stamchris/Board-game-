@@ -9,6 +9,7 @@ Item {
             id: wrap_container
             anchors.fill: parent
             color: "#ffffde"
+
         }
 
         ColumnLayout {
@@ -51,10 +52,10 @@ Item {
         GridLayout {
             id:gridLayout
             height: parent.height*0.7
-            width: parent.width *0.8
+            width: parent.width *0.6
             anchors{horizontalCenter: wrap_container.horizontalCenter;top: wrap_container.top}
             columns: 7
-            columnSpacing: 5
+            columnSpacing: 10
             rowSpacing: 10
 
                     BorderImage {
