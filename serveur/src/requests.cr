@@ -9,7 +9,7 @@ class Cerbere::Request
 		change_colour: ChangeColour,
 		game_config: GameConfig
 	}
-	
+
 	def handle(game : Game, player : Player)
 	end
 
@@ -52,7 +52,7 @@ class Cerbere::Request
 			if game.check_colour(@colour)
 				player.colour = @colour
 				game.send_all(Response::UpdatePlayer.new(player))
-			#Fixme : envoyer une resynchronisation sinon
+			#FIXME : envoyer une resynchronisation sinon
 			end
 		end
 	end
