@@ -1,0 +1,102 @@
+default:
+        image: ubuntu:20.04
+
+pages:
+        before_script:
+                - export DEBIAN_FRONTEND=noninteractive # fuck you tzdata
+                - apt-get update
+                - apt-get install --yes --force-yes g++ make git python libxml2 curl unzip
+        script:
+                - curl --output artifacts.zip "https://git.unistra.fr/api/v4/projects/19926/jobs/artifacts/master/download?job=build"
+                - unzip -q artifacts.zip
+                - cd qt5
+                - qtconfig="$PWD/qtbase/bin/qt.conf"
+                - git config --file="$qtconfig" DevicePaths.Prefix "$PWD/qtbase"
+                - git config --file="$qtconfig" Paths.Prefix "$PWD/qtbase"
+                - git config --file="$qtconfig" Paths.HostPrefix "$PWD/qtbase"
+                - qmake_wasm="$PWD/qtbase/bin/qmake -qtconf $qtconfig"
+                - $qmake_wasm --version
+                - originaldir="/builds/lucas.schmidt/binaires-qt-wasm/qt5/qtbase"
+                - find qtbase/{mkspecs/modules,lib,plugins,qml} -name '*.pri' -o -name '*.prl' -o -name '*.pc' | xargs sed -i "s+$originaldir+$PWD/qtbase+g"
+                - cd ..
+                - git clone https://github.com/emscripten-core/emsdk.git
+                - cd emsdk
+                - ./emsdk install 1.39.8
+                - ./emsdk activate --embedded 1.39.8
+                - source emsdk_env.sh
+                - export PATH
+                - em++ --version
+                - cd ..
+                - cd client
+                - $qmake_wasm -d
+                - make
+                - cd ..
+                - mkdir public
+                - mv client/{client.{html,js,wasm},qtloader.js,qtlogo.svg,images} public
+        artifacts:
+                paths:
+                        - public
+        only:
+                - master
+
+verif_client:
+        before_script:
+                - export DEBIAN_FRONTEND=noninteractive # fuck you tzdata
+                - apt-get update
+                - apt-get install --yes --force-yes qt5-default g++ qtdeclarative5-dev make
+        script:
+                - cd client
+                - qmake
+                - make
+        only:
+                - merge_requests
+
+verif_client_wasm:
+        before_script:
+                - export DEBIAN_FRONTEND=noninteractive # fuck you tzdata
+                - apt-get update
+                - apt-get install --yes --force-yes g++ make git python libxml2 curl unzip
+        script:
+                - curl --output artifacts.zip "https://git.unistra.fr/api/v4/projects/19926/jobs/artifacts/master/download?job=build"
+                - unzip -q artifacts.zip
+                - cd qt5
+                - qtconfig="$PWD/qtbase/bin/qt.conf"
+                - git config --file="$qtconfig" DevicePaths.Prefix "$PWD/qtbase"
+                - git config --file="$qtconfig" Paths.Prefix "$PWD/qtbase"
+                - git config --file="$qtconfig" Paths.HostPrefix "$PWD/qtbase"
+                - qmake_wasm="$PWD/qtbase/bin/qmake -qtconf $qtconfig"
+                - $qmake_wasm --version
+                - originaldir="/builds/lucas.schmidt/binaires-qt-wasm/qt5/qtbase"
+                - find qtbase/{mkspecs/modules,lib,plugins,qml} -name '*.pri' -o -name '*.prl' -o -name '*.pc' | xargs sed -i "s+$originaldir+$PWD/qtbase+g"
+                - cd ..
+                - git clone https://github.com/emscripten-core/emsdk.git
+                - cd emsdk
+                - ./emsdk install 1.39.8
+                - ./emsdk activate --embedded 1.39.8
+                - source emsdk_env.sh
+                - export PATH
+                - em++ --version
+                - cd ..
+                - cd client
+                - $qmake_wasm -d
+                - make
+                - cd ..
+                - mkdir public
+                - mv client/{client.{html,js,wasm},qtloader.js,qtlogo.svg,images} public
+        artifacts:
+                paths:
+                        - public
+        only:
+                - merge_requests
+
+verif_serveur:
+        before_script:
+                - export DEBIAN_FRONTEND=noninteractive # fuck you tzdata
+                - apt-get update
+                - apt-get install --yes --force-yes curl apt-transport-https ca-certificates gnupg
+                - curl -fsSL https://crystal-lang.org/install.sh | bash
+        script:
+                - cd serveur
+                - shards build
+        only:
+                - merge_requests

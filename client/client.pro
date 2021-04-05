@@ -15,6 +15,14 @@ RESOURCES += qml.qrc \
 
 INCLUDEPATH += ..
 INCLUDEPATH += /usr/lib/gcc/x86_64-linux-gnu/9/include/
+# Règles qui ne s'appliquent que pour Qt Wasm
+wasm-emscripten {
+	CONFIG += static
+	QMAKE_LFLAGS += -s TOTAL_MEMORY=32MB
+	RESOURCES += ApplicationWeb.qml
+	QTPLUGIN += qtvirtualkeyboardplugin
+	QT += svg
+}
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =

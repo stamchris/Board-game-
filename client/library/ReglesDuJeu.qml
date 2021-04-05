@@ -9,10 +9,17 @@ Window {
     visible: true
     title: qsTr("Regles du jeu")
 
+    Button {
+        id: btnQuitter
+        text: "Quitter"
+        onClicked: window2.close()
+    }
+
     ScrollView {
         id: scrollViewId
         width: parent.width
         height: parent.height
+        anchors.top: btnQuitter.bottom
         ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
 
@@ -23,15 +30,15 @@ Window {
 
             model: ListModel {
                 ListElement {
-                    name:"../images/Regle1.jpg"
+                    num: 1
                 }
                 
                 ListElement {
-                    name:"../images/Regle2.jpg"
+                    num: 2
                 }
 
                 ListElement {
-                    name:"../images/Regle3.jpg"
+                    num: 3
                 }
             }
 
@@ -44,7 +51,7 @@ Window {
                     width: parent.width
                     height: parent.height
                     id: regle1
-                    source: name
+                    source: ROOT_URL+"images/Regle"+num+".jpg"
                 }
             }
         }

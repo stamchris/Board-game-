@@ -2,6 +2,7 @@ import QtQuick 2.10
 import QtQuick.Layouts 1.10
 import QtQuick.Controls 2.10
 import QtWebSockets 1.0
+import QtQuick.Window 2.12
 
 ApplicationWindow {
 	id: app
@@ -182,7 +183,7 @@ ApplicationWindow {
 			}
 		}
 
-		initialItem: "Login.qml"
+        initialItem: "Login.qml"
 	}
 
 	Game {
@@ -196,6 +197,19 @@ ApplicationWindow {
 			function send(message) {
 				app.socket.send(message)
 			}
+		}
+	}
+
+	Component.onCompleted: {
+		if(NEEDS_VIRTUAL_KEYBOARD){
+			Qt.createQmlObject("import QtQuick.VirtualKeyboard 2.2
+			InputPanel {
+				id: virtualKeyboard
+				visible: active
+				anchors.bottom: parent.bottom
+				width: parent.width
+				y: parent.height - height
+			}", app, null);
 		}
 	}
 }

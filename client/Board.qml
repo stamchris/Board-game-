@@ -1147,8 +1147,12 @@ Item {
 
                 onClicked: {
                     var component = Qt.createComponent("library/ReglesDuJeu.qml")
-                    var window = component.createObject("window2")
-                    window.show()
+                    if(component.status == Component.Ready){
+                        var window = component.createObject("window2")
+                        window.show()
+                    }else if(component.status == Component.Error){
+                        console.error(component.errorString());
+                    }
                 }
             }
         }

@@ -7,3 +7,13 @@ cerbere-serveur
 cerbere
 .qmake.stash
 build-client*
+*.html
+*.js*
+*.wasm
+qmake_qmake_immediate.qrc
+*.tmp
+qrc_*.cpp
+qtlogo.svg
+client/client
+moc_*.cpp
+moc_predefs.h
