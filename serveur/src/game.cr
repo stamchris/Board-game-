@@ -5,8 +5,8 @@ class Cerbere::Game
 	getter players : Array(Player)
 	getter active = false
 	property board : Board = Board.new(0, [] of Player)
-    getter difficulty : Int32 = 0
-    getter number_players : Int32 = 0
+    property difficulty : Int32 = 3
+   	property number_players : Int32 = 3
 	property active_player : Int32 = 0
 	property nb_turns : Int32 = 1
 	property action_played : Bool = false
@@ -33,7 +33,7 @@ class Cerbere::Game
 	end
 
 	def check_players()
-		if @players.size>=3
+		if @players.size==@number_players
 			if @players.all? &.ready == true
 				@active = true
 			end
@@ -218,5 +218,4 @@ class Cerbere::Game
 			end
 		end
 	end
-
 end

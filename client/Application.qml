@@ -37,6 +37,7 @@ ApplicationWindow {
 					app.title = "Cerbere : " + login
 					game.players = message.players
 					game.visible = true
+					game.rank = message.rank
 					loader.push(game)
 					break
 				case "starter":
@@ -105,6 +106,9 @@ ApplicationWindow {
 				case "bonusPlayed":
 					game.state.lockCards("bonus")
 					break
+				case "gameConfigUpdated":
+					console.log("Received config")
+					break
 				case "changeType":
 					game.state.changeType(message.new_type)
 					break
@@ -129,7 +133,6 @@ ApplicationWindow {
 				case "eliminate":
 					game.state.showEliminate(message.plyr)
 					break
-				
 			}
 		}
 

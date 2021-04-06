@@ -4,7 +4,6 @@ import QtQuick.Controls 2.12
 import QtWebSockets 1.12
 
 Item {
-
 	property string src: typeof ROOT_URL === "undefined" ? "" : ROOT_URL
 
     Rectangle {
@@ -16,6 +15,32 @@ Item {
         color: "#ffffde"
 
     }
+
+	Button {
+		visible: game.getPlayer().owner
+		anchors.top:parent.top
+		anchors.right:parent.right
+		text: "Configuration"
+		onClicked: loader.push(configScreen)
+	}
+	
+	Component {
+		id: configScreen
+
+		GameCreation {
+			anchors.fill: parent
+		}
+	}
+
+	UsersView {
+		users: game.players
+		Layout.fillHeight:true
+		Layout.alignment: Qt.AlignHCenter
+		x: 0
+		y: app.height - 78
+		width: 355
+		height: 78
+	}
 
     ScrollView {
         x: 0
@@ -401,6 +426,3 @@ Item {
 
     }
 }
-
-
-
