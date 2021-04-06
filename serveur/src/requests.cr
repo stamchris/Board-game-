@@ -575,6 +575,7 @@ class Cerbere::Response
 
 	class GameConfigUpdated < Response
 		property type = "gameConfigUpdated"
+		property player : Player
 
 		def initialize(@player)
 		end
