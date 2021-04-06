@@ -5,18 +5,18 @@ class Cerbere::Game
 	getter players : Array(Player)
 	getter active = false
 	property board : Board = Board.new(0, [] of Player)
-    property difficulty : Int32 = 3
-   	property number_players : Int32 = 3
+	property difficulty : Int32 = 3
+	property number_players : Int32 = 3
 	property active_player : Int32 = 0
 	property nb_turns : Int32 = 1
 	property action_played : Bool = false
 	property bonus_played : Bool = false
 	property finished : Bool = false
-
+	
 	def initialize()
 		@players = [] of Player
 	end
-
+	
 	def <<(player : Player)
 		i = Colour::Cyan
 		until check_colour(i)
@@ -25,13 +25,13 @@ class Cerbere::Game
 		player.colour=i
 		@players << player
 	end
-
+	
 	def send_all(response : Response)
 		@players.each do |player|
 			player.send response
 		end
 	end
-
+	
 	def check_players()
 		if @players.size==@number_players
 			if @players.all? &.ready == true
@@ -40,11 +40,11 @@ class Cerbere::Game
 		end
 		@active
 	end
-
+	
 	def check_colour(colour : Cerbere::Colour)
 		@players.all? { |player| player.colour != colour}
 	end
-
+	
 	def play_action(player : Player, num_card : Int32, effect : Int32, args : Array(Int32))
 		player.hand.action[num_card] = false
 		card = Hand.actions_of(player.type)[num_card]
@@ -60,7 +60,7 @@ class Cerbere::Game
 			end
 		end
 	end
-
+	
 	def play_bonus(player : Player, card : String, effect : Int32, args : Array(Int32))
 		player.hand.bonus.each do |bonus_card|
 			if bonus_card.name == card
@@ -78,7 +78,7 @@ class Cerbere::Game
 				break
 			end
 		end
-
+		
 		index_card = 0
 		player.hand.bonus.each do |bonus_card|
 			if bonus_card.name == card
@@ -89,7 +89,7 @@ class Cerbere::Game
 			index_card += 1
 		end
 	end
-
+	
 	def new_turn()
 		if (!@action_played)
 			play_action(players[active_player], 0, 0, [] of Int32)
@@ -103,7 +103,7 @@ class Cerbere::Game
 			board.action_deplacer_moi(plyr[0], new_force)
 		end
 		board.pont_queue.clear()
-
+		
 		board.portal_queue.each do |plyr|
 			id_portal = board.nodes[plyr[0].position].effect.force
 			plyr[0].position += id_portal == 1 ? -1 : 1 
@@ -112,7 +112,7 @@ class Cerbere::Game
 			board.action_deplacer_moi(plyr[0], new_force)
 		end
 		board.portal_queue.clear()
-
+		
 		loop do
 			@active_player += 1
 			@active_player %= players.size
@@ -122,7 +122,7 @@ class Cerbere::Game
 		@action_played = false
 		@bonus_played = false
 		board.cerbere_hunting()
-
+		
 		send_all(Response::UpdateBoard.new(players, board.position_cerbere, board.vitesse_cerbere, board.rage_cerbere, board.pont, active_player))
 		spawn do 
 			save = @nb_turns
@@ -134,10 +134,10 @@ class Cerbere::Game
 		#a chaque fin de tour il faut checker la fin de la partie
 		finish(@players)
 	end
-
-    def start(@difficulty, @players)
-        @number_players = players.size
-        @board = Board.new(@difficulty, @players)
+	
+	def start(@difficulty, @players)
+		@number_players = players.size
+		@board = Board.new(@difficulty, @players)
 		send_all(Response::UpdateBoard.new(players, board.position_cerbere, board.vitesse_cerbere, board.rage_cerbere, board.pont, active_player))
 		spawn do 
 			save = @nb_turns
@@ -146,8 +146,8 @@ class Cerbere::Game
 				new_turn()
 			end
 		end
-    end
-
+	end
+	
 	def finish(@players)
 		nb_loosers = 0
 		nb_winners = 0
@@ -161,7 +161,7 @@ class Cerbere::Game
 				nb_rest_in_game += 1
 			end
 		end
-
+		
 		if(nb_loosers==@players.size())
 			@players.each do |p|
 				if(p.type == TypeJoueur::MORT)
@@ -170,12 +170,12 @@ class Cerbere::Game
 					p.send(Response::SurvivorWin.new([p]))
 				else 
 					p.send(Response::AdventurerLose.new([p]))
-
+					
 				end
 			end
 			return 
 		end
-
+		
 		if(@board.barques.size() == 1) #reveal barque
 			if(@board.action_verif_barque())
 				if(nb_rest_in_game > 0)
