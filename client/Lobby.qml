@@ -8,22 +8,21 @@ Item {
         Rectangle {
             id: wrap_container
             anchors.fill: parent
-//          color: "#ffffde"
-            gradient: Gradient {
-                GradientStop { position: 0; color: "#f58226" }
-                GradientStop { position: 0.09; color: "#ffbb4c" }
-                GradientStop { position: 0.36; color: "#ffffde" }
-        }
+
+            BorderImage {
+                id: background
+                source: "images/background_image.jpg"
+                anchors.fill:parent
+            }
 
 
         }
 
         property Gradient bcolor: Gradient {
-                GradientStop { position: 0; color: "#c69c57" }
-                GradientStop { position: 0.22; color: "#f58a11" }
-                GradientStop { position: 0.36; color: "#f0f0d3" }
-        }
-
+            GradientStop { position: 0; color: "#f58226" }
+            GradientStop { position: 0.09; color: "#ffbb4c" }
+            GradientStop { position: 0.36; color: "#ffffde" }
+    }
 
         ColumnLayout {
             anchors{bottom: wrap_container.bottom;right: wrap_container.right;bottomMargin: 5;rightMargin: 5}
@@ -226,8 +225,7 @@ Item {
                                             onHoveredChanged: {
                                                 if (hoverEnabled == true) {
                                                 if (containsMouse == true) {
-                                                    rec1.gradient = bcolor
-                                                    rec1.color = "white"
+                                                    rec1.color = "#f0f0d3"
                                                 } else {
                                                     rec1.color = "transparent"
                                                         }
@@ -275,8 +273,7 @@ Item {
                                 onHoveredChanged: {
                                     if (hoverEnabled == true) {
                                         if (containsMouse == true) {
-                                            rec2.gradient = bcolor
-                                            rec2.color = "white"
+                                           rec2.color = "#f0f0d3"
                                         } else {
                                             rec2.color = "transparent"
                                         }
@@ -325,8 +322,7 @@ Item {
                                 onHoveredChanged: {
                                     if (hoverEnabled == true) {
                                         if (containsMouse == true) {
-                                            rec3.gradient = bcolor
-                                            rec3.color = "white"
+                                            rec3.color = "#f0f0d3"
 
                                         } else {
                                             rec3.color = "transparent"
@@ -374,8 +370,7 @@ Item {
                                 onHoveredChanged: {
                                     if (hoverEnabled == true) {
                                         if (containsMouse == true) {
-                                            rec4.gradient = bcolor
-                                            rec4.color = "white"
+                                            rec4.color = "#f0f0d3"
 
                                         } else {
                                             rec4.color = "transparent"
@@ -423,8 +418,7 @@ Item {
                                 onHoveredChanged: {
                                     if (hoverEnabled == true) {
                                         if (containsMouse == true) {
-                                            rec5.gradient = bcolor
-                                            rec5.color = "white"
+                                           rec5.color = "#f0f0d3"
 
                                         } else {
                                             rec5.color = "transparent"
@@ -471,8 +465,7 @@ Item {
                                 onHoveredChanged: {
                                     if (hoverEnabled == true) {
                                         if (containsMouse == true) {
-                                            rec6.gradient = bcolor
-                                            rec6.color = "white"
+                                            rec6.color = "#f0f0d3"
                                         } else {
                                             rec6.color = "transparent"
                                         }
@@ -518,8 +511,7 @@ Item {
                                 onHoveredChanged: {
                                     if (hoverEnabled == true) {
                                         if (containsMouse == true) {
-                                            rec7.gradient = bcolor
-                                            rec7.color = "white"
+                                            rec7.color = "#f0f0d3"
 
                                         } else {
                                             rec7.color = "transparent"

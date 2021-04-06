@@ -6,7 +6,7 @@ Rectangle {
     width: parent.width
     height: parent.height
     anchors.fill: parent
-    color: "#e8e1cd"
+    color: "transparent"
     border.color: "#740912"
     border.width: 2
 
@@ -99,7 +99,7 @@ Rectangle {
         id: cerbereBarId
         height: parent.height*90/100
         width: parent.width - parent.height*10/100
-        color: "#e8e1cd"
+        color: "transparent"
 
         anchors {
             verticalCenter: parent.verticalCenter;

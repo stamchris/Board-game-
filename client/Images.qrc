@@ -91,5 +91,6 @@
         <file>images/vert_icone.png</file>
         <file>images/vert_pion.png</file>
         <file>images/belu_pion.png</file>
+	<file>images/background_image.jpg</file>
     </qresource>
 </RCC>

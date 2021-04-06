@@ -43,6 +43,11 @@ Item {
         }
         playersChoice.open()
     }
+    BorderImage {
+        id: background1
+        source: "images/background_image.jpg"
+        anchors.fill:parent
+    }
 
     Popup {
         id: playersChoice
@@ -936,6 +941,7 @@ Item {
     Rectangle {
         id: menuBarId
         height: 60
+        color: "transparent"
         
         anchors { 
             left: parent.left;
@@ -1131,6 +1137,7 @@ Item {
         property alias actionId: actionId
         property alias progressBar: progressBarId
         property alias chronoId: chronoId
+        color: "transparent"
 
         Rectangle {
             id: chronoId
@@ -1138,7 +1145,7 @@ Item {
             height: underBarId.height
             border.color: "#740912"
             border.width: 2
-            color: "#e8e1cd"
+            color: "transparent"
 
             anchors {
                 left: underBarId.left;
@@ -1172,7 +1179,7 @@ Item {
             Rectangle {
                 height: parent.height - 4
                 width: parent.width - parent.height - 4
-                color: "#e8e1cd"
+                color: "transparent"
 
                 anchors {
                     left : img_chrono.right;
@@ -1196,6 +1203,7 @@ Item {
             id: progressBarId
             width: underBarId.width*7/10
             height: underBarId.height
+            color: "transparent"
 
             anchors {
                 top:underBarId.top;
@@ -1228,6 +1236,7 @@ Item {
             border.color: "#740912"
             border.width: 2
             property var currentPlayerTimer: 60
+            color: "transparent"
 
             anchors {
                 top: underBarId.top;
@@ -1242,7 +1251,7 @@ Item {
                 Rectangle {
                     height: parent.height/2
                     width:  parent.width - parent.height
-                    color: "#e8e1cd"
+                    color: "transparent"
 
                     anchors {
                         top: parent.top
@@ -1266,7 +1275,7 @@ Item {
                 Rectangle {
                     height: parent.height/2
                     width: parent.width - parent.height
-                    color: "#e8e1cd"
+                    color: "transparent"
 
                     anchors {
                         bottom: parent.bottom
@@ -1287,7 +1296,7 @@ Item {
                 Rectangle {
                     height: parent.height
                     width: parent.height
-                    color: "#e8e1cd"
+                    color: "transparent"
 
                     anchors {
                         bottom: parent.bottom
@@ -1340,7 +1349,7 @@ Item {
         id: chatId
         height: parent.height*34/100
         width: parent.width*2/10
-        color: "#e8e1cd"
+        color: "transparent"
         border.color: "#740912"
         border.width: 2
 
@@ -1384,7 +1393,7 @@ Item {
         id: infoJoueurId
         width: parent.width*8/10
         height: 40
-        color: "#e8e1cd"
+       color: "transparent"
 
         anchors {
             top: plateauId.bottom;
@@ -1792,6 +1801,12 @@ Item {
                 height: parent.height
                 width : joueurId.width/8*7
                 x: -scrollBarBonus.position*width
+
+                BorderImage {
+                    id: background2
+                    source: "images/background_image.jpg"
+                    anchors.fill:parent
+                }
 
                 Rectangle {
                     id : carte_Bonus1Id
