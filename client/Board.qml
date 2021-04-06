@@ -23,6 +23,7 @@ Item {
     property alias popupChooseOppoEffect: popupChooseOppoEffect
     property alias popupFinish: popupFinish
 
+	property string src: typeof ROOT_URL === "undefined" ? "" : ROOT_URL
 
     Popup {
         id : popupFinish
@@ -143,7 +144,7 @@ Item {
             RoundButton {
                 visible: false
                 icon.color: "transparent"
-                icon.source: "images/Red_pion.png"
+                icon.source: src+"images/Red_pion.png"
                 onClicked: {
                     playersChoice.choosePlayer("Red")
                 }
@@ -152,7 +153,7 @@ Item {
             RoundButton {
                 visible: false
                 icon.color: "transparent"
-                icon.source: "images/Cyan_pion.png"
+                icon.source: src+"images/Cyan_pion.png"
                 onClicked: {
                     playersChoice.choosePlayer("Cyan")
                 }
@@ -161,7 +162,7 @@ Item {
             RoundButton {
                 visible: false
                 icon.color: "transparent"
-                icon.source: "images/Green_pion.png"
+                icon.source: src+"images/Green_pion.png"
                 onClicked: {
                     playersChoice.choosePlayer("Green")
                 }
@@ -170,7 +171,7 @@ Item {
            RoundButton {
                 visible: false
                 icon.color: "transparent"
-                icon.source: "images/Blue_pion.png"
+                icon.source: src+"images/Blue_pion.png"
                 onClicked: {
                     playersChoice.choosePlayer("Blue")
                 }
@@ -179,7 +180,7 @@ Item {
             RoundButton {
                 visible: false
                 icon.color: "transparent"
-                icon.source: "images/White_pion.png"
+                icon.source: src+"images/White_pion.png"
                 onClicked: {
                     playersChoice.choosePlayer("White")
                 }
@@ -188,7 +189,7 @@ Item {
             RoundButton {
                 visible: false
                 icon.color: "transparent"
-                icon.source: "images/Pink_pion.png"
+                icon.source: src+"images/Pink_pion.png"
                 onClicked: {
                     playersChoice.choosePlayer("Pink")
                 }
@@ -197,7 +198,7 @@ Item {
             RoundButton {
                 visible: false
                 icon.color: "transparent"
-                icon.source: "images/Orange_pion.png"
+                icon.source: src+"images/Orange_pion.png"
                 onClicked: {
                     playersChoice.choosePlayer("Orange")
                 }
@@ -1406,7 +1407,7 @@ Item {
             id: plateauImageId
             anchors.fill: parent
             horizontalAlignment: Image.AlignHCenter
-            source: "images/plateauv3_2s.png"
+            source: src+"images/plateauv3_2s.png"
             fillMode: Image.Stretch
             property alias boardId: boardId
             
@@ -1699,12 +1700,12 @@ Item {
 
                         if (players[i].hand.action[j] == true && players[i].type != "mort") {
                             if (players[i].type == "aventurier") {
-                                rowId.children[7-i-1].children[0].children[1].children[j+1].children[0].source = "images/"+players[i].colour+k+".png"
+                                rowId.children[7-i-1].children[0].children[1].children[j+1].children[0].source = src+"images/"+players[i].colour+k+".png"
                             } else {
-                                rowId.children[7-i-1].children[0].children[1].children[j+1].children[0].source = "images/Cerbere"+k+".png"
+                                rowId.children[7-i-1].children[0].children[1].children[j+1].children[0].source = src+"images/Cerbere"+k+".png"
                             }
                         } else {
-                            rowId.children[7-i-1].children[0].children[1].children[j+1].children[0].source = "images/verso.png"
+                            rowId.children[7-i-1].children[0].children[1].children[j+1].children[0].source = src+"images/verso.png"
                         }
                     }
                     rowId.children[7-i-1].children[0].children[1].children[0].children[1].children[0].text = "" + players[i].hand.bonus_size
@@ -2160,11 +2161,11 @@ Item {
         function loadActionCards(playerType) {
             if (playerType == "aventurier") {
                 for (var j = 0; j < 4; j++){
-                    joueurId.children[j].children[0].source = "images/" + window.parent.state.color + (j+1) + ".png"
+                    joueurId.children[j].children[0].source = src+"images/" + window.parent.state.color + (j+1) + ".png"
                 }
             } else if (playerType == "cerbere") {
                 for (var j = 0; j < 4; j++){
-                    joueurId.children[j].children[0].source = "images/Cerbere" + (j+1) + ".png"
+                    joueurId.children[j].children[0].source = src+"images/Cerbere" + (j+1) + ".png"
                 }
 
                 for (var j = 0; j < 7; j++) {

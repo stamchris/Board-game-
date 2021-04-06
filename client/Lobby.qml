@@ -5,6 +5,8 @@ import QtWebSockets 1.12
 
 Item {
 
+	property string src: typeof ROOT_URL === "undefined" ? "" : ROOT_URL
+
     Rectangle {
         id: rectangle
         x: 0
@@ -95,7 +97,7 @@ Item {
                         y: 134
                         width: 100
                         height: 100
-                        source: "images/cyan_pion.png"
+                        source: src+"images/cyan_pion.png"
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
 
@@ -139,7 +141,7 @@ Item {
                         y: 134
                         width: 100
                         height: 100
-                        source: "images/orange_pion.png"
+                        source: src+"images/orange_pion.png"
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
 
@@ -183,7 +185,7 @@ Item {
                         y: 134
                         width: 100
                         height: 100
-                        source: "images/vert_pion.png"
+                        source: src+"images/vert_pion.png"
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
 
@@ -227,7 +229,7 @@ Item {
                         y: 134
                         width: 100
                         height: 100
-                        source: "images/rose_pion.png"
+                        source: src+"images/rose_pion.png"
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
 
@@ -271,7 +273,7 @@ Item {
                         y: 134
                         width: 100
                         height: 100
-                        source: "images/bleu_pion.png"
+                        source: src+"images/bleu_pion.png"
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
 
@@ -315,7 +317,7 @@ Item {
                         y: 134
                         width: 100
                         height: 100
-                        source: "images/rouge_pion.png"
+                        source: src+"images/rouge_pion.png"
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
 
@@ -359,7 +361,7 @@ Item {
                         y: 134
                         width: 100
                         height: 100
-                        source: "images/blanc_pion.png"
+                        source: src+"images/blanc_pion.png"
                         rotation: 270
                         anchors.horizontalCenter: parent.horizontalCenter
                     }

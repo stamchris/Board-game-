@@ -9,6 +9,10 @@ Window {
     visible: true
     title: qsTr("Regles du jeu")
 
+	// Quand c'est compilé, l'URL est relative à l'emplacement de l'exécutable,
+	// si c'est exécuté avec qmlscene, elle est relative au dossier library
+	property string src: typeof ROOT_URL === "undefined" ? "../" : ROOT_URL
+
     Button {
         id: btnQuitter
         text: "Quitter"
@@ -51,7 +55,7 @@ Window {
                     width: parent.width
                     height: parent.height
                     id: regle1
-                    source: ROOT_URL+"images/Regle"+num+".jpg"
+                    source: src+"images/Regle"+num+".jpg"
                 }
             }
         }

@@ -10,6 +10,8 @@ Rectangle {
     border.color: "#740912"
     border.width: 2
 
+	property string src: typeof ROOT_URL === "undefined" ? "../" : ROOT_URL
+
     function updateVitesse(newVitesse) {
         cubeid.source = "../images/"+newVitesse+".png"
     }
@@ -80,7 +82,7 @@ Rectangle {
         }
         
         for (var k = 0; k < colors.length; k++) {
-            rageBar.children[k].children[1].source = "../images/" + colors[k] + "_pion.png"
+            rageBar.children[k].children[1].source = src+"images/" + colors[k] + "_pion.png"
         }
     }
 
@@ -92,7 +94,7 @@ Rectangle {
             }
             i++
         }
-        rageBar.children[i].children[1].source = "../images/" + player_color + "_pion.png"
+        rageBar.children[i].children[1].source = src+"images/" + player_color + "_pion.png"
     }
 
     Rectangle {

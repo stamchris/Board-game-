@@ -13,6 +13,8 @@ Rectangle {
         property variant xArray: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         property variant xCounter: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
+	property string src: typeof ROOT_URL === "undefined" ? "../" : ROOT_URL
+
         function receiveCounterPiones(count, playerColor) {
             MovePions.fixYArray(yArray, count)
             MovePions.fixXCounter(xCounter, count)
@@ -104,7 +106,7 @@ Rectangle {
 
             Image {
                 anchors.fill : parent
-                source : "../images/Cerbere_pion.png"
+                source : src+"images/Cerbere_pion.png"
             }  
         }
 
@@ -117,7 +119,7 @@ Rectangle {
 
             Image {
                 anchors.fill: parent
-                source: "../images/Cyan_pion.png"
+                source: src+"images/Cyan_pion.png"
             }
         }
 
@@ -130,7 +132,7 @@ Rectangle {
         
             Image {
                 anchors.fill: parent
-                source: "../images/Orange_pion.png"
+                source: src+"images/Orange_pion.png"
             }
         }
 
@@ -143,7 +145,7 @@ Rectangle {
             
             Image {
                 anchors.fill: parent
-                source: "../images/Green_pion.png"
+                source: src+"images/Green_pion.png"
             }
         }
 
@@ -156,7 +158,7 @@ Rectangle {
 
             Image {
                 anchors.fill: parent
-                source: "../images/White_pion.png"
+                source: src+"images/White_pion.png"
             }   
         }
 
@@ -169,7 +171,7 @@ Rectangle {
 
             Image {
                 anchors.fill: parent
-                source: "../images/Pink_pion.png"
+                source: src+"images/Pink_pion.png"
             }
         }
 
@@ -183,7 +185,7 @@ Rectangle {
 
             Image {
                 anchors.fill: parent
-                source: "../images/Blue_pion.png"
+                source: src+"images/Blue_pion.png"
             }
         }
 
@@ -196,7 +198,7 @@ Rectangle {
 
             Image {
                 anchors.fill: parent
-                source: "../images/Red_pion.png"
+                source: src+"images/Red_pion.png"
             }
         }
     }
