@@ -7,7 +7,7 @@ class Cerbere::Request
 		login: Login,
 		ready: Ready,
 		change_colour: ChangeColour,
-		game_config: GameConfig
+		game_config: GameConfig,
 		play_action: PlayAction,
 		play_bonus: PlayBonus,
 		change_position: ChangePosition,
