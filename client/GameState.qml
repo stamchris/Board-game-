@@ -15,6 +15,8 @@ Item{
     property var showfinish_player: []
     property var pont_queue: []
     property var portal_queue: []
+
+    property string src: typeof ROOT_URL === "undefined" ? "" : ROOT_URL
    
 
     signal _currentPlayerChanged(string newCurrentPlayer, string newCurrentPlayerColor)
@@ -177,13 +179,13 @@ Item{
 
     function useBridge(new_queue) {
         pont_queue = new_queue
-        parent.board.popupBridge.imgPlayerBridge.source = "images/" + pont_queue[0].colour + "_pion.png"
+        parent.board.popupBridge.imgPlayerBridge.source = src + "images/" + pont_queue[0].colour + "_pion.png"
         parent.board.popupBridge.open()
     }
 
     function usePortal(new_queue) {
         portal_queue = new_queue
-        parent.board.popupPortal.imgPlayerPortal.source = "images/" + portal_queue[0].colour + "_pion.png"
+        parent.board.popupPortal.imgPlayerPortal.source = src + "images/" + portal_queue[0].colour + "_pion.png"
         parent.board.popupPortal.open()
     }
 

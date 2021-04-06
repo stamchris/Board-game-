@@ -241,7 +241,7 @@ Item {
                 width: 50
                 height: 50
                 anchors.centerIn: parent
-                source: "images/Cyan_pion.png"
+                source: src + "images/Cyan_pion.png"
             }
         }
 
@@ -328,7 +328,7 @@ Item {
                         })
                         popupBridge.close()
                     } else {
-                        popupBridge.imgPlayerBridge.source = "images/" + window.parent.state.pont_queue[1].colour + "_pion.png"
+                        popupBridge.imgPlayerBridge.source = src + "images/" + window.parent.state.pont_queue[1].colour + "_pion.png"
                     }
                     window.parent.state.pont_queue.shift()
                 }
@@ -362,7 +362,7 @@ Item {
             height: 50
             y: 30
             horizontalAlignment: Image.AlignHCenter
-            source: "images/Cyan_pion.png"
+            source: src + "images/Cyan_pion.png"
         }
 
         RowLayout {
@@ -380,7 +380,7 @@ Item {
                         window.parent.state.portal_queue = []
                         popupPortal.close()
                     } else {
-                        popupPortal.imgPlayerPortal.source = "images/" + window.parent.state.portal_queue[1].colour + "_pion.png"
+                        popupPortal.imgPlayerPortal.source = src + "images/" + window.parent.state.portal_queue[1].colour + "_pion.png"
                     }
                     window.parent.state.portal_queue.shift()
                 }
@@ -397,7 +397,7 @@ Item {
                         })
                         popupPortal.close()
                     } else {
-                        popupPortal.imgPlayerPortal.source = "images/" + window.parent.state.portal_queue[1].colour + "_pion.png"
+                        popupPortal.imgPlayerPortal.source = src + "images/" + window.parent.state.portal_queue[1].colour + "_pion.png"
                     }
                     window.parent.state.portal_queue.shift()
                 }
