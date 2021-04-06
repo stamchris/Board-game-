@@ -4,91 +4,77 @@ import QtQuick.Controls 2.12
 import QtWebSockets 1.12
 
 Item {
+	Rectangle {
+		id: rectangle
+		x: 0
+		y: 0
+		width: parent.width
+		height: parent.height
+		color: "#ffffde"
 
-    //visible: false
+	}
 
-    Rectangle {
-        id: rectangle
-        x: 0
-        y: 0
-        width: parent.width
-        height: parent.height
-        color: "#ffffde"
+	ColumnLayout {
+		spacing: 10
+		anchors.horizontalCenter: parent.horizontalCenter
+		anchors.verticalCenter: parent.verticalCenter
+		anchors.verticalCenterOffset: 0
+		anchors.horizontalCenterOffset: 0
 
-    }
+		BorderImage {
+			width: 270
+			height: 115
+			source: "images/cerbere_logo.png"
+			anchors.horizontalCenter: parent.horizontalCenter
+		}
 
-    ColumnLayout {
+		Label {
+			anchors.horizontalCenter: parent.horizontalCenter
+			text: "Serveur :"
+			font.pointSize: 12
+			font.family: "Stoneyard"
+		}
+		TextField {
+			anchors.horizontalCenter: parent.horizontalCenter
+			width: 220
+			id: serveurInput
+			text: "localhost:3000"
+		}
 
-        spacing: 10
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.verticalCenterOffset: 0
-        anchors.horizontalCenterOffset: 0
-        //y:150
+		Label {
+			anchors.horizontalCenter: parent.horizontalCenter
+			text: "Pseudo :"
+			font.pointSize: 12
+			font.family: "Stoneyard"
+		}
 
-        BorderImage {
-            width: 270
-            height: 115
-            source: "images/cerbere_logo.png"
-            anchors.horizontalCenter: parent.horizontalCenter
+		TextField {
+			anchors.horizontalCenter: parent.horizontalCenter
+			width: 220
+			id: loginInput
+		}
 
-        }
+		RoundButton {
+			id: boutton_rond
+			anchors.horizontalCenter: parent.horizontalCenter
+			text: "     Go     "
+			font.family: "Stoneyard"
+			radius: 5
+			width: 10
+			height: 20
 
-        Label {
-            anchors.horizontalCenter: parent.horizontalCenter
-            text: "Serveur :"
-            font.pointSize: 12
-            font.family: "Stoneyard"
-        }
-        TextField {
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: 220
-            id: serveurInput
-            text: "localhost:3000"
-        }
+			onHoverEnabledChanged: boutton_rond.background.color = "grey"
+			onClicked: socket.connect(serveurInput.text, loginInput.text)
+		}
 
-        Label {
-            anchors.horizontalCenter: parent.horizontalCenter
-            text: "Pseudo :"
-            font.pointSize: 12
-            font.family: "Stoneyard"
-        }
-        TextField {
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: 220
-            id: loginInput
-        }
+		Label {
+			id: lStatus
+			visible: true
+		}
 
-        RoundButton {
-            id: boutton_rond
-            anchors.horizontalCenter: parent.horizontalCenter
-            text: "     Go     "
-            font.family: "Stoneyard"
-            radius: 5
-            width: 10
-            height: 20
-
-
-            onHoverEnabledChanged: boutton_rond.background.color = "grey"
-
-
-
-            onClicked: socket.connect(serveurInput.text, loginInput.text)
-        }
-
-        Label {
-            id: lStatus
-            visible: true
-        }
-
-        Label {
-            id: lMessage
-            visible: false
-        }
-
-
-    }
-
-
+		Label {
+			id: lMessage
+			visible: false
+		}
+	}
 }
-
