@@ -12,9 +12,12 @@ class Cerbere::Board
     property vitesse_cerbere : Int32
     property position_cerbere : Int32 = 0
     property players : Array(Player) = [] of Player
+    property pont : Int32 = 1
     property nombre_pions_jauge : Int32
     property pioche_survie : DeckSurvie = DeckSurvie.new
     property pioche_trahison : DeckTrahison = DeckTrahison.new
+    property pont_queue : Array(Tuple(Player, Array(Int32))) = [] of Tuple(Player, Array(Int32))
+    property portal_queue : Array(Tuple(Player, Array(Int32))) = [] of Tuple(Player, Array(Int32))
 
     def initialize(difficulty : Int32, @players)
         # Choix du plateau
@@ -52,6 +55,10 @@ class Cerbere::Board
         while (nb_moves > 0)
           # Si l'effet de la case n'a pas changé la position du joueur et qu'il n'essaye pas d'avancer ou reculer hors du plateau
           has_moved = faire_action(moi, nodes[moi.position].effect, [nb_moves, force])
+          if has_moved
+            return
+          end
+
           if !has_moved && (moi.position > 1 || moi.position < nodes.size - 1)
             moi.position += force > 0 ? 1 : -1 # Déplacement vers la gauche ou la droite
           end
@@ -88,27 +95,42 @@ class Cerbere::Board
                 raise "Argument choix manquant pour BARQUE"
             end
             choix : Int32 = args[0]
+            srvr = @players[0].dup()
+            srvr.name = "Server"
+            srvr.colour = nil
             if(choix == 0) # Consulter une barque
                 if(args.size() < 2 || args[1] < 0 || args[1] > 2)
                     raise "Argument barque manquant ou invalide pour BARQUE consulter"
                 end
-                info_barque : String = "Capacité de la barque #{args[1]}: #{barques[args[1]]}"
+                info_barque : String = "Capacité de la barque #{args[1] + 1}: #{barques[args[1]]}"
                 envoyer(moi,info_barque)
+                moi.send(Response::Chat.new(srvr, "", info_barque))
             elsif(choix == 1) # Echanger deux barques
                 if(args.size() < 3 || args[1] < 0 || args[1] > 2 || args[2] < 0 || args[2] > 2 || args[1] == args[2])
                     raise "Arguments barques manquants ou invalides pour BARQUE échanger"
                 end
                 barques.swap(args[1],args[2])
                 broadcast("Les barques #{args[1]} et #{args[2]} ont été échangées.")
+                players.each do |plyr|
+                    plyr.send(Response::Chat.new(srvr, "", "Les barques #{args[1] + 1} et #{args[2] + 1} ont été échangées."))
+                    plyr.send(Response::SwapBarque.new("#{args[1]+1}#{args[2]+1}"))
+                end
             end
         end
     end
 
     def action_reveler_barque(moi : Player)
         if(@barques.size == 3)
-          @barques.pop(2)
+            @barques.pop(2)
+            srvr = @players[0].dup()
+            srvr.name = "Server"
+            srvr.colour = nil
+            puts "La barque à #{barques[0]} place(s) a été révélée !"
+            players.each do |plyr|
+                plyr.send(Response::Chat.new(srvr, "","La barque à #{barques[0]} place(s) a été révélée"))
+                plyr.send(Response::RevealBarque.new("#{barques[0]}"))
+            end
         end
-        puts "La barque à #{barques[0]} place(s) a été révélée !"
     end
 
     def action_verif_barque()
@@ -123,8 +145,10 @@ class Cerbere::Board
 
       if(nb_assis == barques[0]) # Barque pleine
         puts "Fin de partie, la barque s'en va !"
+        return true
       else
         puts "Il manque #{barques[0] - nb_assis} personne(s) pour partir !"
+        return false
       end
     end
 
@@ -136,16 +160,8 @@ class Cerbere::Board
         return false
       end
       emprunte = true # permet d'indiquer si on a emprunté le pont à la fonction deplacer_moi
-      res = demander(moi, "Prendre le pont ? O/N")
-      # Si un joueur prend le pont de cordes, il s'écroule et n'est plus utilisable
-      if(res == "O")
-        nodes[moi.position].effect.evenement = Evenement::RIEN
-        moi.position += id_pont == 1 ? -4 : 4 #On se sert de la force pour déterminer de quel côté du pont on se trouve
-        nodes[moi.position].effect.evenement = Evenement::RIEN
-      else
-        puts "Refus"
-        emprunte = false
-      end
+
+      pont_queue << {moi, args}
 
       return emprunte
     end
@@ -190,15 +206,7 @@ class Cerbere::Board
       end
 
       if(actif)
-        res = demander(moi, "Prendre le portail ? O/N")
-        if(res != "O")
-          puts "Refus"
-          emprunte = false
-        elsif(id_portail == 1)
-          moi.position -= 3
-        else
-          moi.position += 3
-        end
+        portal_queue << {moi, args}
       else
         puts "Portail non disponible !"
         emprunte = false
@@ -263,8 +271,7 @@ class Cerbere::Board
             end
         end
         deplacement : Int32 = Math.min(nbJoueursDevant,3)
-        action_deplacer_moi(moi, -2)
-        broadcast("Le joueur #{moi.lobby_id} a avancé de #{deplacement} cases.")
+        action_deplacer_moi(moi, deplacement)
     end
 
     def action_sabotage() : Int32
@@ -362,9 +369,10 @@ class Cerbere::Board
     
         if nb_aventuriers <= 2 || pl.position >= dernier_plateau
             pl.type = TypeJoueur::MORT
-            
+            pl.send(Response::ChangeType.new(pl.type))
         else
             pl.type = TypeJoueur::CERBERE
+            pl.send(Response::ChangeType.new(pl.type))
             action_recuperer_carte(pl)
     
             if pl.position <= 2
@@ -422,16 +430,12 @@ class Cerbere::Board
         end
     end
 
-
-
-    #DEPLACER_AUTRE # Le joueur déplace d'autres survivants
-
     def action_move_other_player(moi : Player, force : Int32, args : Array(Int32))
         player_id = args[0] # id du joueur à déplacer
         my_id = moi.lobby_id
 
         if my_id == player_id
-          raise "Le joueur à déplacer ne peut pas être le joueur actif !"
+          raise "Le joueur à déplacer #{player_id} ne peut pas être le joueur actif #{my_id} !"
         end
 
         players.each do |player|
@@ -446,8 +450,6 @@ class Cerbere::Board
         end
     end
 
-    #DEPLACER_SURVIVANTS # Tous les survivants se déplacent
-
     def action_move_all_survivors(force : Int32)
         @players.each do |player|
             if (player.type == TypeJoueur::AVENTURIER)
@@ -456,13 +458,13 @@ class Cerbere::Board
         end
     end
 
-
     def defausser(joueur : Player,num_carte : Int32)
         if(num_carte < 0 || num_carte >= joueur.hand.bonus.size())
             raise "Le joueur #{joueur.lobby_id} ne peut pas défausser la carte #{num_carte} !"
         end
 
         carte : CarteBonus = joueur.hand.bonus.delete_at(num_carte)
+        joueur.hand.bonus_size += -1
 
         if(joueur.type == TypeJoueur::CERBERE)
             pioche_trahison.dis_card(carte.as(CarteTrahison))
@@ -474,22 +476,27 @@ class Cerbere::Board
     def action_recuperer_carte(joueur : Player) : Nil
         if joueur.type != TypeJoueur::MORT
             joueur.hand.reset(joueur.type)
-        else
-            raise "Vous êtes mort !"
+        #else
+            #raise "Vous êtes mort !" no raise please
+        #    return
         end
     end
 
     def action_piocher_moi(joueur : Player, nombre : Int32, args : Array(Int32) = [] of Int32) : Nil
         # Si l'on passe par la case piocher mais que l'on ne s'arrête pas, on ne
         # pioche pas de cartes
-        if(args.size() > 0 && args[0] != 0)
+        if((args.size() > 0) && (args[0] != 0) && (args[0] != -1))
             return
         end
         nombre.times do
             if joueur.type == TypeJoueur::AVENTURIER
                 joueur.hand.bonus << pioche_survie.draw_card()
+                joueur.hand.bonus_size += 1
+                joueur.send(Response::NewBonus.new(joueur.hand.bonus[-1].name))
             elsif joueur.type == TypeJoueur::CERBERE
                 joueur.hand.bonus << pioche_trahison.draw_card()
+                joueur.hand.bonus_size += 1
+                joueur.send(Response::NewBonus.new(joueur.hand.bonus[-1].name))
             else
                 raise "Vous êtes mort !"
             end
@@ -518,10 +525,23 @@ class Cerbere::Board
     end
 
     def action_defausser_moi(joueur : Player, nombre : Int32, args : Array(Int32)) : Nil
+        if(nombre < 0 || nombre > joueur.hand.bonus.size())
+            raise "Le joueur #{joueur.lobby_id} ne peut pas défausser #{nombre} carte(s) !"
+        end
+        puts args
+        new_args = [] of Int32
+        i = 0
+
+        nombre.times do
+            new_args << args[i]
+            i += 1
+        end
+        puts new_args
         # Supprimer les cartes dans l'ordre croissant des indices :
-        # Les cartes après la carte supprimée voir leur indice baisser de 1
+        # Les cartes après la carte supprimée voient leur indice baisser de 1
         decalage = 0
-        args.sort.each do |carte_index|
+        new_args.sort.each do |carte_index|
+            joueur.send(Response::DiscardBonus.new(joueur.hand.bonus[carte_index - decalage].name))
             defausser(joueur, carte_index - decalage)
             decalage += 1
         end
