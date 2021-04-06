@@ -80,7 +80,7 @@ class Cerbere::Request
 			if player.owner
 				game.difficulty=@difficulty
 				game.number_players=@maxPlayers
-				game.send_all(Response::GameConfigUpdated.new())
+				game.send_all(Response::GameConfigUpdated.new(player))
 				#FIXME : send boards too
 			else
 				#FIXME : raise error
