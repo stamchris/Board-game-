@@ -35,7 +35,7 @@ class Cerbere::Player
 	property position : Int32 = 1
 
 	property lobby_id : Int32 = 0
-	@[JSON::Field(ignore: true)]
+	#@[JSON::Field(ignore: true)]
 	property hand : Hand = Hand.new# Classe temporaire representant les utilisateurs provenant du lobby
 	property type : TypeJoueur = TypeJoueur::AVENTURIER
 	property owner = false

@@ -41,31 +41,7 @@ Item {
 		width: 355
 		height: 78
 	}
-	
-	ScrollView {
-		x: 0
-		y: app.height - 78
-		width: 355
-		height: 78
-		Layout.fillHeight:true
-		Layout.alignment: Qt.AlignHCenter
-		
-		ListView {
-			x: 0
-			y: parent.height - 78
-			model: game.players
-			delegate:Text {
-				color: modelData.colour
-				text: modelData.name + " est connecté"
-				font.pointSize: 12
-				font.family: "Stoneyard"
-				Layout.alignment: Qt.AlignHCenter
-				
-			}
-		}
-	}
-	
-	
+
 	ColumnLayout {
 		
 		width: 800
