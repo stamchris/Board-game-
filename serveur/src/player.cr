@@ -3,12 +3,6 @@ require "./hand.cr"
 require "json"
 require "kemal"
 
-enum Cerbere::PlayerType
-	Eliminated
-	Adventurer
-	CerberePlayer
-end
-
 enum Cerbere::Colour
 	def to_json(o)
 		o.scalar self.to_s
@@ -33,18 +27,15 @@ class Cerbere::Player
 
 	property ready = false
 	property name : String = ""
+	property colour : Colour | Nil = Cerbere::Colour::Cyan
 	@[JSON::Field(ignore: true)]
 	getter socket : HTTP::WebSocket | Nil
 	
-	#property hand : Hand = Hand.new
-	property typeJoueur : PlayerType = PlayerType::Adventurer
+	property type : TypeJoueur = TypeJoueur::AVENTURIER
 	property position : Int32 = 1
-	property colour : Colour = Colour::Cyan
 
 	property lobby_id : Int32 = 0
-	@[JSON::Field(ignore: true)]
-	property hand : Hand = Hand.new# Classe temporaire representant les utilisateurs provenant du lobby
-	property type : TypeJoueur = TypeJoueur::AVENTURIER
+	property hand : Hand = Hand.new
 
 	def send(response : Response)
 		unless (@socket.nil?)
