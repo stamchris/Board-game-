@@ -4,7 +4,6 @@ import QtQuick.Controls 2.10
 import QtWebSockets 1.0
 
 Item {
-<<<<<<< client/Game.qml
 	property var players:[]
 	property var view:"Login"
 	property var rank: -1

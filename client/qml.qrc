@@ -18,5 +18,9 @@
         <file>library/ShowEffect.qml</file>
         <file>GameState.qml</file>
         <file>Chat.qml</file>
+        <file>UsersView.qml</file>
+        <file>GameCreation.qml</file>
+        <file>KickButton.qml</file>
+        <file>LobbyOption.qml</file>
     </qresource>
 </RCC>
