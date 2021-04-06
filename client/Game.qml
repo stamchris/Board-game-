@@ -4,15 +4,30 @@ import QtQuick.Controls 2.10
 import QtWebSockets 1.0
 
 Item {
-	property var players:[]
-	property var view:"Login"
+	property var players: []
+	property var view: "Lobby"
+	property var messages : []
+	property alias board: window
 	
-	Lobby {
-		anchors.fill:parent
-		visible:view=="Login"
+	function addMessage(player,timestamp, message) {
+		messages.push({player:player, timestamp:timestamp, message:message})
+    	messages = messages
 	}
 	
+	Lobby {
+		anchors.fill: parent
+		visible:view == "Lobby"
+
+		Chat {
+			width: parent.width/2
+			height: parent.height/2
+			Layout.alignment: Qt.AlignBottom
+		}
+	}
+
 	Board {
-		visible:view=="Board"
+		id: window
+		anchors.fill: parent
+		visible: view == "Board"
 	}
 }

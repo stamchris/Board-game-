@@ -3,16 +3,20 @@
         <file>Board.qml</file>
         <file>library/ImagePopUp.qml</file>
         <file>library/CarteAction.qml</file>
+        <file>library/CarteBonus.qml</file>
         <file>library/CerbereBar.qml</file>
         <file>library/ReglesDuJeu.qml</file>
+        <file>library/InfosJoueur.qml</file>
         <file>Application.qml</file>
         <file>library/Plateau.qml</file>
         <file>library/Pion.qml</file>
         <file>library/Piones.qml</file>
         <file>Login.qml</file>
         <file>Lobby.qml</file>
+        <file>Game.qml</file>
         <file>library/movePions.js</file>
-	<file>Game.qml</file>
+        <file>library/ShowEffect.qml</file>
+        <file>GameState.qml</file>
+        <file>Chat.qml</file>
     </qresource>
-
 </RCC>

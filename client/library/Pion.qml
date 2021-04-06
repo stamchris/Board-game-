@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.10
 import QtQuick.Controls 2.10
 
 Rectangle {
-    property int positionCounter: 0
+    property int positionCounter: 1
     property alias yPosition: pionId.y
     property alias xPosition: pionId.x
     id: pionId

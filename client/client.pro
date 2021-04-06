@@ -1,6 +1,7 @@
 QT += quick
 
 CONFIG += c++11
+CONFIG += resources_big
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -12,6 +13,8 @@ SOURCES += \
 RESOURCES += qml.qrc \
     Images.qrc
 
+INCLUDEPATH += ..
+INCLUDEPATH += /usr/lib/gcc/x86_64-linux-gnu/9/include/
 # Règles qui ne s'appliquent que pour Qt Wasm
 wasm-emscripten {
 	CONFIG += static
