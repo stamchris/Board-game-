@@ -575,6 +575,7 @@ class Cerbere::Response
 
 	class GameConfigUpdated < Response
 		property type = "gameConfigUpdated"
+	end
 
 	class UpdatePosition < Response
 		property type = "updatePosition"
