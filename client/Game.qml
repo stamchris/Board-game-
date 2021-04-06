@@ -4,11 +4,18 @@ import QtQuick.Controls 2.10
 import QtWebSockets 1.0
 
 Item {
-	property var players: []
-	property var view: "Lobby"
+<<<<<<< client/Game.qml
+	property var players:[]
+	property var view:"Login"
+	property var rank: -1
 	property var messages : []
 	property alias board: window
 	
+	function getPlayer()
+	{
+		return players[rank]
+	}
+
 	function addMessage(player,timestamp, message) {
 		messages.push({player:player, timestamp:timestamp, message:message})
     	messages = messages
@@ -16,7 +23,7 @@ Item {
 	
 	Lobby {
 		anchors.fill: parent
-		visible:view == "Lobby"
+		visible:view == "Login"
 
 		Chat {
 			width: parent.width/2
