@@ -207,7 +207,7 @@ Item {
                                 height: parent.height*1.5
                                 width: parent.width*1.5
                                 anchors{centerIn: parent}
-                                radius:80
+                                radius:20
                                 color: "transparent"
 
                                 BorderImage {
@@ -226,8 +226,10 @@ Item {
                                                 if (hoverEnabled == true) {
                                                 if (containsMouse == true) {
                                                     rec1.color = "#f0f0d3"
+                                                    rec11.color = "#f0f0d3"
                                                 } else {
                                                     rec1.color = "transparent"
+                                                    rec11.color = "transparent"
                                                         }
                                                 }
                                             }
@@ -237,7 +239,7 @@ Item {
                                     }
 
 
-                        }   
+                        }
                     }
                     Button {
                         width: 100
@@ -526,107 +528,6 @@ Item {
 
                     }
         }
-                    // Buttons
-
-
-
-//                    Button {
-//                        text : "Blue"
-//                        font.pointSize: 12
-//                        font.family: "Stoneyard"
-//                        anchors.horizontalCenter: parent.horizontalCenter
-
-//                        background: Rectangle {
-//                            color: "Blue"
-//                            border.color: "black"
-//                        }
-
-//                        onClicked: {
-//                            socket.send({type:"change_colour",colour:"Blue"})
-//                        }
-//                    }
-
-//                    Button {
-//                        text : "Pink"
-//                        font.pointSize: 12
-//                        font.family: "Stoneyard"
-//                        anchors.horizontalCenter: parent.horizontalCenter
-
-//                        background: Rectangle {
-//                            color: "Pink"
-//                            border.color: "black"
-//                        }
-
-//                        onClicked: {
-//                            socket.send({type:"change_colour",colour:"Pink"})
-//                        }
-//                    }
-
-//                    Button {
-//                        text : "Green"
-//                        font.pointSize: 12
-//                        font.family: "Stoneyard"
-//                        anchors.horizontalCenter: parent.horizontalCenter
-
-//                        background: Rectangle {
-//                            color: "Green"
-//                            border.color: "black"
-//                        }
-
-//                        onClicked: {
-//                            socket.send({type:"change_colour",colour:"Green"})
-//                        }
-//                    }
-
-//                    Button {
-//                        text : "White"
-//                        font.pointSize: 12
-//                        font.family: "Stoneyard"
-//                        anchors.horizontalCenter: parent.horizontalCenter
-
-//                        background: Rectangle {
-//                            color: "White"
-//                            border.color: "black"
-//                        }
-
-//                        onClicked: {
-//                            socket.send({type:"change_colour",colour:"White"})
-//                        }
-//                    }
-
-//                    Button {
-//                        text : "Red"
-//                        font.pointSize: 12
-//                        font.family: "Stoneyard"
-//                        anchors.horizontalCenter: parent.horizontalCenter
-
-//                        background: Rectangle {
-//                            color: "Red"
-//                            border.color: "black"
-//                        }
-
-//                        onClicked: {
-//                            socket.send({type:"change_colour",colour:"Red"})
-//                        }
-//                    }
-//                    Button {
-//                        text : "Orange"
-//                        font.pointSize: 12
-//                        font.family: "Stoneyard"
-//                        anchors.horizontalCenter: parent.horizontalCenter
-
-//                        background: Rectangle {
-//                            color: "Orange"
-//                            border.color: "black"
-//                            height: 1/4*parent.height
-//                        }
-
-//                        onClicked: {
-//                            socket.send({type:"change_colour",colour:"Orange"})
-//                        }
-//                    }
-
-
 
         CheckBox {
             anchors{horizontalCenter: parent.horizontalCenter;top:gridLayout.bottom;topMargin: 20}
