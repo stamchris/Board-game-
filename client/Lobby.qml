@@ -6,20 +6,27 @@ import QtWebSockets 1.12
 Item {
 	property string src: typeof ROOT_URL === "undefined" ? "" : ROOT_URL
 	
-	Rectangle {
-		id: rectangle
-		x: 0
-		y: 0
-		width: parent.width
-		height: parent.height
-		color: "#ffffde"
-		
-	}
+    property Gradient bcolor: Gradient {
+        GradientStop { position: 0; color: "#f58226" }
+        GradientStop { position: 0.09; color: "#ffbb4c" }
+        GradientStop { position: 0.36; color: "#ffffde" }
+    }
+
+    Rectangle {
+        id: wrap_container
+        anchors.fill: parent
+
+        BorderImage {
+            id: background
+            source: "images/background_image.jpg"
+            anchors.fill:parent
+        }
+    }
 	
 	Button {
 		visible: game.getPlayer().owner
-		anchors.top:parent.top
-		anchors.right:parent.right
+        anchors.top:wrap_container.top
+        anchors.right:wrap_container.right
 		text: "Configuration"
 		onClicked: loader.push(configScreen)
 	}
@@ -31,374 +38,525 @@ Item {
 			anchors.fill: parent
 		}
 	}
-	
-	UsersView {
-		users: game.players
-		Layout.fillHeight:true
-		Layout.alignment: Qt.AlignHCenter
-		x: 0
-		y: app.height - 78
-		width: 355
-		height: 78
-	}
 
-	ColumnLayout {
-		
-		width: 800
-		height: 600
-		
-		anchors.horizontalCenter: parent.horizontalCenter
-		anchors.verticalCenter: parent.verticalCenter
-		anchors.verticalCenterOffset: 0
-		anchors.horizontalCenterOffset: 0
-		
-		BorderImage {
-			width: 270
-			height: 115
-			y: 150
-			source: "images/cerbere_logo.png"
-			anchors.horizontalCenter: parent.horizontalCenter
-			
-		}
-		
-		Text{
-			anchors.horizontalCenter: parent.horizontalCenter
-			text : "Choix des joueurs :"
-			font.pointSize: 24
-			font.family: "Stoneyard"
-		}
-		
-		RowLayout {
-			id: lobby
-			
-			width: parent.width
-			height: 250
-			
-			spacing: 10
-			
-			anchors.horizontalCenter: parent.horizontalCenter
-			
-			Rectangle{
-				
-				width: 100
-				height: 300
-				color: "#ffffde"
-				
-				anchors.verticalCenter: parent.VerticalCenter
-				
-				BorderImage {
-					y: 17
-					width: 100
-					height: 100
-					source: "images/cyan_icone.png"
-					anchors.horizontalCenter: parent.horizontalCenter
-				}
-				
-				BorderImage {
-					y: 134
-					width: 100
-					height: 100
-					source: src+"images/cyan_pion.png"
-					anchors.horizontalCenter: parent.horizontalCenter
-				}
-				
-				Button {
-					
-					text : "Cyan"
-					font.pointSize: 12
-					font.family: "Stoneyard"
-					anchors.horizontalCenter: parent.horizontalCenter
-					y:260
-					background: Rectangle {
-						color: "Cyan"
-						border.color: "black"
-					}
-					
-					
-					onClicked: {
-						socket.send({type:"change_colour",colour:"Cyan"})
-					}
-				}
-				
-			}
-			
-			Rectangle{
-				
-				width: 100
-				height: 300
-				color: "#ffffde"
-				
-				anchors.verticalCenter: parent.VerticalCenter
-				
-				BorderImage {
-					y: 17
-					width: 100
-					height: 100
-					source: "images/orange_icone.png"
-					anchors.horizontalCenter: parent.horizontalCenter
-				}
-				
-				BorderImage {
-					y: 134
-					width: 100
-					height: 100
-					source: src+"images/orange_pion.png"
-					anchors.horizontalCenter: parent.horizontalCenter
-				}
-				
-				Button {
-					
-					text : "Orange"
-					font.pointSize: 12
-					font.family: "Stoneyard"
-					anchors.horizontalCenter: parent.horizontalCenter
-					y:260
-					background: Rectangle {
-						color: "Orange"
-						border.color: "black"
-					}
-					
-					
-					onClicked: {
-						socket.send({type:"change_colour",colour:"Orange"})
-					}
-				}
-				
-			}
-			
-			Rectangle{
-				
-				width: 100
-				height: 300
-				color: "#ffffde"
-				
-				anchors.verticalCenter: parent.VerticalCenter
-				
-				BorderImage {
-					y: 17
-					width: 100
-					height: 100
-					source: "images/vert_icone.png"
-					anchors.horizontalCenter: parent.horizontalCenter
-				}
-				
-				BorderImage {
-					y: 134
-					width: 100
-					height: 100
-					source: src+"images/vert_pion.png"
-					anchors.horizontalCenter: parent.horizontalCenter
-				}
-				
-				Button {
-					
-					text : "Green"
-					font.pointSize: 12
-					font.family: "Stoneyard"
-					anchors.horizontalCenter: parent.horizontalCenter
-					y:260
-					background: Rectangle {
-						color: "Green"
-						border.color: "black"
-					}
-					
-					
-					onClicked: {
-						socket.send({type:"change_colour",colour:"Green"})
-					}
-				}
-				
-			}
-			
-			Rectangle{
-				
-				width: 100
-				height: 300
-				color: "#ffffde"
-				
-				anchors.verticalCenter: parent.VerticalCenter
-				
-				BorderImage {
-					y: 17
-					width: 100
-					height: 100
-					source: "images/rose_icone.png"
-					anchors.horizontalCenter: parent.horizontalCenter
-				}
-				
-				BorderImage {
-					y: 134
-					width: 100
-					height: 100
-					source: src+"images/rose_pion.png"
-					anchors.horizontalCenter: parent.horizontalCenter
-				}
-				
-				Button {
-					
-					text : "Pink"
-					font.pointSize: 12
-					font.family: "Stoneyard"
-					anchors.horizontalCenter: parent.horizontalCenter
-					y:260
-					background: Rectangle {
-						color: "Pink"
-						border.color: "black"
-					}
-					
-					
-					onClicked: {
-						socket.send({type:"change_colour",colour:"Pink"})
-					}
-				}
-				
-			}
-			
-			Rectangle{
-				
-				width: 100
-				height: 300
-				color: "#ffffde"
-				
-				anchors.verticalCenter: parent.VerticalCenter
-				
-				BorderImage {
-					y: 17
-					width: 100
-					height: 100
-					source: "images/bleu_icone.png"
-					anchors.horizontalCenter: parent.horizontalCenter
-				}
-				
-				BorderImage {
-					y: 134
-					width: 100
-					height: 100
-					source: src+"images/bleu_pion.png"
-					anchors.horizontalCenter: parent.horizontalCenter
-				}
-				
-				Button {
-					
-					text : "Blue"
-					font.pointSize: 12
-					font.family: "Stoneyard"
-					anchors.horizontalCenter: parent.horizontalCenter
-					y:260
-					background: Rectangle {
-						color: "Blue"
-						border.color: "black"
-					}
-					
-					
-					onClicked: {
-						socket.send({type:"change_colour",colour:"Blue"})
-					}
-				}
-				
-			}
-			
-			Rectangle{
-				
-				width: 100
-				height: 300
-				color: "#ffffde"
-				
-				anchors.verticalCenter: parent.VerticalCenter
-				
-				BorderImage {
-					y: 17
-					width: 100
-					height: 100
-					source: "images/rouge_icone.png"
-					anchors.horizontalCenter: parent.horizontalCenter
-				}
-				
-				BorderImage {
-					y: 134
-					width: 100
-					height: 100
-					source: src+"images/rouge_pion.png"
-					anchors.horizontalCenter: parent.horizontalCenter
-				}
-				
-				Button {
-					
-					text : "Red"
-					font.pointSize: 12
-					font.family: "Stoneyard"
-					anchors.horizontalCenter: parent.horizontalCenter
-					y:260
-					background: Rectangle {
-						color: "Red"
-						border.color: "black"
-					}
-					
-					
-					onClicked: {
-						socket.send({type:"change_colour",colour:"Red"})
-					}
-				}
-				
-			}
-			
-			Rectangle{
-				
-				width: 100
-				height: 300
-				color: "#ffffde"
-				
-				anchors.verticalCenter: parent.VerticalCenter
-				
-				BorderImage {
-					y: 17
-					width: 100
-					height: 100
-					source: "images/blanc_icone.png"
-					anchors.horizontalCenter: parent.horizontalCenter
-				}
-				
-				BorderImage {
-					y: 134
-					width: 100
-					height: 100
-					source: src+"images/blanc_pion.png"
-					rotation: 270
-					anchors.horizontalCenter: parent.horizontalCenter
-				}
-				
-				Button {
-					
-					text : "White"
-					font.pointSize: 12
-					font.family: "Stoneyard"
-					anchors.horizontalCenter: parent.horizontalCenter
-					y:260
-					background: Rectangle {
-						color: "White"
-						border.color: "black"
-					}
-					
-					
-					onClicked: {
-						socket.send({type:"change_colour",colour:"White"})
-					}
-				}
-				
-			}
-		}
-		
-		
-		CheckBox {
-			y: 600
-			anchors.horizontalCenter: parent.horizontalCenter
-			text : "Je suis prêt !"
-			font.pointSize: 12
-			font.family: "Stoneyard"
-			onClicked : {
-				socket.send({type: "ready"})
-			}
-		}
-		
-	}
+    ColumnLayout {
+        anchors{bottom: wrap_container.bottom;right: wrap_container.right;bottomMargin: 5;rightMargin: 5}
+        height: 200
+        width: 200
+
+        ListView {
+            id:listView
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            model: game.players
+            verticalLayoutDirection: ListView.BottomToTop
+
+            delegate:
+                Rectangle {
+                    id: rectaId
+                    width: listView.width
+                    height: userText.implicitHeight + 10
+                    color: "#D7BDE2"
+                    opacity: 0.6
+                    radius:1
+
+                Text {
+                    id:userText
+                    width: parent.width
+                    horizontalAlignment: Text.AlignHCenter
+                    color:if (modelData.colour === "Cyan")
+                              userText.color = "#5DADE2"
+                          else
+                              userText.color = modelData.colour
+                    text: modelData.name + " est connecté"
+                    font.pointSize: 12
+                    font.family: "Stoneyard"
+                }
+                }
+        }
+    }
+
+
+    GridLayout {
+        id:gridLayout
+        height: parent.height*0.7
+        width: parent.width *0.8
+        anchors{horizontalCenter: wrap_container.horizontalCenter;top: wrap_container.top}
+        columns: 7
+        columnSpacing: 10
+        rowSpacing: 10
+
+        BorderImage {
+            id:logo
+            width: 300
+            height: width/2
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.maximumWidth: if(gridLayout.height<650||gridLayout.width<950){350} else{450}
+            Layout.maximumHeight: if(gridLayout.height<650||gridLayout.width<950){200} else{300}
+            source: "images/cerbere_logo.png"
+            Layout.columnSpan: 7
+            Layout.alignment: Qt.AlignCenter
+            Layout.leftMargin: 200
+            Layout.rightMargin: 200
+
+        }
+        Rectangle{
+            id:empty1
+            Layout.fillWidth: true
+            Layout.minimumHeight: 30
+            Layout.rightMargin: -50
+            Layout.columnSpan: 3
+            color: "transparent"
+        }
+
+        Text{
+            id:bigText
+            text : "Choix des joueurs :"
+            font.pointSize: 24
+            font.family: "Stoneyard"
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.maximumWidth: 40
+            Layout.maximumHeight: 30
+            Layout.columnSpan: 2
+            Layout.alignment: Qt.AlignLeft
+            Layout.leftMargin: -60
+
+        }
+
+        Rectangle{
+            id:empty2
+            Layout.fillWidth: true
+            Layout.columnSpan: 2
+            Layout.minimumHeight: 30
+            Layout.leftMargin: 30
+            color: "transparent"
+        }
+
+
+        BorderImage {
+            width: 100
+            height: width
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.maximumWidth: 150
+            Layout.maximumHeight: 150
+            Layout.alignment: Qt.AlignRight
+            source: "images/cyan_icone.png"
+        }
+        BorderImage {
+            width: 100
+            height: width
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.maximumWidth: 150
+            Layout.maximumHeight: 150
+            Layout.alignment: Qt.AlignCenter
+            source: "images/bleu_icone.png"
+        }
+        BorderImage {
+            width: 100
+            height: width
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.maximumWidth: 150
+            Layout.maximumHeight: 150
+            Layout.alignment: Qt.AlignCenter
+            source: "images/rose_icone.png"
+        }
+        BorderImage {
+            width: 100
+            height: width
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.maximumWidth: 150
+            Layout.maximumHeight: 150
+            Layout.alignment: Qt.AlignCenter
+            source: "images/vert_icone.png"
+        }
+        BorderImage {
+            width: 100
+            height: width
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.maximumWidth: 150
+            Layout.maximumHeight: 150
+            Layout.alignment: Qt.AlignCenter
+            source: "images/blanc_icone.png"
+        }
+        BorderImage {
+            width: 100
+            height: width
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.maximumWidth: 150
+            Layout.maximumHeight: 150
+            Layout.alignment: Qt.AlignCenter
+            source: "images/rouge_icone.png"
+        }
+        BorderImage {
+            width: 100
+            height: width
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.maximumWidth: 150
+            Layout.maximumHeight: 150
+            Layout.alignment: Qt.AlignLeft
+            source: "images/orange_icone.png"
+        }
+
+        // Pions
+        Button {
+            width: 100
+            height: width
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{80}
+            Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{80}
+            Layout.alignment: Qt.AlignCenter
+            Layout.topMargin: 20
+            background:
+
+                Rectangle{
+                id:rec1
+                height: parent.height*1.5
+                width: parent.width*1.5
+                anchors{centerIn: parent}
+                radius:80
+                color: "transparent"
+
+                BorderImage {
+                    anchors.centerIn: parent
+                    height: parent.height
+                    width: parent.width
+                    source: src+"images/cyan_pion.png"
+                }
+
+
+                MouseArea{
+                    anchors.fill:parent
+                    hoverEnabled: true
+                    onHoveredChanged: {
+                        if (hoverEnabled == true) {
+                            if (containsMouse == true) {
+                                rec1.color = "#f0f0d3"
+                            } else {
+                                rec1.color = "transparent"
+                            }
+                        }
+                    }
+                    onClicked: {
+                        socket.send({type:"change_colour",colour:"Cyan"})
+                    }
+                }
+
+
+            }
+        }
+        Button {
+            width: 100
+            height: width
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
+            Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
+            Layout.alignment: Qt.AlignCenter
+            Layout.topMargin: 20
+
+            background: Rectangle{
+                id:rec2
+                height: parent.height*1.5
+                width: parent.width*1.5
+                anchors{centerIn: parent}
+                radius:80
+                color: "transparent"
+
+
+                BorderImage {
+                    anchors.centerIn: parent
+                    height: parent.height
+                    width: parent.width
+                    source: src+"images/bleu_pion.png"
+                }
+
+
+                MouseArea{
+                    anchors.fill:parent
+                    hoverEnabled: true
+                    onHoveredChanged: {
+                        if (hoverEnabled == true) {
+                            if (containsMouse == true) {
+                                rec2.color = "#f0f0d3"
+                            } else {
+                                rec2.color = "transparent"
+                            }
+                        }
+                    }
+                    onClicked: {
+                        socket.send({type:"change_colour",colour:"Blue"})
+                    }
+                }
+            }
+
+        }
+
+
+
+
+
+        Button {
+            width: 100
+            height: width
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{80}
+            Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{80}
+            Layout.alignment: Qt.AlignCenter
+            Layout.topMargin: 20
+
+            background: Rectangle{
+                id:rec3
+                height: parent.height*1.5
+                width: parent.width*1.5
+                anchors{centerIn: parent}
+                radius:80
+                color: "transparent"
+
+                BorderImage {
+                    anchors.centerIn: parent
+                    height: parent.height
+                    width: parent.width
+                    source: src+"images/rose_pion.png"
+                }
+                MouseArea{
+                    anchors.fill:parent
+                    hoverEnabled: true
+                    onHoveredChanged: {
+                        if (hoverEnabled == true) {
+                            if (containsMouse == true) {
+                                rec3.color = "#f0f0d3"
+
+                            } else {
+                                rec3.color = "transparent"
+                            }
+                        }
+                    }
+                    onClicked: {
+                        socket.send({type:"change_colour",colour:"Pink"})
+                    }
+                }
+            }
+
+        }
+
+        Button {
+            width: 100
+            height: width
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{80}
+            Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{80}
+            Layout.alignment: Qt.AlignCenter
+            Layout.topMargin: 20
+
+            background: Rectangle{
+                id:rec4
+                height: parent.height*1.5
+                width: parent.width*1.5
+                anchors{centerIn: parent}
+                radius:80
+                color: "transparent"
+
+                BorderImage {
+                    anchors.centerIn: parent
+                    height: parent.height
+                    width: parent.width
+                    source: src+"images/vert_pion.png"
+                }
+
+
+                MouseArea{
+                    anchors.fill:parent
+                    hoverEnabled: true
+                    onHoveredChanged: {
+                        if (hoverEnabled == true) {
+                            if (containsMouse == true) {
+                                rec4.color = "#f0f0d3"
+
+                            } else {
+                                rec4.color = "transparent"
+                            }
+                        }
+                    }
+                    onClicked: {
+                        socket.send({type:"change_colour",colour:"Green"})
+                    }
+                }
+            }
+
+        }
+
+        Button {
+            width: 100
+            height: width
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{80}
+            Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{80}
+            Layout.alignment: Qt.AlignCenter
+            Layout.topMargin: 20
+
+            background: Rectangle{
+                id:rec5
+                height: parent.height*1.5
+                width: parent.width*1.5
+                anchors{centerIn: parent}
+                radius:80
+                color: "transparent"
+
+                BorderImage {
+                    anchors.centerIn: parent
+                    height: parent.height
+                    width: parent.width
+                    source: src+"images/blanc_pion.png"
+                    rotation: -95
+                }
+
+
+                MouseArea{
+                    anchors.fill:parent
+                    hoverEnabled: true
+                    onHoveredChanged: {
+                        if (hoverEnabled == true) {
+                            if (containsMouse == true) {
+                                rec5.color = "#f0f0d3"
+
+                            } else {
+                                rec5.color = "transparent"
+                            }
+                        }
+                    }
+                    onClicked: {
+                        socket.send({type:"change_colour",colour:"White"})
+                    }
+                }
+            }
+
+        }
+        Button {
+            width: 100
+            height: width
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{80}
+            Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{80}
+            Layout.alignment: Qt.AlignCenter
+            Layout.topMargin: 20
+
+            background: Rectangle{
+                id:rec6
+                height: parent.height*1.5
+                width: parent.width*1.5
+                anchors{centerIn: parent}
+                radius:80
+                color: "transparent"
+
+                BorderImage {
+                    anchors.centerIn: parent
+                    height: parent.height
+                    width: parent.width
+                    source: src+"images/rouge_pion.png"
+                }
+
+
+                MouseArea{
+                    anchors.fill:parent
+                    hoverEnabled: true
+                    onHoveredChanged: {
+                        if (hoverEnabled == true) {
+                            if (containsMouse == true) {
+                                rec6.color = "#f0f0d3"
+                            } else {
+                                rec6.color = "transparent"
+                            }
+                        }
+                    }
+                    onClicked: {
+                        socket.send({type:"change_colour",colour:"Red"})
+                    }
+                }
+            }
+
+        }
+        Button {
+            width: 100
+            height: width
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{80}
+            Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{80}
+            Layout.alignment: Qt.AlignCenter
+            Layout.topMargin: 20
+
+            background: Rectangle{
+                id:rec7
+                height: parent.height*1.5
+                width: parent.width*1.5
+                anchors{centerIn: parent}
+                radius:80
+                color: "transparent"
+
+                BorderImage {
+                    anchors.centerIn: parent
+                    height: parent.height
+                    width: parent.width
+                    source: src+"images/orange_pion.png"
+                }
+
+
+                MouseArea{
+                    anchors.fill:parent
+                    hoverEnabled: true
+                    onHoveredChanged: {
+                        if (hoverEnabled == true) {
+                            if (containsMouse == true) {
+                                rec7.color = "#f0f0d3"
+
+                            } else {
+                                rec7.color = "transparent"
+                            }
+                        }
+                    }
+                    onClicked: {
+                        socket.send({type:"change_colour",colour:"Orange"})
+                    }
+                }
+            }
+
+        }
+    }
+
+    CheckBox {
+        anchors{horizontalCenter: parent.horizontalCenter;top:gridLayout.bottom;topMargin: 20}
+        text : "Je suis prêt !"
+        font.pointSize: 20
+        font.family: "Stoneyard"
+        onClicked : {
+            socket.send({type: "ready"})
+        }
+    }
+
+    Chat {
+        width: wrap_container.width/4
+        height: wrap_container.height*0.25
+        anchors{bottom: wrap_container.bottom;left: wrap_container.left}
+    }
+
+
 }
+
+
+
+
+

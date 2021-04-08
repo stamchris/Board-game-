@@ -4,26 +4,26 @@ import QtQuick.Controls 2.12
 import QtWebSockets 1.12
 
 Item {
-	Rectangle {
-		id: rectangle
-		x: 0
-		y: 0
-		width: parent.width
-		height: parent.height
-		color: "#ffffde"
 
-	}
+    Rectangle {
+        id: wrap_container
+        anchors.fill: parent
 
-	ColumnLayout {
+        BorderImage {
+            id: background
+            source: "images/background_image.jpg"
+            anchors.fill:parent
+        }
+    }
+
+    Column {
 		spacing: 10
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.verticalCenter: parent.verticalCenter
-		anchors.verticalCenterOffset: 0
-		anchors.horizontalCenterOffset: 0
 
 		BorderImage {
-			width: 270
-			height: 115
+            width: 270 * 2
+            height: 115 * 2
 			source: "images/cerbere_logo.png"
 			anchors.horizontalCenter: parent.horizontalCenter
 		}
@@ -33,6 +33,7 @@ Item {
 			text: "Serveur :"
 			font.pointSize: 12
 			font.family: "Stoneyard"
+
 		}
 		TextField {
 			anchors.horizontalCenter: parent.horizontalCenter
@@ -60,8 +61,6 @@ Item {
 			text: "     Go     "
 			font.family: "Stoneyard"
 			radius: 5
-			width: 10
-			height: 20
 
 			onHoverEnabledChanged: boutton_rond.background.color = "grey"
 			onClicked: socket.connect(serveurInput.text, loginInput.text)

@@ -39,5 +39,6 @@
 		<file>images/rouge_icone.png</file>
 		<file>images/blanc_icone.png</file>
 		<file>images/Stoneyard.ttf</file>
+		<file>images/background_image.jpg</file>
 	</qresource>
 </RCC>

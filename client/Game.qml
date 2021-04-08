@@ -23,12 +23,6 @@ Item {
 	Lobby {
 		anchors.fill: parent
 		visible:view == "Login"
-
-		Chat {
-			width: parent.width/2
-			height: parent.height/2
-			Layout.alignment: Qt.AlignBottom
-		}
 	}
 
 	Board {

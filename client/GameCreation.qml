@@ -7,6 +7,17 @@ Item {
 	property int maxPlayers: 3
 	property string boardType: "default"
 	property bool teamChat: false // not bound in its widget, careful
+
+    Rectangle {
+        id: wrap_container
+        anchors.fill: parent
+
+        BorderImage {
+            id: background
+            source: "images/background_image.jpg"
+            anchors.fill:parent
+        }
+    }
 	
 	RowLayout {
 		anchors.fill: parent
