@@ -677,9 +677,9 @@ Item {
 		popupChooseCardsToDiscard.args = []
 		
 		for (var i = 0; i < 7; i++) {
-			popupChooseCardsToDiscard.rowBonus.children[i].visible = window.joueurId.children[4].children[1].children[i].visible
-			popupChooseCardsToDiscard.rowBonus.children[i].source = window.joueurId.children[4].children[1].children[i].children[0].source
-			popupChooseCardsToDiscard.updateRowBonus(action_todo, i, parseInt(window.joueurId.children[4].children[1].children[i].children[0].children[1].children[0].text, 10))
+			popupChooseCardsToDiscard.rowBonus.children[i].visible = rowbonusid.children[i].visible
+			popupChooseCardsToDiscard.rowBonus.children[i].source = rowbonusid.children[i].source
+			popupChooseCardsToDiscard.updateRowBonus(action_todo, i, 			parseInt(rowbonusid.children[i].count, 10))
 		}
 		
 		popupChooseCardsToDiscard.open()
@@ -1247,22 +1247,24 @@ Item {
 				left: chronoId.right;
 			}
 			
-			CerbereBar{}
+			CerbereBar{
+				id: cerbereBar
+			}
 			
 			function updateVitesse() {
-				progressBarId.children[0].updateVitesse(window.parent.state.vitesse)
+				cerbereBar.updateVitesse(window.parent.state.vitesse)
 			}
 			
 			function updateRage() {
-				progressBarId.children[0].updateRage(window.parent.state.rage)
+				cerbereBar.updateRage(window.parent.state.rage)
 			}
 			
 			function updateBar() {
-				progressBarId.children[0].updateBar(window.parent.state.players)
+				cerbereBar.updateBar(window.parent.state.players)
 			}
 			
 			function addToBar(player_color) {
-				progressBarId.children[0].addToBar(player_color)
+				cerbereBar.addToBar(player_color)
 			}
 		}
 		
@@ -1452,6 +1454,10 @@ Item {
 				color: "Blue"
 				border.color: "#740912"
 				border.width: 1
+				property alias name: text1.text
+				property alias textColor: text1.color
+				property alias infos: news_usr_1
+				property alias rect: rect1
 
 				Row {
 					width : parent.width - 4
@@ -1459,6 +1465,7 @@ Item {
 					anchors.centerIn: parent
 
 					Rectangle {
+						id: rect1
 						width : parent.width/5
 						height : parent.height
 						color : "transparent"
@@ -1486,6 +1493,10 @@ Item {
 				color: "Cyan"
 				border.color: "#740912"
 				border.width: 1
+				property alias name: text2.text
+				property alias textColor: text2.color
+				property alias infos: news_usr_2
+				property alias rect: rect2
 				
 				Row {
 					width : parent.width - 4
@@ -1493,6 +1504,7 @@ Item {
 					anchors.centerIn: parent
 				
 					Rectangle {
+						id: rect2
 						width : parent.width/5
 						height : parent.height
 						color : "transparent"
@@ -1521,6 +1533,10 @@ Item {
 				color: "Orange"
 				border.color: "#740912"
 				border.width: 1
+				property alias name: text3.text
+				property alias textColor: text3.color
+				property alias infos: news_usr_3
+				property alias rect: rect3
 
 				Row {
 					width : parent.width - 4
@@ -1528,6 +1544,7 @@ Item {
 					anchors.centerIn: parent
 					
 					Rectangle {
+						id: rect3
 						width : parent.width/5
 						height : parent.height
 						color : "transparent"
@@ -1555,6 +1572,10 @@ Item {
 				color: "Green"
 				border.color: "#740912"
 				border.width: 1
+				property alias name: text4.text
+				property alias textColor: text4.color
+				property alias infos: news_usr_4
+				property alias rect: rect4
 
 				Row {
 					width : parent.width - 4
@@ -1562,6 +1583,7 @@ Item {
 					anchors.centerIn: parent
 				
 					Rectangle {
+						id: rect4
 						width : parent.width/5
 						height : parent.height
 						color : "transparent"
@@ -1590,6 +1612,10 @@ Item {
 				color: "Red"
 				border.color: "#740912"
 				border.width: 1
+				property alias name: text5.text
+				property alias textColor: text5.color
+				property alias infos: news_usr_5
+				property alias rect: rect5
 				
 				Row {
 					width : parent.width - 4
@@ -1597,6 +1623,7 @@ Item {
 					anchors.centerIn: parent
 				
 					Rectangle {
+						id: rect5
 						width : parent.width/5
 						height : parent.height
 						color : "transparent"
@@ -1625,6 +1652,10 @@ Item {
 				color: "Pink"
 				border.color: "#740912"
 				border.width: 1
+				property alias name: text6.text
+				property alias textColor: text6.color
+				property alias infos: news_usr_6
+				property alias rect: rect6
 			
 				Row {
 					width : parent.width - 4
@@ -1632,6 +1663,7 @@ Item {
 					anchors.centerIn: parent
 					
 					Rectangle {
+						id: rect6
 						width : parent.width/5
 						height : parent.height
 						color : "transparent"
@@ -1660,6 +1692,10 @@ Item {
 				color: "White"
 				border.color: "#740912"
 				border.width: 1
+				property alias name: text7.text
+				property alias textColor: text7.color
+				property alias infos: news_usr_7
+				property alias rect: rect7
 			
 				Row {
 					width : parent.width - 4
@@ -1667,6 +1703,7 @@ Item {
 					anchors.centerIn: parent
 
 					Rectangle {
+						id: rect7
 						width : parent.width/5
 						height : parent.height
 						color : "transparent"
@@ -1692,13 +1729,13 @@ Item {
 
 			for (var i = 0; i < players.length; i++){
 				rowId.children[7-i-1].visible = true
-				rowId.children[7-i-1].children[0].children[0].children[0].text = players[i].name
+				rowId.children[7-i-1].name = players[i].name
 
 				if (players[i].type == "aventurier") {
 					rowId.children[7-i-1].color = players[i].colour
 				} else if (players[i].type == "cerbere") {
 					rowId.children[7-i-1].color = "Black"
-					rowId.children[7-i-1].children[0].children[0].children[0].color = "White"
+					rowId.children[7-i-1].textColor = "White"
 				} else {
 					rowId.children[7-i-1].visible = false
 				}
@@ -1709,19 +1746,19 @@ Item {
 
 						if (players[i].hand.action[j] == true && players[i].type != "mort") {
 							if (players[i].type == "aventurier") {
-								rowId.children[7-i-1].children[0].children[1].children[j+1].children[0].source = src+"images/"+players[i].colour+k+".png"
+								rowId.children[7-i-1].infos.children[j+1].source = src+"images/"+players[i].colour+k+".png"
 							} else {
-								rowId.children[7-i-1].children[0].children[1].children[j+1].children[0].source = src+"images/Cerbere"+k+".png"
+								rowId.children[7-i-1].infos.children[j+1].source = src+"images/Cerbere"+k+".png"
 							}
 						} else {
-							rowId.children[7-i-1].children[0].children[1].children[j+1].children[0].source = src+"images/verso.png"
+							rowId.children[7-i-1].infos.children[j+1].source = src+"images/verso.png"
 						}
 					}
-					rowId.children[7-i-1].children[0].children[1].children[0].children[1].children[0].text = "" + players[i].hand.bonus_size
+					rowId.children[7-i-1].infos.bonusSize = "" + players[i].hand.bonus_size
 				} else {
-					rowId.children[7-i-1].width = rowId.children[7-i-1].children[0].children[0].width
-					rowId.children[7-i-1].children[0].children[0].width = rowId.children[7-i-1].width
-					rowId.children[7-i-1].children[0].children[1].visible = false
+					rowId.children[7-i-1].width = rowId.children[7-i-1].rect.width
+					rowId.children[7-i-1].rect.width = rowId.children[7-i-1].width
+					rowId.children[7-i-1].infos.visible = false
 				}
 			}
 		}
@@ -1745,6 +1782,8 @@ Item {
 			width: 1/8*parent.width
 			height: parent.height
 			anchors.left: parent.left
+			property alias card: card1
+			property alias source: imgCAction1.source
 
 			Image {
 				id:imgCAction1
@@ -1754,7 +1793,9 @@ Item {
 				fillMode: Image.Stretch
 				source: ""
 
-				CarteAction{}
+				CarteAction{
+					id: card1
+				}
 			}
 		}
 
@@ -1763,6 +1804,8 @@ Item {
 			width: 1/8*parent.width
 			height: parent.height
 			anchors.left: carte_Action1Id.right
+			property alias card: card2
+			property alias source: imgCAction2.source
 			
 			Image {
 				id:imgCAction2
@@ -1772,7 +1815,9 @@ Item {
 				fillMode: Image.Stretch
 				source: ""
 
-				CarteAction{}
+				CarteAction{
+					id: card2
+				}
 			}
 		}
 
@@ -1781,6 +1826,8 @@ Item {
 			width: 1/8*parent.width
 			height: parent.height
 			anchors.left: carte_Action2Id.right
+			property alias card: card3
+			property alias source: imgCAction3.source
 			
 			Image {
 				id: imgCAction3
@@ -1790,7 +1837,9 @@ Item {
 				fillMode: Image.Stretch
 				source: ""
 
-				CarteAction{}
+				CarteAction{
+					id: card3
+				}
 			}
 		}
 
@@ -1799,6 +1848,8 @@ Item {
 			width: 1/8*parent.width
 			height: parent.height
 			anchors.left: carte_Action3Id.right
+			property alias card: card4
+			property alias source: imgCAction4.source
 			
 			Image {
 				id: imgCAction4
@@ -1808,7 +1859,9 @@ Item {
 				fillMode: Image.Stretch
 				source: ""
 
-				CarteAction{}
+				CarteAction{
+					id: card4
+				}
 			}
 		}
 
@@ -1833,24 +1886,26 @@ Item {
 				height: parent.height/20
 			}
 			
+			BorderImage {
+				id: background2
+				source: src+"images/background_image.jpg"
+				anchors.fill:parent
+			}
+
 			Row {
 				id : rowbonusid
 				height: parent.height
 				width : joueurId.width/8*7
 				x: -scrollBarBonus.position*width
 
-				BorderImage {
-					id: background2
-					source: src+"images/background_image.jpg"
-					anchors.fill:parent
-				}
-
-
 				Rectangle {
 					id : carte_Bonus1Id
 					width: parent.width/7
 					height : parent.height
 					visible : false
+					property alias source: imgCBonus1.source
+					property alias count: txtcb1.text
+					property alias card: bcard1
 
 					Image {
 						id: imgCBonus1
@@ -1860,7 +1915,9 @@ Item {
 						fillMode: Image.Stretch
 						source:""
 
-						CarteBonus {}
+						CarteBonus {
+							id: bcard1
+						}
 										
 						Rectangle {
 							id:boxNumber_cb
@@ -1884,6 +1941,9 @@ Item {
 					width: parent.width/7
 					height : parent.height
 					visible : false
+					property alias source: imgCBonus2.source
+					property alias count: txtcb2.text
+					property alias card: bcard2
 
 					Image {
 						id: imgCBonus2
@@ -1893,7 +1953,9 @@ Item {
 						fillMode: Image.Stretch
 						source:""
 
-						CarteBonus {}
+						CarteBonus {
+							id: bcard2
+						}
 										
 						Rectangle {
 							id:boxNumber_cb2
@@ -1917,6 +1979,9 @@ Item {
 					width: parent.width/7
 					height : parent.height
 					visible : false
+					property alias source: imgCBonus3.source
+					property alias count: txtcb3.text
+					property alias card: bcard3
 
 					Image {
 						id: imgCBonus3
@@ -1926,7 +1991,9 @@ Item {
 						fillMode: Image.Stretch
 						source:""
 
-						CarteBonus {}
+						CarteBonus {
+							id: bcard3
+						}
 										
 						Rectangle {
 							id:boxNumber_cb3
@@ -1950,6 +2017,10 @@ Item {
 					width: parent.width/7
 					height: parent.height
 					visible : false
+					property alias source: imgCBonus4.source
+					property alias count: txtcb4.text
+					property alias card: bcard4
+
 					Image {
 						id: imgCBonus4
 						anchors.fill: parent
@@ -1958,7 +2029,9 @@ Item {
 						fillMode: Image.Stretch
 						source:""
 
-						CarteBonus {}
+						CarteBonus {
+							id: bcard4
+						}
 										
 						Rectangle {
 							id:boxNumber_cb4
@@ -1983,6 +2056,10 @@ Item {
 					width: parent.width/7
 					height: parent.height
 					visible : false
+					property alias source: imgCBonus5.source
+					property alias count: txtcb5.text
+					property alias card: bcard5
+
 					Image {
 						id: imgCBonus5
 						anchors.fill: parent
@@ -1991,7 +2068,9 @@ Item {
 						fillMode: Image.Stretch
 						source:""
 
-						CarteBonus {}
+						CarteBonus {
+							id: bcard5
+						}
 										
 						Rectangle {
 							id:boxNumber_cb5
@@ -2016,6 +2095,10 @@ Item {
 					width: parent.width/7
 					height: parent.height
 					visible : false
+					property alias source: imgCBonus6.source
+					property alias count: txtcb6.text
+					property alias card: bcard6
+
 					Image {
 						id: imgCBonus6
 						anchors.fill: parent
@@ -2024,7 +2107,9 @@ Item {
 						fillMode: Image.Stretch
 						source:""
 
-						CarteBonus {}
+						CarteBonus {
+							id: bcard6
+						}
 										
 						Rectangle {
 							id:boxNumber_cb6
@@ -2049,6 +2134,10 @@ Item {
 					width: parent.width/7
 					height: parent.height
 					visible : false
+					property alias source: imgCBonus7.source
+					property alias count: txtcb7.text
+					property alias card: bcard7
+
 					Image {
 						id: imgCBonus7
 						anchors.fill: parent
@@ -2057,7 +2146,9 @@ Item {
 						fillMode: Image.Stretch
 						source:""
 
-						CarteBonus {}
+						CarteBonus {
+							id: bcard7
+						}
 										
 						Rectangle {
 							id:boxNumber_cb7
@@ -2074,7 +2165,7 @@ Item {
 								color : "white" 
 							}
 						}
-					}    
+					}
 				}
 			}
 		}
@@ -2135,7 +2226,7 @@ Item {
 						if (actionLocked == 0) {
 							for (var j = 0; j < 4; j++) {
 								if (players[i].hand.action[j] == true) {
-									joueurId.children[j].children[0].children[0].unblockCard()
+									joueurId.children[j].card.unblockCard()
 								}
 							}
 						} else {
@@ -2144,7 +2235,7 @@ Item {
 
 						if (bonusLocked == 0) {
 							for (var j = 0; j < 7; j++) {
-								joueurId.children[4].children[1].children[j].children[0].children[0].unblockCard()
+								rowbonusid.children[j].card.unblockCard()
 							}
 						}
 						break
@@ -2163,29 +2254,29 @@ Item {
 		function lockActionCards() {
 			actionLocked = 1
 			for (var j = 0; j < 4; j++) {
-				joueurId.children[j].children[0].children[0].blockCard()
+				joueurId.children[j].card.blockCard()
 			}
 		}
 
 		function lockBonusCards() {
 			bonusLocked = 1
 			for (var j = 0; j < 7; j++) {
-				joueurId.children[4].children[1].children[j].children[0].children[0].blockCard()
+				rowbonusid.children[j].card.blockCard()
 			}
 		}
 
 		function loadActionCards(playerType) {
 			if (playerType == "aventurier") {
 				for (var j = 0; j < 4; j++){
-					joueurId.children[j].children[0].source = src+"images/" + window.parent.state.color + (j+1) + ".png"
+					joueurId.children[j].source = src+"images/" + window.parent.state.color + (j+1) + ".png"
 				}
 			} else if (playerType == "cerbere") {
 				for (var j = 0; j < 4; j++){
-					joueurId.children[j].children[0].source = src+"images/Cerbere" + (j+1) + ".png"
+					joueurId.children[j].source = src+"images/Cerbere" + (j+1) + ".png"
 				}
 
 				for (var j = 0; j < 7; j++) {
-					joueurId.children[4].children[1].children[j].visible = false
+					rowbonusid.children[j].visible = false
 				}
 			}
 		}
@@ -2197,7 +2288,7 @@ Item {
 			
 			while ((rowbonusid.children[i].visible != false) && (i< 7)) {
 				if(rowbonusid.children[i].children.length > 0) {
-					source_string = source_string + rowbonusid.children[i].children[0].source
+					source_string = source_string + rowbonusid.children[i].source
 					var length2 = source_string.length
 					while(source_string[length2-1] != '/'  && length2 > 0) {
 						length2 -=1
@@ -2221,17 +2312,17 @@ Item {
 			}
 
 			if (found_same >= 0) {
-				newNumberOfBonus += parseInt(rowbonusid.children[i].children[0].children[1].children[0].text, 10)
-				rowbonusid.children[i].children[0].children[1].children[0].text = "" + newNumberOfBonus
+				newNumberOfBonus += parseInt(rowbonusid.children[i].count, 10)
+				rowbonusid.children[i].count = "" + newNumberOfBonus
 				if (newNumberOfBonus < 1){
 					rowbonusid.children[i].visible = false
-					rowbonusid.children[i].children[0].source = ""
-					rowbonusid.children[i].children[0].children[1].children[0].text = "1"
+					rowbonusid.children[i].source = ""
+					rowbonusid.children[i].count = "1"
 				}
 			} else {
 				if (type == "add") {
 					rowbonusid.children[i].visible = true
-					rowbonusid.children[i].children[0].source = new_source
+					rowbonusid.children[i].source = new_source
 				}
 			} 
 		}
