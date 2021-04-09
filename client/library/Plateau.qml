@@ -8,6 +8,7 @@ Row {
 	id: rowId
 	anchors.fill: parent
 	property alias pionesId: pionesId
+	property var nb_turn_show_barque : 0
 	
 	signal notifyPiones(string counter, string player)
 	
@@ -38,11 +39,14 @@ Row {
 		caseBarque2Id.visible = false
 		caseBarque3Id.visible = false
 	}
-	
+
 	function swapbarque(barqswaps) {
 		var tmp = ""
 		var barqswap1 = barqswaps[0]
 		var barqswap2 = barqswaps[1]
+	
+		imageflecheidorange.visible = true
+		imageflecheidrouge.visible = true
 		
 		switch(barqswap1) {
 			case "1": 
@@ -50,12 +54,16 @@ Row {
 					tmp = ""+img_barquecolor.color
 					img_barquecolor.color = img_barque2color.color
 					img_barque2color.color = tmp
-					imageflecheid.width = 70/100*imageflecheid.parent.width
+					imageflecheidorange.width =  Qt.binding(function() { return imageflecheidorange.parent.width * 0.56 })
+					imageflecheidrouge.width =  Qt.binding(function() { return imageflecheidrouge.parent.width * 0.56 })
 				} else if(barqswap2 == "3") {
 					tmp = ""+img_barquecolor.color
 					img_barquecolor.color = img_barque3color.color
 					img_barque3color.color = tmp
-					imageflecheid.width = imageflecheid.parent.width
+					imageflecheidorange.width =  Qt.binding(function() { return imageflecheidorange.parent.width * 1.05})
+					imageflecheidorange.x = 0
+					imageflecheidrouge.width =  Qt.binding(function() { return imageflecheidrouge.parent.width * 1.05})
+					imageflecheidrouge.x = 0
 				}
 				break
 			case "2":
@@ -68,25 +76,42 @@ Row {
 					img_barque2color.color = img_barque3color.color
 					img_barque3color.color = tmp
 				}  
-				imageflecheid.width = 70/100*imageflecheid.parent.width  
-				imageflecheid.x = 1/3*imageflecheid.parent.width
+				imageflecheidorange.width =  Qt.binding(function() { return imageflecheidorange.parent.width * 0.56 })
+				imageflecheidrouge.width = Qt.binding(function() { return imageflecheidrouge.parent.width * 0.56 })
+				imageflecheidorange.x =  Qt.binding(function() { return imageflecheidorange.parent.width * 6/15 })
+				imageflecheidrouge.x =  Qt.binding(function() { return imageflecheidrouge.parent.width * 6/15 })
 				break
 			case "3":
 				if(barqswap2 == "2") {
 					tmp = ""+img_barque3color.color
 					img_barque3color.color = img_barque2color.color
 					img_barque2color.color = tmp
-					imageflecheid.width = 70/100*imageflecheid.parent.width
+					imageflecheidorange.width =  Qt.binding(function() { return imageflecheidorange.parent.width * 0.56 })
+					imageflecheidrouge.width = Qt.binding(function() { return imageflecheidrouge.parent.width * 0.56 })
 				} else if(barqswap2 == "1") {
 					tmp = ""+img_barque3color.color
 					img_barque3color.color = img_barquecolor.color
 					img_barquecolor.color = tmp
-					imageflecheid.width = imageflecheid.parent.width
-					imageflecheid.x = 0
+					imageflecheidorange.width =  Qt.binding(function() { return imageflecheidorange.parent.width *1.05})
+					mageflecheidrouge.width =  Qt.binding(function() { return imageflecheidrouge.parent.width *1.05})
+					imageflecheidorange.x = 0
+					imageflecheidrouge.x = 0
 				}
 				break
 		}
-		imageflecheid.visible = true
+		imageflecheidorange.visible = true
+		imageflecheidrouge.visible = true
+		nb_turn_show_barque = 1
+	}
+
+	function hidebarque() {
+		if(nb_turn_show_barque < 0) {
+			imageflecheidorange.visible = false
+			imageflecheidrouge.visible = false
+			console.log("ici why not")
+		}
+		console.log(nb_turn_show_barque)
+		nb_turn_show_barque -= 1
 	}
 	
 	Piones {
@@ -121,9 +146,12 @@ Row {
 				
 				Grid {
 					id:layoutPawn0
+					width : parent.width
+					height : parent.height
 					columns:2
 					spacing : 2
 					y : 1/5*parent.y
+					x : 1/10*width
 				}
 			}
 			
@@ -150,9 +178,12 @@ Row {
 				
 				Grid {
 					id:layoutPawn1
+					width : parent.width
+					height : parent.height
 					columns:2
 					spacing : 2
 					y : 1/10*parent.y
+					x : 1/5*width
 				}
 			}
 			
@@ -179,9 +210,12 @@ Row {
 				
 				Grid {
 					id:layoutPawn2
+					width : parent.width
+					height : parent.height
 					columns:2
 					spacing : 2
 					y : 1/5*parent.y
+					x : 1/5*width
 				}
 			}
 			
@@ -208,9 +242,12 @@ Row {
 				
 				Grid {
 					id:layoutPawn3
+					width : parent.width
+					height : parent.height
 					columns:2
 					spacing : 2
 					y : 1/5*parent.y
+					x : 1/5*width
 				}
 			}
 			
@@ -237,9 +274,12 @@ Row {
 				
 				Grid {
 					id:layoutPawn4
+					width : parent.width
+					height : parent.height
 					columns:2
 					spacing : 2
 					y : 1/15*parent.y
+					x : 1/5*width
 				}
 			}
 			
@@ -252,10 +292,12 @@ Row {
 				
 				Grid {
 					id:layoutPawn5
+					width : parent.width
+					height : parent.height
 					columns:2
 					spacing : 2
 					y : 1/5*parent.y
-					x : 1/20*parent.x
+					x : 1/5*width
 				}
 			}
 			
@@ -282,9 +324,11 @@ Row {
 				
 				Grid {
 					id:layoutPawn6
+					width : parent.width
+					height : parent.height
 					columns:2
 					spacing : 2
-					x : 1/30*parent.x
+					x : 1/5*width
 					y : 1/25*parent.y
 				}
 			}
@@ -332,9 +376,11 @@ Row {
 				
 				Grid {
 					id:layoutPawn7
+					width : parent.width
+					height : parent.height
 					columns:2
 					spacing : 2
-					x : 3
+					x : 1/5*width
 				}
 			}
 			Row {
@@ -361,8 +407,11 @@ Row {
 							
 							Grid {
 								id:layoutPawn9
+								width : parent.width
+								height : parent.height
 								columns:2
 								spacing : 2
+								x : 1/5*width
 							}
 						}
 						Rectangle {
@@ -388,8 +437,11 @@ Row {
 							
 							Grid {
 								id:layoutPawn10
+								width : parent.width
+								height : parent.height
 								columns:2
 								spacing : 2
+								x : 1/5*width
 							}
 						}
 						Rectangle {
@@ -401,9 +453,11 @@ Row {
 							
 							Grid {
 								id:layoutPawn11
+								width : parent.width
+								height : parent.height
 								columns:2
 								spacing : 2
-								x : 2
+								x : 1/5*width
 							}
 						}
 					}
@@ -446,8 +500,11 @@ Row {
 							
 							Grid {
 								id:layoutPawn8
+								width : parent.width
+								height : parent.height
 								columns:2
 								spacing : 2
+								x : 1/5*width
 							}
 						}
 						
@@ -558,8 +615,11 @@ Row {
 				
 				Grid {
 					id:layoutPawn13
+					width : parent.width
+					height : parent.height
 					columns:2
 					spacing : 2
+					x : 1/5*width
 				}
 			}
 			
@@ -614,9 +674,12 @@ Row {
 					
 					Grid {
 						id:layoutPawn14
+						width : parent.width
+						height : parent.height
 						columns:2
 						spacing : 2
 						y : 1/5*parent.y
+						x : 1/5*width
 					}
 				}
 				
@@ -643,8 +706,11 @@ Row {
 					
 					Grid {
 						id:layoutPawn15
+						width : parent.width
+						height : parent.height
 						columns:2
 						spacing : 2
+						x : 1/5*width
 					}
 				}
 			}
@@ -701,8 +767,11 @@ Row {
 					}
 					Grid {
 						id:layoutPawn17
+						width : parent.width
+						height : parent.height
 						columns:2
 						spacing : 2
+						x : 1/5*width
 					}
 				}
 				
@@ -748,12 +817,15 @@ Row {
 							}
 						}
 					}
-					
 					Grid {
 						id:layoutPawn16
+						width : parent.width
+						height : parent.height
 						columns:2
 						spacing : 2
+						x : 1/5*width
 					}
+					
 				}
 			}
 		}
@@ -801,9 +873,11 @@ Row {
 				
 				Grid {
 					id:layoutPawn18
+					width : parent.width
+					height : parent.height
 					columns:2
 					spacing : 2
-					x : 10
+					x : 1/5*width
 				}
 			}
 			
@@ -818,7 +892,7 @@ Row {
 					id:layoutPawn19
 					columns:2
 					spacing : 2
-					x : 1/5*parent.x
+					x : 1/5*width
 				}
 			}
 			
@@ -831,10 +905,13 @@ Row {
 				
 				Grid {
 					id:layoutPawn20
+					width : parent.width
+					height : parent.height
 					columns:2
 					spacing : 2
-					x : 1/9*parent.x
+					x : 1/5*width
 				}
+
 			}
 			
 			Rectangle {
@@ -846,9 +923,11 @@ Row {
 				
 				Grid {
 					id:layoutPawn21
+					width : parent.width
+					height : parent.height
 					columns:2
 					spacing : 2
-					x : 1/12*parent.x
+					x : 1/5*width
 				}
 			}
 			
@@ -875,9 +954,11 @@ Row {
 				
 				Grid {
 					id:layoutPawn22
+					width : parent.width
+					height : parent.height
 					columns:2
 					spacing : 2
-					x : 1/20*parent.x
+					x : 1/5*width
 				}
 			}
 			
@@ -890,14 +971,14 @@ Row {
 					height : 30/100*parent.height
 					color : "transparent"
 					Image {
-						id : imageflecheid
-						width : 70/100*parent.width
+						id : imageflecheidorange
+						width : 0.56*parent.width
 						height : 1/2*parent.height
 						y : 1/2*parent.height
-						x : 0
-						source : "../images/grande_fleche_bleue_test.png"
+						x : 1/15*parent.width
+						source : "../images/grande_fleche_orange.png"
 						visible : false
-					}
+						}
 				} 
 				
 				Row {
@@ -999,8 +1080,16 @@ Row {
 				
 				Rectangle {
 					width : parent.width
-					height : 1/3*parent.height
+					height : 30/100*parent.height
 					color : "transparent"
+					Image {
+						id : imageflecheidrouge
+						width : 70/100*parent.width
+						height : 1/2*parent.height
+						x : 0
+						source : "../images/grande_fleche_rouge.png"
+						visible : false
+					}
 				}
 			}
 		}

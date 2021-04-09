@@ -99,6 +99,10 @@ class Cerbere::Game
 	end
 
 	def new_turn()
+		if(@finished == true)
+			return 
+		end
+
 		if (!@action_played)
 			board.play_card(players[active_player], true, 0, 0, [[0],[0],[0]])
 			@action_played = true
@@ -186,7 +190,8 @@ class Cerbere::Game
 		nb_loosers = 0
 		nb_winners = 0
 		nb_rest_in_game = 0
-		@players.each do |p|
+		status = 0
+		players.each do |p|
 			if(p.type != TypeJoueur::AVENTURIER)
 				nb_loosers += 1
 			elsif(p.position == @board.nodes.size()-1)
@@ -197,57 +202,30 @@ class Cerbere::Game
 		end
 		
 		if(nb_loosers==@players.size())
+			status = 1
 			@players.each do |p|
-				if(p.type == TypeJoueur::MORT)
-					p.send(Response::EliminatePlayer.new([p]))
-				elsif(p.type == TypeJoueur::CERBERE)
-					p.send(Response::SurvivorWin.new([p]))
-				else 
-					p.send(Response::AdventurerLose.new([p]))
-					
-				end
+				p.send(Response::StatusPlayer.new(players,status,p))
 			end
+			@finished = true
 			return 
 		end
 		
 		if(@board.barques.size() == 1) #reveal barque
 			if(@board.action_verif_barque())
-				if(nb_rest_in_game > 0)
-					@players.each do |p|
-						if(p.type == TypeJoueur::MORT)
-							p.send(Response::EliminatePlayer.new([p]))
-						elsif(p.type == TypeJoueur::CERBERE)
-							p.send(Response::SurvivorLose.new([p]))
-						else 
-							if(p.position == @board.nodes.size() - 1)
-								p.send(Response::AdventurerWin.new([p]))
-							else
-								p.send(Response::AdventurerLose.new([p]))
-							end
-						end
-					end
-				else 
-					@players.each do |p|
-						if(p.type == TypeJoueur::MORT)
-							p.send(Response::EliminatePlayer.new([p]))
-						elsif(p.type == TypeJoueur::CERBERE)
-							p.send(Response::SurvivorLose.new([p]))
-						else 
-							p.send(Response::AdventurerWin.new([p]))
-						end
-					end
+				status = 0
+				@players.each do |p|
+					p.send(Response::StatusPlayer.new(players,status,p))
 				end
+				@finished = true
+				return 
 			else 
-				if(@board.barques[0] > nb_rest_in_game)
+				if(board.barques[0] > nb_rest_in_game)
+					status = 1
 					@players.each do |p|
-						if(p.type == TypeJoueur::MORT)
-							p.send(Response::EliminatePlayer.new([p]))
-						elsif(p.type == TypeJoueur::CERBERE)
-							p.send(Response::SurvivorWin.new([p]))
-						else 
-							p.send(Response::AdventurerLose.new([p]))
-						end
+						p.send(Response::StatusPlayer.new(players,status,p))
 					end
+					@finished = true
+					return 
 				end
 			end
 		end

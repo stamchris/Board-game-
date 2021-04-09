@@ -102,6 +102,8 @@ Rectangle {
 			visible: false
 			yPosition: 0
 			xPosition: 5
+			width : 45
+			height : 45
 			color: "transparent"
 			
 			Image {

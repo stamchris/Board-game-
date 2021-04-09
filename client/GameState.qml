@@ -33,6 +33,7 @@ Item{
     signal _discardBonus(string discardedBonus, string type)
     signal _showSwapBarque(string barques)
     signal _showRevealBarque(string barque)
+    signal _hideSwapBarque()
     /*signal _showAWinner(variant player)
     signal _showALoser(variant player)
     signal _showSWinner(variant player)
@@ -135,48 +136,110 @@ Item{
         _showSwapBarque(choices)
     }
 
+    function hideSwapBarque() {
+        _hideSwapBarque()
+    }
+
     function showRevealBarque(barque) {
         barque_revealed = true
         _showRevealBarque(barque)
     }
 
-    function showAWinner(player) {
-        showfinish_player = player
-        parent.board.popupFinish.finalstateplayer.color = showfinish_player[0].colour
-        parent.board.popupFinish.finalstateplayer.text = ""+ showfinish_player[0].name + " tu a gagne jeune aventurier courageux !"
+    function showAWinner(player,pop) {
+        if(pop == 1) {
+            parent.board.popupFinish.finalstateplayer.color = player[0].colour
+            parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name + " tu a gagne jeune aventurier courageux !"
+        }
+
+        parent.endwindow.endcolumnid.children[0].children[0].children[1].children[0].text +=  " "+player[0].name+ " "
+    
         parent.board.popupFinish.open()
     }
 
-    function showALoser(player) {
-        showfinish_player = player
-        parent.board.popupFinish.finalstateplayer.color = showfinish_player[0].colour
-        parent.board.popupFinish.finalstateplayer.text = ""+ showfinish_player[0].name + " tu a perdu jeune aventurier !"
+    function showALoser(player,pop) {
+        if(pop == 1) {
+            parent.board.popupFinish.finalstateplayer.color = player[0].colour
+            parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name + " tu a perdu jeune aventurier !"
+        }
+
+        parent.endwindow.endcolumnid.children[0].children[0].children[1].children[0].text +=  " "+player[0].name+ " "
+
         parent.board.popupFinish.open()
         
     }
 
-    function showSWinner(player) {
-        showfinish_player = player
-        parent.board.popupFinish.finalstateplayer.color = showfinish_player[0].colour
-        parent.board.popupFinish.finalstateplayer.text = ""+ showfinish_player[0].name + " tu a gagne jeune survivant malicieux ! "
+    function showSWinner(player,pop) {
+        if(pop == 1) {
+            parent.board.popupFinish.finalstateplayer.color = player[0].colour
+            parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name + " tu a gagne jeune survivant malicieux ! "
+        }
+
+        parent.endwindow.endcolumnid.children[1].children[0].children[1].children[0].text +=  " "+player[0].name+ " "
+        
         parent.board.popupFinish.open()
        
     }
 
-    function showSLoser(player) {
-        showfinish_player = player
-        parent.board.popupFinish.finalstateplayer.color = showfinish_player[0].colour
-        parent.board.popupFinish.finalstateplayer.text = ""+ showfinish_player[0].name + " tu a gagne jeune survivant !"
+    function showSLoser(player,pop) {
+        if(pop == 1) {
+            parent.board.popupFinish.finalstateplayer.color = player[0].colour
+            parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name + " tu a perdu jeune survivant !"
+        }
+
+        parent.endwindow.endcolumnid.children[1].children[0].children[1].children[0].text +=  " "+player[0].name+ " "
         parent.board.popupFinish.open()
        
     }
     
-    function showEliminate(player) {
-        showfinish_player = player
-        parent.board.popupFinish.finalstateplayer.color = showfinish_player[0].colour
-        parent.board.popupFinish.finalstateplayer.text = ""+ showfinish_player[0].name + " tu a etait eliminer !"
+    function showEliminate(player,pop) {
+        if(pop == 1) {
+            parent.board.popupFinish.finalstateplayer.color = player[0].colour
+            parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name + " tu a etait eliminer !"
+        }
+        
+        parent.endwindow.endcolumnid.children[2].children[0].children[1].children[0].text +=  " "+player[0].name+ " "
         parent.board.popupFinish.open()
-       
+    }
+
+
+
+    function showPlayersEnd(newPlayers, status,player) {
+        //status = 0 ; aventurier gagne, cerbere perd
+        //Status = 1; aventurier perd, cerbere gagne
+
+        if(status == 0) {
+            parent.endwindow.endcolumnid.children[0].children[0].children[0].children[0].text += "Gagnants"
+            parent.endwindow.endcolumnid.children[1].children[0].children[0].children[0].text += "Perdants"
+        }
+        else {
+            parent.endwindow.endcolumnid.children[0].children[0].children[0].children[0].text += "Perdants"
+            parent.endwindow.endcolumnid.children[1].children[0].children[0].children[0].text += "Gagnants"
+        }
+
+        var pop = 0
+        for (var i = 0; i < newPlayers.length; i++) {
+            if(newPlayers[i].colour == player.colour)
+                pop = 1 //on ouvre le popup
+
+            if (newPlayers[i].type == "aventurier") {
+                if(status == 0) //gagner aventurier
+                    showAWinner([newPlayers[i]],pop) 
+                else 
+                    showALoser([newPlayers[i]],pop) 
+
+            }
+            else if (newPlayers[i].type == "cerbere") {
+                if(status == 1) //gagner cerbere
+                    showSWinner([newPlayers[i]],pop) 
+                else 
+                    showSLoser([newPlayers[i]],pop)
+            }
+            else {
+                showEliminate([newPlayers[i]],pop)
+            }
+
+            pop = 0  
+        }
     }
 
     function useBridge(new_queue) {
@@ -209,7 +272,7 @@ Item{
         changeDifficulty(newDifficulty)
         changeRage(8 - newPlayers.length)
         changeVitesse(3 + newDifficulty)
-        changePosCerbere("0")
+        changePosCerbere("1")
         _showPlayerPieces(players)
         _updatePlayersOnBar(players)
         _updateActionCards("aventurier")
@@ -230,6 +293,7 @@ Item{
         _discardBonus.connect(parent.board.joueurId.updateBonusCard)
         _showSwapBarque.connect(parent.board.boardId.swapbarque)
         _showRevealBarque.connect(parent.board.boardId.revealbarque)
+        _hideSwapBarque.connect(parent.board.boardId.hidebarque)
         _addToBar.connect(parent.board.progressBar.addToBar)
         _addToBar.connect(parent.board.boardId.pionesId.children[0].hidePlayerPiece)
         _updateActionCards.connect(parent.board.joueurId.loadActionCards)

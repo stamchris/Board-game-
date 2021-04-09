@@ -143,20 +143,18 @@ Item {
 		anchors.fill:parent
 	}
 
-	
 	Popup {
 		id : popupFinish
 		anchors.centerIn: parent
 		width: 400
 		height: 100
 		modal: true
-		closePolicy: Popup.CloseOnPressOutside
-		
+		closePolicy:  Popup.CloseOnEscape | Popup.CloseOnPressOutside //default
+
 		property alias finalstateplayer : finalstateplayer
 		
 		background: Rectangle {
 			color: "#ffd194"
-			opacity: 0.3
 			radius: 3
 		}
 		
@@ -165,11 +163,35 @@ Item {
 			text : "O"
 			height : parent.height/2
 			width : parent.width/2
+			x : 50
 			horizontalAlignment: Text.AlignHCenter
 			font.weight: Font.DemiBold
 			fontSizeMode:Text.Fit
 		}
-				
+
+		Button {
+			width : parent.width/2
+			height : parent.height/2
+			x : parent.width/2
+			y : parent.height/2
+			Rectangle {
+				anchors.fill : parent
+				Text {
+					anchors.centerIn : parent
+					text : "Voir resultat final"
+				}
+			}
+
+			onClicked : {
+				popupFinish.close()
+				window.parent.view = "Fin"
+			}
+		}
+
+		onAboutToHide: {
+			popupFinish.close()
+			window.parent.view = "Fin"
+		}
 	}
 	
 	Timer {

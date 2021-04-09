@@ -76,6 +76,18 @@ ApplicationWindow {
 					game.state.changeRage(message.rage)
 					game.state.changeVitesse(message.vitesse)
 					game.state.changePont(message.pont)
+<<<<<<< HEAD
+=======
+					game.state.hideSwapBarque()
+					game.board.popupBridge.close()
+					game.board.popupPortal.close()
+					game.board.playersChoice.close()
+					game.board.popupChooseBarquesEffect.close()
+					game.board.popupSwapBarques.close()
+					game.board.popupSeeBarques.close()
+					game.board.popupChooseCardsToDiscard.close()
+					game.board.popupChooseOppoEffect.close()
+>>>>>>> Add end-screen with end status players
 					break
 				case "newBonus":
 					game.state.newBonus(message.cardname)
@@ -110,20 +122,9 @@ ApplicationWindow {
 				case "revealBarque":
 					game.state.showRevealBarque(message.barque)
 					break
-				case "awinner":
-					game.state.showAWinner(message.plyr)
-					break
-				case "aloser":
-					game.state.showALoser(message.plyr)
-					break
-				case "swinner":
-					game.state.showSWinner(message.plyr)
-					break
-				case "sloser":
-					game.state.showSLoser(message.plyr)
-					break
-				case "eliminate":
-					game.state.showEliminate(message.plyr)
+				case "statusplayers":
+					console.log("statusplayers")
+					game.state.showPlayersEnd(message.players,message.status_array,message.player)
 					break
 				case "cantDoThat":
 					let msg = "Vous ne pouvez pas faire ça ! "+message.msg;

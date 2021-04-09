@@ -85,6 +85,8 @@ function findYposition(count, choosePlayer) {
 			return choosePlayer.yPosition = layoutPawn11.height
 		case '12':
 			choosePlayer.parent = layoutPawn12
+			choosePlayer.height = 20
+			choosePlayer.width = 20
 			return choosePlayer.yPosition = layoutPawn12.height
 		case '13':
 			choosePlayer.parent = layoutPawn13
