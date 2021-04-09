@@ -25,11 +25,11 @@ Item {
 	
 	property string src: typeof ROOT_URL === "undefined" ? "" : ROOT_URL
 
-    BorderImage {
-            id: background1
-            source: src+"images/background_image.jpg"
-            anchors.fill:parent
-    }
+	BorderImage {
+		id: background1
+		source: src+"images/background_image.jpg"
+		anchors.fill:parent
+	}
 
 	
 	Popup {
@@ -109,9 +109,9 @@ Item {
 				args.push(button_color)
 				window.parent.state.send({
 					type: requestType,
-			     effet: effect,
-			     carte: action_todo,
-			     args: args
+				effet: effect,
+				carte: action_todo,
+				args: args
 				})
 				playersChoice.close()
 			} else {
@@ -288,8 +288,8 @@ Item {
 				onClicked: {
 					window.parent.state.send({
 						type: "bridge_confirm",
-			      survivor: window.parent.state.pont_queue[0],
-			      used: true
+					survivor: window.parent.state.pont_queue[0],
+					used: true
 					})
 					window.parent.state.pont_queue = []
 					popupBridge.close()
@@ -329,8 +329,8 @@ Item {
 					if (window.parent.state.pont_queue.length == 1) {
 						window.parent.state.send({
 							type: "bridge_confirm",
-			       survivor: window.parent.state.pont_queue[0],
-			       used: false
+					survivor: window.parent.state.pont_queue[0],
+					used: false
 						})
 						popupBridge.close()
 					} else {
@@ -380,8 +380,8 @@ Item {
 					if (window.parent.state.portal_queue.length == 1) {
 						window.parent.state.send({
 							type: "portal_confirm",
-			       survivors: popupPortal.queue,
-			       used: true
+					survivors: popupPortal.queue,
+					used: true
 						})
 						window.parent.state.portal_queue = []
 						popupPortal.close()
@@ -398,8 +398,8 @@ Item {
 					if (window.parent.state.portal_queue.length == 1) {
 						window.parent.state.send({
 							type: "portal_confirm",
-			       survivors: window.parent.state.portal_queue,
-			       used: false
+					survivors: window.parent.state.portal_queue,
+					used: false
 						})
 						popupPortal.close()
 					} else {
@@ -510,9 +510,9 @@ Item {
 			} else {
 				window.parent.state.send({
 					type: requestType,
-			     effet: effect,
-			     carte: action_todo,
-			     args: args
+					effet: effect,
+					carte: action_todo,
+					args: args
 				})
 				popupSwapBarques.close()
 			}
@@ -603,9 +603,9 @@ Item {
 			args.push(choice)
 			window.parent.state.send({
 				type: requestType,
-			    effet: effect,
-			    carte: action_todo,
-			    args: args
+				effet: effect,
+				carte: action_todo,
+				args: args
 			})
 			popupSeeBarques.close()
 		}
@@ -727,9 +727,9 @@ Item {
 				} else {
 					window.parent.state.send({
 						type: requestType,
-			      effet: effect,
-			      carte: action_todo,
-			      args: args
+					effet: effect,
+					carte: action_todo,
+					args: args
 					}) 
 				}
 			}
@@ -975,7 +975,7 @@ Item {
 	Rectangle {
 		id: menuBarId
 		height: 60
-        color: "transparent"
+		color: "transparent"
 		anchors { 
 			left: parent.left;
 			right: parent.right;
@@ -1174,7 +1174,7 @@ Item {
 		property alias actionId: actionId
 		property alias progressBar: progressBarId
 		property alias chronoId: chronoId
-        color: "transparent"
+		color: "transparent"
 		
 		Rectangle {
 			id: chronoId
@@ -1182,7 +1182,7 @@ Item {
 			height: underBarId.height
 			border.color: "#740912"
 			border.width: 2
-            color: "transparent"
+			color: "transparent"
 			
 			anchors {
 				left: underBarId.left;
@@ -1216,7 +1216,7 @@ Item {
 			Rectangle {
 				height: parent.height - 4
 				width: parent.width - parent.height - 4
-                color: "transparent"
+				color: "transparent"
 				
 				anchors {
 					left : img_chrono.right;
@@ -1240,7 +1240,7 @@ Item {
 			id: progressBarId
 			width: underBarId.width*7/10
 			height: underBarId.height
-            color: "transparent"
+			color: "transparent"
 			
 			anchors {
 				top:underBarId.top;
@@ -1273,7 +1273,7 @@ Item {
 			border.color: "#740912"
 			border.width: 2
 			property var currentPlayerTimer: 60
-            color: "transparent"
+			color: "transparent"
 			
 			anchors {
 				top: underBarId.top;
@@ -1288,7 +1288,7 @@ Item {
 				Rectangle {
 					height: parent.height/2
 					width:  parent.width - parent.height
-                    color: "transparent"
+					color: "transparent"
 					
 					anchors {
 						top: parent.top
@@ -1312,7 +1312,7 @@ Item {
 				Rectangle {
 					height: parent.height/2
 					width: parent.width - parent.height
-                    color: "transparent"
+					color: "transparent"
 
 					anchors {
 						bottom: parent.bottom
@@ -1333,7 +1333,7 @@ Item {
 				Rectangle {
 					height: parent.height
 					width: parent.height
-                    color: "transparent"
+					color: "transparent"
 
 					anchors {
 						bottom: parent.bottom
@@ -1386,7 +1386,7 @@ Item {
 		id: chatId
 		height: parent.height*34/100
 		width: parent.width*2/10
-        color: "transparent"
+		color: "transparent"
 		border.color: "#740912"
 		border.width: 2
 
@@ -1425,12 +1425,12 @@ Item {
 			}     
 		}
 	}
-                    
+					
 	Rectangle {
 		id: infoJoueurId
 		width: parent.width*8/10
 		height: 40
-        color: "transparent"
+		color: "transparent"
 
 		anchors {
 			top: plateauId.bottom;
@@ -1731,7 +1731,7 @@ Item {
 		id: joueurId
 		width: parent.width*8/10
 		height: parent.height*34/100 - 40
-        color: "transparent"
+		color: "transparent"
 		property var actionLocked: 0
 		property var bonusLocked: 0
 
@@ -1839,11 +1839,11 @@ Item {
 				width : joueurId.width/8*7
 				x: -scrollBarBonus.position*width
 
-                BorderImage {
-                    id: background2
-                    source: src+"images/background_image.jpg"
-                    anchors.fill:parent
-                }
+				BorderImage {
+					id: background2
+					source: src+"images/background_image.jpg"
+					anchors.fill:parent
+				}
 
 
 				Rectangle {
