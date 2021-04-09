@@ -7,6 +7,7 @@ Row {
     id : rowinfos
     width: parent.width*5/6
     height: parent.height
+	property alias bonusSize : nb_bonus_txt.text
     
     function changetype(player) {
         var good = -1
@@ -74,58 +75,65 @@ Row {
         }
     }
 
-    Rectangle {
-        id: little_action1_usr
-        height: parent.height
-        width: parent.width/5 -2 
-        border.color: "white"
-        color: "transparent"
-        x: parent.width
 
-        Image {
-            anchors.fill : parent
-            source : ""
-        }
-    }
+	Rectangle {
+		id: little_action1_usr
+		height: parent.height
+		width: parent.width/5 -2
+		border.color: "white"
+		color: "transparent"
+		x: parent.width
+		property alias source: img1.source
 
-    Rectangle {
-        id: little_action2_usr
-        height: parent.height
-        width: parent.width/5 -2 
-        border.color: "white"
-        color: "transparent"
+		Image {
+			id: img1
+			anchors.fill : parent
+			source : ""
+		}
+	}
 
-        Image {
-            anchors.fill: parent
-            source: ""
-        }
-    }
+	Rectangle {
+		id: little_action2_usr
+		height: parent.height
+		width: parent.width/5 -2
+		border.color: "white"
+		color: "transparent"
+		property alias source: img2.source
 
-    Rectangle {
-        id:little_action3_usr
-        height: parent.height
-        width: parent.width/5-2 
-        border.color: "white"
-        color: "transparent"
+		Image {
+			id: img2
+			anchors.fill: parent
+			source: ""
+		}
+	}
 
-        Image {
-            anchors.fill: parent
-            source: ""
-        }
-    }
+	Rectangle {
+		id:little_action3_usr
+		height: parent.height
+		width: parent.width/5-2
+		border.color: "white"
+		color: "transparent"
+		property alias source: img3.source
 
-    Rectangle {
-        id: little_action4_usr
-        height: parent.height
-        width: parent.width/5-2 
-        border.color: "white"
-        color: "transparent"
+		Image {
+			id: img3
+			anchors.fill: parent
+			source: ""
+		}
+	}
 
-        Image {
-            anchors.fill: parent
-            source: ""
-        }
-    }
+	Rectangle {
+		id: little_action4_usr
+		height: parent.height
+		width: parent.width/5-2
+		border.color: "white"
+		color: "transparent"
+		property alias source: img4.source
+
+		Image {
+			id: img4
+			anchors.fill: parent
+			source: ""
+		}
+	}
 }
-
-                        
