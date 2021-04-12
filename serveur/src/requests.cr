@@ -17,7 +17,8 @@ class Cerbere::Request
 		changeColour: ChangeColour,
 		chatMessage: ChatMessage,
 		answerSabotage: AnswerSabotage,
-		password: Password
+		password: Password,
+		warnDisconnect: WarnDisconnect
 	}
 
 	def handle(game : Game, player : Player)
@@ -410,13 +411,35 @@ class Cerbere::Request
 			game.new_turn_if_all_set(currentPlayer)
 		end
 	end
+		
+	class WarnDisconnect < Request
+		property type = "warnDisconnect"
+		
+		def handle(game : Game, player : Player)
+			if (player.owner==true && game.players.size>1)
+				game.players[1].owner=true
+			end
+			game.players.delete(player)
+			player.send(Response::Disconnect.new())
+			game.send_all(Response::UpdateAllPlayers.new(game.players))
+			game.send_all(Response::UpdatePlayer.new(game.players[0]))
+		end
+	end
 end
 
 class Cerbere::Response
 	include JSON::Serializable
 
-	class BadLogin < Response
-		property type = "badLogin"
+	class UpdateAllPlayers < Response
+		property type = "updateAllPlayers"
+		property players : Array(Player)
+
+		def initialize(@players)
+		end
+	end
+
+	class Disconnect < Response
+		property type = "disconnect"
 
 		def initialize()
 		end

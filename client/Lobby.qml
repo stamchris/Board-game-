@@ -33,9 +33,13 @@ Item {
 				hoverEnabled: true
 				onClicked: loader.push(configScreen)
 			}
-		}
+		}										
+	
+	Disconnect {
+		anchors.top: parent.top
+		anchors.left: parent.left
 	}
-
+	
 	
 	Component {
 		id: configScreen

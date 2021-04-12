@@ -60,7 +60,7 @@ ApplicationWindow {
 					app.title = "Cerbere : " + login
 					game.players = message.players
 					game.visible = true
-					game.rank = message.rank
+					game.playerName = message.players[message.rank].name
 					loader.push(game)
 					break
 				case "starter":
@@ -156,6 +156,13 @@ ApplicationWindow {
 					game.board.popupChooseCardsToDiscard.close()
 					game.board.popupSabotageWhatToDo.close()
 					break
+				case "disconnect":
+					socket.active = false
+					break
+				case "updateAllPlayers":
+					console.log(message.players)
+					game.players = message.players
+					break
 			}
 		}
 
@@ -187,6 +194,13 @@ ApplicationWindow {
 					type: "password",
 					password: socket.password
 				}))
+			}
+
+			if (status == WebSocket.Closed) {
+				loader.clear()
+				loader.push("Login.qml")
+				socket.active = false
+
 			}
 		}
 		
