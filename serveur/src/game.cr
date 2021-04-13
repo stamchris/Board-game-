@@ -45,60 +45,71 @@ class Cerbere::Game
 		@players.all? { |player| player.colour != colour}
 	end
 	
-	def play_action(player : Player, num_card : Int32, effect : Int32, args : Array(Int32))
-		player.hand.action[num_card] = false
-		card = Hand.actions_of(player.type)[num_card]
-		choice = card.choix[effect]
-		board.faire_action(player, choice.cout, args)
-		if ((choice.cout.evenement == Evenement::DEPLACER_AUTRE) || (choice.cout.evenement == Evenement::DEFAUSSER_MOI))
-			args.shift()
-		end
-		choice.effets.each_index do |i|
-			if args.size == 0 && (choice.effets[i].evenement == Evenement::DEPLACER_AUTRE || choice.effets[i].evenement == Evenement::PIOCHER_ALLIE)
-				break
+	def convert(player : Player, effect : Effet, args : Array(String)) : Array(Int32)
+		new_args : Array(Int32) = [] of Int32
+		n : Int32
+		if(effect.evenement == Evenement::PIOCHER_ALLIE ||
+		   effect.evenement == Evenement::DEFAUSSER_SURVIE ||
+		   effect.evenement == Evenement::DEPLACER_AUTRE)
+			# Les arguments sont des joueurs
+			if(effect.evenement == Evenement::DEPLACER_AUTRE)
+				# Le nombre d'arguments est 1 (la force est le
+				# nombre de cases)
+				n = 1
+			else
+				# Le nombre d'arguments dépend de la force, qui
+				# est le nombre de joueurs affectés
+				n = effect.force
 			end
-			board.faire_action(player, choice.effets[i], args)
-			if args.size != 0
+
+			Math.min(n,args.size()).times do |i|
+				players.each do |plyr|
+					if args[0] == plyr.colour.to_s
+						new_args << plyr.lobby_id
+						args.shift()
+						break
+					end
+				end
+			end
+		elsif(effect.evenement == Evenement::DEFAUSSER_MOI)
+			# Les arguments sont des cartes
+			n = effect.force
+
+			Math.min(n,args.size()).times do |j|
+				player.hand.bonus.each_index do |i|
+					if (player.hand.bonus[i].name == args[0])
+						new_args << i
+						args.shift()
+						break
+					end
+				end
+			end
+		elsif(effect.evenement == Evenement::BARQUE)
+			# Les arguments sont des index de barques
+			n = 3
+
+			Math.min(n,args.size()).times do |i|
+				new_args << args[0].to_i32()
 				args.shift()
 			end
 		end
+		# Les autres évènements soit n'ont pas d'arguments, soit
+		# n'existent pas en tant qu'effet de cartes
+		return new_args
 	end
 	
-	def play_bonus(player : Player, card : String, effect : Int32, args : Array(Int32))
-		player.hand.bonus.each do |bonus_card|
-			if bonus_card.name == card
-				choice = bonus_card.choix[effect]
-				board.faire_action(player, choice.cout, args)
-				if (choice.cout.evenement == Evenement::DEFAUSSER_MOI)
-					args.shift(choice.cout.force)
-				end
-				choice.effets.each_index do |i|
-					if args.size == 0 && (choice.effets[i].evenement == Evenement::DEPLACER_AUTRE || choice.effets[i].evenement == Evenement::PIOCHER_ALLIE)
-						break
-					end
-					board.faire_action(player, choice.effets[i], args)
-					if args.size != 0
-						args.shift()
-					end
-				end
-				break
-			end
+	def convert(player : Player, choice : Choix, args : Array(String)) : Array(Array(Int32))
+		res : Array(Array(Int32)) = [] of Array(Int32)
+		res << convert(player, choice.cout, args)
+		choice.effets.each do |effet|
+			res << convert(player, effet, args)
 		end
-		
-		index_card = 0
-		player.hand.bonus.each do |bonus_card|
-			if bonus_card.name == card
-				board.defausser(player, index_card)
-				player.send(Response::DiscardBonus.new(bonus_card.name))
-				break
-			end
-			index_card += 1
-		end
+		return res
 	end
-	
+
 	def new_turn()
 		if (!@action_played)
-			play_action(players[active_player], 0, 0, [] of Int32)
+			board.play_card(players[active_player], true, 0, 0, [[0],[0],[0]])
 		end
 		
 		board.pont_queue.each do |plyr|

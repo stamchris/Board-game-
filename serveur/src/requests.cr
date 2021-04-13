@@ -110,116 +110,72 @@ class Cerbere::Request
 		property args : Array(String)
 
 		def handle(game : Game, player : Player)
-			new_args = [] of Int32
+			if(player.colour != game.players[game.active_player].colour)
+				player.send(Response::CantDoThat.new("Ce n'est pas à votre tour de jouer !"))
+				return
+			end
 
-			args.each do |arg|
-				game.players.each do |plyr|
-					if arg == plyr.colour.to_s
-						new_args << plyr.lobby_id
-						break
-					end
+			index_card : Int32 = carte.to_i32() - 1
+			if(index_card < 0 || index_card >= 4)
+				player.send(Response::CantDoThat.new("La carte #{carte} n'existe pas !"))
+				return
+			end
+
+			card : CarteAction = Hand.actions_of(player.type)[index_card]
+
+			if(effet >= card.choix.size())
+				player.send(Response::CantDoThat.new("Cette carte n'a pas d'effet #{effet} !"))
+				return
+			end
+
+			choice : Choix = card.choix[effet]
+
+			if(!game.board.can_pay_cost(player, choice.cout))
+				player.send(Response::CantDoThat.new("Vous ne pouvez pas payer le coût de la carte #{carte} !"))
+				return
+			end
+
+			new_args : Array(Array(Int32)) = game.convert(player, choice, args)
+			print("args = #{args}")
+			print("new_args = #{new_args}")
+
+			if(!game.board.check_args_are_valid(player, choice.cout, new_args[0], true))
+				player.send(Response::CantDoThat.new("Arguments invalides pour #{choice.cout}: #{new_args[0]}"))
+				return
+			end
+			choice.effets.each_index do |i|
+				if(!game.board.check_args_are_valid(player, choice.effets[i], new_args[i+1]))
+					player.send(Response::CantDoThat.new("Arguments invalides pour #{choice.effets[i]}: #{new_args[i+1]}"))
+					return
 				end
 			end
 
-			if (player.colour == game.players[game.active_player].colour)
-				case @carte
-				when "1"
-					if @effet == 0
-						game.play_action(player, 0, 0, new_args)
-						game.action_played = true
-					elsif player.type == TypeJoueur::AVENTURIER && @effet == 1
-						new_args.clear()
-						args.each do |arg|
-							new_args << arg.to_i32
-						end
-						game.play_action(player, 0, 1, new_args)
-						game.action_played = true
-					elsif player.type == TypeJoueur::CERBERE && @effet == 1
-						game.play_action(player, 0, 1, new_args)
-						game.action_played = true
-					end
-				when "2"
-					if @effet == 0
-						game.play_action(player, 1, 0, new_args)
-						game.action_played = true
-					elsif player.type == TypeJoueur::AVENTURIER && @effet == 1
-						new_args.insert(0, -1)
-						game.play_action(player, 1, 1, new_args)
-						game.action_played = true
-					elsif player.type == TypeJoueur::CERBERE && @effet == 1
-						game.play_action(player, 1, 1, new_args)
-						game.action_played = true
-					end
-				when "3"
-					if @effet == 0
-						game.play_action(player, 2, 0, new_args)
-						game.action_played = true
-					elsif player.type == TypeJoueur::AVENTURIER && @effet == 1
-						game.play_action(player, 2, 1, new_args)
-						game.action_played = true
-					elsif player.type == TypeJoueur::CERBERE && @effet == 1
-						new_args.insert(0, 0)
-						game.play_action(player, 2, 1, new_args)
-						game.action_played = true
-					end
-				when "4"
-					if player.type == TypeJoueur::AVENTURIER && @effet == 0
-						new_args.insert(0, -1)
-						game.play_action(player, 3, 0, new_args)
-						game.action_played = true
-					elsif player.type == TypeJoueur::AVENTURIER && @effet == 1
-						new_args.clear()
-						player.hand.bonus.each_index do |i|
-							if (player.hand.bonus[i].name == args[0])
-								new_args << i
-								break
-							end
-						end
-						args.each do |arg|
-							game.players.each do |plyr|
-								if arg == plyr.colour.to_s
-									new_args << plyr.lobby_id
-									break
-								end
-							end
-						end
-						game.play_action(player, 3, 1, new_args)
-						game.action_played = true
-					elsif player.type == TypeJoueur::CERBERE && @effet == 0
-						game.play_action(player, 3, 0, new_args)
-						game.action_played = true
-					elsif player.type == TypeJoueur::CERBERE && @effet == 1
-						game.play_action(player, 3, 1, new_args)
-						game.action_played = true
-					end
-				else
-				end
+			game.board.play_card(player, true, index_card, effet, new_args)
+			game.action_played = true
 
-				if game.action_played == true 
-					player.send(Response::ActionPlayed.new())
-					game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
-				end
+			player.send(Response::ActionPlayed.new())
+			game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
 
-				players_queue : Array(Player) = [] of Player
 
-				if game.board.pont_queue.size != 0
-					game.board.pont_queue.each do |plyr|
-						players_queue << plyr[0]
-					end
-					player.send(Response::UseBridge.new(players_queue))
-				end
+			players_queue : Array(Player) = [] of Player
 
-				if game.board.portal_queue.size != 0
-					players_queue.clear()
-					game.board.portal_queue.each do |plyr|
-						players_queue << plyr[0]
-					end
-					player.send(Response::UsePortal.new(players_queue))
+			if game.board.pont_queue.size != 0
+				game.board.pont_queue.each do |plyr|
+					players_queue << plyr[0]
 				end
+				player.send(Response::UseBridge.new(players_queue))
+			end
 
-				if game.action_played && (game.bonus_played || player.hand.bonus_size == 0) && game.board.pont_queue.size == 0 && game.board.portal_queue.size == 0
-					game.new_turn()
+			if game.board.portal_queue.size != 0
+				players_queue.clear()
+				game.board.portal_queue.each do |plyr|
+					players_queue << plyr[0]
 				end
+				player.send(Response::UsePortal.new(players_queue))
+			end
+
+			if game.action_played && (game.bonus_played || player.hand.bonus_size == 0) && game.board.pont_queue.size == 0 && game.board.portal_queue.size == 0
+				game.new_turn()
 			end
 		end
 	end
@@ -231,217 +187,80 @@ class Cerbere::Request
 		property args : Array(String)
 
 		def handle(game : Game, player : Player)
-			new_args = [] of Int32
+			if(player.colour != game.players[game.active_player].colour)
+				player.send(Response::CantDoThat.new("Ce n'est pas à votre tour de jouer !"))
+				return
+			end
 
-			args.each do |arg|
-				game.players.each do |plyr|
-					if arg == plyr.colour.to_s
-						new_args << plyr.lobby_id
-						break
-					end
+			card? : CarteBonus? = nil
+			index_card : Int32 = player.hand.bonus.size()
+			player.hand.bonus.each_index do |i|
+				bonus_card : CarteBonus = player.hand.bonus[i]
+				if(bonus_card.name == carte)
+					card? = bonus_card
+					index_card = i
+					break
 				end
 			end
 
-			if (player.colour == game.players[game.active_player].colour)
-				case @carte
-				when "Arro"
-					if @effet == 0
-						game.play_bonus(player, "Arro", 0, new_args)
-						game.bonus_played = true
-					elsif @effet == 1
-						new_args.clear()
-						player.hand.bonus.each_index do |i|
-							if (player.hand.bonus[i].name == args[0])
-								new_args << i
-								break
-							end
-						end
-						args.each do |arg|
-							game.players.each do |plyr|
-								if arg == plyr.colour.to_s
-									new_args << plyr.lobby_id
-									break
-								end
-							end
-						end
-						game.play_bonus(player, "Arro", 1, new_args)
-						game.bonus_played = true
-					end
-				when "Couar"
-					if @effet == 0
-						new_args.clear()
-						args.each do |arg|
-							new_args << arg.to_i32
-						end
-						game.play_bonus(player, "Couar", 0, new_args)
-						game.bonus_played = true
-					elsif @effet == 1
-						new_args.clear()
-						player.hand.bonus.each_index do |i|
-							if (player.hand.bonus[i].name == args[0])
-								new_args << i
-								break
-							end
-						end
-						game.play_bonus(player, "Couar", 1, new_args)
-						game.bonus_played = true
-					end
-				when "Ego"
-					if @effet == 0
-						game.play_bonus(player, "Ego", 0, new_args)
-						game.bonus_played = true
-					elsif @effet == 1
-						new_args.clear()
-						player.hand.bonus.each_index do |i|
-							if (player.hand.bonus[i].name == args[0])
-								new_args << i
-								break
-							end
-						end
-						game.play_bonus(player, "Ego", 1, new_args)
-						game.bonus_played = true
-					end
-				when "Fata"
-					if @effet == 0
-						game.play_bonus(player, "Fata", 0, new_args)
-						game.bonus_played = true
-					elsif @effet == 1
-						game.play_bonus(player, "Fata", 1, new_args)
-						game.bonus_played = true
-					end
-				when "Fav"
-					if @effet == 0
-						new_args.insert(0, -1)
-						game.play_bonus(player, "Fav", 0, new_args)
-						game.bonus_played = true
-					elsif @effet == 1
-						new_args.clear()
-						# A reecrir !!!
-						player.hand.bonus.each_index do |i|
-							if (player.hand.bonus[i].name == args[0])
-								new_args << i
-								break
-							end
-						end
-						player.hand.bonus.each_index do |i|
-							if ((player.hand.bonus[i].name == args[1]) && (i != new_args[0]))
-								new_args << i
-								break
-							end
-						end
-						player.hand.bonus.each_index do |i|
-							if ((player.hand.bonus[i].name == args[2]) && (i != new_args[0]) && (i != new_args[1]))
-								new_args << i
-								break
-							end
-						end
-						new_args << -1
-						args.each do |arg|
-							game.players.each do |plyr|
-								if arg == plyr.colour.to_s
-									new_args << plyr.lobby_id
-									break
-								end
-							end
-						end
-						game.play_bonus(player, "Fav", 1, new_args)
-						game.bonus_played = true
-					end
-				when "Oppo"
-					if @effet == 0
-						new_args.insert(0, -1)
-						game.play_bonus(player, "Oppo", 0, new_args)
-						game.bonus_played = true
-					elsif @effet == 1
-						new_args.clear()
-						player.hand.bonus.each_index do |i|
-							if (player.hand.bonus[i].name == args[0])
-								new_args << i
-								break
-							end
-						end
-						args.each do |arg|
-							game.players.each do |plyr|
-								if arg == plyr.colour.to_s
-									new_args << plyr.lobby_id
-									break
-								end
-							end
-						end
-						game.play_bonus(player, "Oppo", 1, new_args)
-						game.bonus_played = true
-					elsif @effet == 2
-						new_args.clear()
-						player.hand.bonus.each_index do |i|
-							if (player.hand.bonus[i].name == args[0])
-								new_args << i
-								break
-							end
-						end
-						args.each do |arg|
-							game.players.each do |plyr|
-								if arg == plyr.colour.to_s
-									new_args << plyr.lobby_id
-									break
-								end
-							end
-						end
-						game.play_bonus(player, "Oppo", 2, new_args)
-						game.bonus_played = true
-					end
-				when "Sac"
-					if @effet == 0
-						new_args.insert(0, -1)
-						game.play_bonus(player, "Sac", 0, new_args)
-						game.bonus_played = true
-					elsif @effet == 1
-						new_args.clear()
-						player.hand.bonus.each_index do |i|
-							if (player.hand.bonus[i].name == args[0])
-								new_args << i
-								break
-							end
-						end
-						new_args.insert(0, -1)
-						args.each do |arg|
-							game.players.each do |plyr|
-								if arg == plyr.colour.to_s
-									new_args << plyr.lobby_id
-									break
-								end
-							end
-						end
-						game.play_bonus(player, "Sac", 1, new_args)
-						game.bonus_played = true
-					end
-				else
-				end
+			if(index_card == player.hand.bonus.size())
+				player.send(Response::CantDoThat.new("Vous ne possédez pas la carte #{carte} !"))
+				return
+			end
 
-				if game.bonus_played == true 
-					player.send(Response::BonusPlayed.new())
-					game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
-				end
+			card : CarteBonus = card?.not_nil!()
 
-				players_queue : Array(Player) = [] of Player
+			if(effet >= card.choix.size())
+				player.send(Response::CantDoThat.new("Cette carte n'a pas d'effet #{effet} !"))
+				return
+			end
 
-				if game.board.pont_queue.size != 0
-					game.board.pont_queue.each do |plyr|
-						players_queue << plyr[0]
-					end
-					player.send(Response::UseBridge.new(players_queue))
-				end
+			choice : Choix = card.choix[effet]
 
-				if game.board.portal_queue.size != 0
-					players_queue.clear()
-					game.board.portal_queue.each do |plyr|
-						players_queue << plyr[0]
-					end
-					player.send(Response::UsePortal.new(players_queue))
-				end
+			if(!game.board.can_pay_cost(player, choice.cout))
+				player.send(Response::CantDoThat.new("Vous ne pouvez pas payer le coût de la carte #{carte} !"))
+				return
+			end
 
-				if game.action_played && game.bonus_played
-					game.new_turn()
+			new_args : Array(Array(Int32)) = game.convert(player, choice, args)
+			print("new_args = #{new_args}")
+
+			if(!game.board.check_args_are_valid(player, choice.cout, new_args[0], true))
+				player.send(Response::CantDoThat.new("Arguments invalides pour #{choice.cout}: #{new_args[0]}"))
+				return
+			end
+			choice.effets.each_index do |i|
+				if(!game.board.check_args_are_valid(player, choice.effets[i], new_args[i+1]))
+					player.send(Response::CantDoThat.new("Arguments invalides pour #{choice.effets[i]}: #{new_args[i+1]}"))
+					return
 				end
+			end
+
+			game.board.play_card(player, false, index_card, effet, new_args)
+			game.bonus_played = true
+			player.send(Response::DiscardBonus.new(carte))
+			player.send(Response::BonusPlayed.new())
+			game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
+
+			players_queue : Array(Player) = [] of Player
+
+			if game.board.pont_queue.size != 0
+				game.board.pont_queue.each do |plyr|
+					players_queue << plyr[0]
+				end
+				player.send(Response::UseBridge.new(players_queue))
+			end
+
+			if game.board.portal_queue.size != 0
+				players_queue.clear()
+				game.board.portal_queue.each do |plyr|
+					players_queue << plyr[0]
+				end
+				player.send(Response::UsePortal.new(players_queue))
+			end
+
+			if game.action_played && game.bonus_played
+				game.new_turn()
 			end
 		end
 	end
@@ -709,6 +528,14 @@ class Cerbere::Response
 		property plyr : Array(Player)
 
 		def initialize(@plyr)
+		end
+	end
+
+	class CantDoThat < Response
+		property type = "cantDoThat"
+		property msg : String
+
+		def initialize(@msg)
 		end
 	end
 end

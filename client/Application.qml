@@ -133,6 +133,9 @@ ApplicationWindow {
 				case "eliminate":
 					game.state.showEliminate(message.plyr)
 					break
+				case "cantDoThat":
+					console.log("Vous ne pouvez pas faire ça ! "+message.msg);
+					break
 			}
 		}
 

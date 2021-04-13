@@ -430,6 +430,11 @@ class Cerbere::Board
 	end
 
 	def action_move_other_player(moi : Player, force : Int32, args : Array(Int32))
+		if(args.size() == 0)
+			# Aucun aventurier n'est donné en argument, personne ne
+			# se déplace.
+			return
+		end
 		player_id = args[0] # id du joueur à déplacer
 		my_id = moi.lobby_id
 
