@@ -10,21 +10,26 @@ Item {
     height : 400
     width : 700
 
+        Image {        
+        source: "images/background_image.jpg"
+        anchors.fill:parent
+    }
     property alias endcolumnid : endcolumnid
 
     Rectangle {
         height : parent.height
         width : parent.width
         color : "transparent"
-        border.color : "indianred"
-        border.width : 3
+       // border.color : "indianred"
+       // border.width : 3
 
 
         Rectangle {
-            width : parent.width/4
-            x : 95/100*(parent.width/2) 
+            width : parent.width/5
+            x : 50/100*(parent.width/2)
             y : 40
-            height : 100
+            height : 80
+            color : "transparent"
             Row {
                 width : parent.width
                 height : parent.height
@@ -32,11 +37,13 @@ Item {
                 Rectangle {
                     width : parent.width/3
                     height : parent.height/3
+                    color : "transparent"
                     Text {
                         id : titleend
                         height : 50
                         width : 30
-                        text : "Cerbere" 
+                        text : "Cerbère a gagné !"
+                        anchors.centerIn: parent 
                         font.pointSize: 24
 			            font.family: "Stoneyard"
                     }
@@ -49,8 +56,9 @@ Item {
         Rectangle {
             width : 8/10*parent.width
             height : 9/10*parent.height
-            y : 1/10*height
-            x : 1/10*width
+            y : 2/10*height
+            x : 3/10*width
+            color : "transparent"
             Column {
                 id : endcolumnid
                 width : parent.width
@@ -58,18 +66,21 @@ Item {
                 Rectangle {
                     width : 9/10*parent.width
                     height : parent.height/3
-                    border.color : "indianred"
-                    border.width : 1
-
+                   // border.color : "indianred"
+                    //border.width : 1
+                     color : "transparent"
                     Column {
                         width : parent.width
                         height : parent.height
                         Rectangle {
                             width : parent.width/2
                             height : parent.height/5
+                            anchors.leftMargin: parent.width/2
+                            color : "transparent"
 
                             Text {
-                                text : "Aventurier : " 
+                                text : "Aventuriers perdants : " 
+                                anchors.leftMargin: parent.width/2
                                 font.pointSize: 24
                                 font.family: "Stoneyard"
                             }
@@ -78,7 +89,7 @@ Item {
                         Rectangle {
                             width : parent.width/2
                             height : parent.height/5
-
+                            color : "transparent"
                             Text {
                                 text : "" 
                                 font.pointSize: 24
@@ -92,21 +103,22 @@ Item {
                 Rectangle {
                     width : 9/10*parent.width
                     height : parent.height/3
-                    border.color : "indianred"
-                    border.width : 1
-
+                   // border.color : "indianred"
+                    //border.width : 1
+                     color : "transparent"
                     
-
                     Column {
                         width : parent.width
                         height : parent.height
                         Rectangle {
                             width : parent.width/2
                             height : parent.height/5
-
+                            anchors.leftMargin: parent.width/2
+                            color : "transparent"
                             Text {
-                                text : "Cerbere : " 
+                                text : "Cerbère : " 
                                 font.pointSize: 24
+                                 anchors.leftMargin: parent.width/2
                                 font.family: "Stoneyard"
                             }
                         }
@@ -114,6 +126,7 @@ Item {
                         Rectangle {
                             width : parent.width/2
                             height : parent.height/5
+                             color : "transparent"
 
                             Text {
                                 text : "" 
@@ -129,10 +142,9 @@ Item {
                 Rectangle {
                     width : 9/10*parent.width
                     height : parent.height/3
-                    border.color : "indianred"
-                    border.width : 1
-
-                    
+                   // border.color : "indianred"
+                    //border.width : 1
+                    color : "transparent"                    
 
                     Column {
                         width : parent.width
@@ -140,9 +152,10 @@ Item {
                         Rectangle {
                             width : parent.width/2
                             height : parent.height/5
-
+                            color : "transparent"
                             Text {
-                                text : "Eliminer : " 
+                                text : "Aventuriers Éliminés : " 
+                                anchors.leftMargin: parent.width/2
                                 font.pointSize: 24
                                 font.family: "Stoneyard"
                             }
@@ -150,7 +163,7 @@ Item {
                         Rectangle {
                             width : parent.width/2
                             height : parent.height/5
-
+                             color : "transparent"
                             Text {
                                 text : "" 
                                 font.pointSize: 24
