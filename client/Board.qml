@@ -62,7 +62,6 @@ Item {
 	
 	
 	function choosePlayers(choices, action_todo, effect, requestType, playersType, previousArgs) {
-		playersChoice.choices = choices
 		playersChoice.action_todo = action_todo
 		playersChoice.effect = effect
 		playersChoice.requestType = requestType
@@ -70,17 +69,22 @@ Item {
 		playersChoice.msg.text = choices[0]
 		playersChoice.playersType = playersType
 		var plyr
+		var nb_choices = 0
 		for (var i = 0; i < 7; i++) {
 			playersChoice.rowPlayers.children[i].visible = false
 			for (var j = 0; j < window.parent.state.players.length; j++) {
 				plyr = window.parent.state.players[j]
 				if (plyr.type == playersType && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && plyr.colour != window.parent.state.color) {
 					playersChoice.rowPlayers.children[i].visible = true
+					nb_choices++
 					break
 				}
 			}
 		}
-		playersChoice.open()
+		if (nb_choices != 0) {
+			playersChoice.choices = choices.slice(0, Math.min(nb_choices, choices.length))
+			playersChoice.open()
+		}
 	}
 	
 	Popup {
@@ -293,6 +297,11 @@ Item {
 					})
 					window.parent.state.pont_queue = []
 					popupBridge.close()
+
+					if (window.parent.state.portal_queue.length != 0) {
+						popupPortal.imgPlayerPortal.source = src + "images/" + window.parent.state.portal_queue[0].colour + "_pion.png"
+						popupPortal.open()
+					}
 				}
 			}
 			
@@ -333,6 +342,11 @@ Item {
 					used: false
 						})
 						popupBridge.close()
+
+						if (window.parent.state.portal_queue.length != 0) {
+							popupPortal.imgPlayerPortal.source = src + "images/" + window.parent.state.portal_queue[0].colour + "_pion.png"
+							popupPortal.open()
+						}
 					} else {
 						popupBridge.imgPlayerBridge.source = src + "images/" + window.parent.state.pont_queue[1].colour + "_pion.png"
 					}
@@ -385,6 +399,11 @@ Item {
 						})
 						window.parent.state.portal_queue = []
 						popupPortal.close()
+
+						if (window.parent.state.pont_queue.length != 0) {
+							popupBridge.imgPlayerBridge.source = src + "images/" + window.parent.state.pont_queue[0].colour + "_pion.png"
+							popupBridge.open()
+						}
 					} else {
 						popupPortal.imgPlayerPortal.source = src + "images/" + window.parent.state.portal_queue[1].colour + "_pion.png"
 					}
@@ -402,6 +421,11 @@ Item {
 					used: false
 						})
 						popupPortal.close()
+
+						if (window.parent.state.pont_queue.length != 0) {
+							popupBridge.imgPlayerBridge.source = src + "images/" + window.parent.state.pont_queue[0].colour + "_pion.png"
+							popupBridge.open()
+						}
 					} else {
 						popupPortal.imgPlayerPortal.source = src + "images/" + window.parent.state.portal_queue[1].colour + "_pion.png"
 					}
@@ -416,7 +440,10 @@ Item {
 		popupChooseBarquesEffect.effect = effect
 		popupChooseBarquesEffect.requestType = requestType
 		popupChooseBarquesEffect.args = []
-		popupChooseBarquesEffect.open()
+
+		if (!window.parent.state.barque_revealed) {
+			popupChooseBarquesEffect.open()
+		}
 	}
 	
 	Popup {
@@ -681,8 +708,16 @@ Item {
 			popupChooseCardsToDiscard.rowBonus.children[i].source = rowbonusid.children[i].source
 			popupChooseCardsToDiscard.updateRowBonus(action_todo, i, 			parseInt(rowbonusid.children[i].count, 10))
 		}
-		
-		popupChooseCardsToDiscard.open()
+
+		var nb_bonus = 0
+		for (let plyr of window.parent.state.players) {
+			if (plyr.colour == window.parent.state.color) {
+				nb_bonus = plyr.hand.bonus_size
+			}
+		}
+		if (requestType == "play_action" && nb_bonus >= amount || requestType == "play_bonus" && nb_bonus > amount) {
+			popupChooseCardsToDiscard.open()
+		}
 	}
 	
 	Popup {
