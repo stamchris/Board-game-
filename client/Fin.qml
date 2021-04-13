@@ -41,7 +41,7 @@ Item {
                         width : 30
                         text : "Cerbère "
                         anchors.centerIn: parent 
-                        font.pointSize: 24
+                        font.pointSize: 36
 			            font.family: "Stoneyard"
                     }
 
@@ -51,45 +51,34 @@ Item {
 
 
         Rectangle {
-            width : 8/10*parent.width
+            width : parent.width
             height : 9/10*parent.height
             y : 2/10*height
-            x : 51/100*width
+            x : 0
             color : "transparent"
-            Column {
+            Row {
                 id : endcolumnid
                 width : parent.width
                 height : parent.height
                 Rectangle {
-                    width : 9/10*parent.width
-                    height : parent.height/3
-                   // border.color : "indianred"
-                    //border.width : 1
-                     color : "transparent"
+                    width : 5/10*parent.width
+                    height : parent.height 
+                    color : "transparent"
+                    /*border.color : "blue"
+                    border.width : 4*/
                     Column {
                         width : parent.width
                         height : parent.height
+                        x : 20/100*width
                         Rectangle {
                             width : parent.width/2
-                            height : parent.height/5
-                            anchors.leftMargin: parent.width/2
+                            height : parent.height/8
                             color : "transparent"
+                            x : 1.3*parent.x
 
                             Text {
                                 text : "Aventuriers " 
-                                anchors.leftMargin: parent.width/2
-                                font.pointSize: 24
-                                font.family: "Stoneyard"
-                            }
-                        }
-
-                        Rectangle {
-                            width : parent.width/2
-                            height : parent.height/5
-                            color : "transparent"
-                            Text {
-                                text : "" 
-                                font.pointSize: 24
+                                font.pointSize: 30
                                 font.family: "Stoneyard"
                             }
                         }
@@ -98,78 +87,28 @@ Item {
                 }
 
                 Rectangle {
-                    width : 9/10*parent.width
-                    height : parent.height/3
-                   // border.color : "indianred"
-                    //border.width : 1
-                     color : "transparent"
-                    
+                    width : 5/10*parent.width
+                    height : parent.height 
+                    color : "transparent"
+                    /*border.color : "blue"
+                    border.width : 4*/
                     Column {
                         width : parent.width
                         height : parent.height
+                        x : 20/100*width
                         Rectangle {
                             width : parent.width/2
-                            height : parent.height/5
-                            anchors.leftMargin: parent.width/2
+                            height : parent.height/8
                             color : "transparent"
-                            Text {
-                                text : "Cerbère : " 
-                                font.pointSize: 24
-                                 anchors.leftMargin: parent.width/2
-                                font.family: "Stoneyard"
-                            }
-                        }
-
-                        Rectangle {
-                            width : parent.width/2
-                            height : parent.height/5
-                             color : "transparent"
+                            x : 1.3*parent.x
 
                             Text {
-                                text : "" 
-                                font.pointSize: 24
+                                text : "Cerbere " 
+                                font.pointSize: 30
                                 font.family: "Stoneyard"
                             }
                         }
                     }
-
-                }
- 
-
-                Rectangle {
-                    width : 9/10*parent.width
-                    height : parent.height/3
-                   // border.color : "indianred"
-                    //border.width : 1
-                    color : "transparent"                    
-
-                    Column {
-                        width : parent.width
-                        height : parent.height
-                        Rectangle {
-                            width : parent.width/2
-                            height : parent.height/5
-                            color : "transparent"
-                            Text {
-                                text : "Aventuriers Éliminés : " 
-                                anchors.leftMargin: parent.width/2
-                                font.pointSize: 24
-                                font.family: "Stoneyard"
-                            }
-                        }
-                        Rectangle {
-                            width : parent.width/2
-                            height : parent.height/5
-                             color : "transparent"
-                            Text {
-                                text : "" 
-                                font.pointSize: 24
-                                font.family: "Stoneyard"
-                            }
-                        }
-                    }
-
-                   
                 }
             }
         }
