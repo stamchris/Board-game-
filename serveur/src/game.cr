@@ -159,7 +159,7 @@ class Cerbere::Game
 		@action_played = false
 		@bonus_played = false
 		board.cerbere_hunting()
-		
+
 		send_all(Response::UpdateBoard.new(players, board.position_cerbere, board.vitesse_cerbere, board.rage_cerbere, board.pont, active_player))
 		send_all(Response::NextTurn.new())
 		spawn do 
@@ -190,7 +190,9 @@ class Cerbere::Game
 		nb_loosers = 0
 		nb_winners = 0
 		nb_rest_in_game = 0
-		status = 0
+		status_s_c = [] of Int32 #s pour status survivants c pour pour cerbere
+		status_s_c << 0
+		status_s_c << 0
 		players.each do |p|
 			if(p.type != TypeJoueur::AVENTURIER)
 				nb_loosers += 1
@@ -202,27 +204,34 @@ class Cerbere::Game
 		end
 		
 		if(nb_loosers==@players.size())
-			status = 1
+			status_s_c[0] = 1
+			status_s_c[1] = 1
 			@players.each do |p|
-				p.send(Response::StatusPlayer.new(players,status,p))
+				p.send(Response::StatusPlayer.new(players,status_s_c,p))
 			end
 			@finished = true
 			return 
 		end
 		
 		if(@board.barques.size() == 1) #reveal barque
-			if(@board.action_verif_barque())
-				status = 0
+			if(@board.action_verif_barque()) #checker quels aventuriers ont perdus et lesquels ont gagné
 				@players.each do |p|
-					p.send(Response::StatusPlayer.new(players,status,p))
+					status_s_c[0] = 0
+					puts "#{p.type}"
+					if(p.position != @board.nodes.size - 1)
+						status_s_c[0] = 1
+					end
+					status_s_c[1] = 0 
+					p.send(Response::StatusPlayer.new(players,status_s_c,p))
 				end
 				@finished = true
 				return 
 			else 
-				if(board.barques[0] > nb_rest_in_game)
-					status = 1
+				if((board.barques[0]-(nb_winners)) > nb_rest_in_game)
+					status_s_c[0] = 1
+					status_s_c[1] = 1
 					@players.each do |p|
-						p.send(Response::StatusPlayer.new(players,status,p))
+						p.send(Response::StatusPlayer.new(players,status_s_c,p))
 					end
 					@finished = true
 					return 

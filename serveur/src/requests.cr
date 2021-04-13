@@ -550,7 +550,7 @@ class Cerbere::Response
 	class StatusPlayer < Response
 		property type = "statusplayers"
 		property players : Array(Player)
-		property status : Int32
+		property status : Array(Int32)
 		property player : Player
 
 		def initialize(@players,@status,@player)

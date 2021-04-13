@@ -15,18 +15,15 @@ Item {
         anchors.fill:parent
     }
     property alias endcolumnid : endcolumnid
+    property alias titleend : titleend
 
     Rectangle {
         height : parent.height
         width : parent.width
         color : "transparent"
-       // border.color : "indianred"
-       // border.width : 3
-
-
         Rectangle {
             width : parent.width/5
-            x : 50/100*(parent.width/2)
+            x : 80/100*parent.width/2
             y : 40
             height : 80
             color : "transparent"
@@ -42,7 +39,7 @@ Item {
                         id : titleend
                         height : 50
                         width : 30
-                        text : "Cerbère a gagné !"
+                        text : "Cerbère "
                         anchors.centerIn: parent 
                         font.pointSize: 24
 			            font.family: "Stoneyard"
@@ -57,7 +54,7 @@ Item {
             width : 8/10*parent.width
             height : 9/10*parent.height
             y : 2/10*height
-            x : 3/10*width
+            x : 51/100*width
             color : "transparent"
             Column {
                 id : endcolumnid
@@ -79,7 +76,7 @@ Item {
                             color : "transparent"
 
                             Text {
-                                text : "Aventuriers perdants : " 
+                                text : "Aventuriers " 
                                 anchors.leftMargin: parent.width/2
                                 font.pointSize: 24
                                 font.family: "Stoneyard"

@@ -108,9 +108,7 @@ Row {
 		if(nb_turn_show_barque < 0) {
 			imageflecheidorange.visible = false
 			imageflecheidrouge.visible = false
-			console.log("ici why not")
 		}
-		console.log(nb_turn_show_barque)
 		nb_turn_show_barque -= 1
 	}
 	
@@ -890,6 +888,8 @@ Row {
 				
 				Grid {
 					id:layoutPawn19
+					width : parent.width
+					height : parent.height
 					columns:2
 					spacing : 2
 					x : 1/5*width

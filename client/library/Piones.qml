@@ -54,6 +54,7 @@ Rectangle {
 						player5.visible = true
 						receiveCounterPiones(1, "Pink")
 						window.parent.state.changePosition("Pink", 1)
+						break
 					case "Blue":
 						player6.visible = true
 						receiveCounterPiones(1, "Blue")
@@ -86,6 +87,7 @@ Rectangle {
 					break
 				case "Pink":
 					player5.visible = false
+					break
 				case "Blue":
 					player6.visible = false
 					break

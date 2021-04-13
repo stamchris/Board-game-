@@ -34,11 +34,6 @@ Item{
     signal _showSwapBarque(string barques)
     signal _showRevealBarque(string barque)
     signal _hideSwapBarque()
-    /*signal _showAWinner(variant player)
-    signal _showALoser(variant player)
-    signal _showSWinner(variant player)
-    signal _showSLoser(variant player)
-    signal _showEliminate(variant player)*/
     signal _updateActionCards(string playerType)
     signal _lockAction()
     signal _lockBonus()
@@ -151,7 +146,7 @@ Item{
             parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name + " tu a gagne jeune aventurier courageux !"
         }
 
-        parent.endwindow.endcolumnid.children[0].children[0].children[1].children[0].text +=  " "+player[0].name+ " "
+        parent.endwindow.endcolumnid.children[0].children[0].children[1].children[0].text +=  " "+player[0].name+ "\n"
     
         parent.board.popupFinish.open()
     }
@@ -162,8 +157,7 @@ Item{
             parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name + " tu a perdu jeune aventurier !"
         }
 
-        parent.endwindow.endcolumnid.children[0].children[0].children[1].children[0].text +=  " "+player[0].name+ " "
-
+        parent.endwindow.endcolumnid.children[0].children[0].children[1].children[0].text +=  " "+player[0].name+ "\n"
         parent.board.popupFinish.open()
         
     }
@@ -174,8 +168,7 @@ Item{
             parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name + " tu a gagne jeune survivant malicieux ! "
         }
 
-        parent.endwindow.endcolumnid.children[1].children[0].children[1].children[0].text +=  " "+player[0].name+ " "
-        
+        parent.endwindow.endcolumnid.children[1].children[0].children[1].children[0].text +=  " "+player[0].name+ "\n"
         parent.board.popupFinish.open()
        
     }
@@ -186,7 +179,7 @@ Item{
             parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name + " tu a perdu jeune survivant !"
         }
 
-        parent.endwindow.endcolumnid.children[1].children[0].children[1].children[0].text +=  " "+player[0].name+ " "
+        parent.endwindow.endcolumnid.children[1].children[0].children[1].children[0].text +=  " "+player[0].name+ "\n"
         parent.board.popupFinish.open()
        
     }
@@ -197,23 +190,22 @@ Item{
             parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name + " tu a etait eliminer !"
         }
         
-        parent.endwindow.endcolumnid.children[2].children[0].children[1].children[0].text +=  " "+player[0].name+ " "
+        parent.endwindow.endcolumnid.children[2].children[0].children[1].children[0].text +=  " "+player[0].name+ "\n"
         parent.board.popupFinish.open()
     }
 
 
 
     function showPlayersEnd(newPlayers, status,player) {
-        //status = 0 ; aventurier gagne, cerbere perd
-        //Status = 1; aventurier perd, cerbere gagne
-
-        if(status == 0) {
+        //status[0] survivants_status , status[1] cerbere_status
+        // 0 win aventuriers, 1 win cerbere
+        if(status[1] == 0) {
+            parent.endwindow.titleend.text += "a perdu !"
             parent.endwindow.endcolumnid.children[0].children[0].children[0].children[0].text += "Gagnants"
-            parent.endwindow.endcolumnid.children[1].children[0].children[0].children[0].text += "Perdants"
         }
-        else {
+        else if(status[1] == 1) {
+            parent.endwindow.titleend.text += "a gagné !"
             parent.endwindow.endcolumnid.children[0].children[0].children[0].children[0].text += "Perdants"
-            parent.endwindow.endcolumnid.children[1].children[0].children[0].children[0].text += "Gagnants"
         }
 
         var pop = 0
@@ -222,14 +214,14 @@ Item{
                 pop = 1 //on ouvre le popup
 
             if (newPlayers[i].type == "aventurier") {
-                if(status == 0) //gagner aventurier
+                if(status[0] == 0) //gagner aventurier
                     showAWinner([newPlayers[i]],pop) 
                 else 
                     showALoser([newPlayers[i]],pop) 
 
             }
             else if (newPlayers[i].type == "cerbere") {
-                if(status == 1) //gagner cerbere
+                if(status[0] == 1) //gagner cerbere
                     showSWinner([newPlayers[i]],pop) 
                 else 
                     showSLoser([newPlayers[i]],pop)
@@ -272,7 +264,7 @@ Item{
         changeDifficulty(newDifficulty)
         changeRage(8 - newPlayers.length)
         changeVitesse(3 + newDifficulty)
-        changePosCerbere("1")
+        changePosCerbere("1") //old "0", ne change rien au jeu et ne fait plus bug la place de cerbere sur case 0
         _showPlayerPieces(players)
         _updatePlayersOnBar(players)
         _updateActionCards("aventurier")

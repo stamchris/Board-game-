@@ -46,6 +46,9 @@ function fixXArray(xarray, xCounter, index) {
 }
 
 function findYposition(count, choosePlayer) {
+	if(choosePlayer ==  cerbere) {
+		console.log("cerbere : "+count)
+	}
 	switch(count) {
 		case '0':
 			choosePlayer.parent = layoutPawn0
@@ -90,6 +93,14 @@ function findYposition(count, choosePlayer) {
 			return choosePlayer.yPosition = layoutPawn12.height
 		case '13':
 			choosePlayer.parent = layoutPawn13
+			if(choosePlayer ==  cerbere) {
+				choosePlayer.height = 45
+				choosePlayer.width = 45
+			}
+			else {
+				choosePlayer.height = layoutPawn13.height/5
+				choosePlayer.width = layoutPawn13.width/3
+			}
 			return choosePlayer.yPosition = layoutPawn13.height
 		case '14':
 			choosePlayer.parent = layoutPawn14

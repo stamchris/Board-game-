@@ -124,7 +124,7 @@ ApplicationWindow {
 					break
 				case "statusplayers":
 					console.log("statusplayers")
-					game.state.showPlayersEnd(message.players,message.status_array,message.player)
+					game.state.showPlayersEnd(message.players,message.status,message.player)
 					break
 				case "cantDoThat":
 					let msg = "Vous ne pouvez pas faire ça ! "+message.msg;

@@ -141,7 +141,7 @@ Item {
 		id: background1
 		source: src+"images/background_image.jpg"
 		anchors.fill:parent
-	}
+	}*/
 
 	Popup {
 		id : popupFinish
@@ -1060,7 +1060,7 @@ Item {
 	Rectangle {
 		id: menuBarId
 		height: 60
-		color: "transparent"
+		//color: "transparent"
 		anchors { 
 			left: parent.left;
 			right: parent.right;
