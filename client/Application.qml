@@ -15,7 +15,7 @@ ApplicationWindow {
 
 	FontLoader {
 		id: stoneyard
-		source: "images/Stoneyard.ttf"
+		source: "images/client_images_Stoneyard.ttf"
 	}
 
 	WebSocket {
@@ -83,9 +83,9 @@ ApplicationWindow {
 				case "discardBonus":
 					game.state.discardBonus(message.cardname)
 					break
-                case "useBridge":
-                    game.state.useBridge(message.pontQueue)
-                    break
+		case "useBridge":
+			game.state.useBridge(message.pontQueue)
+			break
 				case "usePortal":
 					game.state.usePortal(message.portalQueue)
 					break

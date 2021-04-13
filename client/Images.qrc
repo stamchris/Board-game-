@@ -42,5 +42,6 @@
 		<file>images/Stoneyard.ttf</file>
 		<file>images/background_image.jpg</file>
 		<file>images/background_fin.jpg</file>
+		<file>images/client_images_Stoneyard.ttf</file>
 	</qresource>
 </RCC>

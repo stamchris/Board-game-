@@ -12,6 +12,21 @@ Item {
 		GradientStop { position: 0.36; color: "#ffffde" }
 	}
 
+    function changeColours(mareaId){
+        switch(mareaId){
+            case "m1":
+                return console.log("M1 clicked ... ")
+            case "m2":
+                return console.log("M2 clicked ... ")
+            default:
+                console.log("RIEN RIEN")
+                break;
+        }
+    }
+
+    signal getId(string mareaId)
+
+
 	Rectangle {
 		id: wrap_container
 		anchors.fill: parent
@@ -104,7 +119,7 @@ Item {
 		Rectangle{
 			id:empty1
 			Layout.fillWidth: true
-			Layout.minimumHeight: 30
+            Layout.maximumHeight: 30
 			Layout.rightMargin: -50
 			Layout.columnSpan: 3
 			color: "transparent"
@@ -129,7 +144,7 @@ Item {
 			id:empty2
 			Layout.fillWidth: true
 			Layout.columnSpan: 2
-			Layout.minimumHeight: 30
+            Layout.maximumHeight: 30
 			Layout.leftMargin: 30
 			color: "transparent"
 		}
@@ -142,7 +157,7 @@ Item {
 			Layout.fillHeight: true
 			Layout.maximumWidth: 150
 			Layout.maximumHeight: 150
-			Layout.alignment: Qt.AlignRight
+            Layout.alignment: Qt.AlignCenter
 			source: "images/cyan_icone.png"
 		}
 		BorderImage {
@@ -202,7 +217,7 @@ Item {
 			Layout.fillHeight: true
 			Layout.maximumWidth: 150
 			Layout.maximumHeight: 150
-			Layout.alignment: Qt.AlignLeft
+            Layout.alignment: Qt.AlignCenter
 			source: "images/orange_icone.png"
 		}
 
@@ -212,8 +227,8 @@ Item {
 			height: width
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{80}
-			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{80}
+            Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
+            Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 			background:
@@ -228,13 +243,15 @@ Item {
 
 				BorderImage {
 					anchors.centerIn: parent
-					height: parent.height
-					width: parent.width
-					source: src+"images/cyan_pion.png"
+                    height: parent.height/1.5
+                    width: parent.width/1.5
+                    source: src+"images/cyan_pion.png"
+                    rotation: -90
 				}
 
 
 				MouseArea{
+                    id : m1
 					anchors.fill:parent
 					hoverEnabled: true
 					onHoveredChanged: {
@@ -247,11 +264,10 @@ Item {
 					}
 					}
 					onClicked: {
-						socket.send({type:"change_colour",colour:"Cyan"})
+                        socket.send({type:"change_colour",colour:"Cyan"});
+                        changeColours("m1");
 					}
 				}
-
-
 			}
 		}
 
@@ -260,8 +276,8 @@ Item {
 			height: width
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
-			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
+            Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
+            Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 
@@ -278,13 +294,15 @@ Item {
 
 				BorderImage {
 					anchors.centerIn: parent
-					height: parent.height
-					width: parent.width
-					source: src+"images/bleu_pion.png"
+                    height: parent.height/1.5
+                    width: parent.width/1.5
+                    source: src+"images/bleu_pion.png"
+                    rotation: -90
 				}
 
 
 				MouseArea{
+                    id : m2
 					anchors.fill:parent
 					hoverEnabled: true
 					onHoveredChanged: {
@@ -298,6 +316,7 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"Blue"})
+                        changeColours("m2");
 					}
 				}
 			}
@@ -312,8 +331,8 @@ Item {
 			height: width
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{80}
-			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{80}
+			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
+			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 
@@ -329,11 +348,13 @@ Item {
 
 				BorderImage {
 					anchors.centerIn: parent
-					height: parent.height
-					width: parent.width
+					height: parent.height/1.5
+					width: parent.width/1.5
 					source: src+"images/rose_pion.png"
+					rotation: -87
 				}
 				MouseArea{
+					id : m3
 					anchors.fill:parent
 					hoverEnabled: true
 					onHoveredChanged: {
@@ -348,6 +369,7 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"Pink"})
+                        changeColours("m3");
 					}
 				}
 			}
@@ -358,8 +380,8 @@ Item {
 			height: width
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{80}
-			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{80}
+			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
+			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 
@@ -375,13 +397,15 @@ Item {
 
 				BorderImage {
 					anchors.centerIn: parent
-					height: parent.height
-					width: parent.width
+					height: parent.height/1.5
+					width: parent.width/1.5
 					source: src+"images/vert_pion.png"
+					rotation: -90
 				}
 
 
 				MouseArea{
+					id : m4
 					anchors.fill:parent
 					hoverEnabled: true
 					onHoveredChanged: {
@@ -396,6 +420,7 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"Green"})
+                        changeColours("m4");
 					}
 				}
 			}
@@ -407,8 +432,8 @@ Item {
 			height: width
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{80}
-			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{80}
+			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
+			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 
@@ -424,14 +449,15 @@ Item {
 
 				BorderImage {
 					anchors.centerIn: parent
-					height: parent.height
-					width: parent.width
+					height: parent.height/1.5
+					width: parent.width/1.5
 					source: src+"images/blanc_pion.png"
-					rotation: -95
+					rotation: -90
 				}
 
 
 				MouseArea{
+					id : m5
 					anchors.fill:parent
 					hoverEnabled: true
 					onHoveredChanged: {
@@ -446,6 +472,7 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"White"})
+                        changeColours("m5");
 					}
 				}
 			}
@@ -456,8 +483,8 @@ Item {
 			height: width
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{80}
-			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{80}
+			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
+			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 
@@ -473,13 +500,15 @@ Item {
 
 				BorderImage {
 					anchors.centerIn: parent
-					height: parent.height
-					width: parent.width
+					height: parent.height/1.5
+					width: parent.width/1.5
 					source: src+"images/rouge_pion.png"
+					rotation: -90
 				}
 
 
 				MouseArea{
+					id : m6
 					anchors.fill:parent
 					hoverEnabled: true
 					onHoveredChanged: {
@@ -493,6 +522,7 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"Red"})
+                        changeColours("m6");
 					}
 				}
 			}
@@ -503,8 +533,8 @@ Item {
 			height: width
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{80}
-			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{80}
+			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
+			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 
@@ -520,13 +550,14 @@ Item {
 
 				BorderImage {
 					anchors.centerIn: parent
-					height: parent.height
-					width: parent.width
+					height: parent.height/1.4
+					width: parent.width/1.2
 					source: src+"images/orange_pion.png"
 				}
 
 
 				MouseArea{
+					id : m7
 					anchors.fill:parent
 					hoverEnabled: true
 					onHoveredChanged: {
@@ -541,6 +572,7 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"Orange"})
+                        changeColours("m7");
 					}
 				}
 			}
