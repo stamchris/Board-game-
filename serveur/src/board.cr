@@ -533,20 +533,18 @@ class Cerbere::Board
 		end
 		puts args
 		new_args = [] of Int32
-		i = 0
 		
-		nombre.times do
+		nombre.times do |i|
 			new_args << args[i]
-			i += 1
 		end
 		puts new_args
-		# Supprimer les cartes dans l'ordre croissant des indices :
-		# Les cartes après la carte supprimée voient leur indice baisser de 1
-		decalage = 0
-		new_args.sort.each do |carte_index|
-			joueur.send(Response::DiscardBonus.new(joueur.hand.bonus[carte_index - decalage].name))
-			defausser(joueur, carte_index - decalage)
-			decalage += 1
+		puts joueur.hand.bonus
+		# Supprimer les cartes dans l'ordre décroissant des indices :
+		# Pour éviter de se casser les couilles avec des décalages
+		new_args = new_args.sort { |a, b| b <=> a }
+		new_args.each do |carte_index|
+			joueur.send(Response::DiscardBonus.new(joueur.hand.bonus[carte_index].name))
+			defausser(joueur, carte_index)
 		end
 	end
 
@@ -780,12 +778,20 @@ class Cerbere::Board
 		# Si on arrive ici, c'est que tous les arguments sont OK.
 		if(action)
 			who.hand.action[index_card] = false
-		else
-			defausser(who, index_card)
 		end
 		faire_action(who, choice.cout, args[0])
 		choice.effets.each_index do |i|
 			faire_action(who, choice.effets[i], args[i+1])
+		end
+		# On défausse la carte bonus après que ses effets soient
+		# appliqués et on calcule sa nouvelle position, pour éviter les
+		# problèmes de décalage des index
+		if(!action)
+			new_card_index : Int32? = who.hand.bonus.index(card)
+			if(new_card_index == nil)
+				raise "La carte jouée n'est plus dans la main du joueur !"
+			end
+			defausser(who, new_card_index.not_nil!())
 		end
 	end
 

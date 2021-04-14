@@ -4,28 +4,11 @@ Column {
     id: columnIdB
     height: parent.height
     width: parent.width
+    property bool blocked: true
 
     anchors {
         top:parent.top;
         left: parent.left
-    }
-
-    function blockCard() {
-        hover1Id.hoverEnabled = false
-        up.color = "gray"
-        up.opacity = 0.75
-        hover2Id.hoverEnabled = false
-        down.color = "gray"
-        down.opacity = 0.75
-    }
-
-    function unblockCard() {
-        hover1Id.hoverEnabled = true
-        up.color = "White"
-        up.opacity = 0
-        hover2Id.hoverEnabled = true
-        down.color = "White"
-        down.opacity = 0
     }
 
     function playBonus(choix) {
@@ -79,14 +62,14 @@ Column {
         width: columnIdB.width
         height: 1/5*columnIdB.height
         anchors.left: parent.left
-        opacity: 0
-        color: "White"
+        opacity: columnIdB.blocked ? 0.75 : 0
+        color: columnIdB.blocked ? "gray" : "White"
 
         MouseArea {
             id: hover1Id
             width: parent.width
             height: parent.height
-            hoverEnabled: true
+            hoverEnabled: !columnIdB.blocked
 
             onHoveredChanged: {
                 if(hoverEnabled == true) {
@@ -110,14 +93,14 @@ Column {
         id: down
         width: columnIdB.width
         height: 1/5*columnIdB.height
-        opacity: 0
-        color: "White"
+        opacity: columnIdB.blocked ? 0.75 : 0
+        color: columnIdB.blocked ? "gray" : "White"
         
         MouseArea {
             id: hover2Id
             width: parent.width
             height: parent.height
-            hoverEnabled: true
+            hoverEnabled: !columnIdB.blocked
 
             onHoveredChanged: {
                 if(hoverEnabled == true) {

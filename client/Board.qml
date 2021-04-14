@@ -702,12 +702,6 @@ Item {
 		popupChooseCardsToDiscard.amount = amount
 		popupChooseCardsToDiscard.requestType = requestType
 		popupChooseCardsToDiscard.args = []
-		
-		for (var i = 0; i < 7; i++) {
-			popupChooseCardsToDiscard.rowBonus.children[i].visible = rowbonusid.children[i].visible
-			popupChooseCardsToDiscard.rowBonus.children[i].source = rowbonusid.children[i].source
-			popupChooseCardsToDiscard.updateRowBonus(action_todo, i, 			parseInt(rowbonusid.children[i].count, 10))
-		}
 
 		var nb_bonus = 0
 		for (let plyr of window.parent.state.players) {
@@ -716,6 +710,17 @@ Item {
 			}
 		}
 		if (requestType == "play_action" && nb_bonus >= amount || requestType == "play_bonus" && nb_bonus > amount) {
+			let cards = bonusCardsHand.model;
+			for(let i = 0;i < cards.length;i++){
+				if(cards[i].name === action_todo){
+					cards[i].nb -= 1;
+					if(cards[i].nb === 0){
+						cards.splice(i, 1);
+					}
+					break;
+				}
+			}
+			popupChooseCardsToDiscard.rowBonus.model = cards;
 			popupChooseCardsToDiscard.open()
 		}
 	}
@@ -740,10 +745,7 @@ Item {
 		property var requestType : ""
 		property var args : []
 		
-		function addCardToArgs(sourceOfSelectedCard) {
-			var carteBonusName = sourceOfSelectedCard.toString()
-			carteBonusName = carteBonusName.slice(carteBonusName.indexOf("_", carteBonusName.length-10))
-			carteBonusName = carteBonusName.slice(1, carteBonusName.length - 4)
+		function addCardToArgs(carteBonusName) {
 			args.push(carteBonusName)
 			
 			if (args.length == popupChooseCardsToDiscard.amount) {
@@ -770,18 +772,6 @@ Item {
 			}
 		}
 		
-		function updateRowBonus(action_todo, bonusId, numberOfBonusCards) {
-			rowBonus.children[bonusId].nbBonus = numberOfBonusCards
-			
-			if (rowBonus.children[bonusId].source.toString().includes(action_todo)){
-				rowBonus.children[bonusId].nbBonus += -1
-				
-				if (rowBonus.children[bonusId].nbBonus < 1) {
-					rowBonus.children[bonusId].visible = false
-				}
-			}
-		}
-		
 		Text {
 			y: 0
 			horizontalAlignment: Text.AlignHCenter
@@ -789,154 +779,29 @@ Item {
 		}
 		
 		Row {
-			id: rowBonus
 			y: 30
-			spacing:10
+			spacing: 10
 			anchors.horizontalCenter: parent.horizontalCenter
 			
-			Image {
-				id: imgCarteBonus1
-				width: 100
-				fillMode: Image.PreserveAspectFit
-				source: "images/Carte_Ego.png"
-				visible: false
-				property var nbBonus: 0
-				
-				MouseArea {
-					anchors.fill: parent
+			Repeater {
+				id: rowBonus
+				model: []
+				delegate: Image {
+					id: selectBonusImg
+					width: 100
+					fillMode: Image.PreserveAspectFit
+					source: "images/Carte_"+modelData.name+".png"
 					
-					onClicked: {
-						imgCarteBonus1.nbBonus += -1
-						if (imgCarteBonus1.nbBonus == 0) {
-							imgCarteBonus1.visible = false
+					MouseArea {
+						anchors.fill: parent
+
+						onClicked: {
+							modelData.nb -= 1
+							if (modelData.nb == 0) {
+								selectBonusImg.visible = false
+							}
+							popupChooseCardsToDiscard.addCardToArgs(modelData.name)
 						}
-						popupChooseCardsToDiscard.addCardToArgs(parent.source)
-					}
-				}
-			}
-			
-			Image {
-				id: imgCarteBonus2
-				width: 100
-				fillMode: Image.PreserveAspectFit
-				source: "images/Carte_Arro.png"
-				visible: false
-				property var nbBonus: 0
-				
-				MouseArea {
-					anchors.fill: parent
-					
-					onClicked: {
-						imgCarteBonus2.nbBonus += -1
-						if (imgCarteBonus2.nbBonus == 0) {
-							imgCarteBonus2.visible = false
-						}
-						popupChooseCardsToDiscard.addCardToArgs(parent.source)
-					}
-				}
-			}
-			
-			Image {
-				id: imgCarteBonus3
-				width: 100
-				fillMode: Image.PreserveAspectFit
-				source: "images/Carte_Fata.png"
-				visible: false
-				property var nbBonus: 0
-				
-				MouseArea {
-					anchors.fill: parent
-					
-					onClicked: {
-						imgCarteBonus3.nbBonus += -1
-						if (imgCarteBonus3.nbBonus == 0) {
-							imgCarteBonus3.visible = false
-						}
-						popupChooseCardsToDiscard.addCardToArgs(parent.source)
-					} 
-				}
-			}
-			
-			Image {
-				id: imgCarteBonus4
-				width: 100
-				fillMode: Image.PreserveAspectFit
-				source: "images/Carte_Ego.png"
-				visible: false
-				property var nbBonus: 0
-				
-				MouseArea {
-					anchors.fill: parent
-					
-					onClicked: {
-						imgCarteBonus4.nbBonus += -1
-						if (imgCarteBonus4.nbBonus == 0) {
-							imgCarteBonus4.visible = false
-						}
-						popupChooseCardsToDiscard.addCardToArgs(parent.source)
-					}
-				}
-			}
-			
-			Image {
-				id: imgCarteBonus5
-				width: 100
-				fillMode: Image.PreserveAspectFit
-				source: "images/Carte_Ego.png"
-				visible: false
-				property var nbBonus: 0
-				
-				MouseArea {
-					anchors.fill: parent
-					
-					onClicked: {
-						imgCarteBonus5.nbBonus += -1
-						if (imgCarteBonus5.nbBonus == 0) {
-							imgCarteBonus5.visible = false
-						}
-						popupChooseCardsToDiscard.addCardToArgs(parent.source)
-					}
-				}
-			}
-			
-			Image {
-				id: imgCarteBonus6
-				width: 100
-				fillMode: Image.PreserveAspectFit
-				source: "images/Carte_Ego.png"
-				visible: false
-				property var nbBonus: 0
-				
-				MouseArea {
-					anchors.fill: parent
-					
-					onClicked: {
-						imgCarteBonus6.nbBonus += -1
-						if (imgCarteBonus6.nbBonus == 0) {
-							imgCarteBonus6.visible = false
-						}
-						popupChooseCardsToDiscard.addCardToArgs(parent.source)
-					}
-				}
-			}
-			
-			Image {
-				id: imgCarteBonus7
-				width: 100
-				fillMode: Image.PreserveAspectFit
-				source: "images/Carte_Ego.png"
-				visible: false
-				property var nbBonus: 0
-				
-				MouseArea {
-					anchors.fill: parent
-					
-					onClicked: {
-						imgCarteBonus7.nbBonus += -1
-						if (imgCarteBonus7.nbBonus == 0) {
-							imgCarteBonus7.visible = false
-						}
-						popupChooseCardsToDiscard.addCardToArgs(parent.source)
 					}
 				}
 			}
@@ -1932,272 +1797,44 @@ Item {
 				height: parent.height
 				width : joueurId.width/8*7
 				x: -scrollBarBonus.position*width
-
-				Rectangle {
-					id : carte_Bonus1Id
-					width: parent.width/7
-					height : parent.height
-					visible : false
-					property alias source: imgCBonus1.source
-					property alias count: txtcb1.text
-					property alias card: bcard1
-
-					Image {
-						id: imgCBonus1
-						anchors.fill: parent
-						horizontalAlignment: Image.AlignHCenter
-						z: 1
-						fillMode: Image.Stretch
-						source:""
-
-						CarteBonus {
-							id: bcard1
-						}
-										
-						Rectangle {
-							id:boxNumber_cb
-							height : 30
-							width : 30
-							border.color : "white"
-							color  : "transparent"
-							x : parent.width - (width + 3)
-							Text {
-								id : txtcb1
-								anchors.centerIn : parent
-								text:"1"
-								color : "white" 
-							}
-						}
-					}   
-				}
 				
-				Rectangle{
-					id: carte_Bonus2Id
-					width: parent.width/7
-					height : parent.height
-					visible : false
-					property alias source: imgCBonus2.source
-					property alias count: txtcb2.text
-					property alias card: bcard2
+				Repeater {
+					id: bonusCardsHand
+					model: []
+					property bool blocked: true
+					delegate: Rectangle {
+						id: bonusCard
+						width: parent.width/7
+						height: parent.height
+						property alias blockableBonusCard: blockableBonusCard
 
-					Image {
-						id: imgCBonus2
-						anchors.fill: parent
-						horizontalAlignment: Image.AlignHCenter
-						z: 1
-						fillMode: Image.Stretch
-						source:""
-
-						CarteBonus {
-							id: bcard2
-						}
-										
-						Rectangle {
-							id:boxNumber_cb2
-							height : 30
-							width : 30
-							border.color : "white"
-							color  : "transparent"
-							x : parent.width - (width + 3)
-							Text {
-								id : txtcb2
-								anchors.centerIn : parent
-								text:"1"
-								color : "white" 
-							}
-						}
-					}    
-				}
-
-				Rectangle{
-					id: carte_Bonus3Id
-					width: parent.width/7
-					height : parent.height
-					visible : false
-					property alias source: imgCBonus3.source
-					property alias count: txtcb3.text
-					property alias card: bcard3
-
-					Image {
-						id: imgCBonus3
-						anchors.fill: parent
-						horizontalAlignment: Image.AlignHCenter
-						z: 1
-						fillMode: Image.Stretch
-						source:""
-
-						CarteBonus {
-							id: bcard3
-						}
-										
-						Rectangle {
-							id:boxNumber_cb3
-							height : 30
-							width : 30
-							border.color : "white"
-							color  : "transparent"
-							x : parent.width - (width + 3)
-							Text {
-								id : txtcb3
-								anchors.centerIn : parent
-								text:"1"
-								color : "white" 
-							}
-						}
-					}  
-				}
-
-				Rectangle {
-					id: carte_Bonus4Id
-					width: parent.width/7
-					height: parent.height
-					visible : false
-					property alias source: imgCBonus4.source
-					property alias count: txtcb4.text
-					property alias card: bcard4
-
-					Image {
-						id: imgCBonus4
-						anchors.fill: parent
-						horizontalAlignment: Image.AlignHCenter
-						z: 1
-						fillMode: Image.Stretch
-						source:""
-
-						CarteBonus {
-							id: bcard4
-						}
-										
-						Rectangle {
-							id:boxNumber_cb4
-							height : 30
-							width : 30
-							border.color : "white"
-							color  : "transparent"
-							x : parent.width - (width + 3)
+						Image {
+							id: imgBonus
+							anchors.fill: parent
+							horizontalAlignment: Image.AlignHCenter
+							z: 1
+							fillMode: Image.Stretch
+							source: "images/Carte_"+modelData.name+".png"
 							
-							Text {
-								id : txtcb4
-								anchors.centerIn : parent
-								text:"1"
-								color : "white" 
+							CarteBonus {
+								id: blockableBonusCard
+								blocked: bonusCardsHand.blocked
 							}
-						}
-					}    
-				}
-
-				Rectangle {
-					id: carte_Bonus5Id
-					width: parent.width/7
-					height: parent.height
-					visible : false
-					property alias source: imgCBonus5.source
-					property alias count: txtcb5.text
-					property alias card: bcard5
-
-					Image {
-						id: imgCBonus5
-						anchors.fill: parent
-						horizontalAlignment: Image.AlignHCenter
-						z: 1
-						fillMode: Image.Stretch
-						source:""
-
-						CarteBonus {
-							id: bcard5
-						}
-										
-						Rectangle {
-							id:boxNumber_cb5
-							height : 30
-							width : 30
-							border.color : "white"
-							color  : "transparent"
-							x : parent.width - (width + 3)
 							
-							Text {
-								id : txtcb5
-								anchors.centerIn : parent
-								text:"1"
-								color : "white" 
-							}
-						}
-					}
-				}
-				
-				Rectangle {
-					id: carte_Bonus6Id
-					width: parent.width/7
-					height: parent.height
-					visible : false
-					property alias source: imgCBonus6.source
-					property alias count: txtcb6.text
-					property alias card: bcard6
+							Rectangle {
+								id: boxNumber_cb
+								height : 30
+								width : 30
+								border.color : "white"
+								color  : "transparent"
+								x : parent.width - (width + 3)
 
-					Image {
-						id: imgCBonus6
-						anchors.fill: parent
-						horizontalAlignment: Image.AlignHCenter
-						z: 1
-						fillMode: Image.Stretch
-						source:""
-
-						CarteBonus {
-							id: bcard6
-						}
-										
-						Rectangle {
-							id:boxNumber_cb6
-							height : 30
-							width : 30
-							border.color : "white"
-							color  : "transparent"
-							x : parent.width - (width + 3)
-							
-							Text {
-								id : txtcb6
-								anchors.centerIn : parent
-								text:"1"
-								color : "white" 
-							}
-						}
-					}    
-				}
-
-				Rectangle {
-					id: carte_Bonus7Id
-					width: parent.width/7
-					height: parent.height
-					visible : false
-					property alias source: imgCBonus7.source
-					property alias count: txtcb7.text
-					property alias card: bcard7
-
-					Image {
-						id: imgCBonus7
-						anchors.fill: parent
-						horizontalAlignment: Image.AlignHCenter
-						z: 1
-						fillMode: Image.Stretch
-						source:""
-
-						CarteBonus {
-							id: bcard7
-						}
-										
-						Rectangle {
-							id:boxNumber_cb7
-							height : 30
-							width : 30
-							border.color : "white"
-							color  : "transparent"
-							x : parent.width - (width + 3)
-							
-							Text {
-								id : txtcb7
-								anchors.centerIn : parent
-								text:"1"
-								color : "white" 
+								Text {
+									id : txtcb1
+									anchors.centerIn : parent
+									text: modelData.nb
+									color : "white"
+								}
 							}
 						}
 					}
@@ -2269,9 +1906,7 @@ Item {
 						}
 
 						if (bonusLocked == 0) {
-							for (var j = 0; j < 7; j++) {
-								rowbonusid.children[j].card.unblockCard()
-							}
+							bonusCardsHand.blocked = false;
 						}
 						break
 					} else {
@@ -2295,9 +1930,7 @@ Item {
 
 		function lockBonusCards() {
 			bonusLocked = 1
-			for (var j = 0; j < 7; j++) {
-				rowbonusid.children[j].card.blockCard()
-			}
+			bonusCardsHand.blocked = true;
 		}
 
 		function loadActionCards(playerType) {
@@ -2310,56 +1943,40 @@ Item {
 					joueurId.children[j].source = src+"images/Cerbere" + (j+1) + ".png"
 				}
 
-				for (var j = 0; j < 7; j++) {
-					rowbonusid.children[j].visible = false
-				}
+				bonusCardsHand.model = [];
 			}
 		}
 
 		function updateBonusCard(source, type) {
-			var i = 0
-			var source_string = ""
-			var found_same = - 1
-			
-			while ((rowbonusid.children[i].visible != false) && (i< 7)) {
-				if(rowbonusid.children[i].children.length > 0) {
-					source_string = source_string + rowbonusid.children[i].source
-					var length2 = source_string.length
-					while(source_string[length2-1] != '/'  && length2 > 0) {
-						length2 -=1
-					}
-					var subsource_string = source_string.substring(length2,source_string.length)
-					if(subsource_string == source) {
-						found_same = i
-						break
-					}
+			let alreadyHere = -1;
+			for(let i = 0;i < bonusCardsHand.model.length;i++){
+				if(bonusCardsHand.model[i].name === source){
+					alreadyHere = i;
+					break;
 				}
-				i += 1
 			}
-
-			var new_source = "images/" + source
-			var newNumberOfBonus = 0
-			
-			if (type == "add") {
-				newNumberOfBonus += 1
-			} else {
-				newNumberOfBonus += -1    
+			if(alreadyHere === -1){
+				if(type === "add"){
+					let cards = bonusCardsHand.model;
+					cards.push({name: source, nb: 1});
+					bonusCardsHand.model = cards;
+				}else if(type === "remove"){
+					console.error("Impossible de retirer la carte "+source+" qui n'est pas dans la main du joueur !");
+				}
+			}else{
+				let increment;
+				if(type === "add"){
+					increment = 1;
+				}else if(type == "remove"){
+					increment = -1;
+				}
+				let cards = bonusCardsHand.model;
+				cards[alreadyHere].nb += increment;
+				if(cards[alreadyHere].nb <= 0){
+					cards.splice(alreadyHere, 1);
+				}
+				bonusCardsHand.model = cards;
 			}
-
-			if (found_same >= 0) {
-				newNumberOfBonus += parseInt(rowbonusid.children[i].count, 10)
-				rowbonusid.children[i].count = "" + newNumberOfBonus
-				if (newNumberOfBonus < 1){
-					rowbonusid.children[i].visible = false
-					rowbonusid.children[i].source = ""
-					rowbonusid.children[i].count = "1"
-				}
-			} else {
-				if (type == "add") {
-					rowbonusid.children[i].visible = true
-					rowbonusid.children[i].source = new_source
-				}
-			} 
 		}
 	}
 }
