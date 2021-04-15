@@ -52,45 +52,28 @@ class Cerbere::Game
 		   effect.evenement == Evenement::DEFAUSSER_SURVIE ||
 		   effect.evenement == Evenement::DEPLACER_AUTRE)
 			# Les arguments sont des joueurs
-			if(effect.evenement == Evenement::DEPLACER_AUTRE)
-				# Le nombre d'arguments est 1 (la force est le
-				# nombre de cases)
-				n = 1
-			else
-				# Le nombre d'arguments dépend de la force, qui
-				# est le nombre de joueurs affectés
-				n = effect.force
-			end
-
-			Math.min(n,args.size()).times do |i|
+			args.each do |arg|
 				players.each do |plyr|
-					if args[0] == plyr.colour.to_s
+					if arg == plyr.colour.to_s
 						new_args << plyr.lobby_id
-						args.shift()
 						break
 					end
 				end
 			end
 		elsif(effect.evenement == Evenement::DEFAUSSER_MOI)
 			# Les arguments sont des cartes
-			n = effect.force
-
-			Math.min(n,args.size()).times do |j|
+			args.each do |arg|
 				player.hand.bonus.each_index do |i|
-					if (player.hand.bonus[i].name == args[0])
+					if (player.hand.bonus[i].name == arg)
 						new_args << i
-						args.shift()
 						break
 					end
 				end
 			end
 		elsif(effect.evenement == Evenement::BARQUE)
 			# Les arguments sont des index de barques
-			n = 3
-
-			Math.min(n,args.size()).times do |i|
-				new_args << args[0].to_i32()
-				args.shift()
+			args.each do |arg|
+				new_args << arg.to_i32()
 			end
 		end
 		# Les autres évènements soit n'ont pas d'arguments, soit
@@ -98,11 +81,11 @@ class Cerbere::Game
 		return new_args
 	end
 	
-	def convert(player : Player, choice : Choix, args : Array(String)) : Array(Array(Int32))
+	def convert(player : Player, choice : Choix, args : Array(Array(String))) : Array(Array(Int32))
 		res : Array(Array(Int32)) = [] of Array(Int32)
-		res << convert(player, choice.cout, args)
-		choice.effets.each do |effet|
-			res << convert(player, effet, args)
+		res << convert(player, choice.cout, args[0])
+		choice.effets.each_index do |i|
+			res << convert(player, choice.effets[i], args[i+1])
 		end
 		return res
 	end

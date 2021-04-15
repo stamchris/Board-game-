@@ -4,6 +4,7 @@ import QtQuick.Controls 2.10
 import QtQuick.Layouts 1.10
 import QtWebSockets 1.0
 import "library"
+import "library/cards.js" as Cards
 
 Item {
 	id: window
@@ -24,6 +25,81 @@ Item {
 	property alias popupFinish: popupFinish
 	
 	property string src: typeof ROOT_URL === "undefined" ? "" : ROOT_URL
+
+	/* playCard est une fonction génératrice: Elle se met en "pause" à
+	 * chaque yield, et peut reprendre quand on appelle sa méthode next. On
+	 * peut lui passer des "messages" en mettant des arguments dans l'appel
+	 * à next (en l'occurence, on lui passe les arguments de l'événement
+	 * pour lequel la popup a été appelée).
+	 */
+	property var todoGenerator: null
+	function* playCard(cardType, cardName, dictCardName, effect){
+		let todolist = Cards.CARDS[dictCardName][effect];
+		let args = [];
+		for(let i = 0;i < todolist.length;i++){
+			if(todolist[i].type === Cards.ArgsType.NOTHING){
+				args.push([]);
+			}else if(todolist[i].type === Cards.ArgsType.DRAW_OTHER){
+				let choices = [];
+				for(let j = 0;j < todolist[i].strength;j++){
+					choices.push("Choisissez un joueur à faire piocher 1 carte");
+				}
+				choosePlayers(choices, parent.state.playerType);
+				args.push(yield);
+			}else if(todolist[i].type === Cards.ArgsType.MOVE_OTHER){
+				let choices = [];
+				for(let j = 0;j < todolist[i].strengths.length;j++){
+					let strength = todolist[i].strengths[j];
+					choices.push("Choisissez un joueur à faire "+(strength > 0 ? "avancer" : "reculer")+" de "+Math.abs(strength)+" cases.");
+				}
+				choosePlayers(choices, "aventurier");
+
+				// choosePlayers nous a envoyé un tableau 1D
+				// mais les déplacements sont des événements
+				// différents, il faut le transformer en tableau
+				// 2D.
+				let playersArg = yield;
+				for(let j = 0;j < playersArg.length;j++){
+					args.push([playersArg[j]]);
+				}
+				// Il se peut que playersArg ne donne pas
+				// suffisamment d'arguments. Exemple: On peut
+				// déplacer 4 joueurs mais on en déplace que
+				// deux, alors choosePlayers nous renvoie
+				// ["J1", "J2"] mais il nous faut
+				// [["J1"], ["J2"], [], []]. Il faut donc le
+				// remplir.
+				let restants = todolist[i].strengths.length - playersArg.length;
+				for(let j = 0;j < restants;j++){
+					args.push([]);
+				}
+			}else if(todolist[i].type === Cards.ArgsType.DISCARD_ME){
+				chooseCardsToDiscard(cardName, todolist[i].strength);
+				args.push(yield);
+			}else if(todolist[i].type === Cards.ArgsType.BARKS){
+				chooseBarquesEffect();
+				args.push(yield);
+			}else if(todolist[i].type == Cards.ArgsType.DISCARD_OTHER){
+				let choices = [];
+				for(let j = 0;j < todolist[i].strength;j++){
+					choices.push("Choisissez un joueur à faire défausser 1 carte");
+				}
+				choosePlayers(choices, "aventurier");
+				args.push(yield);
+			}else{
+				console.error("Type d'argument inconnu: "+todolist[i].type);
+			}
+		}
+
+		window.parent.state.send({
+			type: "play_"+cardType,
+			effet: effect,
+			carte: cardName,
+			args
+		});
+
+		todoGenerator = null;
+	}
 
 	BorderImage {
 		id: background1
@@ -60,12 +136,14 @@ Item {
 				
 	}
 	
+	Timer {
+		id: dummyPlayersTimer
+		interval: 0
+		onTriggered: todoGenerator.next([])
+	}
 	
-	function choosePlayers(choices, action_todo, effect, requestType, playersType, previousArgs) {
-		playersChoice.action_todo = action_todo
-		playersChoice.effect = effect
-		playersChoice.requestType = requestType
-		playersChoice.args = previousArgs
+	function choosePlayers(choices, playersType) {
+		playersChoice.args = []
 		playersChoice.msg.text = choices[0]
 		playersChoice.playersType = playersType
 		var plyr
@@ -84,6 +162,13 @@ Item {
 		if (nb_choices != 0) {
 			playersChoice.choices = choices.slice(0, Math.min(nb_choices, choices.length))
 			playersChoice.open()
+		}else{
+			// Aucun joueur ne peut être sélectionné: On renvoie une
+			// liste d'arguments vide.
+			// On ne peut pas utiliser generator.next() toute de
+			// suite, car c'est lui qui nous a appelé et il n'est
+			// pas encore dans le yield. Il faut temporiser l'appel.
+			dummyPlayersTimer.start();
 		}
 	}
 	
@@ -102,25 +187,19 @@ Item {
 		property alias msg: msg
 		property alias rowPlayers: rowPlayers
 		property var choices : []
-		property var action_todo : ""
-		property var effect
-		property var requestType : ""
 		property var args : []
 		property var playersType : "aventurier"
 		
 		function choosePlayer(button_color) {
+			args.push(button_color)
 			if(choices.length == 1) {
-				args.push(button_color)
-				window.parent.state.send({
-					type: requestType,
-				effet: effect,
-				carte: action_todo,
-				args: args
-				})
+				// Tous les choix ont été faits: on rend la main
+				// à playCard
 				playersChoice.close()
+				todoGenerator.next(args);
 			} else {
+				// Il y a encore des choix à faire: On continue
 				choices.shift()
-				args.push(button_color)
 				playersChoice.msg.text = choices[0]
 				var plyr
 				for (var i = 0; i < 7; i++) {
@@ -435,10 +514,7 @@ Item {
 		}
 	}
 	
-	function chooseBarquesEffect(action_todo, effect, requestType) {
-		popupChooseBarquesEffect.action_todo = action_todo
-		popupChooseBarquesEffect.effect = effect
-		popupChooseBarquesEffect.requestType = requestType
+	function chooseBarquesEffect() {
 		popupChooseBarquesEffect.args = []
 
 		if (!window.parent.state.barque_revealed) {
@@ -458,23 +534,13 @@ Item {
 			color: "#ffd194"
 			radius: 3
 		}
-		
-		property var action_todo : ""
-		property var effect
-		property var requestType : ""
 		property var args : []
 		
 		function openBarquesPopup(choice) {
-			if (choice == 0) {    
-				popupSeeBarques.action_todo = action_todo
-				popupSeeBarques.effect = effect
-				popupSeeBarques.requestType = requestType
+			if (choice == 0) {
 				popupSeeBarques.args = ["0"]
 				popupSeeBarques.open()
 			} else {
-				popupSwapBarques.action_todo = action_todo
-				popupSwapBarques.effect = effect
-				popupSwapBarques.requestType = requestType
 				popupSwapBarques.args = ["1"]
 				for (var i = 0; i < 3; i++) {
 					popupSwapBarques.rowImgSwapBarque.children[choice].enabled = true
@@ -521,10 +587,6 @@ Item {
 			color: "#ffd194"
 			radius: 3
 		}
-		
-		property var action_todo : ""
-		property var effect
-		property var requestType : ""
 		property var args : []
 		property alias rowImgSwapBarque: rowImgSwapBarque
 		
@@ -532,16 +594,15 @@ Item {
 			args.push(choice)
 			
 			if (args.length < 3) {
+				// Il reste une barque à choisir: On rend la
+				// barque choisie transparente et on continue
 				rowImgSwapBarque.children[choice].enabled = false
 				rowImgSwapBarque.children[choice].opacity = 0.75
 			} else {
-				window.parent.state.send({
-					type: requestType,
-					effet: effect,
-					carte: action_todo,
-					args: args
-				})
+				// Toutes les barques ont été choisies, on rend
+				// la main à playCard.
 				popupSwapBarques.close()
+				todoGenerator.next(args);
 			}
 		}
 		
@@ -620,21 +681,13 @@ Item {
 			color: "#ffd194"
 			radius: 3
 		}
-		
-		property var action_todo : ""
-		property var effect
-		property var requestType : ""
 		property var args : []
 		
 		function seeBarques(choice) {
+			// La barque a été choisie, on rend la main à playCard
 			args.push(choice)
-			window.parent.state.send({
-				type: requestType,
-				effet: effect,
-				carte: action_todo,
-				args: args
-			})
 			popupSeeBarques.close()
+			todoGenerator.next(args);
 		}
 		
 		Text {
@@ -696,30 +749,25 @@ Item {
 		}
 	}
 	
-	function chooseCardsToDiscard(action_todo, effect, amount, requestType) {
-		popupChooseCardsToDiscard.action_todo = action_todo
-		popupChooseCardsToDiscard.effect = effect
+	function chooseCardsToDiscard(playedCard, amount) {
 		popupChooseCardsToDiscard.amount = amount
-		popupChooseCardsToDiscard.requestType = requestType
 		popupChooseCardsToDiscard.args = []
 
-		var nb_bonus = 0
-		for (let plyr of window.parent.state.players) {
-			if (plyr.colour == window.parent.state.color) {
-				nb_bonus = plyr.hand.bonus_size
-			}
-		}
-		if (requestType == "play_action" && nb_bonus >= amount || requestType == "play_bonus" && nb_bonus > amount) {
-			let cards = bonusCardsHand.model;
-			for(let i = 0;i < cards.length;i++){
-				if(cards[i].name === action_todo){
-					cards[i].nb -= 1;
-					if(cards[i].nb === 0){
-						cards.splice(i, 1);
-					}
-					break;
+		let cards = bonusCardsHand.model;
+		let nbBonus = 0;
+		for(let i = 0;i < cards.length;i++){
+			let nb = cards[i].nb;
+			if(cards[i].name === playedCard){
+				cards[i].nb -= 1;
+				nb -= 1;
+				if(cards[i].nb === 0){
+					cards.splice(i, 1);
+					i--;
 				}
 			}
+			nbBonus += nb;
+		}
+		if (nbBonus >= amount) {
 			popupChooseCardsToDiscard.rowBonus.model = cards;
 			popupChooseCardsToDiscard.open()
 		}
@@ -739,10 +787,7 @@ Item {
 		}
 		
 		property alias rowBonus: rowBonus
-		property var action_todo : ""
-		property var effect
 		property var amount
-		property var requestType : ""
 		property var args : []
 		
 		function addCardToArgs(carteBonusName) {
@@ -750,25 +795,7 @@ Item {
 			
 			if (args.length == popupChooseCardsToDiscard.amount) {
 				popupChooseCardsToDiscard.close()
-				
-				if (action_todo == '4' && effect == 1) {
-					choosePlayers(["Choisissez un joueur à faire avancer de 2 cases"], action_todo, effect, "play_action", "aventurier", args)
-				} else if (action_todo == 'Arro' && effect == 1) {
-					choosePlayers(["Choisissez un joueur à faire avancer de 3 cases"], action_todo, effect, "play_bonus", "aventurier", args)
-				} else if (action_todo == 'Fav' && effect == 1) {
-					choosePlayers(["Choisissez un joueur à faire avancer de 2 cases", "Choisissez un joueur à faire avancer de 1 cases"], action_todo, effect, "play_bonus", "aventurier", args)
-				} else if (action_todo == 'Oppo' && effect == 1) {
-					chooseOppoEffect(action_todo, effect, requestType, args)
-				} else if (action_todo == 'Sac' && effect == 1) {
-					choosePlayers(["Choisissez un joueur à faire reculer de 2 cases"], action_todo, effect, "play_bonus", "aventurier", args)
-				} else {
-					window.parent.state.send({
-						type: requestType,
-					effet: effect,
-					carte: action_todo,
-					args: args
-					}) 
-				}
+				todoGenerator.next(args);
 			}
 		}
 		
@@ -843,11 +870,8 @@ Item {
 		property var args : []
 		
 		function openPlayerChoice(choice) {
-			if (choice == 1) {    
-				choosePlayers(["Choisissez un joueur à faire reculer de 2 cases"], action_todo, 1, "play_bonus", "aventurier", args)
-			} else {
-				choosePlayers(["Choisissez un joueur à faire avancer de 2 cases"], action_todo, 2, "play_bonus", "aventurier", args)
-			}
+			todoGenerator = playCard("bonus", action_todo, action_todo, choice);
+			todoGenerator.next();
 			popupChooseOppoEffect.close()
 		}
 		

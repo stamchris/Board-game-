@@ -107,7 +107,7 @@ class Cerbere::Request
 		property type = "playAction"
 		property effet : Int32
 		property carte : String
-		property args : Array(String)
+		property args : Array(Array(String))
 
 		def handle(game : Game, player : Player)
 			if(player.colour != game.players[game.active_player].colour)
@@ -184,7 +184,7 @@ class Cerbere::Request
 		property type = "playBonus"
 		property effet : Int32
 		property carte : String
-		property args : Array(String)
+		property args : Array(Array(String))
 
 		def handle(game : Game, player : Player)
 			if(player.colour != game.players[game.active_player].colour)
