@@ -89,6 +89,39 @@ verif_client_wasm:
         only:
                 - merge_requests
 
+verif_client_android:
+        before_script:
+                - export DEBIAN_FRONTEND=noninteractive # fuck you tzdata
+                - apt-get update
+                - apt-get install --yes --force-yes openjdk-11-jdk gradle android-sdk curl unzip git make g++ python
+        script:
+                - curl --output android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip
+                - unzip -d android-sdk android-sdk.zip
+                - ANDROID_SDK_ROOT=$PWD/android-sdk
+                - cd $ANDROID_SDK_ROOT/cmdline-tools/bin
+                - ./sdkmanager --sdk_root=$ANDROID_SDK_ROOT --install "cmdline-tools;latest" <<<y
+                - ./sdkmanager --sdk_root=$ANDROID_SDK_ROOT --install "platform-tools" "platforms;android-29" "build-tools;29.0.2" "ndk;21.3.6528147"
+                - cd ../..
+                - git clone git://code.qt.io/qt/qt5.git
+                - cd qt5
+                - git checkout 5.15
+                - ./init-repository
+                - ./configure -xplatform android-clang -disable-rpath -nomake tests -nomake examples -android-ndk $ANDROID_SDK_ROOT/ndk/21.3.6528147 -android-sdk $ANDROID_SDK_ROOT -no-warnings-are-errors -opensource -confirm-license
+                - make -s
+                - make install
+                - cd ..
+                - cd client
+                - qmake
+                - make install INSTALL_ROOT=android-build/
+                - mkdir android-build/assets
+                - cp images android-build/assets/
+                - androiddeployqt --output android-build/
+        artifacts:
+                paths:
+                        - client/android-build
+        only:
+                - merge_requests
+
 verif_serveur:
         before_script:
                 - export DEBIAN_FRONTEND=noninteractive # fuck you tzdata
