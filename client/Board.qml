@@ -796,11 +796,19 @@ Item {
 						anchors.fill: parent
 
 						onClicked: {
-							modelData.nb -= 1
-							if (modelData.nb == 0) {
-								selectBonusImg.visible = false
+							// Ces propriétés de contexte doivent être sauvegardées,
+							// elles n'existeront plus si l'objet disparait.
+							let repeater = rowBonus;
+							let popup = popupChooseCardsToDiscard;
+							let name = modelData.name;
+
+							let cards = repeater.model;
+							cards[index].nb -= 1;
+							if (cards[index].nb === 0) {
+								cards.splice(index, 1);
 							}
-							popupChooseCardsToDiscard.addCardToArgs(modelData.name)
+							repeater.model = cards;
+							popup.addCardToArgs(name);
 						}
 					}
 				}
