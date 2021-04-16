@@ -90,9 +90,43 @@ class Cerbere::Game
 		return res
 	end
 
+	def new_turn_if_all_set(player : Player, skip : Bool = false)
+		if((skip || (action_played && (bonus_played || player.hand.bonus_size == 0))) &&
+				board.pont_queue.empty?() && board.portal_queue.empty?() &&
+				board.awaiting_players.empty?())
+			new_turn()
+		end
+	end
+
 	def new_turn()
 		if (!@action_played)
 			board.play_card(players[active_player], true, 0, 0, [[0],[0],[0]])
+			@action_played = true
+		end
+
+		# Les aventuriers sabotés ont le droit à 30 secondes
+		# supplémentaires pour faire leurs choix
+		if(!board.awaiting_players.empty?())
+			spawn do
+				save = @nb_turns
+				sleep(30)
+				if(!@finished && save == @nb_turns)
+					board.awaiting_players.each do |player|
+						if(board.wait_origin == 0)
+							card_index : Int32 = Random.rand(0..player.hand.bonus_size)
+							card_name : String = player.hand.bonus[card_index].name
+							board.defausser(player, card_index)
+							player.send(Response::DiscardBonus.new(card_name))
+						elsif(board.wait_origin == 1)
+							board.action_deplacer_moi(player, -2)
+						end
+						player.send(Response::SabotageTimeout.new())
+					end
+					board.awaiting_players.clear()
+					new_turn()
+				end
+			end
+			return
 		end
 		
 		board.pont_queue.each do |plyr|

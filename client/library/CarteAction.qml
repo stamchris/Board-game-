@@ -32,8 +32,8 @@ Column {
 		var num_carte = parent.source.toString()
 		num_carte = num_carte.charAt(num_carte.length - 5)
 
-		window.todoGenerator = window.playCard("action", num_carte, window.parent.state.playerType+num_carte, choix);
-		window.todoGenerator.next();
+		window.generator = window.playCard("action", num_carte, window.parent.state.playerType+num_carte, choix);
+		window.generator.next();
 	}
 	
 	Rectangle {

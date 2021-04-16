@@ -19,8 +19,8 @@ Column {
 	if(carteBonusName === "Oppo"){
 		window.chooseOppoEffect(carteBonusName, choix, "play_bonus", []);
 	}else{
-		window.todoGenerator = window.playCard("bonus", carteBonusName, carteBonusName, choix);
-		window.todoGenerator.next();
+		window.generator = window.playCard("bonus", carteBonusName, carteBonusName, choix);
+		window.generator.next();
 	}
     }
 

@@ -15,7 +15,8 @@ class Cerbere::Request
 		portal_confirm: PortalConfirm,
 		skip_turn: SkipTurn,
 		changeColour: ChangeColour,
-		chatMessage: ChatMessage
+		chatMessage: ChatMessage,
+		answerSabotage: AnswerSabotage
 	}
 
 	def handle(game : Game, player : Player)
@@ -174,9 +175,7 @@ class Cerbere::Request
 				player.send(Response::UsePortal.new(players_queue))
 			end
 
-			if game.action_played && (game.bonus_played || player.hand.bonus_size == 0) && game.board.pont_queue.size == 0 && game.board.portal_queue.size == 0
-				game.new_turn()
-			end
+			game.new_turn_if_all_set(player)
 		end
 	end
 
@@ -259,9 +258,7 @@ class Cerbere::Request
 				player.send(Response::UsePortal.new(players_queue))
 			end
 
-			if game.action_played && game.bonus_played
-				game.new_turn()
-			end
+			game.new_turn_if_all_set(player)
 		end
 	end
 
@@ -288,9 +285,7 @@ class Cerbere::Request
 			game.board.pont_queue.clear()
 			game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
 			
-			if game.action_played && (game.bonus_played || player.hand.bonus_size == 0) && game.board.pont_queue.size == 0 && game.board.portal_queue.size == 0
-				game.new_turn()
-			end
+			game.new_turn_if_all_set(player)
 		end
 	end
 
@@ -320,9 +315,7 @@ class Cerbere::Request
 			game.board.portal_queue.clear()
 			game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
 			
-			if game.action_played && (game.bonus_played || player.hand.bonus_size == 0) && game.board.pont_queue.size == 0 && game.board.portal_queue.size == 0
-				game.new_turn()
-			end
+			game.new_turn_if_all_set(player)
 		end
 	end
 
@@ -330,7 +323,7 @@ class Cerbere::Request
 		property type = "skipTurn"
 
 		def handle(game : Game, player : Player)
-			game.new_turn()
+			game.new_turn_if_all_set(player, true)
 		end
 	end
 
@@ -341,6 +334,69 @@ class Cerbere::Request
 
 		def handle(game : Game, player : Player)
 			game.send_all(Response::Chat.new(player,timestamp,message))
+		end
+	end
+
+	class AnswerSabotage < Request
+		property type = "answerSabotage"
+		property effect : Int32 # 0 pour défaussage forcé, 1 pour sabotage
+		property args : Array(String)
+
+		def handle(game : Game, player : Player)
+			puts("AnswerSabotage", !game.board.awaiting_players.includes?(player), effect != game.board.wait_origin)
+			if(!game.board.awaiting_players.includes?(player) || effect != game.board.wait_origin)
+				player.send(Response::CantDoThat.new("C'est trop tard pour répondre !"))
+				return
+			end
+			if(effect == 0 || args[0] == "discard") # Défaussage forcé ou le joueur saboté a choisi de défausser
+				card_name : String = args[effect]
+				index_card? : Int32? = nil
+				player.hand.bonus.each_index do |i|
+					if (player.hand.bonus[i].name == card_name)
+						index_card? = i
+						break
+					end
+				end
+				if(index_card? == nil)
+					player.send(Response::CantDoThat.new("Vous ne possédez pas la carte #{card_name} !"))
+					player.send(Response::AskSabotage.new(effect))
+					return
+				end
+				index_card : Int32 = index_card?.not_nil!()
+				game.board.defausser(player, index_card)
+				player.send(Response::DiscardBonus.new(card_name))
+			elsif(args[0] == "back") # Le joueur saboté a choisi de reculer
+				game.board.action_deplacer_moi(player, -2)
+			else
+				player.send(Response::CantDoThat.new("Action invalide: #{args[0]} !"))
+				player.send(Response::AskSabotage.new(effect))
+				return
+			end
+			game.board.awaiting_players.delete(player)
+			game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
+
+			# C'est le joueur qui a joué la carte Sabotage qui est
+			# en train de jouer, pas celui qui a répondu au Sabotage
+			currentPlayer : Player = game.players[game.active_player]
+
+			players_queue : Array(Player) = [] of Player
+
+			if game.board.pont_queue.size != 0
+				game.board.pont_queue.each do |plyr|
+					players_queue << plyr[0]
+				end
+				currentPlayer.send(Response::UseBridge.new(players_queue))
+			end
+
+			if game.board.portal_queue.size != 0
+				players_queue.clear()
+				game.board.portal_queue.each do |plyr|
+					players_queue << plyr[0]
+				end
+				currentPlayer.send(Response::UsePortal.new(players_queue))
+			end
+
+			game.new_turn_if_all_set(currentPlayer)
 		end
 	end
 end
@@ -536,6 +592,21 @@ class Cerbere::Response
 		property msg : String
 
 		def initialize(@msg)
+		end
+	end
+
+	class AskSabotage < Response
+		property type = "askSabotage"
+		property effect : Int32 # 0 pour défaussage forcé, 1 pour sabotage
+
+		def initialize(@effect)
+		end
+	end
+
+	class SabotageTimeout < Response
+		property type = "sabotageTimeout"
+
+		def initialize()
 		end
 	end
 end

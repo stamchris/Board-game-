@@ -199,6 +199,17 @@ Item{
         }
     }
 
+	function askSabotage(effect) {
+		parent.board.askSabotage(effect);
+		parent.board.generator.next();
+	}
+
+	function sabotageTimeout() {
+		parent.board.popupSabotageWhatToDo.close();
+		parent.board.popupChooseCardsToDiscard.close();
+		parent.board.generator = null;
+	}
+
     function initGame(newPlayers, newDifficulty) {
         players = newPlayers
         changePlayers(newPlayers, 0)

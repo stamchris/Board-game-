@@ -23,6 +23,7 @@ Item {
 	property alias popupChooseCardsToDiscard: popupChooseCardsToDiscard
 	property alias popupChooseOppoEffect: popupChooseOppoEffect
 	property alias popupFinish: popupFinish
+	property alias popupSabotageWhatToDo : popupSabotageWhatToDo
 	
 	property string src: typeof ROOT_URL === "undefined" ? "" : ROOT_URL
 
@@ -32,7 +33,7 @@ Item {
 	 * à next (en l'occurence, on lui passe les arguments de l'événement
 	 * pour lequel la popup a été appelée).
 	 */
-	property var todoGenerator: null
+	property var generator: null
 	function* playCard(cardType, cardName, dictCardName, effect){
 		let todolist = Cards.CARDS[dictCardName][effect];
 		let args = [];
@@ -98,7 +99,42 @@ Item {
 			args
 		});
 
-		todoGenerator = null;
+		generator = null;
+	}
+
+	function* _askSabotage(effect){
+		let args = [];
+		if(effect === 0){ // Défaussage forcé
+			chooseCardsToDiscard("", 1);
+			let cards = yield;
+			args[0] = cards[0]; // tableau -> scalaire
+		}else if(effect === 1){ // Sabotage
+			popupSabotageWhatToDo.open();
+			args[0] = yield;
+			if(args[0] === "discard"){
+				chooseCardsToDiscard("", 1);
+
+				// chooseCardsToDiscard nous a renvoyé un tableau de
+				// carte, mais il nous faut un scalaire. On récupère
+				// donc le premier élément.
+				let cards = yield;
+				args[1] = cards[0];
+			}
+		}else{
+			console.error("Effet inconnu pour sabotage: "+effect);
+		}
+
+		window.parent.state.send({
+			type: "answerSabotage",
+			effect,
+			args
+		});
+
+		generator = null;
+	}
+	function askSabotage(effect){
+		generator = _askSabotage(effect);
+		generator.next();
 	}
 
 	BorderImage {
@@ -139,7 +175,7 @@ Item {
 	Timer {
 		id: dummyPlayersTimer
 		interval: 0
-		onTriggered: todoGenerator.next([])
+		onTriggered: generator.next([])
 	}
 	
 	function choosePlayers(choices, playersType) {
@@ -196,7 +232,7 @@ Item {
 				// Tous les choix ont été faits: on rend la main
 				// à playCard
 				playersChoice.close()
-				todoGenerator.next(args);
+				generator.next(args);
 			} else {
 				// Il y a encore des choix à faire: On continue
 				choices.shift()
@@ -602,7 +638,7 @@ Item {
 				// Toutes les barques ont été choisies, on rend
 				// la main à playCard.
 				popupSwapBarques.close()
-				todoGenerator.next(args);
+				generator.next(args);
 			}
 		}
 		
@@ -687,7 +723,7 @@ Item {
 			// La barque a été choisie, on rend la main à playCard
 			args.push(choice)
 			popupSeeBarques.close()
-			todoGenerator.next(args);
+			generator.next(args);
 		}
 		
 		Text {
@@ -794,8 +830,10 @@ Item {
 			args.push(carteBonusName)
 			
 			if (args.length == popupChooseCardsToDiscard.amount) {
+				// On a sélectionné suffisamment de carte: On
+				// rend la main au générateur qui nous a appelé
 				popupChooseCardsToDiscard.close()
-				todoGenerator.next(args);
+				generator.next(args);
 			}
 		}
 		
@@ -870,8 +908,8 @@ Item {
 		property var args : []
 		
 		function openPlayerChoice(choice) {
-			todoGenerator = playCard("bonus", action_todo, action_todo, choice);
-			todoGenerator.next();
+			generator = playCard("bonus", action_todo, action_todo, choice);
+			generator.next();
 			popupChooseOppoEffect.close()
 		}
 		
@@ -899,6 +937,47 @@ Item {
 		}
 	}
 	
+	Popup {
+		id: popupSabotageWhatToDo
+		anchors.centerIn: parent
+		width: 400
+		height: 150
+		modal: true
+
+		background: Rectangle {
+			color: "#ffd194"
+			radius: 3
+		}
+
+		Text {
+			y: 0
+			horizontalAlignment: Text.AlignHCenter
+			text: "Vous vous êtes fait saboté ! Préfériez-vous reculer ou défausser une carte ?"
+		}
+
+		RowLayout {
+			y: 50
+			Button {
+				text: "Reculer"
+				onClicked: {
+					popupSabotageWhatToDo.selectOption("back");
+				}
+			}
+
+			Button {
+				text: "Défausser une carte"
+				onClicked: {
+					popupSabotageWhatToDo.selectOption("discard");
+				}
+			}
+		}
+
+		function selectOption(option) {
+			generator.next(option);
+			popupSabotageWhatToDo.close();
+		}
+	}
+
 	ImagePopUp {
 		id: imgEffetDeCarteId
 		source: "images/effetDeCarte.jpg"

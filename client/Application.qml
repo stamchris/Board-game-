@@ -136,6 +136,12 @@ ApplicationWindow {
 				case "cantDoThat":
 					console.log("Vous ne pouvez pas faire ça ! "+message.msg);
 					break
+				case "askSabotage":
+					game.state.askSabotage(message.effect)
+					break
+				case "sabotageTimeout":
+					game.state.sabotageTimeout()
+					break
 			}
 		}
 
