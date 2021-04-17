@@ -603,8 +603,8 @@ class Cerbere::Response
 		end
 	end
 
-	class SabotageTimeout < Response
-		property type = "sabotageTimeout"
+	class NextTurn < Response
+		property type = "nextTurn"
 
 		def initialize()
 		end

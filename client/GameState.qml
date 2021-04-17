@@ -203,12 +203,6 @@ Item{
 		parent.board.askSabotage(effect);
 	}
 
-	function sabotageTimeout() {
-		parent.board.popupSabotageWhatToDo.close();
-		parent.board.popupChooseCardsToDiscard.close();
-		parent.board.generator = null;
-	}
-
     function initGame(newPlayers, newDifficulty) {
         players = newPlayers
         changePlayers(newPlayers, 0)

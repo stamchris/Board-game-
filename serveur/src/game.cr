@@ -120,7 +120,6 @@ class Cerbere::Game
 						elsif(board.wait_origin == 1)
 							board.action_deplacer_moi(player, -2)
 						end
-						player.send(Response::SabotageTimeout.new())
 					end
 					board.awaiting_players.clear()
 					new_turn()
@@ -158,6 +157,7 @@ class Cerbere::Game
 		board.cerbere_hunting()
 		
 		send_all(Response::UpdateBoard.new(players, board.position_cerbere, board.vitesse_cerbere, board.rage_cerbere, board.pont, active_player))
+		send_all(Response::NextTurn.new())
 		spawn do 
 			save = @nb_turns
 			sleep(60)
