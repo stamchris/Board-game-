@@ -113,7 +113,7 @@ class Cerbere::Game
 				if(!@finished && save == @nb_turns)
 					board.awaiting_players.each do |player|
 						if(board.wait_origin == 0)
-							card_index : Int32 = Random.rand(0..player.hand.bonus_size)
+							card_index : Int32 = Random.rand(0..player.hand.bonus.size())
 							card_name : String = player.hand.bonus[card_index].name
 							board.defausser(player, card_index)
 							player.send(Response::DiscardBonus.new(card_name))

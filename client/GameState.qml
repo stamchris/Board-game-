@@ -201,7 +201,6 @@ Item{
 
 	function askSabotage(effect) {
 		parent.board.askSabotage(effect);
-		parent.board.generator.next();
 	}
 
 	function sabotageTimeout() {
