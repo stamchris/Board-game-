@@ -543,8 +543,10 @@ class Cerbere::Board
 					if player.type != TypeJoueur::AVENTURIER
 						raise "Ce joueur n'est pas un aventurier !"
 					end
-					awaiting_players << player
-					player.send(Response::AskSabotage.new(0))
+					if(player.hand.bonus.size() > 0)
+						awaiting_players << player
+						player.send(Response::AskSabotage.new(0))
+					end
 				end
 			end
 		end
