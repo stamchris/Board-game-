@@ -16,7 +16,7 @@ Column {
         carteBonusName = carteBonusName.slice(carteBonusName.indexOf("_", carteBonusName.length-10))
         carteBonusName = carteBonusName.slice(1, carteBonusName.length - 4)
 
-	if(carteBonusName === "Oppo"){
+	if(carteBonusName === "Oppo" && choix === 1){
 		window.chooseOppoEffect(carteBonusName, choix, "play_bonus", []);
 	}else{
 		window.generator = window.playCard("bonus", carteBonusName, carteBonusName, choix);
