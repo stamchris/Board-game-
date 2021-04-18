@@ -806,6 +806,8 @@ Item {
 		if (nbBonus >= amount) {
 			popupChooseCardsToDiscard.rowBonus.model = cards;
 			popupChooseCardsToDiscard.open()
+		}else{
+			showErrorMsg("Vous devez défausser "+amount+" cartes, mais vous n'en avez que "+nbBonus+" !");
 		}
 	}
 	
@@ -976,6 +978,42 @@ Item {
 			generator.next(option);
 			popupSabotageWhatToDo.close();
 		}
+	}
+
+	Popup {
+		id: popupErrorMsg
+		anchors.centerIn: parent
+		width: txtErrorMsg.width*1.125
+		height: txtErrorMsg.height*2
+		closePolicy: Popup.NoAutoClose
+		property alias msg: txtErrorMsg.text
+
+		background: Rectangle {
+			color: "red"
+			radius: 3
+		}
+
+		Text {
+			id: txtErrorMsg
+			color: "white"
+			horizontalAlignment: Text.AlignHCenter
+		}
+
+		Timer {
+			id: errorMsgTimer
+			interval: 5000
+			onTriggered: popupErrorMsg.close()
+		}
+
+		function restartTimer(){
+			errorMsgTimer.restart();
+		}
+	}
+
+	function showErrorMsg(msg){
+		popupErrorMsg.msg = msg;
+		popupErrorMsg.open();
+		popupErrorMsg.restartTimer();
 	}
 
 	ImagePopUp {

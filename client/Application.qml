@@ -126,7 +126,9 @@ ApplicationWindow {
 					game.state.showEliminate(message.plyr)
 					break
 				case "cantDoThat":
-					console.log("Vous ne pouvez pas faire ça ! "+message.msg);
+					let msg = "Vous ne pouvez pas faire ça ! "+message.msg;
+					console.log(msg);
+					game.board.showErrorMsg(msg);
 					break
 				case "askSabotage":
 					game.state.askSabotage(message.effect)
