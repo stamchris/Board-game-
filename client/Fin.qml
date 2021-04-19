@@ -61,8 +61,9 @@ Item {
                 width : parent.width
                 height : parent.height
                 Rectangle {
-                    width : 5/10*parent.width
+                    width : 4/10*parent.width
                     height : parent.height 
+                    x: 1/10*parent.width
                     color : "transparent"
                     /*border.color : "blue"
                     border.width : 4*/
@@ -83,11 +84,28 @@ Item {
                             }
                         }
                     }
+                       Rectangle {
+                        width : parent.width/1.1
+                        height : parent.height/1.3
+                        x : 20/100*width
+                         y: 10/100*height
+                        border.color: "white"
+                        border.width: 3
+                        color : "black"
+                        opacity: 0.5
+                          radius: 10
+                          gradient: Gradient {
+                                         GradientStop { position: 0.0; color: "black"; }
+                                         GradientStop { position: 0.6; color: "transparent"; }
+                                         GradientStop { position: 1.0; color: "white"; }
+                                     }
+
+                    }
                     
                 }
 
                 Rectangle {
-                    width : 5/10*parent.width
+                    width : 4/10*parent.width
                     height : parent.height 
                     color : "transparent"
                     /*border.color : "blue"
@@ -108,6 +126,22 @@ Item {
                                 font.family: "Stoneyard"
                             }
                         }
+                    }
+                    Rectangle{
+                    width : parent.width/1.1
+                    height : parent.height/1.3
+                    x : 20/100*width
+                    y: 10/100*height
+                    border.color: "white"
+                    border.width: 2.5
+                    color : "black"
+                    opacity: 0.5
+                      radius: 10
+                      gradient: Gradient {
+                                     GradientStop { position: 0.0; color: "black"; }
+                                     GradientStop { position: 0.6; color: "transparent"; }
+                                     GradientStop { position: 1.0; color: "white"; }
+                                 }
                     }
                 }
             }
