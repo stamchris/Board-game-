@@ -54,6 +54,9 @@ class Cerbere::Game
 			args.shift()
 		end
 		choice.effets.each_index do |i|
+			if args.size == 0 && (choice.effets[i].evenement == Evenement::DEPLACER_AUTRE || choice.effets[i].evenement == Evenement::PIOCHER_ALLIE)
+				break
+			end
 			board.faire_action(player, choice.effets[i], args)
 			if args.size != 0
 				args.shift()
@@ -70,6 +73,9 @@ class Cerbere::Game
 					args.shift(choice.cout.force)
 				end
 				choice.effets.each_index do |i|
+					if args.size == 0 && (choice.effets[i].evenement == Evenement::DEPLACER_AUTRE || choice.effets[i].evenement == Evenement::PIOCHER_ALLIE)
+						break
+					end
 					board.faire_action(player, choice.effets[i], args)
 					if args.size != 0
 						args.shift()
