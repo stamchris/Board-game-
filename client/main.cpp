@@ -2,11 +2,10 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-#include <libgen.h>
-
 #ifdef EMSCRIPTEN
 	#include <emscripten.h>
 	#include <emscripten/val.h>
+	#include <libgen.h>
 #endif
 
 int main(int argc, char *argv[])
