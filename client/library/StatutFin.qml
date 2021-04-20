@@ -9,6 +9,7 @@ Rectangle {
     id : imageStatusid
     width : parent.width/2
     height : parent.height/7
+    x : parent.x
     color : "transparent"
     border.width : 2
     property string src: typeof ROOT_URL === "undefined" ? "../" : ROOT_URL
@@ -24,8 +25,6 @@ Rectangle {
             width : parent.width/2
             height : parent.height/3
             color : "transparent"
-            /*border.width : 3
-            border.color : "purple"*/
             y : height
             Text {
                 anchors.centerIn : parent
@@ -39,8 +38,6 @@ Rectangle {
         Rectangle {
             width : parent.width/2
             height : parent.height
-            /*border.width : 3
-            border.color : "yellow"*/
             color : "transparent"
             Image {
                 id : imagestatut

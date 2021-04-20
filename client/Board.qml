@@ -618,17 +618,37 @@ Item {
 		RowLayout {
 			y: 50
 			Button {
-				text: "Voir\n1 barque"
 				onClicked: {
 					popupChooseBarquesEffect.openBarquesPopup(0)
 				}
+
+				Rectangle {
+					height : parent.height
+					width : parent.width
+					color: "#ffd194"
+
+					Image {
+						anchors.fill : parent
+						source : src + "images/regarder_barque_icone.png"
+					}
+				}	
 			}
 			
 			Button {
-				text: "Echanger\n2 barques"
 				onClicked: {
 					popupChooseBarquesEffect.openBarquesPopup(1)
 				}
+
+				Rectangle {
+					height : parent.height
+					width : parent.width
+					color: "#ffd194"
+
+					Image {
+						anchors.fill : parent
+						source : src + "images/echange_barque_icone.png"
+					}
+				}	
 			}
 		}
 	}

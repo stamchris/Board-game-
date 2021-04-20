@@ -1,5 +1,6 @@
 import QtQuick 2.10
 import QtQuick.Layouts 1.10
+import QtGraphicalEffects 1.10
 import QtQuick.Controls 2.10
 import "movePions.js" as MovePions
 
@@ -109,9 +110,18 @@ Rectangle {
 			color: "transparent"
 			
 			Image {
+				id : smoothcerbere
 				anchors.fill : parent
 				source : src+"images/Cerbere_pion.png"
 			}  
+
+			Glow {
+				anchors.fill: smoothcerbere
+				radius: 8
+				samples: 17
+				color: "white"
+				source: smoothcerbere
+    		}
 		}
 		
 		Pion {
@@ -122,9 +132,18 @@ Rectangle {
 			color: "transparent"
 			
 			Image {
+				id : smoothcyan
 				anchors.fill: parent
 				source: src+"images/Cyan_pion.png"
 			}
+
+			Glow {
+				anchors.fill: smoothcyan
+				radius: 8
+				samples: 17
+				color: "white"
+				source: smoothcyan
+    		}
 		}
 		
 		Pion {
@@ -135,9 +154,20 @@ Rectangle {
 			color: "transparent"
 			
 			Image {
+				id : smoothorange
 				anchors.fill: parent
 				source: src+"images/Orange_pion.png"
 			}
+
+			Glow {
+				anchors.fill: smoothorange
+				radius: 8
+				samples: 17
+				color: "white"
+				source: smoothorange
+    		}
+
+			
 		}
 		
 		Pion {
@@ -148,9 +178,18 @@ Rectangle {
 			color: "transparent"
 			
 			Image {
+				id : smoothgreen
 				anchors.fill: parent
 				source: src+"images/Green_pion.png"
 			}
+
+			Glow {
+				anchors.fill: smoothgreen
+				radius: 8
+				samples: 17
+				color: "white"
+				source: smoothgreen
+    		}
 		}
 		
 		Pion {
@@ -161,9 +200,19 @@ Rectangle {
 			color: "transparent"
 			
 			Image {
+				id : smoothwhite
 				anchors.fill: parent
 				source: src+"images/White_pion.png"
-			}   
+			} 
+
+			Glow {
+				anchors.fill: smoothwhite
+				radius: 8
+				samples: 17
+				color: "white"
+				source: smoothwhite
+    		}
+  
 		}
 		
 		Pion {
@@ -174,9 +223,18 @@ Rectangle {
 			color: "transparent"
 			
 			Image {
+				id : smoothpink
 				anchors.fill: parent
 				source: src+"images/Pink_pion.png"
 			}
+
+			Glow {
+				anchors.fill: smoothpink
+				radius: 8
+				samples: 17
+				color: "white"
+				source: smoothpink
+    		}
 		}
 		
 		
@@ -188,9 +246,18 @@ Rectangle {
 			color: "transparent"
 			
 			Image {
+				id : smoothblue
 				anchors.fill: parent
 				source: src+"images/Blue_pion.png"
 			}
+
+			Glow {
+				anchors.fill: smoothblue
+				radius: 8
+				samples: 17
+				color: "white"
+				source: smoothblue
+    		}
 		}
 		
 		Pion {
@@ -201,9 +268,18 @@ Rectangle {
 			color: "transparent"
 			
 			Image {
+				id : smoothred
 				anchors.fill: parent
 				source: src+"images/Red_pion.png"
 			}
+
+			Glow {
+				anchors.fill: smoothred
+				radius: 8
+				samples: 17
+				color: "white"
+				source: smoothred
+    		}
 		}
 	}
 }

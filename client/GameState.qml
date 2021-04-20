@@ -150,13 +150,13 @@ Item{
 			var window = component.createObject("imageStatusid")
             console.log(window.width)
             window.parent = parent.endwindow.endcolumnid.children[0].children[0]
-            window.imagestatut.source = src + ""
-            window.imagestatut.width = Qt.binding(function() { return window.imagestatut.parent.width/4})
+            window.imagestatut.source = src + "images/aventurier_image.png"
+            window.imagestatut.width = Qt.binding(function() { return window.imagestatut.parent.width/3})
             window.imagestatut.height = Qt.binding(function() { return window.imagestatut.parent.height/2})
 		}else if(component.status == Component.Error){
 			console.error(component.errorString());
 		}
-        window.textname.text =  ""+player[0].name + "gagner"
+        window.textname.text =  ""+player[0].name
     
         parent.board.popupFinish.open()
     }
@@ -192,7 +192,7 @@ Item{
 			var window = component.createObject("imageStatusid")
             console.log(window.width)
             window.parent = parent.endwindow.endcolumnid.children[1].children[0]
-            window.imagestatut.source = src + "images/cerbere_victory.png"
+            window.imagestatut.source = src + "images/cerbere_finaly.png"
             window.imagestatut.width = Qt.binding(function() { return window.imagestatut.parent.width/2})
             window.imagestatut.height = Qt.binding(function() { return window.imagestatut.parent.height/(1.5)})
 		}else if(component.status == Component.Error){
@@ -214,11 +214,13 @@ Item{
 			var window = component.createObject("imageStatusid")
             console.log(window.width)
             window.parent = parent.endwindow.endcolumnid.children[1].children[0]
-            window.imagestatut.source = src + ""
+            window.imagestatut.source = src + "images/cerbere_finaly.png"
+            window.imagestatut.width = Qt.binding(function() { return window.imagestatut.parent.width/2})
+            window.imagestatut.height = Qt.binding(function() { return window.imagestatut.parent.height/1.5})
 		}else if(component.status == Component.Error){
 			console.error(component.errorString());
 		}
-        window.textname.text =  ""+player[0].name + "perdant"
+        window.textname.text =  ""+player[0].name 
         parent.board.popupFinish.open()
        
     }
@@ -234,8 +236,8 @@ Item{
             console.log(window.width)
             window.parent = parent.endwindow.endcolumnid.children[0].children[0]
             window.imagestatut.source = src + "images/tombe.png"
-            window.imagestatut.width = Qt.binding(function() { return window.imagestatut.parent.width/4})
-            window.imagestatut.height = Qt.binding(function() { return window.imagestatut.parent.height/2})
+            window.imagestatut.width = Qt.binding(function() { return window.imagestatut.parent.width/2})
+            window.imagestatut.height = Qt.binding(function() { return window.imagestatut.parent.height/1.5})
 		}else if(component.status == Component.Error){
 			console.error(component.errorString());
 		}
@@ -248,9 +250,9 @@ Item{
     function showPlayersEnd(newPlayers, status,player) {
         //status[0] survivants_status , status[1] cerbere_status
         // 0 win aventuriers, 1 win cerbere
-        if(status[1] == 0) 
+        if(status[0] == 0) 
             parent.endwindow.titleend.text += "a perdu !"
-        else if(status[1] == 1) 
+        else if(status[0] == 1) 
             parent.endwindow.titleend.text += "a gagné !"
         
 
@@ -260,15 +262,14 @@ Item{
                 pop = 1 //on ouvre le popup
 
             if (newPlayers[i].type == "aventurier") {
-                if(status[0] == 0) //gagner aventurier
+                if(status[i+1] == 0) //gagner aventurier
                     showAWinner([newPlayers[i]],pop) 
                 else 
                     showEliminate([newPlayers[i]],pop)
-                    //showALoser([newPlayers[i]],pop) 
 
             }
             else if (newPlayers[i].type == "cerbere") {
-                if(status[0] == 1) //gagner cerbere
+                if(status[i+1] == 1) //gagner cerbere
                     showSWinner([newPlayers[i]],pop) 
                 else 
                     showSLoser([newPlayers[i]],pop)
