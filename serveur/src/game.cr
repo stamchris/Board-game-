@@ -45,60 +45,87 @@ class Cerbere::Game
 		@players.all? { |player| player.colour != colour}
 	end
 	
-	def play_action(player : Player, num_card : Int32, effect : Int32, args : Array(Int32))
-		player.hand.action[num_card] = false
-		card = Hand.actions_of(player.type)[num_card]
-		choice = card.choix[effect]
-		board.faire_action(player, choice.cout, args)
-		if ((choice.cout.evenement == Evenement::DEPLACER_AUTRE) || (choice.cout.evenement == Evenement::DEFAUSSER_MOI))
-			args.shift()
-		end
-		choice.effets.each_index do |i|
-			if args.size == 0 && (choice.effets[i].evenement == Evenement::DEPLACER_AUTRE || choice.effets[i].evenement == Evenement::PIOCHER_ALLIE)
-				break
-			end
-			board.faire_action(player, choice.effets[i], args)
-			if args.size != 0
-				args.shift()
-			end
-		end
-	end
-	
-	def play_bonus(player : Player, card : String, effect : Int32, args : Array(Int32))
-		player.hand.bonus.each do |bonus_card|
-			if bonus_card.name == card
-				choice = bonus_card.choix[effect]
-				board.faire_action(player, choice.cout, args)
-				if (choice.cout.evenement == Evenement::DEFAUSSER_MOI)
-					args.shift(choice.cout.force)
-				end
-				choice.effets.each_index do |i|
-					if args.size == 0 && (choice.effets[i].evenement == Evenement::DEPLACER_AUTRE || choice.effets[i].evenement == Evenement::PIOCHER_ALLIE)
+	def convert(player : Player, effect : Effet, args : Array(String)) : Array(Int32)
+		new_args : Array(Int32) = [] of Int32
+		n : Int32
+		if(effect.evenement == Evenement::PIOCHER_ALLIE ||
+		   effect.evenement == Evenement::DEFAUSSER_SURVIE ||
+		   effect.evenement == Evenement::DEPLACER_AUTRE)
+			# Les arguments sont des joueurs
+			args.each do |arg|
+				players.each do |plyr|
+					if arg == plyr.colour.to_s
+						new_args << plyr.lobby_id
 						break
 					end
-					board.faire_action(player, choice.effets[i], args)
-					if args.size != 0
-						args.shift()
+				end
+			end
+		elsif(effect.evenement == Evenement::DEFAUSSER_MOI)
+			# Les arguments sont des cartes
+			args.each do |arg|
+				player.hand.bonus.each_index do |i|
+					if (player.hand.bonus[i].name == arg)
+						new_args << i
+						break
 					end
 				end
-				break
+			end
+		elsif(effect.evenement == Evenement::BARQUE)
+			# Les arguments sont des index de barques
+			args.each do |arg|
+				new_args << arg.to_i32()
 			end
 		end
-		
-		index_card = 0
-		player.hand.bonus.each do |bonus_card|
-			if bonus_card.name == card
-				board.defausser(player, index_card)
-				player.send(Response::DiscardBonus.new(bonus_card.name))
-				break
-			end
-			index_card += 1
-		end
+		# Les autres évènements soit n'ont pas d'arguments, soit
+		# n'existent pas en tant qu'effet de cartes
+		return new_args
 	end
 	
+	def convert(player : Player, choice : Choix, args : Array(Array(String))) : Array(Array(Int32))
+		res : Array(Array(Int32)) = [] of Array(Int32)
+		res << convert(player, choice.cout, args[0])
+		choice.effets.each_index do |i|
+			res << convert(player, choice.effets[i], args[i+1])
+		end
+		return res
+	end
+
+	def new_turn_if_all_set(player : Player, skip : Bool = false)
+		if((skip || (action_played && (bonus_played || player.hand.bonus_size == 0))) &&
+				board.pont_queue.empty?() && board.portal_queue.empty?() &&
+				board.awaiting_players.empty?())
+			new_turn()
+		end
+	end
+
 	def new_turn()
 		if (!@action_played)
-			play_action(players[active_player], 0, 0, [] of Int32)
+			board.play_card(players[active_player], true, 0, 0, [[0],[0],[0]])
+			@action_played = true
+		end
+
+		# Les aventuriers sabotés ont le droit à 30 secondes
+		# supplémentaires pour faire leurs choix
+		if(!board.awaiting_players.empty?())
+			spawn do
+				save = @nb_turns
+				sleep(30)
+				if(!@finished && save == @nb_turns)
+					board.awaiting_players.each do |player|
+						if(board.wait_origin == 0)
+							card_index : Int32 = Random.rand(0..player.hand.bonus.size())
+							card_name : String = player.hand.bonus[card_index].name
+							board.defausser(player, card_index)
+							player.send(Response::DiscardBonus.new(card_name))
+						elsif(board.wait_origin == 1)
+							board.action_deplacer_moi(player, -2)
+						end
+					end
+					board.awaiting_players.clear()
+					new_turn()
+				end
+			end
+			return
 		end
 		
 		board.pont_queue.each do |plyr|
@@ -130,6 +157,7 @@ class Cerbere::Game
 		board.cerbere_hunting()
 		
 		send_all(Response::UpdateBoard.new(players, board.position_cerbere, board.vitesse_cerbere, board.rage_cerbere, board.pont, active_player))
+		send_all(Response::NextTurn.new())
 		spawn do 
 			save = @nb_turns
 			sleep(60)

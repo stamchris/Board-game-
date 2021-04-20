@@ -124,11 +124,11 @@ Item{
     }
 
     function newBonus(new_bonus) {
-        _newBonus("Carte_" + new_bonus + ".png", "add")
+        _newBonus(new_bonus, "add")
     }
 
     function discardBonus(discardedBonus) {
-        _discardBonus("Carte_" + discardedBonus + ".png", "remove")
+        _discardBonus(discardedBonus, "remove")
     }
 
     function showSwapBarque(choices) {
@@ -198,6 +198,10 @@ Item{
             _lockBonus()
         }
     }
+
+	function askSabotage(effect) {
+		parent.board.askSabotage(effect);
+	}
 
     function initGame(newPlayers, newDifficulty) {
         players = newPlayers

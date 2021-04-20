@@ -18,6 +18,8 @@ class Cerbere::Board
 	property pioche_trahison : DeckTrahison = DeckTrahison.new
 	property pont_queue : Array(Tuple(Player, Array(Int32))) = [] of Tuple(Player, Array(Int32))
 	property portal_queue : Array(Tuple(Player, Array(Int32))) = [] of Tuple(Player, Array(Int32))
+	property awaiting_players : Array(Player) = [] of Player # Les joueurs dont on attend une réponse (sabotage/defaussage forcé)
+	property wait_origin : Int32 = 0 # 0 pour le défaussage forcé, 1 pour le sabotage
 
 	def initialize(difficulty : Int32, @players)
 		# Choix du plateau
@@ -273,48 +275,18 @@ class Cerbere::Board
 		action_deplacer_moi(moi, deplacement)
 	end
 
-	def action_sabotage() : Int32
-		compte_rendu : Array({Int32,Int32}) = [] of {Int32,Int32}
+	def action_sabotage()
+		@wait_origin = 1
 		players.each do |player|
-			if(player.type = TypeJoueur::AVENTURIER)
+			if(player.type == TypeJoueur::AVENTURIER)
 				if(player.hand.bonus.size() == 0)
 					action_deplacer_moi(player, -2)
-					compte_rendu.push({player.lobby_id,0})
 				else
-					choix : Int32 = 0
-					loop do
-						choix = demander(player,"Defausser une carte (0) ou reculer (1) ?").to_i32()
-						break if(choix.in?(0,1))
-					end
-					if(choix == 0) # Défausser une carte
-						carte : Int32 = 0
-						if(player.hand.bonus.size() == 1)
-							carte = 0
-						else
-							loop do
-								carte = demander(player,"Quelle carte défausser ? [0,#{player.hand.bonus.size()-1}]").to_i32()
-								break if(choix >= 0 && choix < player.hand.bonus.size())
-							end
-						end
-						defausser(player,carte)
-						compte_rendu.push({player.lobby_id,1})
-					elsif(choix == 1) # Reculer
-						action_deplacer_moi(player, -2)
-						compte_rendu.push({player.lobby_id,0})
-					end
+					awaiting_players << player
+					player.send(Response::AskSabotage.new(1))
 				end
 			end
 		end
-		resultat : String = ""
-		compte_rendu.each do |ligne|
-			if(ligne[1] == 0)
-				resultat += "Le joueur #{ligne[0]} a reculé. "
-			elsif(ligne[1] == 1)
-				resultat += "Le joueur #{ligne[0]} a défaussé une carte. "
-			end
-		end
-		broadcast(resultat)
-		return 0
 	end
 
 	#DEPLACER_CERBERE # Cerbère se déplace sur le plateau
@@ -430,6 +402,11 @@ class Cerbere::Board
 	end
 
 	def action_move_other_player(moi : Player, force : Int32, args : Array(Int32))
+		if(args.size() == 0)
+			# Aucun aventurier n'est donné en argument, personne ne
+			# se déplace.
+			return
+		end
 		player_id = args[0] # id du joueur à déplacer
 		my_id = moi.lobby_id
 
@@ -528,20 +505,18 @@ class Cerbere::Board
 		end
 		puts args
 		new_args = [] of Int32
-		i = 0
 		
-		nombre.times do
+		nombre.times do |i|
 			new_args << args[i]
-			i += 1
 		end
 		puts new_args
-		# Supprimer les cartes dans l'ordre croissant des indices :
-		# Les cartes après la carte supprimée voient leur indice baisser de 1
-		decalage = 0
-		new_args.sort.each do |carte_index|
-			joueur.send(Response::DiscardBonus.new(joueur.hand.bonus[carte_index - decalage].name))
-			defausser(joueur, carte_index - decalage)
-			decalage += 1
+		puts joueur.hand.bonus
+		# Supprimer les cartes dans l'ordre décroissant des indices :
+		# Pour éviter de se casser les couilles avec des décalages
+		new_args = new_args.sort { |a, b| b <=> a }
+		new_args.each do |carte_index|
+			joueur.send(Response::DiscardBonus.new(joueur.hand.bonus[carte_index].name))
+			defausser(joueur, carte_index)
 		end
 	end
 
@@ -554,13 +529,13 @@ class Cerbere::Board
 	end
 
 	def action_defausser_survie(joueur : Player, nombre : Int32, args : Array(Int32)) : Nil
+		if args.size != args.uniq.size
+			raise "Vous ne pouvez pas choisir deux fois le même joueur !"
+		end
+		@wait_origin = 0
 		args.each do |id|
 			if id == joueur.lobby_id
 				raise "Vous ne pouvez pas vous choisir vous même !"
-			end
-
-			if args.size != args.uniq.size
-				raise "Vous ne pouvez pas choisir deux fois le même joueur !"
 			end
 
 			@players.each do |player|
@@ -568,8 +543,10 @@ class Cerbere::Board
 					if player.type != TypeJoueur::AVENTURIER
 						raise "Ce joueur n'est pas un aventurier !"
 					end
-					index = demander(player, "Quelle carte défausser ?").to_i
-					action_defausser_moi(player, 1, [index])
+					if(player.hand.bonus.size() > 0)
+						awaiting_players << player
+						player.send(Response::AskSabotage.new(0))
+					end
 				end
 			end
 		end
@@ -775,12 +752,20 @@ class Cerbere::Board
 		# Si on arrive ici, c'est que tous les arguments sont OK.
 		if(action)
 			who.hand.action[index_card] = false
-		else
-			defausser(who, index_card)
 		end
 		faire_action(who, choice.cout, args[0])
 		choice.effets.each_index do |i|
 			faire_action(who, choice.effets[i], args[i+1])
+		end
+		# On défausse la carte bonus après que ses effets soient
+		# appliqués et on calcule sa nouvelle position, pour éviter les
+		# problèmes de décalage des index
+		if(!action)
+			new_card_index : Int32? = who.hand.bonus.index(card)
+			if(new_card_index == nil)
+				raise "La carte jouée n'est plus dans la main du joueur !"
+			end
+			defausser(who, new_card_index.not_nil!())
 		end
 	end
 
