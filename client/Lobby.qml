@@ -12,19 +12,19 @@ Item {
 		GradientStop { position: 0.36; color: "#ffffde" }
 	}
 
-    function changeColours(mareaId){
-        switch(mareaId){
-            case "m1":
-                return console.log("M1 clicked ... ")
-            case "m2":
-                return console.log("M2 clicked ... ")
-            default:
-                console.log("RIEN RIEN")
-                break;
-        }
-    }
+	function changeColours(mareaId){
+		switch(mareaId){
+			case "m1":
+				return console.log("M1 clicked ... ")
+			case "m2":
+				return console.log("M2 clicked ... ")
+			default:
+				console.log("RIEN RIEN")
+				break;
+		}
+	}
 
-    signal getId(string mareaId)
+	signal getId(string mareaId)
 
 
 	Rectangle {
@@ -119,7 +119,7 @@ Item {
 		Rectangle{
 			id:empty1
 			Layout.fillWidth: true
-            Layout.maximumHeight: 30
+			Layout.maximumHeight: 30
 			Layout.rightMargin: -50
 			Layout.columnSpan: 3
 			color: "transparent"
@@ -144,91 +144,143 @@ Item {
 			id:empty2
 			Layout.fillWidth: true
 			Layout.columnSpan: 2
-            Layout.maximumHeight: 30
+			Layout.maximumHeight: 30
 			Layout.leftMargin: 30
 			color: "transparent"
 		}
 
-
-		BorderImage {
-			width: 100
-			height: width
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-			Layout.maximumWidth: 150
-			Layout.maximumHeight: 150
-            Layout.alignment: Qt.AlignCenter
-			source: "images/cyan_icone.png"
-		}
-		BorderImage {
-			width: 100
-			height: width
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-			Layout.maximumWidth: 150
-			Layout.maximumHeight: 150
+		Text {
+			id: cyanText
+			text: if(game.players.colour ==="Cyan"){("Cyan Player" +game.players.name)}else{"Player not Connected"}
 			Layout.alignment: Qt.AlignCenter
-			source: "images/bleu_icone.png"
 		}
-		BorderImage {
-			width: 100
-			height: width
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-			Layout.maximumWidth: 150
-			Layout.maximumHeight: 150
+		Text {
+			id: blueText
+			text: if(game.players.colour ==="Blue"){("Blue Player" +game.players.name)}else{"Player not Connected"}
 			Layout.alignment: Qt.AlignCenter
-			source: "images/rose_icone.png"
 		}
-		BorderImage {
-			width: 100
-			height: width
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-			Layout.maximumWidth: 150
-			Layout.maximumHeight: 150
+		Text {
+			id: roseText
+			text: ("Rose Player")
 			Layout.alignment: Qt.AlignCenter
-			source: "images/vert_icone.png"
 		}
-		BorderImage {
-			width: 100
-			height: width
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-			Layout.maximumWidth: 150
-			Layout.maximumHeight: 150
+		Text {
+			id: greenText
+			text: ("Cyan Player")
 			Layout.alignment: Qt.AlignCenter
-			source: "images/blanc_icone.png"
 		}
-		BorderImage {
-			width: 100
-			height: width
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-			Layout.maximumWidth: 150
-			Layout.maximumHeight: 150
+		Text {
+			id: whiteText
+			text: ("Cyan Player")
 			Layout.alignment: Qt.AlignCenter
-			source: "images/rouge_icone.png"
 		}
-		BorderImage {
-			width: 100
-			height: width
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-			Layout.maximumWidth: 150
-			Layout.maximumHeight: 150
-            Layout.alignment: Qt.AlignCenter
-			source: "images/orange_icone.png"
+		Text {
+			id: redText
+			text: ("Cyan Player")
+			Layout.alignment: Qt.AlignCenter
+		}
+		Text {
+			id: orangeText
+			text: ("Cyan Player")
+			Layout.alignment: Qt.AlignCenter
 		}
 
-		// Pions
+
+		// Players Icons
+		Repeater{
+			model: ["images/cyan_icone.png","images/bleu_icone.png",
+				"images/rose_icone.png","images/vert_icone.png", "images/blanc_icone.png",
+				"images/rouge_icone.png", "images/orange_icone.png"]
+
+			delegate: BorderImage {
+				width: 100
+				height: width
+				Layout.fillWidth: true
+				Layout.fillHeight: true
+				Layout.maximumWidth: 150
+				Layout.maximumHeight: 150
+				Layout.alignment: Qt.AlignCenter
+				source: modelData
+			}
+		}
+
+
+//        Repeater{
+//            ListModel {
+//                           id:listmodel
+
+//                           ListElement{source:"images/cyan_pion.png"; distance:1.5; scol:"Cyan"}
+//                           ListElement{source:"images/bleu_pion.png"; distance:1.5; scol:"Blue"}
+//                           ListElement{source:"images/rose_pion.png"; distance:1.5; scol:"Pink"}
+//                           ListElement{source:"images/vert_pion.png"; distance:1.5; scol:"Green"}
+//                           ListElement{source:"images/blanc_pion.png"; distance:1.5; scol:"White"}
+//                           ListElement{source:"images/rouge_pion.png"; distance:1.5; scol:"Red"}
+//                           ListElement{source:"images/orange_pion.png"; distance:1.2; scol:"Orange"}
+//                       }
+
+//            model:listmodel
+
+//            delegate:buttonIcon
+
+//                Component{
+//                id:buttonIcon
+
+//                Button {
+//                width: 100
+//                height: width
+//                Layout.fillWidth: true
+//                Layout.fillHeight: true
+//                Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
+//                Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
+//                Layout.alignment: Qt.AlignCenter
+//                Layout.topMargin: 20
+//                background:
+
+//                Rectangle{
+//                    height: parent.height*1.5
+//                    width: parent.width*1.5
+//                    anchors{centerIn: parent}
+//                    radius:80
+//                    color: "transparent"
+
+//                    BorderImage {
+//                        anchors.centerIn: parent
+//                        height: parent.height/modelData.distance
+//                        width: parent.width/modelData.distance
+//                        source: src+modelData.source
+//                        rotation: -90
+//                    }
+
+//                    MouseArea{
+//                        id:modelData
+//                        anchors.fill:parent
+//                        hoverEnabled: true
+//                        onHoveredChanged: {
+//                        if (hoverEnabled == true) {
+//                            if (containsMouse == true) {
+//                                rec1.color = "#f0f0d3"
+//                            } else {
+//                            rec1.color = "transparent"
+//                            }
+//                        }
+//                        }
+//                        onClicked: {
+//                            socket.send({type:"change_colour",colour:modelData.scol});
+//                           console.log(MouseArea.id);
+//                        }
+//                    }
+//                }
+//            }
+//            }
+
+
 		Button {
 			width: 100
 			height: width
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-            Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
-            Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
+			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
+			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 			background:
@@ -243,15 +295,15 @@ Item {
 
 				BorderImage {
 					anchors.centerIn: parent
-                    height: parent.height/1.5
-                    width: parent.width/1.5
-                    source: src+"images/cyan_pion.png"
-                    rotation: -90
+					height: parent.height/1.5
+					width: parent.width/1.5
+					source: src+"images/cyan_pion.png"
+					rotation: -90
 				}
 
 
 				MouseArea{
-                    id : m1
+					id : m1
 					anchors.fill:parent
 					hoverEnabled: true
 					onHoveredChanged: {
@@ -264,8 +316,8 @@ Item {
 					}
 					}
 					onClicked: {
-                        socket.send({type:"change_colour",colour:"Cyan"});
-                        changeColours("m1");
+						socket.send({type:"change_colour",colour:"Cyan"});
+						changeColours("m1");
 					}
 				}
 			}
@@ -276,12 +328,12 @@ Item {
 			height: width
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-            Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
-            Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
+			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
+			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 
-			background: 
+			background:
 
 			Rectangle{
 				id:rec2
@@ -294,15 +346,15 @@ Item {
 
 				BorderImage {
 					anchors.centerIn: parent
-                    height: parent.height/1.5
-                    width: parent.width/1.5
-                    source: src+"images/bleu_pion.png"
-                    rotation: -90
+					height: parent.height/1.5
+					width: parent.width/1.5
+					source: src+"images/bleu_pion.png"
+					rotation: -90
 				}
 
 
 				MouseArea{
-                    id : m2
+					id : m2
 					anchors.fill:parent
 					hoverEnabled: true
 					onHoveredChanged: {
@@ -316,7 +368,7 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"Blue"})
-                        changeColours("m2");
+						changeColours("m2");
 					}
 				}
 			}
@@ -336,8 +388,8 @@ Item {
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 
-			background: 
-			
+			background:
+
 			Rectangle{
 				id:rec3
 				height: parent.height*1.5
@@ -369,7 +421,7 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"Pink"})
-                        changeColours("m3");
+						changeColours("m3");
 					}
 				}
 			}
@@ -385,8 +437,8 @@ Item {
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 
-			background: 
-			
+			background:
+
 			Rectangle{
 				id:rec4
 				height: parent.height*1.5
@@ -420,7 +472,7 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"Green"})
-                        changeColours("m4");
+						changeColours("m4");
 					}
 				}
 			}
@@ -437,7 +489,7 @@ Item {
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 
-			background: 
+			background:
 
 			Rectangle{
 				id:rec5
@@ -472,12 +524,13 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"White"})
-                        changeColours("m5");
+						changeColours("m5");
 					}
 				}
 			}
 
 		}
+
 		Button {
 			width: 100
 			height: width
@@ -488,8 +541,8 @@ Item {
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 
-			background: 
-			
+			background:
+
 			Rectangle{
 				id:rec6
 				height: parent.height*1.5
@@ -522,7 +575,7 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"Red"})
-                        changeColours("m6");
+						changeColours("m6");
 					}
 				}
 			}
@@ -538,8 +591,8 @@ Item {
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 
-			background: 
-			
+			background:
+
 			Rectangle{
 				id:rec7
 				height: parent.height*1.5
@@ -572,13 +625,14 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"Orange"})
-                        changeColours("m7");
+						changeColours("m7");
 					}
 				}
 			}
 
 		}
-}
+		}
+
 
 	CheckBox {
 		anchors{horizontalCenter: parent.horizontalCenter;top:gridLayout.bottom;topMargin: 20}

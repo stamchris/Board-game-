@@ -5,25 +5,25 @@ import QtWebSockets 1.12
 
 Item {
 
-    Rectangle {
-        id: wrap_container
-        anchors.fill: parent
+	Rectangle {
+		id: wrap_container
+		anchors.fill: parent
 
-        BorderImage {
-            id: background
-            source: "images/background_image.jpg"
-            anchors.fill:parent
-        }
-    }
+		BorderImage {
+			id: background
+			source: "images/background_image.jpg"
+			anchors.fill:parent
+		}
+	}
 
-    Column {
+	Column {
 		spacing: 10
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.verticalCenter: parent.verticalCenter
 
 		BorderImage {
-            width: 270 * 2
-            height: 115 * 2
+			width: 270 * 2
+			height: 115 * 2
 			source: "images/cerbere_logo.png"
 			anchors.horizontalCenter: parent.horizontalCenter
 		}

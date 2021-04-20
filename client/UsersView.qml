@@ -54,7 +54,7 @@ ListView {
 			text: modelData.name + " est connecté"
 			font.pointSize: 12
 			font.family: "Stoneyard"
-			Layout.alignment: Qt.AlignHCenter
+            Layout.alignment: Qt.AlignHCenter
 		}
 
 		Loader {
