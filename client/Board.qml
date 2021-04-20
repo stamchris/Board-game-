@@ -4,6 +4,7 @@ import QtQuick.Controls 2.10
 import QtQuick.Layouts 1.10
 import QtWebSockets 1.0
 import "library"
+import "library/cards.js" as Cards
 
 Item {
 	id: window
@@ -22,8 +23,119 @@ Item {
 	property alias popupChooseCardsToDiscard: popupChooseCardsToDiscard
 	property alias popupChooseOppoEffect: popupChooseOppoEffect
 	property alias popupFinish: popupFinish
+	property alias popupSabotageWhatToDo : popupSabotageWhatToDo
 	
 	property string src: typeof ROOT_URL === "undefined" ? "" : ROOT_URL
+
+	/* playCard est une fonction génératrice: Elle se met en "pause" à
+	 * chaque yield, et peut reprendre quand on appelle sa méthode next. On
+	 * peut lui passer des "messages" en mettant des arguments dans l'appel
+	 * à next (en l'occurence, on lui passe les arguments de l'événement
+	 * pour lequel la popup a été appelée).
+	 */
+	property var generator: null
+	function* playCard(cardType, cardName, dictCardName, effect){
+		let todolist = Cards.CARDS[dictCardName][effect];
+		let args = [];
+		for(let i = 0;i < todolist.length;i++){
+			if(todolist[i].type === Cards.ArgsType.NOTHING){
+				args.push([]);
+			}else if(todolist[i].type === Cards.ArgsType.DRAW_OTHER){
+				let choices = [];
+				for(let j = 0;j < todolist[i].strength;j++){
+					choices.push("Choisissez un joueur à faire piocher 1 carte");
+				}
+				choosePlayers(choices, parent.state.playerType);
+				args.push(yield);
+			}else if(todolist[i].type === Cards.ArgsType.MOVE_OTHER){
+				let choices = [];
+				for(let j = 0;j < todolist[i].strengths.length;j++){
+					let strength = todolist[i].strengths[j];
+					choices.push("Choisissez un joueur à faire "+(strength > 0 ? "avancer" : "reculer")+" de "+Math.abs(strength)+" cases.");
+				}
+				choosePlayers(choices, "aventurier");
+
+				// choosePlayers nous a envoyé un tableau 1D
+				// mais les déplacements sont des événements
+				// différents, il faut le transformer en tableau
+				// 2D.
+				let playersArg = yield;
+				for(let j = 0;j < playersArg.length;j++){
+					args.push([playersArg[j]]);
+				}
+				// Il se peut que playersArg ne donne pas
+				// suffisamment d'arguments. Exemple: On peut
+				// déplacer 4 joueurs mais on en déplace que
+				// deux, alors choosePlayers nous renvoie
+				// ["J1", "J2"] mais il nous faut
+				// [["J1"], ["J2"], [], []]. Il faut donc le
+				// remplir.
+				let restants = todolist[i].strengths.length - playersArg.length;
+				for(let j = 0;j < restants;j++){
+					args.push([]);
+				}
+			}else if(todolist[i].type === Cards.ArgsType.DISCARD_ME){
+				chooseCardsToDiscard(cardName, todolist[i].strength);
+				args.push(yield);
+			}else if(todolist[i].type === Cards.ArgsType.BARKS){
+				chooseBarquesEffect();
+				args.push(yield);
+			}else if(todolist[i].type == Cards.ArgsType.DISCARD_OTHER){
+				let choices = [];
+				for(let j = 0;j < todolist[i].strength;j++){
+					choices.push("Choisissez un joueur à faire défausser 1 carte");
+				}
+				choosePlayers(choices, "aventurier");
+				args.push(yield);
+			}else{
+				console.error("Type d'argument inconnu: "+todolist[i].type);
+			}
+		}
+
+		window.parent.state.send({
+			type: "play_"+cardType,
+			effet: effect,
+			carte: cardName,
+			args
+		});
+
+		generator = null;
+	}
+
+	function* _askSabotage(effect){
+		let args = [];
+		if(effect === 0){ // Défaussage forcé
+			chooseCardsToDiscard("", 1);
+			let cards = yield;
+			args[0] = cards[0]; // tableau -> scalaire
+		}else if(effect === 1){ // Sabotage
+			popupSabotageWhatToDo.open();
+			args[0] = yield;
+			if(args[0] === "discard"){
+				chooseCardsToDiscard("", 1);
+
+				// chooseCardsToDiscard nous a renvoyé un tableau de
+				// carte, mais il nous faut un scalaire. On récupère
+				// donc le premier élément.
+				let cards = yield;
+				args[1] = cards[0];
+			}
+		}else{
+			console.error("Effet inconnu pour sabotage: "+effect);
+		}
+
+		window.parent.state.send({
+			type: "answerSabotage",
+			effect,
+			args
+		});
+
+		generator = null;
+	}
+	function askSabotage(effect){
+		generator = _askSabotage(effect);
+		generator.next();
+	}
 
 	BorderImage {
 		id: background1
@@ -60,12 +172,14 @@ Item {
 				
 	}
 	
+	Timer {
+		id: dummyPlayersTimer
+		interval: 0
+		onTriggered: generator.next([])
+	}
 	
-	function choosePlayers(choices, action_todo, effect, requestType, playersType, previousArgs) {
-		playersChoice.action_todo = action_todo
-		playersChoice.effect = effect
-		playersChoice.requestType = requestType
-		playersChoice.args = previousArgs
+	function choosePlayers(choices, playersType) {
+		playersChoice.args = []
 		playersChoice.msg.text = choices[0]
 		playersChoice.playersType = playersType
 		var plyr
@@ -84,6 +198,13 @@ Item {
 		if (nb_choices != 0) {
 			playersChoice.choices = choices.slice(0, Math.min(nb_choices, choices.length))
 			playersChoice.open()
+		}else{
+			// Aucun joueur ne peut être sélectionné: On renvoie une
+			// liste d'arguments vide.
+			// On ne peut pas utiliser generator.next() toute de
+			// suite, car c'est lui qui nous a appelé et il n'est
+			// pas encore dans le yield. Il faut temporiser l'appel.
+			dummyPlayersTimer.start();
 		}
 	}
 	
@@ -102,25 +223,19 @@ Item {
 		property alias msg: msg
 		property alias rowPlayers: rowPlayers
 		property var choices : []
-		property var action_todo : ""
-		property var effect
-		property var requestType : ""
 		property var args : []
 		property var playersType : "aventurier"
 		
 		function choosePlayer(button_color) {
+			args.push(button_color)
 			if(choices.length == 1) {
-				args.push(button_color)
-				window.parent.state.send({
-					type: requestType,
-				effet: effect,
-				carte: action_todo,
-				args: args
-				})
+				// Tous les choix ont été faits: on rend la main
+				// à playCard
 				playersChoice.close()
+				generator.next(args);
 			} else {
+				// Il y a encore des choix à faire: On continue
 				choices.shift()
-				args.push(button_color)
 				playersChoice.msg.text = choices[0]
 				var plyr
 				for (var i = 0; i < 7; i++) {
@@ -435,10 +550,7 @@ Item {
 		}
 	}
 	
-	function chooseBarquesEffect(action_todo, effect, requestType) {
-		popupChooseBarquesEffect.action_todo = action_todo
-		popupChooseBarquesEffect.effect = effect
-		popupChooseBarquesEffect.requestType = requestType
+	function chooseBarquesEffect() {
 		popupChooseBarquesEffect.args = []
 
 		if (!window.parent.state.barque_revealed) {
@@ -458,23 +570,13 @@ Item {
 			color: "#ffd194"
 			radius: 3
 		}
-		
-		property var action_todo : ""
-		property var effect
-		property var requestType : ""
 		property var args : []
 		
 		function openBarquesPopup(choice) {
-			if (choice == 0) {    
-				popupSeeBarques.action_todo = action_todo
-				popupSeeBarques.effect = effect
-				popupSeeBarques.requestType = requestType
+			if (choice == 0) {
 				popupSeeBarques.args = ["0"]
 				popupSeeBarques.open()
 			} else {
-				popupSwapBarques.action_todo = action_todo
-				popupSwapBarques.effect = effect
-				popupSwapBarques.requestType = requestType
 				popupSwapBarques.args = ["1"]
 				for (var i = 0; i < 3; i++) {
 					popupSwapBarques.rowImgSwapBarque.children[choice].enabled = true
@@ -521,10 +623,6 @@ Item {
 			color: "#ffd194"
 			radius: 3
 		}
-		
-		property var action_todo : ""
-		property var effect
-		property var requestType : ""
 		property var args : []
 		property alias rowImgSwapBarque: rowImgSwapBarque
 		
@@ -532,16 +630,15 @@ Item {
 			args.push(choice)
 			
 			if (args.length < 3) {
+				// Il reste une barque à choisir: On rend la
+				// barque choisie transparente et on continue
 				rowImgSwapBarque.children[choice].enabled = false
 				rowImgSwapBarque.children[choice].opacity = 0.75
 			} else {
-				window.parent.state.send({
-					type: requestType,
-					effet: effect,
-					carte: action_todo,
-					args: args
-				})
+				// Toutes les barques ont été choisies, on rend
+				// la main à playCard.
 				popupSwapBarques.close()
+				generator.next(args);
 			}
 		}
 		
@@ -620,21 +717,13 @@ Item {
 			color: "#ffd194"
 			radius: 3
 		}
-		
-		property var action_todo : ""
-		property var effect
-		property var requestType : ""
 		property var args : []
 		
 		function seeBarques(choice) {
+			// La barque a été choisie, on rend la main à playCard
 			args.push(choice)
-			window.parent.state.send({
-				type: requestType,
-				effet: effect,
-				carte: action_todo,
-				args: args
-			})
 			popupSeeBarques.close()
+			generator.next(args);
 		}
 		
 		Text {
@@ -696,27 +785,29 @@ Item {
 		}
 	}
 	
-	function chooseCardsToDiscard(action_todo, effect, amount, requestType) {
-		popupChooseCardsToDiscard.action_todo = action_todo
-		popupChooseCardsToDiscard.effect = effect
+	function chooseCardsToDiscard(playedCard, amount) {
 		popupChooseCardsToDiscard.amount = amount
-		popupChooseCardsToDiscard.requestType = requestType
 		popupChooseCardsToDiscard.args = []
-		
-		for (var i = 0; i < 7; i++) {
-			popupChooseCardsToDiscard.rowBonus.children[i].visible = rowbonusid.children[i].visible
-			popupChooseCardsToDiscard.rowBonus.children[i].source = rowbonusid.children[i].source
-			popupChooseCardsToDiscard.updateRowBonus(action_todo, i, 			parseInt(rowbonusid.children[i].count, 10))
-		}
 
-		var nb_bonus = 0
-		for (let plyr of window.parent.state.players) {
-			if (plyr.colour == window.parent.state.color) {
-				nb_bonus = plyr.hand.bonus_size
+		let cards = bonusCardsHand.model;
+		let nbBonus = 0;
+		for(let i = 0;i < cards.length;i++){
+			let nb = cards[i].nb;
+			if(cards[i].name === playedCard){
+				cards[i].nb -= 1;
+				nb -= 1;
+				if(cards[i].nb === 0){
+					cards.splice(i, 1);
+					i--;
+				}
 			}
+			nbBonus += nb;
 		}
-		if (requestType == "play_action" && nb_bonus >= amount || requestType == "play_bonus" && nb_bonus > amount) {
+		if (nbBonus >= amount) {
+			popupChooseCardsToDiscard.rowBonus.model = cards;
 			popupChooseCardsToDiscard.open()
+		}else{
+			showErrorMsg("Vous devez défausser "+amount+" cartes, mais vous n'en avez que "+nbBonus+" !");
 		}
 	}
 	
@@ -734,51 +825,17 @@ Item {
 		}
 		
 		property alias rowBonus: rowBonus
-		property var action_todo : ""
-		property var effect
 		property var amount
-		property var requestType : ""
 		property var args : []
 		
-		function addCardToArgs(sourceOfSelectedCard) {
-			var carteBonusName = sourceOfSelectedCard.toString()
-			carteBonusName = carteBonusName.slice(carteBonusName.indexOf("_", carteBonusName.length-10))
-			carteBonusName = carteBonusName.slice(1, carteBonusName.length - 4)
+		function addCardToArgs(carteBonusName) {
 			args.push(carteBonusName)
 			
 			if (args.length == popupChooseCardsToDiscard.amount) {
+				// On a sélectionné suffisamment de carte: On
+				// rend la main au générateur qui nous a appelé
 				popupChooseCardsToDiscard.close()
-				
-				if (action_todo == '4' && effect == 1) {
-					choosePlayers(["Choisissez un joueur à faire avancer de 2 cases"], action_todo, effect, "play_action", "aventurier", args)
-				} else if (action_todo == 'Arro' && effect == 1) {
-					choosePlayers(["Choisissez un joueur à faire avancer de 3 cases"], action_todo, effect, "play_bonus", "aventurier", args)
-				} else if (action_todo == 'Fav' && effect == 1) {
-					choosePlayers(["Choisissez un joueur à faire avancer de 2 cases", "Choisissez un joueur à faire avancer de 1 cases"], action_todo, effect, "play_bonus", "aventurier", args)
-				} else if (action_todo == 'Oppo' && effect == 1) {
-					chooseOppoEffect(action_todo, effect, requestType, args)
-				} else if (action_todo == 'Sac' && effect == 1) {
-					choosePlayers(["Choisissez un joueur à faire reculer de 2 cases"], action_todo, effect, "play_bonus", "aventurier", args)
-				} else {
-					window.parent.state.send({
-						type: requestType,
-					effet: effect,
-					carte: action_todo,
-					args: args
-					}) 
-				}
-			}
-		}
-		
-		function updateRowBonus(action_todo, bonusId, numberOfBonusCards) {
-			rowBonus.children[bonusId].nbBonus = numberOfBonusCards
-			
-			if (rowBonus.children[bonusId].source.toString().includes(action_todo)){
-				rowBonus.children[bonusId].nbBonus += -1
-				
-				if (rowBonus.children[bonusId].nbBonus < 1) {
-					rowBonus.children[bonusId].visible = false
-				}
+				generator.next(args);
 			}
 		}
 		
@@ -789,154 +846,37 @@ Item {
 		}
 		
 		Row {
-			id: rowBonus
 			y: 30
-			spacing:10
+			spacing: 10
 			anchors.horizontalCenter: parent.horizontalCenter
 			
-			Image {
-				id: imgCarteBonus1
-				width: 100
-				fillMode: Image.PreserveAspectFit
-				source: "images/Carte_Ego.png"
-				visible: false
-				property var nbBonus: 0
-				
-				MouseArea {
-					anchors.fill: parent
+			Repeater {
+				id: rowBonus
+				model: []
+				delegate: Image {
+					id: selectBonusImg
+					width: 100
+					fillMode: Image.PreserveAspectFit
+					source: "images/Carte_"+modelData.name+".png"
 					
-					onClicked: {
-						imgCarteBonus1.nbBonus += -1
-						if (imgCarteBonus1.nbBonus == 0) {
-							imgCarteBonus1.visible = false
+					MouseArea {
+						anchors.fill: parent
+
+						onClicked: {
+							// Ces propriétés de contexte doivent être sauvegardées,
+							// elles n'existeront plus si l'objet disparait.
+							let repeater = rowBonus;
+							let popup = popupChooseCardsToDiscard;
+							let name = modelData.name;
+
+							let cards = repeater.model;
+							cards[index].nb -= 1;
+							if (cards[index].nb === 0) {
+								cards.splice(index, 1);
+							}
+							repeater.model = cards;
+							popup.addCardToArgs(name);
 						}
-						popupChooseCardsToDiscard.addCardToArgs(parent.source)
-					}
-				}
-			}
-			
-			Image {
-				id: imgCarteBonus2
-				width: 100
-				fillMode: Image.PreserveAspectFit
-				source: "images/Carte_Arro.png"
-				visible: false
-				property var nbBonus: 0
-				
-				MouseArea {
-					anchors.fill: parent
-					
-					onClicked: {
-						imgCarteBonus2.nbBonus += -1
-						if (imgCarteBonus2.nbBonus == 0) {
-							imgCarteBonus2.visible = false
-						}
-						popupChooseCardsToDiscard.addCardToArgs(parent.source)
-					}
-				}
-			}
-			
-			Image {
-				id: imgCarteBonus3
-				width: 100
-				fillMode: Image.PreserveAspectFit
-				source: "images/Carte_Fata.png"
-				visible: false
-				property var nbBonus: 0
-				
-				MouseArea {
-					anchors.fill: parent
-					
-					onClicked: {
-						imgCarteBonus3.nbBonus += -1
-						if (imgCarteBonus3.nbBonus == 0) {
-							imgCarteBonus3.visible = false
-						}
-						popupChooseCardsToDiscard.addCardToArgs(parent.source)
-					} 
-				}
-			}
-			
-			Image {
-				id: imgCarteBonus4
-				width: 100
-				fillMode: Image.PreserveAspectFit
-				source: "images/Carte_Ego.png"
-				visible: false
-				property var nbBonus: 0
-				
-				MouseArea {
-					anchors.fill: parent
-					
-					onClicked: {
-						imgCarteBonus4.nbBonus += -1
-						if (imgCarteBonus4.nbBonus == 0) {
-							imgCarteBonus4.visible = false
-						}
-						popupChooseCardsToDiscard.addCardToArgs(parent.source)
-					}
-				}
-			}
-			
-			Image {
-				id: imgCarteBonus5
-				width: 100
-				fillMode: Image.PreserveAspectFit
-				source: "images/Carte_Ego.png"
-				visible: false
-				property var nbBonus: 0
-				
-				MouseArea {
-					anchors.fill: parent
-					
-					onClicked: {
-						imgCarteBonus5.nbBonus += -1
-						if (imgCarteBonus5.nbBonus == 0) {
-							imgCarteBonus5.visible = false
-						}
-						popupChooseCardsToDiscard.addCardToArgs(parent.source)
-					}
-				}
-			}
-			
-			Image {
-				id: imgCarteBonus6
-				width: 100
-				fillMode: Image.PreserveAspectFit
-				source: "images/Carte_Ego.png"
-				visible: false
-				property var nbBonus: 0
-				
-				MouseArea {
-					anchors.fill: parent
-					
-					onClicked: {
-						imgCarteBonus6.nbBonus += -1
-						if (imgCarteBonus6.nbBonus == 0) {
-							imgCarteBonus6.visible = false
-						}
-						popupChooseCardsToDiscard.addCardToArgs(parent.source)
-					}
-				}
-			}
-			
-			Image {
-				id: imgCarteBonus7
-				width: 100
-				fillMode: Image.PreserveAspectFit
-				source: "images/Carte_Ego.png"
-				visible: false
-				property var nbBonus: 0
-				
-				MouseArea {
-					anchors.fill: parent
-					
-					onClicked: {
-						imgCarteBonus7.nbBonus += -1
-						if (imgCarteBonus7.nbBonus == 0) {
-							imgCarteBonus7.visible = false
-						}
-						popupChooseCardsToDiscard.addCardToArgs(parent.source)
 					}
 				}
 			}
@@ -970,11 +910,8 @@ Item {
 		property var args : []
 		
 		function openPlayerChoice(choice) {
-			if (choice == 1) {    
-				choosePlayers(["Choisissez un joueur à faire reculer de 2 cases"], action_todo, 1, "play_bonus", "aventurier", args)
-			} else {
-				choosePlayers(["Choisissez un joueur à faire avancer de 2 cases"], action_todo, 2, "play_bonus", "aventurier", args)
-			}
+			generator = playCard("bonus", action_todo, action_todo, choice);
+			generator.next();
 			popupChooseOppoEffect.close()
 		}
 		
@@ -1002,6 +939,83 @@ Item {
 		}
 	}
 	
+	Popup {
+		id: popupSabotageWhatToDo
+		anchors.centerIn: parent
+		width: 400
+		height: 150
+		modal: true
+
+		background: Rectangle {
+			color: "#ffd194"
+			radius: 3
+		}
+
+		Text {
+			y: 0
+			horizontalAlignment: Text.AlignHCenter
+			text: "Vous vous êtes fait saboté ! Préfériez-vous reculer ou défausser une carte ?"
+		}
+
+		RowLayout {
+			y: 50
+			Button {
+				text: "Reculer"
+				onClicked: {
+					popupSabotageWhatToDo.selectOption("back");
+				}
+			}
+
+			Button {
+				text: "Défausser une carte"
+				onClicked: {
+					popupSabotageWhatToDo.selectOption("discard");
+				}
+			}
+		}
+
+		function selectOption(option) {
+			generator.next(option);
+			popupSabotageWhatToDo.close();
+		}
+	}
+
+	Popup {
+		id: popupErrorMsg
+		anchors.centerIn: parent
+		width: txtErrorMsg.width*1.125
+		height: txtErrorMsg.height*2
+		closePolicy: Popup.NoAutoClose
+		property alias msg: txtErrorMsg.text
+
+		background: Rectangle {
+			color: "red"
+			radius: 3
+		}
+
+		Text {
+			id: txtErrorMsg
+			color: "white"
+			horizontalAlignment: Text.AlignHCenter
+		}
+
+		Timer {
+			id: errorMsgTimer
+			interval: 5000
+			onTriggered: popupErrorMsg.close()
+		}
+
+		function restartTimer(){
+			errorMsgTimer.restart();
+		}
+	}
+
+	function showErrorMsg(msg){
+		popupErrorMsg.msg = msg;
+		popupErrorMsg.open();
+		popupErrorMsg.restartTimer();
+	}
+
 	ImagePopUp {
 		id: imgEffetDeCarteId
 		source: "images/effetDeCarte.jpg"
@@ -1932,272 +1946,44 @@ Item {
 				height: parent.height
 				width : joueurId.width/8*7
 				x: -scrollBarBonus.position*width
-
-				Rectangle {
-					id : carte_Bonus1Id
-					width: parent.width/7
-					height : parent.height
-					visible : false
-					property alias source: imgCBonus1.source
-					property alias count: txtcb1.text
-					property alias card: bcard1
-
-					Image {
-						id: imgCBonus1
-						anchors.fill: parent
-						horizontalAlignment: Image.AlignHCenter
-						z: 1
-						fillMode: Image.Stretch
-						source:""
-
-						CarteBonus {
-							id: bcard1
-						}
-										
-						Rectangle {
-							id:boxNumber_cb
-							height : 30
-							width : 30
-							border.color : "white"
-							color  : "transparent"
-							x : parent.width - (width + 3)
-							Text {
-								id : txtcb1
-								anchors.centerIn : parent
-								text:"1"
-								color : "white" 
-							}
-						}
-					}   
-				}
 				
-				Rectangle{
-					id: carte_Bonus2Id
-					width: parent.width/7
-					height : parent.height
-					visible : false
-					property alias source: imgCBonus2.source
-					property alias count: txtcb2.text
-					property alias card: bcard2
+				Repeater {
+					id: bonusCardsHand
+					model: []
+					property bool blocked: true
+					delegate: Rectangle {
+						id: bonusCard
+						width: parent.width/7
+						height: parent.height
+						property alias blockableBonusCard: blockableBonusCard
 
-					Image {
-						id: imgCBonus2
-						anchors.fill: parent
-						horizontalAlignment: Image.AlignHCenter
-						z: 1
-						fillMode: Image.Stretch
-						source:""
-
-						CarteBonus {
-							id: bcard2
-						}
-										
-						Rectangle {
-							id:boxNumber_cb2
-							height : 30
-							width : 30
-							border.color : "white"
-							color  : "transparent"
-							x : parent.width - (width + 3)
-							Text {
-								id : txtcb2
-								anchors.centerIn : parent
-								text:"1"
-								color : "white" 
-							}
-						}
-					}    
-				}
-
-				Rectangle{
-					id: carte_Bonus3Id
-					width: parent.width/7
-					height : parent.height
-					visible : false
-					property alias source: imgCBonus3.source
-					property alias count: txtcb3.text
-					property alias card: bcard3
-
-					Image {
-						id: imgCBonus3
-						anchors.fill: parent
-						horizontalAlignment: Image.AlignHCenter
-						z: 1
-						fillMode: Image.Stretch
-						source:""
-
-						CarteBonus {
-							id: bcard3
-						}
-										
-						Rectangle {
-							id:boxNumber_cb3
-							height : 30
-							width : 30
-							border.color : "white"
-							color  : "transparent"
-							x : parent.width - (width + 3)
-							Text {
-								id : txtcb3
-								anchors.centerIn : parent
-								text:"1"
-								color : "white" 
-							}
-						}
-					}  
-				}
-
-				Rectangle {
-					id: carte_Bonus4Id
-					width: parent.width/7
-					height: parent.height
-					visible : false
-					property alias source: imgCBonus4.source
-					property alias count: txtcb4.text
-					property alias card: bcard4
-
-					Image {
-						id: imgCBonus4
-						anchors.fill: parent
-						horizontalAlignment: Image.AlignHCenter
-						z: 1
-						fillMode: Image.Stretch
-						source:""
-
-						CarteBonus {
-							id: bcard4
-						}
-										
-						Rectangle {
-							id:boxNumber_cb4
-							height : 30
-							width : 30
-							border.color : "white"
-							color  : "transparent"
-							x : parent.width - (width + 3)
+						Image {
+							id: imgBonus
+							anchors.fill: parent
+							horizontalAlignment: Image.AlignHCenter
+							z: 1
+							fillMode: Image.Stretch
+							source: "images/Carte_"+modelData.name+".png"
 							
-							Text {
-								id : txtcb4
-								anchors.centerIn : parent
-								text:"1"
-								color : "white" 
+							CarteBonus {
+								id: blockableBonusCard
+								blocked: bonusCardsHand.blocked
 							}
-						}
-					}    
-				}
-
-				Rectangle {
-					id: carte_Bonus5Id
-					width: parent.width/7
-					height: parent.height
-					visible : false
-					property alias source: imgCBonus5.source
-					property alias count: txtcb5.text
-					property alias card: bcard5
-
-					Image {
-						id: imgCBonus5
-						anchors.fill: parent
-						horizontalAlignment: Image.AlignHCenter
-						z: 1
-						fillMode: Image.Stretch
-						source:""
-
-						CarteBonus {
-							id: bcard5
-						}
-										
-						Rectangle {
-							id:boxNumber_cb5
-							height : 30
-							width : 30
-							border.color : "white"
-							color  : "transparent"
-							x : parent.width - (width + 3)
 							
-							Text {
-								id : txtcb5
-								anchors.centerIn : parent
-								text:"1"
-								color : "white" 
-							}
-						}
-					}
-				}
-				
-				Rectangle {
-					id: carte_Bonus6Id
-					width: parent.width/7
-					height: parent.height
-					visible : false
-					property alias source: imgCBonus6.source
-					property alias count: txtcb6.text
-					property alias card: bcard6
+							Rectangle {
+								id: boxNumber_cb
+								height : 30
+								width : 30
+								border.color : "white"
+								color  : "transparent"
+								x : parent.width - (width + 3)
 
-					Image {
-						id: imgCBonus6
-						anchors.fill: parent
-						horizontalAlignment: Image.AlignHCenter
-						z: 1
-						fillMode: Image.Stretch
-						source:""
-
-						CarteBonus {
-							id: bcard6
-						}
-										
-						Rectangle {
-							id:boxNumber_cb6
-							height : 30
-							width : 30
-							border.color : "white"
-							color  : "transparent"
-							x : parent.width - (width + 3)
-							
-							Text {
-								id : txtcb6
-								anchors.centerIn : parent
-								text:"1"
-								color : "white" 
-							}
-						}
-					}    
-				}
-
-				Rectangle {
-					id: carte_Bonus7Id
-					width: parent.width/7
-					height: parent.height
-					visible : false
-					property alias source: imgCBonus7.source
-					property alias count: txtcb7.text
-					property alias card: bcard7
-
-					Image {
-						id: imgCBonus7
-						anchors.fill: parent
-						horizontalAlignment: Image.AlignHCenter
-						z: 1
-						fillMode: Image.Stretch
-						source:""
-
-						CarteBonus {
-							id: bcard7
-						}
-										
-						Rectangle {
-							id:boxNumber_cb7
-							height : 30
-							width : 30
-							border.color : "white"
-							color  : "transparent"
-							x : parent.width - (width + 3)
-							
-							Text {
-								id : txtcb7
-								anchors.centerIn : parent
-								text:"1"
-								color : "white" 
+								Text {
+									id : txtcb1
+									anchors.centerIn : parent
+									text: modelData.nb
+									color : "white"
+								}
 							}
 						}
 					}
@@ -2269,9 +2055,7 @@ Item {
 						}
 
 						if (bonusLocked == 0) {
-							for (var j = 0; j < 7; j++) {
-								rowbonusid.children[j].card.unblockCard()
-							}
+							bonusCardsHand.blocked = false;
 						}
 						break
 					} else {
@@ -2295,9 +2079,7 @@ Item {
 
 		function lockBonusCards() {
 			bonusLocked = 1
-			for (var j = 0; j < 7; j++) {
-				rowbonusid.children[j].card.blockCard()
-			}
+			bonusCardsHand.blocked = true;
 		}
 
 		function loadActionCards(playerType) {
@@ -2310,56 +2092,40 @@ Item {
 					joueurId.children[j].source = src+"images/Cerbere" + (j+1) + ".png"
 				}
 
-				for (var j = 0; j < 7; j++) {
-					rowbonusid.children[j].visible = false
-				}
+				bonusCardsHand.model = [];
 			}
 		}
 
 		function updateBonusCard(source, type) {
-			var i = 0
-			var source_string = ""
-			var found_same = - 1
-			
-			while ((rowbonusid.children[i].visible != false) && (i< 7)) {
-				if(rowbonusid.children[i].children.length > 0) {
-					source_string = source_string + rowbonusid.children[i].source
-					var length2 = source_string.length
-					while(source_string[length2-1] != '/'  && length2 > 0) {
-						length2 -=1
-					}
-					var subsource_string = source_string.substring(length2,source_string.length)
-					if(subsource_string == source) {
-						found_same = i
-						break
-					}
+			let alreadyHere = -1;
+			for(let i = 0;i < bonusCardsHand.model.length;i++){
+				if(bonusCardsHand.model[i].name === source){
+					alreadyHere = i;
+					break;
 				}
-				i += 1
 			}
-
-			var new_source = "images/" + source
-			var newNumberOfBonus = 0
-			
-			if (type == "add") {
-				newNumberOfBonus += 1
-			} else {
-				newNumberOfBonus += -1    
+			if(alreadyHere === -1){
+				if(type === "add"){
+					let cards = bonusCardsHand.model;
+					cards.push({name: source, nb: 1});
+					bonusCardsHand.model = cards;
+				}else if(type === "remove"){
+					console.error("Impossible de retirer la carte "+source+" qui n'est pas dans la main du joueur !");
+				}
+			}else{
+				let increment;
+				if(type === "add"){
+					increment = 1;
+				}else if(type == "remove"){
+					increment = -1;
+				}
+				let cards = bonusCardsHand.model;
+				cards[alreadyHere].nb += increment;
+				if(cards[alreadyHere].nb <= 0){
+					cards.splice(alreadyHere, 1);
+				}
+				bonusCardsHand.model = cards;
 			}
-
-			if (found_same >= 0) {
-				newNumberOfBonus += parseInt(rowbonusid.children[i].count, 10)
-				rowbonusid.children[i].count = "" + newNumberOfBonus
-				if (newNumberOfBonus < 1){
-					rowbonusid.children[i].visible = false
-					rowbonusid.children[i].source = ""
-					rowbonusid.children[i].count = "1"
-				}
-			} else {
-				if (type == "add") {
-					rowbonusid.children[i].visible = true
-					rowbonusid.children[i].source = new_source
-				}
-			} 
 		}
 	}
 }

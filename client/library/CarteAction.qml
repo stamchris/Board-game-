@@ -31,41 +31,9 @@ Column {
 	function playAction(choix) {
 		var num_carte = parent.source.toString()
 		num_carte = num_carte.charAt(num_carte.length - 5)
-		if (window.parent.state.playerType == "aventurier") {
-			if (num_carte == '1' && choix == 1) {
-				window.chooseBarquesEffect(num_carte, choix, "play_action")
-			} else if (num_carte == '3' && choix == 1) {
-				window.choosePlayers(["Choisissez un joueur à faire avancer de 3 cases", "Choisissez un joueur à faire avancer d'1 case"], num_carte, choix, "play_action", "aventurier", [])
-			} else if (num_carte == '2' && choix == 1) {
-				window.choosePlayers(["Choisissez un joueur à faire piocher 1 carte", "Choisissez un joueur à faire piocher 1 carte"], num_carte, choix, "play_action", "aventurier", [])
-			} else if (num_carte == '4' && choix == 0) {
-				window.choosePlayers(["Choisissez un joueur à faire avancer d'1 case"], num_carte, choix, "play_action", "aventurier", [])
-			} else if (num_carte == '4' && choix == 1) {
-				window.chooseCardsToDiscard(num_carte, choix, 1, "play_action")
-			} else {
-				window.parent.state.send({
-					type: "play_action",
-			     effet: choix,
-			     carte: num_carte,
-			     args: []
-				})
-			}
-		} else {
-			if (num_carte == '1' && choix == 1) {
-				window.choosePlayers(["Choisissez un joueur à faire avancer de 2 cases"], num_carte, choix, "play_action", "aventurier", [])
-			} else if (num_carte == '3' && choix == 1) {
-				window.choosePlayers(["Choisissez un joueur à faire piocher 1 carte"], num_carte, choix, "play_action", "cerbere", [])
-			} else if (num_carte == '4' && choix == 0) {
-				window.choosePlayers(["Choisissez un joueur à faire avancer d'1 case", "Choisissez un joueur à faire reculer d'1 case", "Choisissez un joueur à faire reculer d'1 case", "Choisissez un joueur à faire reculer d'1 case"], num_carte, choix, "play_action", "aventurier", [])
-			} else {
-				window.parent.state.send({
-					type: "play_action",
-			     effet: choix,
-			     carte: num_carte,
-			     args: []
-				})
-			}
-		}
+
+		window.generator = window.playCard("action", num_carte, window.parent.state.playerType+num_carte, choix);
+		window.generator.next();
 	}
 	
 	Rectangle {

@@ -76,14 +76,6 @@ ApplicationWindow {
 					game.state.changeRage(message.rage)
 					game.state.changeVitesse(message.vitesse)
 					game.state.changePont(message.pont)
-					game.board.popupBridge.close()
-					game.board.popupPortal.close()
-					game.board.playersChoice.close()
-					game.board.popupChooseBarquesEffect.close()
-					game.board.popupSwapBarques.close()
-					game.board.popupSeeBarques.close()
-					game.board.popupChooseCardsToDiscard.close()
-					game.board.popupChooseOppoEffect.close()
 					break
 				case "newBonus":
 					game.state.newBonus(message.cardname)
@@ -132,6 +124,25 @@ ApplicationWindow {
 					break
 				case "eliminate":
 					game.state.showEliminate(message.plyr)
+					break
+				case "cantDoThat":
+					let msg = "Vous ne pouvez pas faire ça ! "+message.msg;
+					console.log(msg);
+					game.board.showErrorMsg(msg);
+					break
+				case "askSabotage":
+					game.state.askSabotage(message.effect)
+					break
+				case "nextTurn":
+					game.board.popupBridge.close()
+					game.board.popupPortal.close()
+					game.board.playersChoice.close()
+					game.board.popupChooseBarquesEffect.close()
+					game.board.popupSwapBarques.close()
+					game.board.popupSeeBarques.close()
+					game.board.popupChooseOppoEffect.close()
+					game.board.popupChooseCardsToDiscard.close()
+					game.board.popupSabotageWhatToDo.close()
 					break
 			}
 		}

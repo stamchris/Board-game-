@@ -8,7 +8,6 @@ cerbere
 .qmake.stash
 build-client*
 *.html
-*.js*
 *.wasm
 qmake_qmake_immediate.qrc
 *.tmp
