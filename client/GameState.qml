@@ -299,25 +299,6 @@ Item{
         _updateActionCards("aventurier")
         globalTimer.start()
     }
-
-    function changeName(players) {
-        var couleurs = ["Cyan","Blue","Pink","Green","White","Red","Orange"]
-        for(var j = 0 ; j < 7; j++) {//nb_slot
-            var champ_txt = parent.lobby.gridLayout.children[j+4].text
-            if(champ_txt != couleurs[j]) 
-                parent.lobby.gridLayout.children[j+4].text = couleurs[j]
-            
-        }
-
-        for(var i = 0 ; i < players.length;i++) {
-            for(var j = 0 ; j < 7; j++) {//nb_slot
-                var champ_txt = parent.lobby.gridLayout.children[j+4].text
-                if(champ_txt === players[i].colour) 
-                    parent.lobby.gridLayout.children[j+4].text = players[i].name
-
-            }
-        }
-    }
     
     Component.onCompleted: {
         _currentPlayerChanged.connect(parent.board.actionId.updateCurrentPlayer)
