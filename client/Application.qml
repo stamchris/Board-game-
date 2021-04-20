@@ -76,18 +76,6 @@ ApplicationWindow {
 					game.state.changeRage(message.rage)
 					game.state.changeVitesse(message.vitesse)
 					game.state.changePont(message.pont)
-<<<<<<< HEAD
-=======
-					game.state.hideSwapBarque()
-					game.board.popupBridge.close()
-					game.board.popupPortal.close()
-					game.board.playersChoice.close()
-					game.board.popupChooseBarquesEffect.close()
-					game.board.popupSwapBarques.close()
-					game.board.popupSeeBarques.close()
-					game.board.popupChooseCardsToDiscard.close()
-					game.board.popupChooseOppoEffect.close()
->>>>>>> Add end-screen with end status players
 					break
 				case "newBonus":
 					game.state.newBonus(message.cardname)
@@ -135,6 +123,7 @@ ApplicationWindow {
 					game.state.askSabotage(message.effect)
 					break
 				case "nextTurn":
+					game.state.hideSwapBarque()
 					game.board.popupBridge.close()
 					game.board.popupPortal.close()
 					game.board.playersChoice.close()
