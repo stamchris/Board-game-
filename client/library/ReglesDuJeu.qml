@@ -14,10 +14,10 @@ Window {
 	property string src: typeof ROOT_URL === "undefined" ? "../" : ROOT_URL
 	
 	BorderImage {
-        id: background
-        source: "/images/background_image.jpg"
-        anchors.fill:parent
-    }
+        	id: background
+        	source: "/images/background_image.jpg"
+        	anchors.fill:parent
+		}
 	
 	Button {
 		id: btnQuitter
