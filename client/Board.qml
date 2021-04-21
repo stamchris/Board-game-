@@ -18,8 +18,7 @@ Item {
 	property alias chronoId: chronoId
 	property alias playersChoice: playersChoice
 	property alias popupChooseBarquesEffect: popupChooseBarquesEffect
-	property alias popupSwapBarques: popupSwapBarques
-	property alias popupSeeBarques: popupSeeBarques
+	property alias popupChooseBarques: popupChooseBarques
 	property alias popupChooseCardsToDiscard: popupChooseCardsToDiscard
 	property alias popupChooseOppoEffect: popupChooseOppoEffect
 	property alias popupFinish: popupFinish
@@ -111,7 +110,7 @@ Item {
 		}else if(effect === 1){ // Sabotage
 			popupSabotageWhatToDo.open();
 			args[0] = yield;
-			if(args[0] === "discard"){
+			if(args[0] === 1){
 				chooseCardsToDiscard("", 1);
 
 				// chooseCardsToDiscard nous a renvoyé un tableau de
@@ -124,6 +123,7 @@ Item {
 			console.error("Effet inconnu pour sabotage: "+effect);
 		}
 
+		args[0] = args[0].toString();
 		window.parent.state.send({
 			type: "answerSabotage",
 			effect,
@@ -204,22 +204,19 @@ Item {
 		playersChoice.args = []
 		playersChoice.msg.text = choices[0]
 		playersChoice.playersType = playersType
-		var plyr
-		var nb_choices = 0
-		for (var i = 0; i < 7; i++) {
-			playersChoice.rowPlayers.children[i].visible = false
-			for (var j = 0; j < window.parent.state.players.length; j++) {
-				plyr = window.parent.state.players[j]
-				if (plyr.type == playersType && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && plyr.colour != window.parent.state.color) {
-					playersChoice.rowPlayers.children[i].visible = true
-					nb_choices++
-					break
-				}
+		let choosablePlayers = [];
+		window.parent.state.players.forEach(player => {
+			// Si ce joueur a le type voulu et que ce n'est pas
+			// nous, on peut le choisir.
+			if(player.type === playersType
+			   && player.colour !== window.parent.state.color){
+				choosablePlayers.push(player.colour);
 			}
-		}
-		if (nb_choices != 0) {
-			playersChoice.choices = choices.slice(0, Math.min(nb_choices, choices.length))
-			playersChoice.open()
+		});
+		if(choosablePlayers.length !== 0) {
+			playersChoiceRepeater.model = choosablePlayers;
+			playersChoice.choices = choices.slice(0, choosablePlayers.length);
+			playersChoice.open();
 		}else{
 			// Aucun joueur ne peut être sélectionné: On renvoie une
 			// liste d'arguments vide.
@@ -259,17 +256,17 @@ Item {
 				// Il y a encore des choix à faire: On continue
 				choices.shift()
 				playersChoice.msg.text = choices[0]
-				var plyr
-				for (var i = 0; i < 7; i++) {
-					playersChoice.rowPlayers.children[i].visible = false
-					for (var j = 0; j < window.parent.state.players.length; j++) {
-						plyr = window.parent.state.players[j]
-						if (plyr.type == playersType && playersChoice.rowPlayers.children[i].icon.source.toString().includes(plyr.colour) && !args.includes(plyr.colour) && plyr.colour != window.parent.state.color) {
-							playersChoice.rowPlayers.children[i].visible = true
-							break
-						}
+				let choosablePlayers = [];
+				window.parent.state.players.forEach(player => {
+					// Si ce joueur a le type voulu, que ce
+					// n'est pas nous ET qu'on ne l'a pas
+					// déjà choisi, on peut le choisir
+					if(player.type === playersType && !args.includes(player.colour)
+					   && player.colour !== window.parent.state.color){
+						choosablePlayers.push(player.colour);
 					}
-				}
+				});
+				playersChoiceRepeater.model = choosablePlayers;
 			}
 		}
 		
@@ -288,66 +285,13 @@ Item {
 			anchors{top: msg.bottom;topMargin:5}
 			height: 20
 			
-			RoundButton {
-				visible: false
-				icon.color: "transparent"
-				icon.source: src+"images/Red_pion.png"
-				onClicked: {
-					playersChoice.choosePlayer("Red")
-				}
-			}
-			
-			RoundButton {
-				visible: false
-				icon.color: "transparent"
-				icon.source: src+"images/Cyan_pion.png"
-				onClicked: {
-					playersChoice.choosePlayer("Cyan")
-				}
-			}
-			
-			RoundButton {
-				visible: false
-				icon.color: "transparent"
-				icon.source: src+"images/Green_pion.png"
-				onClicked: {
-					playersChoice.choosePlayer("Green")
-				}
-			}
-			
-			RoundButton {
-				visible: false
-				icon.color: "transparent"
-				icon.source: src+"images/Blue_pion.png"
-				onClicked: {
-					playersChoice.choosePlayer("Blue")
-				}
-			}
-			
-			RoundButton {
-				visible: false
-				icon.color: "transparent"
-				icon.source: src+"images/White_pion.png"
-				onClicked: {
-					playersChoice.choosePlayer("White")
-				}
-			}
-			
-			RoundButton {
-				visible: false
-				icon.color: "transparent"
-				icon.source: src+"images/Pink_pion.png"
-				onClicked: {
-					playersChoice.choosePlayer("Pink")
-				}
-			}
-			
-			RoundButton {
-				visible: false
-				icon.color: "transparent"
-				icon.source: src+"images/Orange_pion.png"
-				onClicked: {
-					playersChoice.choosePlayer("Orange")
+			Repeater {
+				id: playersChoiceRepeater
+				model: []
+				delegate: RoundButton {
+					icon.color: "transparent"
+					icon.source: src+"images/"+modelData+"_pion.png"
+					onClicked: playersChoice.choosePlayer(modelData)
 				}
 			}
 		}
@@ -388,7 +332,8 @@ Item {
 				width: 50
 				height: 50
 				anchors.centerIn: parent
-				source: src + "images/Cyan_pion.png"
+				property string player: "Cyan"
+				source: src + "images/"+player+"_pion.png"
 			}
 		}
 		
@@ -398,96 +343,55 @@ Item {
 			spacing:2
 			width: 200
 			
-			RoundButton {
-				radius:5
-				id: yesButton
-				Rectangle {
-					height: 40
-					width: 80
-					anchors.centerIn: parent
-					
-					gradient: Gradient {
-						GradientStop {
-							position: 0
-							color: "#109a61"
+			Repeater {
+				model: [true, false]
+				delegate: RoundButton {
+					radius: 5
+					Rectangle {
+						height: 40
+						width: 80
+						anchors.centerIn: parent
+
+						gradient: Gradient {
+							GradientStop {
+								position: 0
+								color: modelData ? "#109a61" : "indianred"
+							}
+
+							GradientStop {
+								position: 1
+								color: modelData ? "#0a6d44" : "#740912"
+							}
 						}
 						
-						GradientStop {
-							position: 1
-							color: "#0a6d44"
+						Text {
+							anchors.centerIn: parent
+							text: modelData ? "OUI" : "NON"
+							font.family: "Stoneyard"
 						}
 					}
 					
-					
-					Text{
-						anchors.centerIn: parent
-						text: "OUI"
-						font.family: "Stoneyard"
-					}
-				}
-				
-				onClicked: {
-					window.parent.state.send({
-						type: "bridge_confirm",
-					survivor: window.parent.state.pont_queue[0],
-					used: true
-					})
-					window.parent.state.pont_queue = []
-					popupBridge.close()
+					onClicked: {
+						if (window.parent.state.pont_queue.length === 1 || modelData) {
+							// On a accepté quelqu'un ou il n'y a plus personne à accepter
+							window.parent.state.send({
+								type: "bridge_confirm",
+								survivor: window.parent.state.pont_queue[0],
+								used: modelData
+							})
+							window.parent.state.pont_queue = []
+							popupBridge.close()
 
-					if (window.parent.state.portal_queue.length != 0) {
-						popupPortal.imgPlayerPortal.source = src + "images/" + window.parent.state.portal_queue[0].colour + "_pion.png"
-						popupPortal.open()
-					}
-				}
-			}
-			
-			
-			RoundButton {
-				radius:5
-				id: noButton
-				
-				Rectangle {
-					height: 40
-					width: 80
-					anchors.centerIn: parent
-					
-					gradient: Gradient {
-						GradientStop {
-							position: 0
-							color : "indianred"
-						}
-						
-						GradientStop {
-							position: 1
-							color : "#740912"
+							if (window.parent.state.portal_queue.length != 0) {
+								//popupPortal.imgPlayerPortal.source = src + "images/" + window.parent.state.portal_queue[0].colour + "_pion.png"
+								popupPortal.imgPlayerPortal.player = window.parent.state.portal_queue[0].colour
+								popupPortal.open()
+							}
+						} else {
+							window.parent.state.pont_queue.shift()
+							popupBridge.imgPlayerBridge.player = window.parent.state.pont_queue[0].colour;
 						}
 					}
-					
-					Text{
-						anchors.centerIn: parent
-						text: "NON"
-						font.family: "Stoneyard"
-					}
-				}
-				
-				onClicked: {
-					if (window.parent.state.pont_queue.length == 1) {
-						window.parent.state.send({
-							type: "bridge_confirm",
-					survivor: window.parent.state.pont_queue[0],
-					used: false
-						})
-						popupBridge.close()
-
-						if (window.parent.state.portal_queue.length != 0) {
-							popupPortal.imgPlayerPortal.source = src + "images/" + window.parent.state.portal_queue[0].colour + "_pion.png"
-							popupPortal.open()
-						}
-					} else {
-						popupBridge.imgPlayerBridge.source = src + "images/" + window.parent.state.pont_queue[1].colour + "_pion.png"
-					}
-					window.parent.state.pont_queue.shift()
 				}
 			}
 		}
@@ -519,54 +423,41 @@ Item {
 			height: 50
 			y: 30
 			horizontalAlignment: Image.AlignHCenter
-			source: src + "images/Cyan_pion.png"
+			property string player: "Cyan"
+			source: src + "images/"+player+"_pion.png"
 		}
 		
 		RowLayout {
 			y: 150
-			Button {
-				text: "Oui"
-				onClicked: {
-					popupPortal.queue.push(window.parent.state.portal_queue[0])
-					if (window.parent.state.portal_queue.length == 1) {
-						window.parent.state.send({
-							type: "portal_confirm",
-					survivors: popupPortal.queue,
-					used: true
-						})
-						window.parent.state.portal_queue = []
-						popupPortal.close()
-
-						if (window.parent.state.pont_queue.length != 0) {
-							popupBridge.imgPlayerBridge.source = src + "images/" + window.parent.state.pont_queue[0].colour + "_pion.png"
-							popupBridge.open()
-						}
-					} else {
-						popupPortal.imgPlayerPortal.source = src + "images/" + window.parent.state.portal_queue[1].colour + "_pion.png"
-					}
-					window.parent.state.portal_queue.shift()
-				}
-			}
 			
-			Button {
-				text: "Non"
-				onClicked: {
-					if (window.parent.state.portal_queue.length == 1) {
-						window.parent.state.send({
-							type: "portal_confirm",
-					survivors: window.parent.state.portal_queue,
-					used: false
-						})
-						popupPortal.close()
-
-						if (window.parent.state.pont_queue.length != 0) {
-							popupBridge.imgPlayerBridge.source = src + "images/" + window.parent.state.pont_queue[0].colour + "_pion.png"
-							popupBridge.open()
+			Repeater {
+				model: [true, false]
+				delegate: Button {
+					text: modelData ? "Oui" : "Non"
+					onClicked: {
+						// TODO: L'implémentation semble
+						// incorrecte. Il faudrait
+						// revoir ça.
+						if(modelData){
+							popupPortal.queue.push(window.parent.state.portal_queue[0])
 						}
-					} else {
-						popupPortal.imgPlayerPortal.source = src + "images/" + window.parent.state.portal_queue[1].colour + "_pion.png"
+						if (window.parent.state.portal_queue.length == 1) {
+							window.parent.state.send({
+								type: "portal_confirm",
+								survivors: popupPortal.queue,
+								used: modelData
+							})
+							popupPortal.close()
+
+							if (window.parent.state.pont_queue.length != 0) {
+								popupBridge.imgPlayerBridge.player = window.parent.state.pont_queue[0].colour
+								popupBridge.open()
+							}
+						} else {
+							popupPortal.imgPlayerPortal.player = window.parent.state.portal_queue[1].colour;
+						}
+						window.parent.state.portal_queue.shift()
 					}
-					window.parent.state.portal_queue.shift()
 				}
 			}
 		}
@@ -595,18 +486,12 @@ Item {
 		property var args : []
 		
 		function openBarquesPopup(choice) {
-			if (choice == 0) {
-				popupSeeBarques.args = ["0"]
-				popupSeeBarques.open()
-			} else {
-				popupSwapBarques.args = ["1"]
-				for (var i = 0; i < 3; i++) {
-					popupSwapBarques.rowImgSwapBarque.children[choice].enabled = true
-					popupSwapBarques.rowImgSwapBarque.children[i].opacity = 1
-				}
-				popupSwapBarques.open()
-			}
-			popupChooseBarquesEffect.close()
+			popupChooseBarques.chosenBarques = [];
+			popupChooseBarques.effect = choice;
+			popupChooseBarques.nbBarquesToChoose = choice+1;
+			popupChooseBarques.repeater.model = [true, true, true];
+			popupChooseBarques.open();
+			popupChooseBarquesEffect.close();
 		}
 		
 		Text {
@@ -617,36 +502,21 @@ Item {
 		
 		RowLayout {
 			y: 50
-			Button {
-				onClicked: {
-					popupChooseBarquesEffect.openBarquesPopup(0)
-				}
-
-				Rectangle {
-					height : parent.height
-					width : parent.width
-					color: "#ffd194"
-
-					Image {
-						anchors.fill : parent
-						source : src + "images/regarder_barque_icone.png"
-					}
-				}	
-			}
 			
-			Button {
-				onClicked: {
-					popupChooseBarquesEffect.openBarquesPopup(1)
-				}
-
-				Rectangle {
-					height : parent.height
-					width : parent.width
-					color: "#ffd194"
-
-					Image {
-						anchors.fill : parent
-						source : src + "images/echange_barque_icone.png"
+			Repeater {
+				model: 2
+				delegate: Button {
+					onClicked: popupChooseBarquesEffect.openBarquesPopup(index)
+					
+					Rectangle {
+						height: parent.height
+						width: parent.width
+						color: "#ffd194"
+						
+						Image {
+							anchors.fill: parent
+							source: src+"images/"+(index === 0 ? "regarder" : "echange")+"_barque_icone.png"
+						}
 					}
 				}	
 			}
@@ -654,7 +524,7 @@ Item {
 	}
 	
 	Popup {
-		id: popupSwapBarques
+		id: popupChooseBarques
 		anchors.centerIn: parent
 		width: 200
 		height: 240
@@ -665,163 +535,58 @@ Item {
 			color: "#ffd194"
 			radius: 3
 		}
-		property var args : []
-		property alias rowImgSwapBarque: rowImgSwapBarque
+		property var chosenBarques : []
+		property int effect: 0
+		property int nbBarquesToChoose
+		property alias repeater : chooseBarquesRepeater
 		
-		function swapBarques(choice) {
-			args.push(choice)
+		function chooseBarque(choice){
+			chosenBarques.push(choice);
 			
-			if (args.length < 3) {
+			if(chosenBarques.length < nbBarquesToChoose){
 				// Il reste une barque à choisir: On rend la
 				// barque choisie transparente et on continue
-				rowImgSwapBarque.children[choice].enabled = false
-				rowImgSwapBarque.children[choice].opacity = 0.75
-			} else {
+				let barques = chooseBarquesRepeater.model;
+				barques[choice] = false;
+				chooseBarquesRepeater.model = barques;
+			}else{
 				// Toutes les barques ont été choisies, on rend
 				// la main à playCard.
-				popupSwapBarques.close()
+				popupChooseBarques.close();
+				let args = [effect.toString()];
+				chosenBarques.forEach(barque => {
+					args.push(barque.toString());
+				});
 				generator.next(args);
 			}
 		}
 		
 		Text {
-			id: questionSwapBarques
 			y: 0
 			horizontalAlignment: Text.AlignHCenter
-			text: "Quelles barques echanger ?"
-		}
-		
-		Row {
-			id: rowImgSwapBarque
-			y: 30
-			spacing:10
-			anchors.horizontalCenter: parent.horizontalCenter
-			
-			Image {
-				id: imgSwapBarque1
-				width: 50
-				fillMode: Image.PreserveAspectFit
-				source: "images/barque_unknown.png"
-				
-				MouseArea {
-					anchors.fill: parent
-					enabled: true
-					
-					onClicked: {
-						popupSwapBarques.swapBarques("0")
-					}
-				}
-			}
-			
-			Image {
-				id: imgSwapBarque2
-				width: 50
-				fillMode: Image.PreserveAspectFit
-				source: "images/barque_unknown.png"
-				
-				MouseArea {
-					anchors.fill: parent
-					enabled: true
-					
-					onClicked: {
-						popupSwapBarques.swapBarques("1")
-					}
-				}
-			}
-			
-			Image {
-				id: imgSwapBarque3
-				width: 50
-				fillMode: Image.PreserveAspectFit
-				source: "images/barque_unknown.png"
-				
-				MouseArea {
-					anchors.fill: parent
-					enabled: true
-					
-					onClicked: {
-						popupSwapBarques.swapBarques("2")
-					}
-				}
-			}
-		}
-	}
-	
-	Popup {
-		id: popupSeeBarques
-		anchors.centerIn: parent
-		width: 200
-		height: 240
-		modal: true
-		closePolicy: Popup.CloseOnPressOutside
-		
-		background: Rectangle {
-			color: "#ffd194"
-			radius: 3
-		}
-		property var args : []
-		
-		function seeBarques(choice) {
-			// La barque a été choisie, on rend la main à playCard
-			args.push(choice)
-			popupSeeBarques.close()
-			generator.next(args);
-		}
-		
-		Text {
-			id: questionSeeBarques
-			y: 0
-			horizontalAlignment: Text.AlignHCenter
-			text: "Quelle barque consulter ?"
+			text: popupChooseBarques.effect === 0 ? "Quelle barque consulter ?" : "Quelles barques echanger ?"
 		}
 		
 		Row {
 			y: 30
-			spacing:10
+			spacing: 10
 			anchors.horizontalCenter: parent.horizontalCenter
 			
-			Image {
-				id: imgSeeBarque1
-				width: 50
-				fillMode: Image.PreserveAspectFit
-				source: "images/barque_unknown.png"
-				
-				MouseArea {
-					anchors.fill: parent
+			Repeater {
+				id: chooseBarquesRepeater
+				model: [true, true, true]
+				delegate: Image {
+					width: 50
+					fillMode: Image.PreserveAspectFit
+					source: "images/barque_unknown.png"
+					opacity: modelData ? 1 : 0.75
 					
-					onClicked: {
-						popupSeeBarques.seeBarques("0")
+					MouseArea {
+						anchors.fill: parent
+						enabled: modelData
+
+						onClicked: popupChooseBarques.chooseBarque(index)
 					}
-				}
-			}
-			
-			Image {
-				id: imgSeeBarque2
-				width: 50
-				fillMode: Image.PreserveAspectFit
-				source: "images/barque_unknown.png"
-				
-				MouseArea {
-					anchors.fill: parent
-					
-					onClicked: {
-						popupSeeBarques.seeBarques("1")
-					}
-				}
-			}
-			
-			Image {
-				id: imgSeeBarque3
-				width: 50
-				fillMode: Image.PreserveAspectFit
-				source: "images/barque_unknown.png"
-				
-				MouseArea {
-					anchors.fill: parent
-					
-					onClicked: {
-						popupSeeBarques.seeBarques("2")
-					} 
 				}
 			}
 		}
@@ -965,17 +730,12 @@ Item {
 		
 		RowLayout {
 			y: 50
-			Button {
-				text: "Avancer"
-				onClicked: {
-					popupChooseOppoEffect.openPlayerChoice(2)
-				}
-			}
 			
-			Button {
-				text: "Reculer"
-				onClicked: {
-					popupChooseOppoEffect.openPlayerChoice(1)
+			Repeater {
+				model: ["Avancer", "Reculer"]
+				delegate: Button {
+					text: modelData
+					onClicked: popupChooseOppoEffect.openPlayerChoice(3-index-1)
 				}
 			}
 		}
@@ -1001,17 +761,12 @@ Item {
 
 		RowLayout {
 			y: 50
-			Button {
-				text: "Reculer"
-				onClicked: {
-					popupSabotageWhatToDo.selectOption("back");
-				}
-			}
 
-			Button {
-				text: "Défausser une carte"
-				onClicked: {
-					popupSabotageWhatToDo.selectOption("discard");
+			Repeater {
+				model: ["Reculer", "Défausser une carte"]
+				delegate: Button {
+					text: modelData
+					onClicked: popupSabotageWhatToDo.selectOption(index)
 				}
 			}
 		}
@@ -1114,155 +869,52 @@ Item {
 				topMargin: 5 
 			}
 		}
-		
-		Rectangle {
-			id: loginId
-			width: 50
-			height: 50
-			color: "#e8e1cd"
-			radius: 40
-			border.color: "#740912"
-			border.width: 2
-			
-			anchors {
-				right: parent.right;
-				top: parent.top;
-				topMargin: 5;
-				rightMargin: 10
-			}
-			
-			Text {
-				id: loginTextId
-				text: qsTr("Button")
-				anchors.centerIn: parent
-				font.pixelSize: 12
-				horizontalAlignment: Text.AlignHCenter
-			}
-		}
-		
-		Rectangle {
-			id: sonId
-			width: 50
-			height: 50
-			color: "#e8e1cd"
-			radius: 40
-			border.color: "#740912"
-			border.width: 2
-			
-			anchors {
-				right: loginId.left;
-				top: parent.top;
-				topMargin: 5;
-				rightMargin: 10
-			}
-			
-			Text {
-				id: sonTextId
-				text: qsTr("Son")
-				anchors.centerIn: parent
-				font.pixelSize: 12
-				horizontalAlignment: Text.AlignHCenter
-			}
-		}
-		
-		Rectangle {
-			id: bugId
-			width: 50
-			height: 50
-			color: "#e8e1cd"
-			radius: 40
-			border.color: "#740912"
-			border.width: 2
-			
-			anchors {
-				right: sonId.left;
-				top: parent.top;
-				topMargin: 5;
-				rightMargin: 10
-			}
-			
-			Text {
-				id: bugTextId
-				text: qsTr("Bug")
-				anchors.centerIn: parent
-				font.pixelSize: 12
-				horizontalAlignment: Text.AlignHCenter
-			}
-		}
-		
-		Rectangle {
-			id: effetcarteId
-			width: 50
-			height: 50
-			color: "#e8e1cd"
-			radius: 40
-			border.color: "#740912"
-			border.width: 2
-			
-			anchors {
-				right: bugId.left;
-				top: parent.top;
-				topMargin: 5;
-				rightMargin: 10
-			}
-			
-			Text {
-				id: effetcarteTextId
-				text: qsTr("Effet \nCarte")
-				anchors.centerIn: parent
-				font.pixelSize: 12
-				horizontalAlignment: Text.AlignHCenter
-				fontSizeMode: Text.FixedSize
-			}
-			
-			MouseArea {
-				anchors.fill: parent
-				
-				onClicked: {
-					if (imgEffetDeCarteId.visible == false) {
-						imgEffetDeCarteId.visible = true
-					} else {
-						imgEffetDeCarteId.visible = false
-					}
-				}
-			}
-		}
-		
-		Rectangle {
-			id: regleId
-			width: 50
-			height: 50
-			color: "#e8e1cd"
-			radius: 40
-			border.color: "#740912"
-			border.width: 2
-			
-			anchors {
-				right: bugId.left;
-				top: parent.top;
-				topMargin: 5;
-				rightMargin: 66
-			}
-			
-			Text {
-				id: regleTextId
-				text: qsTr("Règles")
-				anchors.centerIn: parent
-				font.pixelSize: 12
-				fontSizeMode: Text.FixedSize
-			}
-			
-			MouseArea {
-				visible: true
-				anchors.fill: parent
-				
-				onClicked: {
+
+		Repeater {
+			id: headerButtonRepeater
+			property var callbacks: {
+				"Effet\nCarte": () => {
+					imgEffetDeCarteId.visible ^= true
+				},
+				"Règles": () => {
 					var component = Qt.createComponent("library/ReglesDuJeu.qml")
 					if(component.status == Component.Ready){
 						var window = component.createObject("window2")
 						window.show()
 					}else if(component.status == Component.Error){
 						console.error(component.errorString());
+					}
+				}
+			}
+			model: ["Button", "Son", "Bug", "Effet\nCarte", "Règles"]
+			delegate: Rectangle {
+				width: 50
+				height: 50
+				color: "#e8e1cd"
+				radius: 40
+				border.color: "#740912"
+				border.width: 2
+
+				anchors {
+					right: index === 0 ? parent.right : headerButtonRepeater.itemAt(index-1).left
+					top: parent.top
+					topMargin: 5
+					rightMargin: 10
+				}
+
+				Text {
+					text: qsTr(modelData)
+					anchors.centerIn: parent
+					font.pixelSize: 12
+				}
+
+				MouseArea {
+					anchors.fill: parent
+
+					onClicked: {
+						if(headerButtonRepeater.callbacks[modelData] !== undefined){
+							headerButtonRepeater.callbacks[modelData]();
+						}
 					}
 				}
 			}
@@ -1549,322 +1201,79 @@ Item {
 			anchors.fill: parent
 			spacing: 1
 
-			Rectangle {
-				id: user1InfoId
-				width: 1/6*parent.width
-				height:parent.height
-				visible: false
-				radius: 3
-				color: "Blue"
-				border.color: "#740912"
-				border.width: 1
-				property alias name: text1.text
-				property alias textColor: text1.color
-				property alias infos: news_usr_1
-				property alias rect: rect1
-
-				Row {
-					width : parent.width - 4
-					height : parent.height - 4
-					anchors.centerIn: parent
-
-					Rectangle {
-						id: rect1
-						width : parent.width/5
-						height : parent.height
-						color : "transparent"
-						Text {
-							id: text1
-							text: qsTr("USER1")
-							anchors.centerIn : parent
-							font.pixelSize: 15
-						}
-					}
+			Repeater {
+				id: infoRepeater
+				model: []
+				delegate: Rectangle {
+					width: 1/6*parent.width
+					height: parent.height
+					radius: 3
+					color: modelData.adventurer ? modelData.color : "Black"
+					border.color: "#740912"
+					border.width: 1
 					
-					InfosJoueur {
-						id: news_usr_1
-						visible: true
-					}
-				}
-			}
+					Row {
+						id: infoRow
+						width: parent.width - 4
+						height: parent.height - 4
+						anchors.centerIn: parent
 
-			Rectangle{
-				id: user2InfoId
-				width:  1/6* parent.width
-				visible: false
-				radius: 3
-				height: parent.height
-				color: "Cyan"
-				border.color: "#740912"
-				border.width: 1
-				property alias name: text2.text
-				property alias textColor: text2.color
-				property alias infos: news_usr_2
-				property alias rect: rect2
-				
-				Row {
-					width : parent.width - 4
-					height : parent.height - 4
-					anchors.centerIn: parent
-				
-					Rectangle {
-						id: rect2
-						width : parent.width/5
-						height : parent.height
-						color : "transparent"
+						Rectangle {
+							id: infoRect
+							width: parent.width/5
+							height: parent.height
+							color: "transparent"
 
-						Text {
-							id: text2
-							text: qsTr("USER2")
-							anchors.centerIn : parent
-							font.pixelSize: 15
+							Text {
+								text: modelData.name
+								anchors.centerIn: parent
+								font.pixelSize: 15
+								color: modelData.adventurer ? "Black" : "White"
+							}
 						}
-					}
-
-					InfosJoueur {
-						id: news_usr_2
-						visible: true
-					}
-				}
-			}
-
-			Rectangle{
-				id:user3InfoId
-				width:1/6*  parent.width
-				height: parent.height
-				visible: false
-				radius: 3
-				color: "Orange"
-				border.color: "#740912"
-				border.width: 1
-				property alias name: text3.text
-				property alias textColor: text3.color
-				property alias infos: news_usr_3
-				property alias rect: rect3
-
-				Row {
-					width : parent.width - 4
-					height : parent.height - 4
-					anchors.centerIn: parent
-					
-					Rectangle {
-						id: rect3
-						width : parent.width/5
-						height : parent.height
-						color : "transparent"
-						Text {
-							id: text3
-							text: qsTr("USER3")
-							anchors.centerIn : parent
-							font.pixelSize: 15
-						}
-					}
-
-					InfosJoueur {
-						id: news_usr_3
-						visible: true
-					}
-				}
-			}
-
-			Rectangle{
-				id:user4InfoId
-				width:1/6*  parent.width
-				height: parent.height
-				visible: false
-				radius: 3
-				color: "Green"
-				border.color: "#740912"
-				border.width: 1
-				property alias name: text4.text
-				property alias textColor: text4.color
-				property alias infos: news_usr_4
-				property alias rect: rect4
-
-				Row {
-					width : parent.width - 4
-					height : parent.height - 4
-					anchors.centerIn: parent
-				
-					Rectangle {
-						id: rect4
-						width : parent.width/5
-						height : parent.height
-						color : "transparent"
-				
-						Text {
-							id: text4
-							text: qsTr("USER4")
-							anchors.centerIn : parent
-							font.pixelSize: 15               
-						}
-					}
-
-					InfosJoueur {
-						id: news_usr_4
-						visible: true
-					}
-				}
-			}
-
-			Rectangle{
-				id:user5InfoId
-				width:1/6* parent.width
-				height:  parent.height
-				visible: false
-				radius: 3
-				color: "Red"
-				border.color: "#740912"
-				border.width: 1
-				property alias name: text5.text
-				property alias textColor: text5.color
-				property alias infos: news_usr_5
-				property alias rect: rect5
-				
-				Row {
-					width : parent.width - 4
-					height : parent.height - 4
-					anchors.centerIn: parent
-				
-					Rectangle {
-						id: rect5
-						width : parent.width/5
-						height : parent.height
-						color : "transparent"
 						
-						Text {
-							id: text5
-							text: qsTr("USER5")
-							anchors.centerIn : parent
-							font.pixelSize: 15  
+						InfosJoueur {
+							visible: !modelData.me
+							adventurer: modelData.adventurer
+							actions: modelData.actions
+							bonusSize: modelData.bonusSize
+							color: modelData.color
 						}
 					}
-
-					InfosJoueur {
-						id: news_usr_5
-						visible: true
-					}
-				}
-			}
-
-			Rectangle{
-				id:user6InfoId
-				width: 1/6* parent.width
-				height: parent.height
-				visible: false
-				radius: 3
-				color: "Pink"
-				border.color: "#740912"
-				border.width: 1
-				property alias name: text6.text
-				property alias textColor: text6.color
-				property alias infos: news_usr_6
-				property alias rect: rect6
-			
-				Row {
-					width : parent.width - 4
-					height : parent.height - 4
-					anchors.centerIn: parent
 					
-					Rectangle {
-						id: rect6
-						width : parent.width/5
-						height : parent.height
-						color : "transparent"
-			
-						Text {
-							id: text6
-							text: qsTr("USER6")
-							anchors.centerIn : parent
-							font.pixelSize: 15   
+					Component.onCompleted: {
+						if(modelData.me){
+							width = infoRect.width;
+							infoRect.width = width;
 						}
-					}
-
-					InfosJoueur {
-						id: news_usr_6
-						visible: true
-					}
-				}
-			}
-
-			Rectangle{
-				id:user7InfoId
-				width: 1/6* parent.width
-				height: parent.height
-				visible: false
-				radius: 3
-				color: "White"
-				border.color: "#740912"
-				border.width: 1
-				property alias name: text7.text
-				property alias textColor: text7.color
-				property alias infos: news_usr_7
-				property alias rect: rect7
-			
-				Row {
-					width : parent.width - 4
-					height : parent.height - 4
-					anchors.centerIn: parent
-
-					Rectangle {
-						id: rect7
-						width : parent.width/5
-						height : parent.height
-						color : "transparent"
-			
-						Text {
-							id: text7
-							text: qsTr("USER7")
-							anchors.centerIn : parent
-							font.pixelSize: 15   
-						}
-					}
-
-					InfosJoueur {
-						id: news_usr_7
-						visible: true
 					}
 				}
 			}
 		}
 
 		function updatePlayerInfo(players) {
-			var k
-
-			for (var i = 0; i < players.length; i++){
-				rowId.children[7-i-1].visible = true
-				rowId.children[7-i-1].name = players[i].name
-
-				if (players[i].type == "aventurier") {
-					rowId.children[7-i-1].color = players[i].colour
-				} else if (players[i].type == "cerbere") {
-					rowId.children[7-i-1].color = "Black"
-					rowId.children[7-i-1].textColor = "White"
-				} else {
-					rowId.children[7-i-1].visible = false
+			let model = [];
+			for(let i = players.length-1;i > -1;i--){
+				let adventurer;
+				if(players[i].type === "aventurier"){
+					adventurer = true;
+				}else if(players[i].type === "cerbere"){
+					adventurer = false;
+				}else{
+					// On n'affiche pas les joueurs morts:
+					// Au suivant !
+					continue;
 				}
-
-				if(players[i].name != window.parent.state.login) {
-					for (var j = 0; j < 4; j++) {
-						k = j + 1
-
-						if (players[i].hand.action[j] == true && players[i].type != "mort") {
-							if (players[i].type == "aventurier") {
-								rowId.children[7-i-1].infos.children[j+1].source = src+"images/"+players[i].colour+k+".png"
-							} else {
-								rowId.children[7-i-1].infos.children[j+1].source = src+"images/Cerbere"+k+".png"
-							}
-						} else {
-							rowId.children[7-i-1].infos.children[j+1].source = src+"images/verso.png"
-						}
-					}
-					rowId.children[7-i-1].infos.bonusSize = "" + players[i].hand.bonus_size
-				} else {
-					rowId.children[7-i-1].width = rowId.children[7-i-1].rect.width
-					rowId.children[7-i-1].rect.width = rowId.children[7-i-1].width
-					rowId.children[7-i-1].infos.visible = false
-				}
+				model.push({
+					adventurer,
+					name: players[i].name,
+					color: players[i].colour,
+					me: (players[i].name === window.parent.state.login),
+					actions: players[i].hand.action,
+					bonusSize: players[i].hand.bonus_size
+				});
 			}
+			infoRepeater.model = model;
 		}
 	}
 
@@ -1881,90 +1290,27 @@ Item {
 			right: parent.right;
 		}
 
-		Rectangle {
-			id: carte_Action1Id
-			width: 1/8*parent.width
-			height: parent.height
-			anchors.left: parent.left
-			property alias card: card1
-			property alias source: imgCAction1.source
+		Repeater {
+			id: actionCardRepeater
+			property bool blocked: true
+			property string color: "Cyan"
+			model: [true, true, true, true]
+			delegate: Rectangle {
+				width: 1/8*parent.width
+				height: parent.height
+				anchors.left: index === 0 ? parent.left : actionCardRepeater.itemAt(index-1).right
 
-			Image {
-				id:imgCAction1
-				anchors.fill: parent
-				horizontalAlignment: Image.AlignHCenter
-				z: 1
-				fillMode: Image.Stretch
-				source: ""
+				Image {
+					anchors.fill: parent
+					horizontalAlignment: Image.AlignHCenter
+					z: 1
+					fillMode: Image.Stretch
+					source: src+"images/" + actionCardRepeater.color + (index+1) + ".png"
 
-				CarteAction{
-					id: card1
-				}
-			}
-		}
-
-		Rectangle {
-			id: carte_Action2Id
-			width: 1/8*parent.width
-			height: parent.height
-			anchors.left: carte_Action1Id.right
-			property alias card: card2
-			property alias source: imgCAction2.source
-			
-			Image {
-				id:imgCAction2
-				anchors.fill: parent
-				horizontalAlignment: Image.AlignHCenter
-				z: 1
-				fillMode: Image.Stretch
-				source: ""
-
-				CarteAction{
-					id: card2
-				}
-			}
-		}
-
-		Rectangle {
-			id: carte_Action3Id
-			width: 1/8*parent.width
-			height: parent.height
-			anchors.left: carte_Action2Id.right
-			property alias card: card3
-			property alias source: imgCAction3.source
-			
-			Image {
-				id: imgCAction3
-				anchors.fill: parent
-				horizontalAlignment: Image.AlignHCenter
-				z: 1
-				fillMode: Image.Stretch
-				source: ""
-
-				CarteAction{
-					id: card3
-				}
-			}
-		}
-
-		Rectangle {
-			id: carte_Action4Id
-			width: 1/8*parent.width
-			height: parent.height
-			anchors.left: carte_Action3Id.right
-			property alias card: card4
-			property alias source: imgCAction4.source
-			
-			Image {
-				id: imgCAction4
-				anchors.fill: parent
-				horizontalAlignment: Image.AlignHCenter
-				z: 1
-				fillMode: Image.Stretch
-				source: ""
-
-				CarteAction{
-					id: card4
+					CarteAction{
+						blocked: actionCardRepeater.blocked || !modelData
+						numCard: index+1
+					}
 				}
 			}
 		}
@@ -1974,7 +1320,7 @@ Item {
 			height: parent.height
 			width : parent.width/2
 			color: "#e8e1cd"
-			anchors.left: carte_Action4Id.right
+			anchors.left: actionCardRepeater.itemAt(actionCardRepeater.count-1).right
 
 			ScrollBar{
 				id: scrollBarBonus
@@ -2100,11 +1446,8 @@ Item {
 				if (players[i].name == window.parent.state.login) {
 					if (i == active_player) {
 						if (actionLocked == 0) {
-							for (var j = 0; j < 4; j++) {
-								if (players[i].hand.action[j] == true) {
-									joueurId.children[j].card.unblockCard()
-								}
-							}
+							actionCardRepeater.model = players[i].hand.action;
+							actionCardRepeater.blocked = false;
 						} else {
 							skipTurnId.visible = true
 						}
@@ -2127,9 +1470,7 @@ Item {
 
 		function lockActionCards() {
 			actionLocked = 1
-			for (var j = 0; j < 4; j++) {
-				joueurId.children[j].card.blockCard()
-			}
+			actionCardRepeater.blocked = true
 		}
 
 		function lockBonusCards() {
@@ -2139,13 +1480,9 @@ Item {
 
 		function loadActionCards(playerType) {
 			if (playerType == "aventurier") {
-				for (var j = 0; j < 4; j++){
-					joueurId.children[j].source = src+"images/" + window.parent.state.color + (j+1) + ".png"
-				}
+				actionCardRepeater.color = window.parent.state.color
 			} else if (playerType == "cerbere") {
-				for (var j = 0; j < 4; j++){
-					joueurId.children[j].source = src+"images/Cerbere" + (j+1) + ".png"
-				}
+				actionCardRepeater.color = "Cerbere"
 
 				bonusCardsHand.model = [];
 			}

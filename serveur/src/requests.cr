@@ -348,7 +348,7 @@ class Cerbere::Request
 				player.send(Response::CantDoThat.new("C'est trop tard pour répondre !"))
 				return
 			end
-			if(effect == 0 || args[0] == "discard") # Défaussage forcé ou le joueur saboté a choisi de défausser
+			if(effect == 0 || args[0] == "1") # Défaussage forcé ou le joueur saboté a choisi de défausser
 				card_name : String = args[effect]
 				index_card? : Int32? = nil
 				player.hand.bonus.each_index do |i|
@@ -365,7 +365,7 @@ class Cerbere::Request
 				index_card : Int32 = index_card?.not_nil!()
 				game.board.defausser(player, index_card)
 				player.send(Response::DiscardBonus.new(card_name))
-			elsif(args[0] == "back") # Le joueur saboté a choisi de reculer
+			elsif(args[0] == "0") # Le joueur saboté a choisi de reculer
 				game.board.action_deplacer_moi(player, -2)
 			else
 				player.send(Response::CantDoThat.new("Action invalide: #{args[0]} !"))

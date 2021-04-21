@@ -263,11 +263,11 @@ Item{
         }
     }
 
-    function useBridge(new_queue) {
-        pont_queue = new_queue
-        parent.board.popupBridge.imgPlayerBridge.source = src + "images/" + pont_queue[0].colour + "_pion.png"
-        parent.board.popupBridge.open()
-    }
+	function useBridge(newQueue) {
+		pont_queue = newQueue;
+		parent.board.popupBridge.imgPlayerBridge.player = pont_queue[0].colour;
+		parent.board.popupBridge.open();
+	}
 
     function usePortal(new_queue) {
         portal_queue = new_queue
