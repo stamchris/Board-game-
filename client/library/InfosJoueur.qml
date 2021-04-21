@@ -42,65 +42,20 @@ Row {
         }
     }
 
+	Repeater {
+		model: actions
+		delegate: Rectangle {
+			height: parent.height
+			width: parent.width/5 - 2
+			border.color: "white"
+			color: "transparent"
+			x: parent.width
 
-	Rectangle {
-		id: little_action1_usr
-		height: parent.height
-		width: parent.width/5 -2
-		border.color: "white"
-		color: "transparent"
-		x: parent.width
-		property alias source: img1.source
-
-		Image {
-			id: img1
-			anchors.fill : parent
-			source : actions[0] ? src+"images/"+(adventurer ? color : "Cerbere")+"1.png" : src+"images/verso.png"
-		}
-	}
-
-	Rectangle {
-		id: little_action2_usr
-		height: parent.height
-		width: parent.width/5 -2
-		border.color: "white"
-		color: "transparent"
-		property alias source: img2.source
-
-		Image {
-			id: img2
-			anchors.fill: parent
-			source : actions[1] ? src+"images/"+(adventurer ? color : "Cerbere")+"2.png" : src+"images/verso.png"
-		}
-	}
-
-	Rectangle {
-		id:little_action3_usr
-		height: parent.height
-		width: parent.width/5-2
-		border.color: "white"
-		color: "transparent"
-		property alias source: img3.source
-
-		Image {
-			id: img3
-			anchors.fill: parent
-			source : actions[2] ? src+"images/"+(adventurer ? color : "Cerbere")+"3.png" : src+"images/verso.png"
-		}
-	}
-
-	Rectangle {
-		id: little_action4_usr
-		height: parent.height
-		width: parent.width/5-2
-		border.color: "white"
-		color: "transparent"
-		property alias source: img4.source
-
-		Image {
-			id: img4
-			anchors.fill: parent
-			source : actions[3] ? src+"images/"+(adventurer ? color : "Cerbere")+"4.png" : src+"images/verso.png"
+			Image {
+				anchors.fill: parent
+				source: if(modelData) src+"images/"+(adventurer ? rowinfos.color : "Cerbere")+(index+1)+".png"
+					else src+"images/verso.png"
+			}
 		}
 	}
 }
