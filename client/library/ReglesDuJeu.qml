@@ -64,7 +64,7 @@ Window {
 					width: parent.width
 					height: parent.height
 					id: regle
-					source: "/images/Regle"+num+".jpg"
+					source: src+"images/Regle"+num+".jpg"
 				}
 			}
 		}
