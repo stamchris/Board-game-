@@ -5,6 +5,7 @@ Column {
     height: parent.height
     width: parent.width
     property bool blocked: true
+	property string name
 
     anchors {
         top:parent.top;
@@ -12,14 +13,10 @@ Column {
     }
 
     function playBonus(choix) {
-        var carteBonusName = parent.source.toString()
-        carteBonusName = carteBonusName.slice(carteBonusName.indexOf("_", carteBonusName.length-10))
-        carteBonusName = carteBonusName.slice(1, carteBonusName.length - 4)
-
-	if(carteBonusName === "Oppo" && choix === 1){
-		window.chooseOppoEffect(carteBonusName, choix, "play_bonus", []);
+	if(name === "Oppo" && choix === 1){
+		window.chooseOppoEffect(name, choix, "play_bonus", []);
 	}else{
-		window.generator = window.playCard("bonus", carteBonusName, carteBonusName, choix);
+		window.generator = window.playCard("bonus", name, name, choix);
 		window.generator.next();
 	}
     }
@@ -31,68 +28,29 @@ Column {
         opacity: 0
     }
 
-    Rectangle {
-        id: up
-        width: columnIdB.width
-        height: 1/5*columnIdB.height
-        anchors.left: parent.left
-        opacity: columnIdB.blocked ? 0.75 : 0
-        color: columnIdB.blocked ? "gray" : "White"
+	Repeater {
+		model: 2
+		delegate: Rectangle {
+			width: columnIdB.width
+			height: 1/5*columnIdB.height
+			anchors.left: parent.left
+			opacity: if(blocked) 0.75
+				 else if(hover.containsMouse) 0.25
+				 else 0
+			color: blocked ? "gray" : "white"
 
-        MouseArea {
-            id: hover1Id
-            width: parent.width
-            height: parent.height
-            hoverEnabled: !columnIdB.blocked
+			MouseArea {
+				id: hover
+				width: parent.width
+				height: parent.height
+				hoverEnabled: !blocked
 
-            onHoveredChanged: {
-                if(hoverEnabled == true) {
-                    if(containsMouse == true) {
-                        up.opacity = 0.25
-                    } else {
-                        up.opacity = 0
-                    }
-                }
-            }
-
-            onClicked: {
-                if (hover1Id.hoverEnabled == true) {
-                    playBonus(0)
-                }
-            }
-        }
-    }
-
-    Rectangle {
-        id: down
-        width: columnIdB.width
-        height: 1/5*columnIdB.height
-        opacity: columnIdB.blocked ? 0.75 : 0
-        color: columnIdB.blocked ? "gray" : "White"
-        
-        MouseArea {
-            id: hover2Id
-            width: parent.width
-            height: parent.height
-            hoverEnabled: !columnIdB.blocked
-
-            onHoveredChanged: {
-                if(hoverEnabled == true) {
-                    if(containsMouse == true) {
-                        down.opacity = 0.25
-                    } else {
-                        down.opacity = 0
-                    }
-                }
-            }
-
-            onClicked: {
-                if (hover2Id.hoverEnabled == true) {
-                    playBonus(1)
-                }
-            }
-        }
-    }
+				onClicked: {
+					if(hoverEnabled){
+						playBonus(index);
+					}
+				}
+			}
+		}
+	}
 }
-
-

@@ -1369,6 +1369,7 @@ Item {
 							CarteBonus {
 								id: blockableBonusCard
 								blocked: bonusCardsHand.blocked
+								name: modelData.name
 							}
 							
 							Rectangle {
