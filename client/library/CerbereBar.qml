@@ -17,56 +17,9 @@ Rectangle {
 	}
 	
 	function updateRage(newRage) {
-		var newBarColor = "#00ff00";
-		
-		switch(newRage) {
-			case "1":
-				newBarColor = "#00ff00";
-				break;
-			case "2":
-				newBarColor = "#33ff00";
-				break;
-			case "3":
-				newBarColor = "#66ff00";
-				break;
-			case "4":
-				newBarColor = "#99ff00";
-				break;
-			case "5":
-				newBarColor = "#ccff00";
-				break;
-			case "6":
-				newBarColor = "#ffcc00";
-				break;
-			case "7":
-				newBarColor = "#ff9900";
-				break;
-			case "8":
-				newBarColor = "#ff6600";
-				break;
-			case "9":
-				newBarColor = "#ff3300";
-				break;
-			case "10":
-				newBarColor = "#ff0000";
-				break;    
-			default:
-				break;
-		}
-		
-		for (var i = 0; i < 10; i++) {
-			if (i < newRage) {
-				rageBar.children[i].color = newBarColor
-			} else {
-				rageBar.children[i].color = "indianred"
-			}
-			
-			rageBar.children[i].children[0].visible = false
-			
-			if (i == newRage - 1) {
-				rageBar.children[i].children[0].visible = true 
-			}
-		}
+		let newBarColor = Qt.rgba((Math.min(5, newRage-1)*51)/255, (Math.min(5, 10-newRage)*51)/255, 0, 1);
+		rageBarRepeater.color = newBarColor;
+		rageBarRepeater.rageLevel = newRage;
 	}
 	
 	function updateBar(players) {
@@ -80,21 +33,28 @@ Rectangle {
 				}
 			}
 		}
-		
-		for (var k = 0; k < colors.length; k++) {
-			rageBar.children[k].children[1].source = src+"images/" + colors[k] + "_pion.png"
+
+		let remaining = 10 - colors.length;
+		for(let i = 0;i < remaining;i++){
+			colors.push("");
 		}
+		rageBarRepeater.model = colors;
 	}
 	
-	function addToBar(player_color) {
-		var i = 0
-		while (rageBar.children[i].children[1].source != "") {
-			if (rageBar.children[i].children[1].source.toString().includes(player_color)) {
-				return
+	function addToBar(playerColor) {
+		let model = rageBarRepeater.model;
+		for(let i = 0;i < model.length;i++){
+			if(model[i] === playerColor){
+				// Le joueur est déjà sur la barre: On s'arrête
+				return;
+			}else if(model[i] === ""){
+				// On a trouvé une place libre: On y place le
+				// joueur
+				model[i] = playerColor;
+				break;
 			}
-			i++
 		}
-		rageBar.children[i].children[1].source = src+"images/" + player_color + "_pion.png"
+		rageBarRepeater.model = model;
 	}
 	
 	Rectangle {
@@ -168,211 +128,34 @@ Rectangle {
 				width : parent.width - 3.5*parent.height
 				anchors.verticalCenter: parent.verticalCenter
 				
-				Rectangle {
-					height: parent.height
-					width : parent.width/10
-					color : "indianred"
-					border.color: "#740912"
-					border.width: 1
-					
-					Text {
-						visible: false
-						color: "Black"
-						text: "1"
-						anchors.centerIn: parent
-					}
-					
-					Image {
-						height : parent.height
-						width : parent.height
-						anchors.centerIn: parent
-						source : ""
-						fillMode: Image.PreserveAspectFit
-					}
-				}
-				
-				Rectangle {
-					height: parent.height
-					width : parent.width/10
-					color : "indianred"
-					border.color: "#740912"
-					border.width: 1
-					
-					Text {
-						visible: false
-						text : "2"
-						color : "Black"
-						anchors.centerIn : parent
-					}
-					
-					Image {
-						height : parent.height
-						width : parent.height
-						anchors.centerIn: parent
-						source : ""
-						fillMode: Image.PreserveAspectFit
+				Repeater {
+					id: rageBarRepeater
+					property string color: "indianred"
+					property int rageLevel: 1
+					model: ["", "", "", "", "", "", "", "", "", ""]
+					delegate: Rectangle {
+						height: parent.height
+						width: parent.width/10
+						color: index < rageBarRepeater.rageLevel ? rageBarRepeater.color : "indianred"
+						border.color: "#740912"
+						border.width: 1
+
+						Text {
+							visible: index === rageBarRepeater.rageLevel-1
+							color: "Black"
+							text: index+1
+							anchors.centerIn: parent
+						}
+
+						Image {
+							height: parent.height
+							width: parent.height
+							anchors.centerIn: parent
+							source: modelData === "" ? "" : src+"images/" + modelData + "_pion.png"
+							fillMode: Image.PreserveAspectFit
+						}
 					}
 				}
-				
-				Rectangle {
-					height: parent.height
-					width : parent.width/10
-					color : "indianred"
-					border.color: "#740912"
-					border.width: 1
-					
-					Text {
-						visible: false
-						text : "3"
-						color : "Black"
-						anchors.centerIn : parent 
-					}
-					
-					Image {
-						height : parent.height
-						width : parent.height
-						anchors.centerIn: parent
-						source : ""
-						fillMode: Image.PreserveAspectFit
-					}
-				}
-				
-				Rectangle {
-					height: parent.height
-					width : parent.width/10
-					color : "indianred"
-					border.color: "#740912"
-					border.width: 1
-					
-					Text {
-						visible: false
-						text : "4"
-						color : "Black"
-						anchors.centerIn : parent
-					}
-					
-					Image {
-						height : parent.height
-						width : parent.height
-						anchors.centerIn: parent
-						source : ""
-						fillMode: Image.PreserveAspectFit
-					}
-				}
-				
-				Rectangle {
-					height: parent.height
-					width : parent.width/10
-					color : "indianred"
-					border.color: "#740912"
-					border.width: 1
-					
-					Text {
-						visible: false
-						text : "5"
-						color : "Black"
-						anchors.centerIn : parent
-					}
-					
-					Image {
-						height : parent.height
-						width : parent.height
-						anchors.centerIn: parent
-						source : ""
-						fillMode: Image.PreserveAspectFit
-					}
-				}
-				
-				Rectangle {
-					height: parent.height
-					width : parent.width/10
-					color : "indianred"
-					border.color: "#740912"
-					border.width: 1
-					
-					Text {
-						visible: false
-						text : "6"
-						color : "Black"
-						anchors.centerIn : parent   
-					}
-					
-					Image {
-						height : parent.height
-						width : parent.height
-						anchors.centerIn: parent
-						source : ""
-						fillMode: Image.PreserveAspectFit
-					}
-				}
-				
-				Rectangle {
-					height: parent.height
-					width : parent.width/10
-					color : "indianred"
-					border.color: "#740912"
-					border.width: 1
-					
-					Text {
-						visible: false
-						text : "7"
-						color : "Black"
-						anchors.centerIn : parent
-					}
-					
-					Image {
-						height : parent.height
-						width : parent.height
-						anchors.centerIn: parent
-						source : ""
-						fillMode: Image.PreserveAspectFit
-					}
-				}     
-				
-				Rectangle {
-					height: parent.height
-					width : parent.width/10
-					color : "indianred"
-					border.color: "#740912"
-					border.width: 1
-					
-					Text {
-						visible: false
-						text : "8"
-						color : "Black"
-						anchors.centerIn : parent 
-					}
-				}
-				
-				Rectangle {
-					height: parent.height
-					width : parent.width/10
-					color : "indianred"
-					border.color: "#740912"
-					border.width: 1
-					
-					Text {
-						visible: false
-						text: "9"
-						color: "Black"
-						anchors.centerIn: parent 
-					}
-				}  
-				
-				Rectangle {
-					height: parent.height
-					width: parent.width/10
-					color: "indianred"
-					border.color: "#740912"
-					border.width: 1
-					
-					Text {
-						visible: false
-						text: "10"
-						color: "Black"
-						anchors.centerIn: parent 
-					}
-				}   
 			}
 		}
 	}
