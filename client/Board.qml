@@ -1191,7 +1191,7 @@ Item {
 			
 			Text {
 				id: regleTextId
-				text: qsTr("Regles")
+				text: qsTr("Règles")
 				anchors.centerIn: parent
 				font.pixelSize: 12
 				fontSizeMode: Text.FixedSize
