@@ -17,7 +17,7 @@ Window {
         	id: background
         	source: "/images/background_image.jpg"
         	anchors.fill:parent
-		}
+	}
 	
 	Button {
 		id: btnQuitter
