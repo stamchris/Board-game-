@@ -58,6 +58,7 @@ Window {
 			delegate: Rectangle {
 				width: 1200
 				height: 1200
+				anchors.horizontalCenter: parent.horizontalCenter
 				
 				Image {
 					width: parent.width
