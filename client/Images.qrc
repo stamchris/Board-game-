@@ -40,8 +40,5 @@
 		<file>images/blanc_icone.png</file>
 		<file>images/Stoneyard.ttf</file>
 		<file>images/background_image.jpg</file>
-		<file>images/Regle1.jpg</file>
-		<file>images/Regle2.jpg</file>
-		<file>images/Regle3.jpg</file>
 	</qresource>
 </RCC>
