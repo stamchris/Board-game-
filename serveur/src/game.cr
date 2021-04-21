@@ -149,6 +149,8 @@ class Cerbere::Game
 			board.action_deplacer_moi(plyr[0], new_force)
 		end
 		board.portal_queue.clear()
+
+		board.cerbere_hunting()
 		
 		loop do
 			@active_player += 1
@@ -158,7 +160,7 @@ class Cerbere::Game
 		@nb_turns += 1
 		@action_played = false
 		@bonus_played = false
-		board.cerbere_hunting()
+		
 
 		send_all(Response::UpdateBoard.new(players, board.position_cerbere, board.vitesse_cerbere, board.rage_cerbere, board.pont, active_player))
 		send_all(Response::NextTurn.new())

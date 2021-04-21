@@ -165,9 +165,7 @@ Rectangle {
 				samples: 17
 				color: "white"
 				source: smoothorange
-    		}
-
-			
+    		}	
 		}
 		
 		Pion {
@@ -212,7 +210,6 @@ Rectangle {
 				color: "white"
 				source: smoothwhite
     		}
-  
 		}
 		
 		Pion {
@@ -236,7 +233,6 @@ Rectangle {
 				source: smoothpink
     		}
 		}
-		
 		
 		Pion {
 			id: player6

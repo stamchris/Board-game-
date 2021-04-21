@@ -16,8 +16,8 @@ Item {
     }
     property alias endcolumnid : endcolumnid
     property alias titleend : titleend
-    //property alias adventurerlayout : adventurerlayout
-    //property alias cerberelayout : cerberelayout
+    property alias adventurercolumn : adventurercolumn
+    property alias cerberecolumn : cerberecolumn
 
     Rectangle {
         height : parent.height
@@ -46,11 +46,9 @@ Item {
                         font.pointSize: 36
 			            font.family: "Stoneyard"
                     }
-
                 }
             }
         }
-
 
         Rectangle {
             width : parent.width
@@ -68,6 +66,7 @@ Item {
                     x: 1/10*parent.width
                     color : "transparent"
                     Column {
+                        id : adventurercolumn
                         width : parent.width
                         height : parent.height
                         x : 20/100*width
@@ -82,16 +81,7 @@ Item {
                                 font.pointSize: 30
                                 font.family: "Stoneyard"
                             }
-                        }
-
-                        /*Column {
-                            id : adventurerlayout
-                            width : parent.width
-                            height : parent.height
-                            spacing : parent.height/20
-                            
-                        }*/
-                            
+                        }      
                     }
 
                     Rectangle {
@@ -110,8 +100,7 @@ Item {
                                     GradientStop { position: 1.0; color: "white"; }
                                 }
 
-                    }
-                    
+                    }  
                 }
 
                 Rectangle {
@@ -119,6 +108,7 @@ Item {
                     height : parent.height 
                     color : "transparent"
                     Column {
+                        id : cerberecolumn
                         width : parent.width
                         height : parent.height
                         x : 20/100*width
@@ -135,14 +125,6 @@ Item {
                                 font.family: "Stoneyard"
                             }
                         }
-
-                        /*Column {
-                            id : cerberelayout
-                            width : parent.width
-                            height : parent.height
-                            spacing : parent.height/20
-                            
-                        }*/
                     }
                     Rectangle{
                     width : parent.width/1.1

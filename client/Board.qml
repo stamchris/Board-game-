@@ -141,7 +141,7 @@ Item {
 		id: background1
 		source: src+"images/background_image.jpg"
 		anchors.fill:parent
-	}*/
+	}
 
 	Popup {
 		id : popupFinish

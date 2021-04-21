@@ -149,7 +149,7 @@ Item{
         if(component.status == Component.Ready){
 			var window = component.createObject("imageStatusid")
             console.log(window.width)
-            window.parent = parent.endwindow.endcolumnid.children[0].children[0]
+            window.parent = parent.endwindow.adventurercolumn//endcolumnid.children[0].children[0]
             window.imagestatut.source = src + "images/aventurier_image.png"
             window.imagestatut.width = Qt.binding(function() { return window.imagestatut.parent.width/3})
             window.imagestatut.height = Qt.binding(function() { return window.imagestatut.parent.height/2})
@@ -161,26 +161,6 @@ Item{
         parent.board.popupFinish.open()
     }
 
-    /*function showALoser(player,pop) {
-        if(pop == 1) {
-            parent.board.popupFinish.finalstateplayer.color = player[0].colour
-            parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name + " tu a perdu jeune aventurier !"
-        }
-
-        var component = Qt.createComponent("../library/StatutFin.qml")
-        if(component.status == Component.Ready){
-			var window = component.createObject("imageStatusid")
-            console.log(window.width)
-            window.parent = parent.endwindow.endcolumnid.children[0].children[0]
-            window.imagestatut.source = src + "images/tombe.png"
-		}else if(component.status == Component.Error){
-			console.error(component.errorString());
-		}
-        window.textname.text =  ""+player[0].name + "perdant" 
-        parent.board.popupFinish.open()
-        
-    }*/
-
     function showSWinner(player,pop) {
         if(pop == 1) {
             parent.board.popupFinish.finalstateplayer.color = player[0].colour
@@ -191,7 +171,7 @@ Item{
         if(component.status == Component.Ready){
 			var window = component.createObject("imageStatusid")
             console.log(window.width)
-            window.parent = parent.endwindow.endcolumnid.children[1].children[0]
+            window.parent = parent.endwindow.cerberecolumn//endcolumnid.children[1].children[0]
             window.imagestatut.source = src + "images/cerbere_finaly.png"
             window.imagestatut.width = Qt.binding(function() { return window.imagestatut.parent.width/2})
             window.imagestatut.height = Qt.binding(function() { return window.imagestatut.parent.height/(1.5)})
@@ -213,7 +193,7 @@ Item{
         if(component.status == Component.Ready){
 			var window = component.createObject("imageStatusid")
             console.log(window.width)
-            window.parent = parent.endwindow.endcolumnid.children[1].children[0]
+            window.parent = parent.endwindow.cerberecolumn//endcolumnid.children[1].children[0]
             window.imagestatut.source = src + "images/cerbere_finaly.png"
             window.imagestatut.width = Qt.binding(function() { return window.imagestatut.parent.width/2})
             window.imagestatut.height = Qt.binding(function() { return window.imagestatut.parent.height/1.5})
@@ -234,7 +214,7 @@ Item{
         if(component.status == Component.Ready){
 			var window = component.createObject("imageStatusid")
             console.log(window.width)
-            window.parent = parent.endwindow.endcolumnid.children[0].children[0]
+            window.parent = parent.endwindow.adventurercolumn//endcolumnid.children[0].children[0]
             window.imagestatut.source = src + "images/tombe.png"
             window.imagestatut.width = Qt.binding(function() { return window.imagestatut.parent.width/2})
             window.imagestatut.height = Qt.binding(function() { return window.imagestatut.parent.height/1.5})
