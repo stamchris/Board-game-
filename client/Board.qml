@@ -1080,7 +1080,6 @@ Item {
 	Rectangle {
 		id: menuBarId
 		height: 60
-		//color: "transparent"
 		anchors { 
 			left: parent.left;
 			right: parent.right;

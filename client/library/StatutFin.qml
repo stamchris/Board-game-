@@ -4,7 +4,6 @@ import QtQuick.Controls 2.10
 import QtQuick.Layouts 1.10
 import QtWebSockets 1.0
 
-
 Rectangle {
     id : imageStatusid
     width : parent.width/2

@@ -95,11 +95,10 @@ Item {
                         opacity: 0.5
                         radius: 10
                         gradient: Gradient {
-                                    GradientStop { position: 0.0; color: "black"; }
-                                    GradientStop { position: 0.6; color: "transparent"; }
-                                    GradientStop { position: 1.0; color: "white"; }
-                                }
-
+                            GradientStop { position: 0.0; color: "black"; }
+                            GradientStop { position: 0.6; color: "transparent"; }
+                            GradientStop { position: 1.0; color: "white"; }
+                        }
                     }  
                 }
 
@@ -127,20 +126,20 @@ Item {
                         }
                     }
                     Rectangle{
-                    width : parent.width/1.1
-                    height : parent.height/1.3
-                    x : 20/100*width
-                    y: 10/100*height
-                    border.color: "white"
-                    border.width: 2.5
-                    color : "black"
-                    opacity: 0.5
-                    radius: 10
-                    gradient: Gradient {
-                                GradientStop { position: 0.0; color: "black"; }
-                                GradientStop { position: 0.6; color: "transparent"; }
-                                GradientStop { position: 1.0; color: "white"; }
-                            }
+                        width : parent.width/1.1
+                        height : parent.height/1.3
+                        x : 20/100*width
+                        y: 10/100*height
+                        border.color: "white"
+                        border.width: 2.5
+                        color : "black"
+                        opacity: 0.5
+                        radius: 10
+                        gradient: Gradient {
+                            GradientStop { position: 0.0; color: "black"; }
+                            GradientStop { position: 0.6; color: "transparent"; }
+                            GradientStop { position: 1.0; color: "white"; }
+                        }
                     }
                 }
             }
