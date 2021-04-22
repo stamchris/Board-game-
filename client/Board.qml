@@ -435,9 +435,6 @@ Item {
 				delegate: Button {
 					text: modelData ? "Oui" : "Non"
 					onClicked: {
-						// TODO: L'implémentation semble
-						// incorrecte. Il faudrait
-						// revoir ça.
 						if(modelData){
 							popupPortal.queue.push(window.parent.state.portal_queue[0])
 						}
@@ -445,7 +442,7 @@ Item {
 							window.parent.state.send({
 								type: "portal_confirm",
 								survivors: popupPortal.queue,
-								used: modelData
+								used: popupPortal.queue.length !== 0
 							})
 							popupPortal.close()
 
