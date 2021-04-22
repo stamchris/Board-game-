@@ -5,27 +5,22 @@ import QtWebSockets 1.12
 
 Item {
 	property string src: typeof ROOT_URL === "undefined" ? "" : ROOT_URL
-	
-	property Gradient bcolor: Gradient {
-		GradientStop { position: 0; color: "#f58226" }
-		GradientStop { position: 0.09; color: "#ffbb4c" }
-		GradientStop { position: 0.36; color: "#ffffde" }
-	}
 
-	function changeColours(mareaId){
-		switch(mareaId){
-			case "m1":
-				return console.log("M1 clicked ... ")
-			case "m2":
-				return console.log("M2 clicked ... ")
-			default:
-				console.log("RIEN RIEN")
-				break;
+	property string username: "Not Connected"
+
+	function getPlayerName(scolor){
+		for (var i = 0; i < game.players.length; i++) {
+			if (game.players[i].colour === scolor)
+			{
+				username = game.players[i].name
+				return (typeof username === "undefined"? " ": game.players[i].name)
+			}
+			else{
+				return (typeof username === "undefined"? " ": "Not Connected")
+			}
 		}
+		return " "
 	}
-
-	signal getId(string mareaId)
-
 
 	Rectangle {
 		id: wrap_container
@@ -151,37 +146,41 @@ Item {
 
 		Text {
 			id: cyanText
-			text: if(game.players.colour ==="Cyan"){("Cyan Player" +game.players.name)}else{"Player not Connected"}
+			text:getPlayerName("Cyan")
 			Layout.alignment: Qt.AlignCenter
+			onStateChanged: cyanText.text=getPlayerName("Cyan")
 		}
 		Text {
 			id: blueText
-			text: if(game.players.colour ==="Blue"){("Blue Player" +game.players.name)}else{"Player not Connected"}
+			text: getPlayerName("Blue")
 			Layout.alignment: Qt.AlignCenter
+			onStateChanged: blueText.text=getPlayerName("Blue")
 		}
 		Text {
 			id: roseText
-			text: ("Rose Player")
+			text:getPlayerName("Pink")
 			Layout.alignment: Qt.AlignCenter
+			onStateChanged: roseText.text=getPlayerName("Pink")
 		}
 		Text {
 			id: greenText
-			text: ("Cyan Player")
+			text: getPlayerName("Green")
 			Layout.alignment: Qt.AlignCenter
+			onStateChanged: greenText.text=getPlayerName("Green")
 		}
 		Text {
 			id: whiteText
-			text: ("Cyan Player")
+			text: getPlayerName("White")
 			Layout.alignment: Qt.AlignCenter
 		}
 		Text {
 			id: redText
-			text: ("Cyan Player")
+			text: getPlayerName("Red")
 			Layout.alignment: Qt.AlignCenter
 		}
 		Text {
 			id: orangeText
-			text: ("Cyan Player")
+			text: getPlayerName("Orange")
 			Layout.alignment: Qt.AlignCenter
 		}
 
@@ -317,7 +316,6 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"Cyan"});
-						changeColours("m1");
 					}
 				}
 			}
@@ -368,7 +366,6 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"Blue"})
-						changeColours("m2");
 					}
 				}
 			}
@@ -421,7 +418,6 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"Pink"})
-						changeColours("m3");
 					}
 				}
 			}
@@ -472,7 +468,6 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"Green"})
-						changeColours("m4");
 					}
 				}
 			}
@@ -524,7 +519,6 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"White"})
-						changeColours("m5");
 					}
 				}
 			}
@@ -575,7 +569,6 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"Red"})
-						changeColours("m6");
 					}
 				}
 			}
@@ -625,13 +618,13 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"Orange"})
-						changeColours("m7");
 					}
 				}
 			}
 
 		}
-		}
+	}
+
 
 
 	CheckBox {
@@ -644,12 +637,12 @@ Item {
 		}
 	}
 
+
 	Chat {
 		width: wrap_container.width/4
 		height: wrap_container.height*0.25
 		anchors{bottom: wrap_container.bottom;left: wrap_container.left}
 	}
-
 
 }
 
