@@ -59,6 +59,7 @@ ApplicationWindow {
 						}
 					}
 					game.players = game.players
+					game.state.changeName(game.players)
 					break
 				case "updatePosition":
 					game.state.changePosition(message.player.colour, message.player.position)

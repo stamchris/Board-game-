@@ -4,19 +4,25 @@ import QtQuick.Controls 2.12
 import QtWebSockets 1.12
 
 Item {
+	id : lobby
 	property string src: typeof ROOT_URL === "undefined" ? "" : ROOT_URL
+	property alias gridLayout : gridLayout
 
 	property string username: "Not Connected"
 
 	function getPlayerName(scolor){
+		var change_name = ""
 		for (var i = 0; i < game.players.length; i++) {
 			if (game.players[i].colour === scolor)
 			{
 				username = game.players[i].name
-				return (typeof username === "undefined"? " ": game.players[i].name)
+				change_name = username
+				return change_name
+				//return (typeof username === "undefined"? " ": game.players[i].name)
 			}
 			else{
-				return (typeof username === "undefined"? " ": "Not Connected")
+				console.log(scolor+"non connecter")
+				//return (typeof username === "undefined"? " ": "Not Connected")
 			}
 		}
 		return " "
@@ -146,44 +152,41 @@ Item {
 
 		Text {
 			id: cyanText
-			text:getPlayerName("Cyan")
+			text: "Cyan"//getPlayerName("Cyan")
 			Layout.alignment: Qt.AlignCenter
-			onStateChanged: cyanText.text=getPlayerName("Cyan")
 		}
 		Text {
 			id: blueText
-			text: getPlayerName("Blue")
+			text: "Blue" //getPlayerName("Blue")
 			Layout.alignment: Qt.AlignCenter
-			onStateChanged: blueText.text=getPlayerName("Blue")
 		}
 		Text {
 			id: roseText
-			text:getPlayerName("Pink")
+			text: "Pink"//getPlayerName("Pink")
 			Layout.alignment: Qt.AlignCenter
-			onStateChanged: roseText.text=getPlayerName("Pink")
+			
 		}
 		Text {
 			id: greenText
-			text: getPlayerName("Green")
+			text: "Green"//getPlayerName("Green")
 			Layout.alignment: Qt.AlignCenter
-			onStateChanged: greenText.text=getPlayerName("Green")
+			
 		}
 		Text {
 			id: whiteText
-			text: getPlayerName("White")
+			text: "White"//getPlayerName("White")
 			Layout.alignment: Qt.AlignCenter
 		}
 		Text {
 			id: redText
-			text: getPlayerName("Red")
+			text: "Red"//getPlayerName("Red")
 			Layout.alignment: Qt.AlignCenter
 		}
 		Text {
 			id: orangeText
-			text: getPlayerName("Orange")
+			text: "Orange"//getPlayerName("Red")
 			Layout.alignment: Qt.AlignCenter
 		}
-
 
 		// Players Icons
 		Repeater{
@@ -618,6 +621,7 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"Orange"})
+						console.log("yo couleur"+game.players[2].colour)
 					}
 				}
 			}

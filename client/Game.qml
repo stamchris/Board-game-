@@ -9,7 +9,11 @@ Item {
 	property var rank: -1
 	property var messages : []
 	property alias board: window
+<<<<<<< HEAD
 	property alias endwindow : endwindow
+=======
+	property alias lobby : lobby
+>>>>>>> 7370b7f... Add a solution for change the name when a player change color , not a best solution for sure
 	
 	function getPlayer()
 	{
@@ -22,6 +26,7 @@ Item {
 	}
 	
 	Lobby {
+		id : lobby
 		anchors.fill: parent
 		visible:view == "Login"
 	}
