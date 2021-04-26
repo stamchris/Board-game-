@@ -135,38 +135,73 @@ Item {
 		Text {
 			id: cyanText
 			text: "Cyan"
+			font.pointSize: 15
+			font.family: "Stoneyard"
+			style: Text.Outline
+			color: "#FFF8E4"
+			styleColor: "#21ACBA"
 			Layout.alignment: Qt.AlignCenter
 		}
 		Text {
 			id: blueText
 			text: "Blue" 
+			font.pointSize: 15
+			font.family: "Stoneyard"
+			style: Text.Outline
+			color: "#FFF8E4"
+			styleColor: "#2C4DD6"
 			Layout.alignment: Qt.AlignCenter
 		}
 		Text {
 			id: roseText
 			text: "Pink"
+			font.pointSize: 15
+			font.family: "Stoneyard"
+			style: Text.Outline
+			color: "#FFF8E4"
+			styleColor: "#F2549E"
 			Layout.alignment: Qt.AlignCenter
 			
 		}
 		Text {
 			id: greenText
 			text: "Green"
+			font.pointSize: 15
+			font.family: "Stoneyard"
+			style: Text.Outline
+			color: "#FFF8E4"
+			styleColor: "#3D9519"
 			Layout.alignment: Qt.AlignCenter
 			
 		}
 		Text {
 			id: whiteText
 			text: "White"
+			font.pointSize: 15
+			font.family: "Stoneyard"
+			style: Text.Outline
+			color: "#FFF8E4"
+			styleColor: "black"
 			Layout.alignment: Qt.AlignCenter
 		}
 		Text {
 			id: redText
 			text: "Red"
+			font.pointSize: 15
+			font.family: "Stoneyard"
+			style: Text.Outline
+			color: "#FFF8E4"
+			styleColor: "#D3443B"
 			Layout.alignment: Qt.AlignCenter
 		}
 		Text {
 			id: orangeText
 			text: "Orange"
+			font.pointSize: 15
+			font.family: "Stoneyard"
+			style: Text.Outline
+			color: "#FFF8E4"
+			styleColor: "#BF6B00"
 			Layout.alignment: Qt.AlignCenter
 		}
 
@@ -187,76 +222,6 @@ Item {
 				source: modelData
 			}
 		}
-
-
-//        Repeater{
-//            ListModel {
-//                           id:listmodel
-
-//                           ListElement{source:"images/cyan_pion.png"; distance:1.5; scol:"Cyan"}
-//                           ListElement{source:"images/bleu_pion.png"; distance:1.5; scol:"Blue"}
-//                           ListElement{source:"images/rose_pion.png"; distance:1.5; scol:"Pink"}
-//                           ListElement{source:"images/vert_pion.png"; distance:1.5; scol:"Green"}
-//                           ListElement{source:"images/blanc_pion.png"; distance:1.5; scol:"White"}
-//                           ListElement{source:"images/rouge_pion.png"; distance:1.5; scol:"Red"}
-//                           ListElement{source:"images/orange_pion.png"; distance:1.2; scol:"Orange"}
-//                       }
-
-//            model:listmodel
-
-//            delegate:buttonIcon
-
-//                Component{
-//                id:buttonIcon
-
-//                Button {
-//                width: 100
-//                height: width
-//                Layout.fillWidth: true
-//                Layout.fillHeight: true
-//                Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
-//                Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
-//                Layout.alignment: Qt.AlignCenter
-//                Layout.topMargin: 20
-//                background:
-
-//                Rectangle{
-//                    height: parent.height*1.5
-//                    width: parent.width*1.5
-//                    anchors{centerIn: parent}
-//                    radius:80
-//                    color: "transparent"
-
-//                    BorderImage {
-//                        anchors.centerIn: parent
-//                        height: parent.height/modelData.distance
-//                        width: parent.width/modelData.distance
-//                        source: src+modelData.source
-//                        rotation: -90
-//                    }
-
-//                    MouseArea{
-//                        id:modelData
-//                        anchors.fill:parent
-//                        hoverEnabled: true
-//                        onHoveredChanged: {
-//                        if (hoverEnabled == true) {
-//                            if (containsMouse == true) {
-//                                rec1.color = "#f0f0d3"
-//                            } else {
-//                            rec1.color = "transparent"
-//                            }
-//                        }
-//                        }
-//                        onClicked: {
-//                            socket.send({type:"change_colour",colour:modelData.scol});
-//                           console.log(MouseArea.id);
-//                        }
-//                    }
-//                }
-//            }
-//            }
-
 
 		Button {
 			width: 100
@@ -631,8 +596,3 @@ Item {
 	}
 
 }
-
-
-
-
-
