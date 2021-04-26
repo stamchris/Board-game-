@@ -121,7 +121,7 @@ Rectangle {
 				samples: 17
 				color: "white"
 				source: smoothcerbere
-    		}
+			}
 		}
 		
 		Pion {
@@ -143,8 +143,8 @@ Rectangle {
 				samples: 17
 				color: "white"
 				source: smoothcyan
-    		}
-		}
+			}
+		}	
 		
 		Pion {
 			id: player2
@@ -165,7 +165,7 @@ Rectangle {
 				samples: 17
 				color: "white"
 				source: smoothorange
-    		}	
+			}	
 		}
 		
 		Pion {
@@ -187,7 +187,7 @@ Rectangle {
 				samples: 17
 				color: "white"
 				source: smoothgreen
-    		}
+			}
 		}
 		
 		Pion {
@@ -209,7 +209,7 @@ Rectangle {
 				samples: 17
 				color: "white"
 				source: smoothwhite
-    		}
+			}
 		}
 		
 		Pion {
@@ -231,7 +231,7 @@ Rectangle {
 				samples: 17
 				color: "white"
 				source: smoothpink
-    		}
+			}
 		}
 		
 		Pion {
@@ -253,7 +253,7 @@ Rectangle {
 				samples: 17
 				color: "white"
 				source: smoothblue
-    		}
+			}
 		}
 		
 		Pion {
@@ -275,7 +275,7 @@ Rectangle {
 				samples: 17
 				color: "white"
 				source: smoothred
-    		}
+			}
 		}
 	}
 }
