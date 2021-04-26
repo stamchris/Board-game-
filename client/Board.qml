@@ -1018,7 +1018,21 @@ Item {
 
 	ImagePopUp {
 		id: imgEffetDeCarteId
-		source: "images/effetDeCarte.jpg"
+		source: "images/effetDeCarte.png"
+		anchors.horizontalCenter: parent.horizontalCenter
+		anchors.verticalCenter: parent.verticalCenter
+		
+		MouseArea {
+			anchors.fill: parent
+			
+			onClicked: {
+				if (imgEffetDeCarteId.visible == false) {
+					imgEffetDeCarteId.visible = true
+				} else {
+					imgEffetDeCarteId.visible = false
+				}
+			}
+		}				
 	}
 	
 	Rectangle {
