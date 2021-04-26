@@ -10,24 +10,6 @@ Item {
 
 	property string username: "Not Connected"
 
-	function getPlayerName(scolor){
-		var change_name = ""
-		for (var i = 0; i < game.players.length; i++) {
-			if (game.players[i].colour === scolor)
-			{
-				username = game.players[i].name
-				change_name = username
-				return change_name
-				//return (typeof username === "undefined"? " ": game.players[i].name)
-			}
-			else{
-				console.log(scolor+"non connecter")
-				//return (typeof username === "undefined"? " ": "Not Connected")
-			}
-		}
-		return " "
-	}
-
 	Rectangle {
 		id: wrap_container
 		anchors.fill: parent
@@ -152,39 +134,39 @@ Item {
 
 		Text {
 			id: cyanText
-			text: "Cyan"//getPlayerName("Cyan")
+			text: "Cyan"
 			Layout.alignment: Qt.AlignCenter
 		}
 		Text {
 			id: blueText
-			text: "Blue" //getPlayerName("Blue")
+			text: "Blue" 
 			Layout.alignment: Qt.AlignCenter
 		}
 		Text {
 			id: roseText
-			text: "Pink"//getPlayerName("Pink")
+			text: "Pink"
 			Layout.alignment: Qt.AlignCenter
 			
 		}
 		Text {
 			id: greenText
-			text: "Green"//getPlayerName("Green")
+			text: "Green"
 			Layout.alignment: Qt.AlignCenter
 			
 		}
 		Text {
 			id: whiteText
-			text: "White"//getPlayerName("White")
+			text: "White"
 			Layout.alignment: Qt.AlignCenter
 		}
 		Text {
 			id: redText
-			text: "Red"//getPlayerName("Red")
+			text: "Red"
 			Layout.alignment: Qt.AlignCenter
 		}
 		Text {
 			id: orangeText
-			text: "Orange"//getPlayerName("Red")
+			text: "Orange"
 			Layout.alignment: Qt.AlignCenter
 		}
 

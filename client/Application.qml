@@ -38,6 +38,7 @@ ApplicationWindow {
 					game.players = message.players
 					game.visible = true
 					game.rank = message.rank
+					game.state.changeName(game.players)
 					loader.push(game)
 					break
 				case "starter":
