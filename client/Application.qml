@@ -22,6 +22,7 @@ ApplicationWindow {
 		id: socket
 		property bool waiting4Connect: false
 		property string login: ""
+		property string password: ""
 		
 		function send(message) {
 			socket.sendTextMessage(JSON.stringify(message))
@@ -136,11 +137,12 @@ ApplicationWindow {
 			}
 		}
 
-		function connect(serveur, login) {
+		function connect(serveur, login, password) {
 			socket.url = "ws://" + serveur
 			socket.active = true
 			socket.waiting4Connect = true
 			socket.login = login
+			socket.password = password
 		}
 
 		onStatusChanged: {
@@ -154,6 +156,11 @@ ApplicationWindow {
 				socket.sendTextMessage(JSON.stringify({
 					type: "login",
 					name:socket.login
+				}))
+
+				socket.sendTextMessage(JSON.stringify({
+					type: "password",
+					password: socket.password
 				}))
 			}
 		}

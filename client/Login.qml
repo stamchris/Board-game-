@@ -54,7 +54,22 @@ Item {
 			width: 220
 			id: loginInput
 		}
+		
+		Label {
+			anchors.horizontalCenter: parent.horizontalCenter
+			text: "Mot de passe :"
+			font.pointSize: 12
+			font.family: "Stoneyard"
+		}
 
+		TextField {
+			anchors.horizontalCenter: parent.horizontalCenter
+			width: 220
+			id: pwdInput
+			echoMode: TextInput.Password
+		}
+
+		Label {
 		RoundButton {
 			id: boutton_rond
 			anchors.horizontalCenter: parent.horizontalCenter
@@ -63,7 +78,7 @@ Item {
 			radius: 5
 
 			onHoverEnabledChanged: boutton_rond.background.color = "grey"
-			onClicked: socket.connect(serveurInput.text, loginInput.text)
+			onClicked: socket.connect(serveurInput.text, loginInput.text, pwdInput.text)
 		}
 
 		Label {

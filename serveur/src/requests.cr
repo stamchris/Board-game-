@@ -29,14 +29,23 @@ class Cerbere::Request
 		def handle(game : Game, player : Player)
 			player.name = @name
 			
-			if game.players.size == 0
-				player.owner = true
+			if player.password != ""
+				player.authentification(game)
 			end
+		end
+	end
 
-			game << player
-			game.send_all Response::NewPlayer.new player
+	class Password < Request
+		property type = "password"
+		property password : String
 
-			player.send(Response::Welcome.new game.players, game.players.size-1)
+		def handle(game : Game, player : Player)
+			sha256 = OpenSSL::Digest.new("sha256")
+			player.password = sha256.update(@password).final.hexstring
+
+			if player.name != ""
+				player.authentification(game)
+			end
 		end
 	end
 
