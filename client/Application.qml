@@ -83,9 +83,9 @@ ApplicationWindow {
 				case "discardBonus":
 					game.state.discardBonus(message.cardname)
 					break
-		case "useBridge":
-			game.state.useBridge(message.pontQueue)
-			break
+				case "useBridge":
+					game.state.useBridge(message.pontQueue)
+					break
 				case "usePortal":
 					game.state.usePortal(message.portalQueue)
 					break
