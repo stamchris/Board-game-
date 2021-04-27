@@ -131,9 +131,7 @@ Row {
 		id: firstPlateauid
 		width: parent.width*294/1000
 		color: "transparent"
-		height: parent.height
-		property alias pionesId: pionesId
-		
+		height: parent.height	
 		
 		ShowEffect{
 			id:msg1
@@ -1107,6 +1105,6 @@ Row {
 	}
 	
 	Component.onCompleted: {
-		notifyPiones.connect(pionesId.children[0].receiveCounterPiones)
+		notifyPiones.connect(pionesId.receiveCounterPiones)
 	}
 }

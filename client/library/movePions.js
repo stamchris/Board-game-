@@ -21,93 +21,56 @@ function choosePlayer(playerColor) {
 	}
 }
 
-function fixYArray(array, index) {
-	if (array[index] > 2) {
-		return array[index] = 0
-	} else {
-		return array[index] += 1
-	}
-}
-
-function fixXCounter(array, index) {
-	if (array[index] <8 ) {
-		return array[index] += 1
-	} else{
-		return array[index] = 0
-	}
-}
-
-function fixXArray(xarray, xCounter, index) {
-	if (xCounter[index] > 4) {
-		return xarray[index] = 1
-	} else {
-		return xarray[index] = 0
-	}
-}
-
-function findYposition(count, choosePlayer) {
-	if(choosePlayer ==  cerbere) {
-		console.log("cerbere : "+count)
-	}
-	switch(count) {
+function movePlayer(newPosition, choosePlayer) {
+	switch(newPosition) {
 		case '0':
 			choosePlayer.parent = layoutPawn0
-			return choosePlayer.yPosition = layoutPawn0.height
+			break;
 		case '1':
 			choosePlayer.parent = layoutPawn1
-			return choosePlayer.yPosition = layoutPawn1.height
+			break;
 		case '2':
 			choosePlayer.parent = layoutPawn2
-			return choosePlayer.yPosition = layoutPawn2.height
+			break;
 		case '3':
 			choosePlayer.parent = layoutPawn3
-			return choosePlayer.yPosition = layoutPawn3.height
+			break;
 		case '4':
 			choosePlayer.parent = layoutPawn4
-			return choosePlayer.yPosition = layoutPawn4.height
+			break;
 		case '5':
 			choosePlayer.parent = layoutPawn5
-			return choosePlayer.yPosition = layoutPawn5.height
+			break;
 		case '6':
 			choosePlayer.parent = layoutPawn6
-			return choosePlayer.yPosition = layoutPawn6.height
+			break;
 		case '7':
 			choosePlayer.parent = layoutPawn7
-			return choosePlayer.yPosition = layoutPawn7.height
+			break;
 		case '8':
 			choosePlayer.parent = layoutPawn8
-			return choosePlayer.yPosition = layoutPawn8.height
+			break;
 		case '9':
 			choosePlayer.parent = layoutPawn9
-			return choosePlayer.yPosition = layoutPawn9.height
+			break;
 		case '10':
 			choosePlayer.parent = layoutPawn10
-			return choosePlayer.yPosition = layoutPawn10.height
+			break;
 		case '11':
 			choosePlayer.parent = layoutPawn11
-			return choosePlayer.yPosition = layoutPawn11.height
+			break;
 		case '12':
 			choosePlayer.parent = layoutPawn12
-			choosePlayer.height = 20
-			choosePlayer.width = 20
-			return choosePlayer.yPosition = layoutPawn12.height
+			break;
 		case '13':
 			choosePlayer.parent = layoutPawn13
-			if(choosePlayer ==  cerbere) {
-				choosePlayer.height = 45
-				choosePlayer.width = 45
-			}
-			else {
-				choosePlayer.height = layoutPawn13.height/5
-				choosePlayer.width = layoutPawn13.width/3
-			}
-			return choosePlayer.yPosition = layoutPawn13.height
+			break;
 		case '14':
 			choosePlayer.parent = layoutPawn14
-			return choosePlayer.yPosition = layoutPawn14.height
+			break;
 		case '15':
 			choosePlayer.parent = layoutPawn15
-			return choosePlayer.yPosition = layoutPawn15.height
+			break;
 		case '16':
 			case16Id.color = "red"
 			case16Id.color= Qt.rgba(case16Id.color.r,case16Id.color.g, case16Id.color.b,0.25)
@@ -118,7 +81,7 @@ function findYposition(count, choosePlayer) {
 			case15Id.color = "brown"
 			case15Id.color= Qt.rgba(case15Id.color.r,case15Id.color.g, case15Id.color.b,0.25)
 			choosePlayer.parent = layoutPawn16
-			return choosePlayer.yPosition = layoutPawn16.height
+			break;
 		case'17':
 			choosePlayer.parent = layoutPawn17
 			if(!layoutPawn16.children[0]) {
@@ -131,104 +94,25 @@ function findYposition(count, choosePlayer) {
 				case15Id.color = "transparent"
 				case15Id.opacity = 1
 			}
-			return choosePlayer.yPosition = layoutPawn17.height
+			break;
 		case '18':
 			choosePlayer.parent = layoutPawn18
-			return choosePlayer.yPosition = layoutPawn18.height
+			break;
 		case '19':
 			choosePlayer.parent = layoutPawn19
-			return choosePlayer.yPosition = layoutPawn19.height
+			break;
 		case '20':
 			choosePlayer.parent = layoutPawn20
-			return choosePlayer.yPosition = layoutPawn20.height
+			break;
 		case '21':
 			choosePlayer.parent = layoutPawn21
-			return choosePlayer.yPosition = layoutPawn21.height
+			break;
 		case '22':
 			choosePlayer.parent = layoutPawn22
-			return choosePlayer.yPosition = layoutPawn22.height
+			break;
 		case '23':
 			choosePlayer.parent = layoutPawnBarque
-			return choosePlayer.yPosition = layoutPawnBarque.height   
-		default:
-			break
-	}
-}
-
-function findXposition(count, choosePlayer) {
-	switch(count) {
-		case '0':
-			choosePlayer.parent = layoutPawn0
-			return  choosePlayer.xPosition = layoutPawn0.x
-		case '1':
-			choosePlayer.parent = layoutPawn1
-			return  choosePlayer.xPosition = layoutPawn1.x
-		case '2':
-			choosePlayer.parent = layoutPawn2
-			return choosePlayer.xPosition = layoutPawn2.x
-		case '3':
-			choosePlayer.parent = layoutPawn3
-			return choosePlayer.xPosition = layoutPawn3.x
-		case '4':
-			choosePlayer.parent = layoutPawn4
-			return choosePlayer.xPosition = layoutPawn4.x
-		case '5':
-			choosePlayer.parent = layoutPawn5
-			return choosePlayer.xPosition = layoutPawn5.x
-		case '6':
-			choosePlayer.parent = layoutPawn6
-			return choosePlayer.xPosition = layoutPawn6.x
-		case '7':
-			choosePlayer.parent = layoutPawn7
-			return choosePlayer.xPosition = layoutPawn7.x
-		case '8':
-			choosePlayer.parent = layoutPawn8
-			return choosePlayer.xPosition = layoutPawn8.x
-		case '9':
-			choosePlayer.parent = layoutPawn9
-			return choosePlayer.xPosition = layoutPawn9.x
-		case '10':
-			choosePlayer.parent = layoutPawn10
-			return choosePlayer.xPosition = layoutPawn10.x
-		case '11':
-			choosePlayer.parent = layoutPawn11
-			return choosePlayer.xPosition = layoutPawn11.x
-		case '12':
-			choosePlayer.parent = layoutPawn12
-			return choosePlayer.xPosition = layoutPawn12.x
-		case '13':
-			choosePlayer.parent = layoutPawn13
-			return choosePlayer.xPosition = layoutPawn13.x
-		case '14':
-			choosePlayer.parent = layoutPawn14
-			return choosePlayer.xPosition = layoutPawn14.x
-		case '15':
-			choosePlayer.parent = layoutPawn15
-			return choosePlayer.xPosition = layoutPawn15.x
-		case '16':
-			choosePlayer.parent = layoutPawn16
-			return choosePlayer.xPosition = layoutPawn16.x
-		case '17':
-			choosePlayer.parent = layoutPawn17
-			return choosePlayer.xPosition = layoutPawn17.x
-		case '18':
-			choosePlayer.parent = layoutPawn18
-			return choosePlayer.xPosition = layoutPawn18.x
-		case '19':
-			choosePlayer.parent = layoutPawn19
-			return choosePlayer.xPosition = layoutPawn19.x
-		case '20':
-			choosePlayer.parent = layoutPawn20
-			return choosePlayer.xPosition = layoutPawn20.x
-		case '21':
-			choosePlayer.parent = layoutPawn21
-			return choosePlayer.xPosition = layoutPawn21.x
-		case '22':
-			choosePlayer.parent = layoutPawn22
-			return choosePlayer.xPosition = layoutPawn22.x
-		case '23':
-			choosePlayer.parent = layoutPawnBarque
-			return choosePlayer.xPosition = layoutPawnBarque.x
+			break;  
 		default:
 			break
 	}

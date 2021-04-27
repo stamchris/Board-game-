@@ -1039,7 +1039,8 @@ Item {
 				height: parent.height - 4
 				width: parent.width - 4
 				anchors.centerIn: parent
-				
+				color: "transparent"
+
 				Rectangle {
 					height: parent.height/2
 					width:  parent.width - parent.height
@@ -1186,6 +1187,8 @@ Item {
 		width: parent.width*8/10
 		height: 40
 		color: "transparent"
+		border.color: "#740912"
+		border.width: 1
 
 		anchors {
 			top: plateauId.bottom;
@@ -1316,7 +1319,7 @@ Item {
 			clip: true
 			height: parent.height
 			width : parent.width/2
-			color: "#e8e1cd"
+			color: "transparent"
 			anchors.left: actionCardRepeater.itemAt(actionCardRepeater.count-1).right
 
 			ScrollBar{
@@ -1331,12 +1334,6 @@ Item {
 				anchors.bottom: parent.bottom
 				z: 10
 				height: parent.height/20
-			}
-			
-			BorderImage {
-				id: background2
-				source: src+"images/background_image.jpg"
-				anchors.fill:parent
 			}
 
 			Row {
