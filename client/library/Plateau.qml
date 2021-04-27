@@ -56,6 +56,9 @@ Row {
 					img_barque2color.color = tmp
 					imageflecheidorange.width =  Qt.binding(function() { return imageflecheidorange.parent.width * 0.56 })
 					imageflecheidrouge.width =  Qt.binding(function() { return imageflecheidrouge.parent.width * 0.56 })
+					imageflecheidorange.x = 0
+					imageflecheidrouge.x = 0
+					console.log("1,2")
 				} else if(barqswap2 == "3") {
 					tmp = ""+img_barquecolor.color
 					img_barquecolor.color = img_barque3color.color
@@ -71,15 +74,21 @@ Row {
 					tmp = ""+img_barque2color.color
 					img_barque2color.color = img_barquecolor.color
 					img_barquecolor.color = tmp
+					imageflecheidorange.width =  Qt.binding(function() { return imageflecheidorange.parent.width *0.56})
+					imageflecheidrouge.width =  Qt.binding(function() { return imageflecheidrouge.parent.width *0.56})
+					imageflecheidorange.x = 0
+					imageflecheidrouge.x = 0
+
 				} else if(barqswap2 == "3") {
 					tmp = ""+img_barque2color.color
 					img_barque2color.color = img_barque3color.color
 					img_barque3color.color = tmp
+					imageflecheidorange.width =  Qt.binding(function() { return imageflecheidorange.parent.width * 0.56 })
+					imageflecheidrouge.width = Qt.binding(function() { return imageflecheidrouge.parent.width * 0.56 })
+					imageflecheidorange.x =  Qt.binding(function() { return imageflecheidorange.parent.width * 6/15 })
+					imageflecheidrouge.x =  Qt.binding(function() { return imageflecheidrouge.parent.width * 6/15 })
 				}  
-				imageflecheidorange.width =  Qt.binding(function() { return imageflecheidorange.parent.width * 0.56 })
-				imageflecheidrouge.width = Qt.binding(function() { return imageflecheidrouge.parent.width * 0.56 })
-				imageflecheidorange.x =  Qt.binding(function() { return imageflecheidorange.parent.width * 6/15 })
-				imageflecheidrouge.x =  Qt.binding(function() { return imageflecheidrouge.parent.width * 6/15 })
+				
 				break
 			case "3":
 				if(barqswap2 == "2") {
@@ -88,12 +97,14 @@ Row {
 					img_barque2color.color = tmp
 					imageflecheidorange.width =  Qt.binding(function() { return imageflecheidorange.parent.width * 0.56 })
 					imageflecheidrouge.width = Qt.binding(function() { return imageflecheidrouge.parent.width * 0.56 })
+					imageflecheidorange.x =  Qt.binding(function() { return imageflecheidorange.parent.width * 6/15 })
+					imageflecheidrouge.x =  Qt.binding(function() { return imageflecheidrouge.parent.width * 6/15 })
 				} else if(barqswap2 == "1") {
 					tmp = ""+img_barque3color.color
 					img_barque3color.color = img_barquecolor.color
 					img_barquecolor.color = tmp
 					imageflecheidorange.width =  Qt.binding(function() { return imageflecheidorange.parent.width *1.05})
-					mageflecheidrouge.width =  Qt.binding(function() { return imageflecheidrouge.parent.width *1.05})
+					imageflecheidrouge.width =  Qt.binding(function() { return imageflecheidrouge.parent.width *1.05})
 					imageflecheidorange.x = 0
 					imageflecheidrouge.x = 0
 				}
