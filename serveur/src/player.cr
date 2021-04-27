@@ -57,10 +57,12 @@ class Cerbere::Player
 
 	def authentification(game)
 		DB.open "mysql://root@localhost/database" do |db|
-			db.query "SELECT tab_joueur FROM tab_joueur WHERE tab_joueur.pseudo_joueur = ?", @name do |result|
+			db.query "SELECT tab_joueur.id_joueur FROM tab_joueur WHERE tab_joueur.pseudo_joueur = ?", @name do |result|
 				if result.column_count == 1
+				 db.query "tab_joueur.password_joueur = ?",@password 
 					#TODO : vérifier que @password == mdp stocké dans la BDD, sinon, refuser la connexion
 				elsif result.column_count == 0
+				db.query "INSERT INTO tab_joueur (login_joueur,password_joueur) VALUES('?','?')", @name,@password
 					#TODO : On a pas le player, donc il faut créer un nouveau joueur avec @name et @password
 				else
 					#TODO : On a plus qu'une colonne, donc on a une duplication dans la BDD, il faut lancer une alerte
