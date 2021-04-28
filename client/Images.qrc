@@ -30,7 +30,8 @@
 		<file>images/chrono.png</file>
 		<file>images/colere_icone.png</file>
 		<file>images/vitesse_icone.png</file>
-		<file>images/grande_fleche_bleue_test.png</file>
+		<file>images/grande_fleche_orange.png</file>
+		<file>images/grande_fleche_rouge.png</file>
 		<file>images/cyan_icone.png</file>
 		<file>images/orange_icone.png</file>
 		<file>images/bleu_icone.png</file>
@@ -40,5 +41,6 @@
 		<file>images/blanc_icone.png</file>
 		<file>images/Stoneyard.ttf</file>
 		<file>images/background_image.jpg</file>
+		<file>images/background_fin.jpg</file>
 	</qresource>
 </RCC>

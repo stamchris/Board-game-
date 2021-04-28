@@ -1,5 +1,6 @@
 import QtQuick 2.10
 import QtQuick.Layouts 1.10
+import QtGraphicalEffects 1.10
 import QtQuick.Controls 2.10
 import "movePions.js" as MovePions
 
@@ -54,6 +55,7 @@ Rectangle {
 						player5.visible = true
 						receiveCounterPiones(1, "Pink")
 						window.parent.state.changePosition("Pink", 1)
+						break
 					case "Blue":
 						player6.visible = true
 						receiveCounterPiones(1, "Blue")
@@ -86,6 +88,7 @@ Rectangle {
 					break
 				case "Pink":
 					player5.visible = false
+					break
 				case "Blue":
 					player6.visible = false
 					break
@@ -102,12 +105,23 @@ Rectangle {
 			visible: false
 			yPosition: 0
 			xPosition: 5
+			width : 45
+			height : 45
 			color: "transparent"
 			
 			Image {
+				id : smoothcerbere
 				anchors.fill : parent
 				source : src+"images/Cerbere_pion.png"
 			}  
+
+			Glow {
+				anchors.fill: smoothcerbere
+				radius: 8
+				samples: 17
+				color: "white"
+				source: smoothcerbere
+			}
 		}
 		
 		Pion {
@@ -118,10 +132,19 @@ Rectangle {
 			color: "transparent"
 			
 			Image {
+				id : smoothcyan
 				anchors.fill: parent
 				source: src+"images/Cyan_pion.png"
 			}
-		}
+
+			Glow {
+				anchors.fill: smoothcyan
+				radius: 8
+				samples: 17
+				color: "white"
+				source: smoothcyan
+			}
+		}	
 		
 		Pion {
 			id: player2
@@ -131,9 +154,18 @@ Rectangle {
 			color: "transparent"
 			
 			Image {
+				id : smoothorange
 				anchors.fill: parent
 				source: src+"images/Orange_pion.png"
 			}
+
+			Glow {
+				anchors.fill: smoothorange
+				radius: 8
+				samples: 17
+				color: "white"
+				source: smoothorange
+			}	
 		}
 		
 		Pion {
@@ -144,8 +176,17 @@ Rectangle {
 			color: "transparent"
 			
 			Image {
+				id : smoothgreen
 				anchors.fill: parent
 				source: src+"images/Green_pion.png"
+			}
+
+			Glow {
+				anchors.fill: smoothgreen
+				radius: 8
+				samples: 17
+				color: "white"
+				source: smoothgreen
 			}
 		}
 		
@@ -157,9 +198,18 @@ Rectangle {
 			color: "transparent"
 			
 			Image {
+				id : smoothwhite
 				anchors.fill: parent
 				source: src+"images/White_pion.png"
-			}   
+			} 
+
+			Glow {
+				anchors.fill: smoothwhite
+				radius: 8
+				samples: 17
+				color: "white"
+				source: smoothwhite
+			}
 		}
 		
 		Pion {
@@ -170,11 +220,19 @@ Rectangle {
 			color: "transparent"
 			
 			Image {
+				id : smoothpink
 				anchors.fill: parent
 				source: src+"images/Pink_pion.png"
 			}
+
+			Glow {
+				anchors.fill: smoothpink
+				radius: 8
+				samples: 17
+				color: "white"
+				source: smoothpink
+			}
 		}
-		
 		
 		Pion {
 			id: player6
@@ -184,8 +242,17 @@ Rectangle {
 			color: "transparent"
 			
 			Image {
+				id : smoothblue
 				anchors.fill: parent
 				source: src+"images/Blue_pion.png"
+			}
+
+			Glow {
+				anchors.fill: smoothblue
+				radius: 8
+				samples: 17
+				color: "white"
+				source: smoothblue
 			}
 		}
 		
@@ -197,8 +264,17 @@ Rectangle {
 			color: "transparent"
 			
 			Image {
+				id : smoothred
 				anchors.fill: parent
 				source: src+"images/Red_pion.png"
+			}
+
+			Glow {
+				anchors.fill: smoothred
+				radius: 8
+				samples: 17
+				color: "white"
+				source: smoothred
 			}
 		}
 	}

@@ -99,6 +99,10 @@ class Cerbere::Game
 	end
 
 	def new_turn()
+		if(@finished == true)
+			return 
+		end
+
 		if (!@action_played)
 			board.play_card(players[active_player], true, 0, 0, [[0],[0],[0]])
 			@action_played = true
@@ -145,6 +149,8 @@ class Cerbere::Game
 			board.action_deplacer_moi(plyr[0], new_force)
 		end
 		board.portal_queue.clear()
+
+		board.cerbere_hunting()
 		
 		loop do
 			@active_player += 1
@@ -154,8 +160,8 @@ class Cerbere::Game
 		@nb_turns += 1
 		@action_played = false
 		@bonus_played = false
-		board.cerbere_hunting()
 		
+
 		send_all(Response::UpdateBoard.new(players, board.position_cerbere, board.vitesse_cerbere, board.rage_cerbere, board.pont, active_player))
 		send_all(Response::NextTurn.new())
 		spawn do 
@@ -186,7 +192,9 @@ class Cerbere::Game
 		nb_loosers = 0
 		nb_winners = 0
 		nb_rest_in_game = 0
-		@players.each do |p|
+		status_s_c = [] of Int32 #s pour status survivants c pour pour cerbere
+		status_s_c << 0
+		players.each do |p|
 			if(p.type != TypeJoueur::AVENTURIER)
 				nb_loosers += 1
 			elsif(p.position == @board.nodes.size()-1)
@@ -194,60 +202,58 @@ class Cerbere::Game
 			else 
 				nb_rest_in_game += 1
 			end
+			status_s_c << 0
+
 		end
 		
 		if(nb_loosers==@players.size())
+			status_s_c[0] = 1
+			i = 0
 			@players.each do |p|
-				if(p.type == TypeJoueur::MORT)
-					p.send(Response::EliminatePlayer.new([p]))
-				elsif(p.type == TypeJoueur::CERBERE)
-					p.send(Response::SurvivorWin.new([p]))
-				else 
-					p.send(Response::AdventurerLose.new([p]))
-					
-				end
+				status_s_c[i+1] = 1
+				i += 1
 			end
+			@players.each do |p|
+				p.send(Response::StatusPlayer.new(players,status_s_c,p))
+			end
+			@finished = true
 			return 
 		end
 		
 		if(@board.barques.size() == 1) #reveal barque
-			if(@board.action_verif_barque())
-				if(nb_rest_in_game > 0)
-					@players.each do |p|
-						if(p.type == TypeJoueur::MORT)
-							p.send(Response::EliminatePlayer.new([p]))
-						elsif(p.type == TypeJoueur::CERBERE)
-							p.send(Response::SurvivorLose.new([p]))
-						else 
-							if(p.position == @board.nodes.size() - 1)
-								p.send(Response::AdventurerWin.new([p]))
-							else
-								p.send(Response::AdventurerLose.new([p]))
-							end
+			if(@board.action_verif_barque()) #checker quels aventuriers ont perdus et lesquels ont gagné
+				status_s_c[0] = 0
+				i = 0
+				@players.each do |p|
+					if(p.position != @board.nodes.size - 1)
+						if(p.type == TypeJoueur::CERBERE)
+							status_s_c[i+1] = 0
+						else 	
+							status_s_c[i+1] = 1
 						end
+					else
+						status_s_c[i+1] = 0
 					end
-				else 
-					@players.each do |p|
-						if(p.type == TypeJoueur::MORT)
-							p.send(Response::EliminatePlayer.new([p]))
-						elsif(p.type == TypeJoueur::CERBERE)
-							p.send(Response::SurvivorLose.new([p]))
-						else 
-							p.send(Response::AdventurerWin.new([p]))
-						end
-					end
+					i += 1
 				end
+				@players.each do |p|
+					p.send(Response::StatusPlayer.new(players,status_s_c,p))
+				end
+				@finished = true
+				return 
 			else 
-				if(@board.barques[0] > nb_rest_in_game)
+				if((board.barques[0]-(nb_winners)) > nb_rest_in_game)
+					status_s_c[0] = 1
+					i = 0
 					@players.each do |p|
-						if(p.type == TypeJoueur::MORT)
-							p.send(Response::EliminatePlayer.new([p]))
-						elsif(p.type == TypeJoueur::CERBERE)
-							p.send(Response::SurvivorWin.new([p]))
-						else 
-							p.send(Response::AdventurerLose.new([p]))
-						end
+						status_s_c[i+1] = 1
+						i += 1
 					end
+					@players.each do |p|
+						p.send(Response::StatusPlayer.new(players,status_s_c,p))
+					end
+					@finished = true
+					return 
 				end
 			end
 		end

@@ -1,4 +1,5 @@
 import QtQuick 2.10
+import QtGraphicalEffects 1.10
 import QtQuick.Layouts 1.10
 import QtQuick.Controls 2.10
 
@@ -7,8 +8,8 @@ Rectangle {
 	property alias yPosition: pionId.y
 	property alias xPosition: pionId.x
 	id: pionId
-	width: 20
-	height: 20
+	width: parent.width/3
+	height: parent.height/5
 	color: "white"
 	radius: 15
 	y: 0
