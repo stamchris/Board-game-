@@ -30,6 +30,7 @@ pages:
                 - cd client
                 - $qmake_wasm -d
                 - make
+                - sed -n "s+<file>\(.*\)</file>+\1+p" Images.qrc | xargs rm
                 - cd ..
                 - mkdir public
                 - mv client/{client.{html,js,wasm},qtloader.js,qtlogo.svg,images} public
