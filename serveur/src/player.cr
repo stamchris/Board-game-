@@ -57,7 +57,7 @@ class Cerbere::Player
 
 	def authentification(game)
 		DB.open "mysql://root@localhost/database" do |db|
-			db.query "SELECT tab_joueur.id_joueur FROM tab_joueur WHERE tab_joueur.pseudo_joueur = ?", @name do |result|
+			db.query "SELECT * FROM tab_joueur WHERE tab_joueur.login_joueur = ?", @name do |result|
 				if result.column_count == 1
 				 db.query "tab_joueur.password_joueur = ?",@password 
 					#TODO : vérifier que @password == mdp stocké dans la BDD, sinon, refuser la connexion
