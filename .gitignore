@@ -16,3 +16,4 @@ qtlogo.svg
 client/client
 moc_*.cpp
 moc_predefs.h
+serveur/lib
