@@ -23,5 +23,7 @@
 		<file>KickButton.qml</file>
 		<file>LobbyOption.qml</file>
 		<file>library/cards.js</file>
+		<file>Fin.qml</file>
+		<file>library/StatutFin.qml</file>
 	</qresource>
 </RCC>

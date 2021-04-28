@@ -87,7 +87,7 @@ Rectangle {
 	}
 	
 	function addToBar(player_color) {
-		var i = window.parent.state.players.length
+		var i = 0
 		while (rageBar.children[i].children[1].source != "") {
 			if (rageBar.children[i].children[1].source.toString().includes(player_color)) {
 				return

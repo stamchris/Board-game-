@@ -9,6 +9,7 @@ Item {
 	property var rank: -1
 	property var messages : []
 	property alias board: window
+	property alias endwindow : endwindow
 	
 	function getPlayer()
 	{
@@ -29,5 +30,11 @@ Item {
 		id: window
 		anchors.fill: parent
 		visible: view == "Board"
+	}
+
+	Fin {
+		id: endwindow
+		anchors.fill : parent
+		visible:view == "Fin"
 	}
 }

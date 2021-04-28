@@ -547,43 +547,13 @@ class Cerbere::Response
 		end
 	end
 
-	class AdventurerWin < Response 
-		property type = "awinner"
-		property plyr : Array(Player)
+	class StatusPlayer < Response
+		property type = "statusplayers"
+		property players : Array(Player)
+		property status : Array(Int32)
+		property player : Player
 
-		def initialize(@plyr)
-		end
-	end
-
-	class AdventurerLose < Response 
-		property type = "aloser"
-		property plyr : Array(Player)
-
-		def initialize(@plyr)
-		end
-	end
-
-	class SurvivorWin < Response 
-		property type = "swinner"
-		property plyr : Array(Player)
-
-		def initialize(@plyr)
-		end
-	end
-
-	class SurvivorLose < Response 
-		property type = "sloser"
-		property plyr : Array(Player)
-
-		def initialize(@plyr)
-		end
-	end
-
-	class EliminatePlayer < Response 
-		property type = "eliminate"
-		property plyr : Array(Player)
-
-		def initialize(@plyr)
+		def initialize(@players,@status,@player)
 		end
 	end
 

@@ -110,20 +110,9 @@ ApplicationWindow {
 				case "revealBarque":
 					game.state.showRevealBarque(message.barque)
 					break
-				case "awinner":
-					game.state.showAWinner(message.plyr)
-					break
-				case "aloser":
-					game.state.showALoser(message.plyr)
-					break
-				case "swinner":
-					game.state.showSWinner(message.plyr)
-					break
-				case "sloser":
-					game.state.showSLoser(message.plyr)
-					break
-				case "eliminate":
-					game.state.showEliminate(message.plyr)
+				case "statusplayers":
+					console.log("statusplayers")
+					game.state.showPlayersEnd(message.players,message.status,message.player)
 					break
 				case "cantDoThat":
 					let msg = "Vous ne pouvez pas faire ça ! "+message.msg;
@@ -134,6 +123,7 @@ ApplicationWindow {
 					game.state.askSabotage(message.effect)
 					break
 				case "nextTurn":
+					game.state.hideSwapBarque()
 					game.board.popupBridge.close()
 					game.board.popupPortal.close()
 					game.board.playersChoice.close()

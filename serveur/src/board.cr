@@ -364,12 +364,14 @@ class Cerbere::Board
 	def action_move_cerbere(force : Int32)
 		size_board = nodes.size
 		tmp = @position_cerbere + force
-		pos_max = 0
+		pos_max = -1
 
 		if ((force > 0) && (tmp < size_board))
 			pos_max = tmp
 		elsif ((force < 0) && (tmp >= 0))
 			pos_max = tmp
+		else 
+			pos_max = size_board - 2
 		end
 
 		capturable = index_capture(pos_max)
