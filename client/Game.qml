@@ -20,7 +20,7 @@ Item {
 
 	function addMessage(player,timestamp, message) {
 		messages.push({player:player, timestamp:timestamp, message:message})
-    	messages = messages
+		messages = messages
 	}
 	
 	Lobby {

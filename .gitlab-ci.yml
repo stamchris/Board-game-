@@ -101,3 +101,15 @@ verif_serveur:
                 - shards build
         only:
                 - merge_requests
+
+verif_indentation:
+        before_script:
+                - export DEBIAN_FRONTEND=noninteractive # fuck you tzdata
+                - apt-get update
+                - apt-get install --yes --force-yes git g++ make
+        script:
+                - git clone --depth=1 https://github.com/LcsTen/little-indentation-checker.git
+                - make -C little-indentation-checker
+                - little-indentation-checker/little-indentation-checker --tab client/main.cpp client/*.qrc client/{,library/}*.qml serveur/src/*.cr
+        only:
+                - merge_requests

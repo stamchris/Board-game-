@@ -6,7 +6,7 @@ Rectangle {
 	width: parent.width
 	height: parent.height
 	anchors.fill: parent
-    color: "transparent"
+	color: "transparent"
 	border.color: "#740912"
 	border.width: 2
 	
@@ -61,7 +61,7 @@ Rectangle {
 		id: cerbereBarId
 		height: parent.height*90/100
 		width: parent.width - parent.height*10/100
-        color: "transparent"
+		color: "transparent"
 		
 		anchors {
 			verticalCenter: parent.verticalCenter;
@@ -77,7 +77,7 @@ Rectangle {
 				id: iconeVitesse
 				height: parent.height
 				width: parent.height
-                color: "transparent"
+				color: "transparent"
 				
 				Image {
 					height: parent.height
@@ -91,7 +91,7 @@ Rectangle {
 				id: vitesseCerbere
 				height: parent.height
 				width: parent.height
-                color: "transparent"
+				color: "transparent"
 				
 				Image {
 					id:cubeid
@@ -105,14 +105,14 @@ Rectangle {
 			Rectangle{
 				height: parent.height
 				width: parent.height*0.5
-                color: "transparent"
+				color: "transparent"
 			}
 			
 			Rectangle {
 				id: iconeRage
 				height: parent.height
 				width: parent.height
-                color: "transparent"
+				color: "transparent"
 				
 				Image {
 					height : parent.height
