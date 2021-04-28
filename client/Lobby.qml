@@ -247,7 +247,6 @@ Item {
 					height: parent.height/1.5
 					width: parent.width/1.5
 					source: src+"images/cyan_pion.png"
-					rotation: -90
 				}
 
 
@@ -297,7 +296,6 @@ Item {
 					height: parent.height/1.5
 					width: parent.width/1.5
 					source: src+"images/bleu_pion.png"
-					rotation: -90
 				}
 
 
@@ -350,7 +348,6 @@ Item {
 					height: parent.height/1.5
 					width: parent.width/1.5
 					source: src+"images/rose_pion.png"
-					rotation: -87
 				}
 				MouseArea{
 					id : m3
@@ -398,7 +395,6 @@ Item {
 					height: parent.height/1.5
 					width: parent.width/1.5
 					source: src+"images/vert_pion.png"
-					rotation: -90
 				}
 
 
@@ -449,7 +445,6 @@ Item {
 					height: parent.height/1.5
 					width: parent.width/1.5
 					source: src+"images/blanc_pion.png"
-					rotation: -90
 				}
 
 
@@ -500,7 +495,6 @@ Item {
 					height: parent.height/1.5
 					width: parent.width/1.5
 					source: src+"images/rouge_pion.png"
-					rotation: -90
 				}
 
 
