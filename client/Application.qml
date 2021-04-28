@@ -15,7 +15,7 @@ ApplicationWindow {
 
 	FontLoader {
 		id: stoneyard
-		source: "images/Stoneyard.ttf"
+		source: "images/client_images_Stoneyard.ttf"
 	}
 
 	WebSocket {
@@ -38,6 +38,7 @@ ApplicationWindow {
 					game.players = message.players
 					game.visible = true
 					game.rank = message.rank
+					game.state.changeName(game.players)
 					loader.push(game)
 					break
 				case "starter":
@@ -59,6 +60,7 @@ ApplicationWindow {
 						}
 					}
 					game.players = game.players
+					game.state.changeName(game.players)
 					break
 				case "updatePosition":
 					game.state.changePosition(message.player.colour, message.player.position)
@@ -83,9 +85,9 @@ ApplicationWindow {
 				case "discardBonus":
 					game.state.discardBonus(message.cardname)
 					break
-                case "useBridge":
-                    game.state.useBridge(message.pontQueue)
-                    break
+		case "useBridge":
+			game.state.useBridge(message.pontQueue)
+			break
 				case "usePortal":
 					game.state.usePortal(message.portalQueue)
 					break
