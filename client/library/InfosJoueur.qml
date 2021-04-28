@@ -7,43 +7,10 @@ Row {
     id : rowinfos
     width: parent.width*5/6
     height: parent.height
-	property alias bonusSize : nb_bonus_txt.text
-    
-    function changetype(player) {
-        var good = -1
-        var int_player = parseInt(player,10)
-
-        good = ((int_player < 7) ? ((int_player > 0) ? good = int_player : good = -1) : good = -1)
-
-        var source_player_choice = ""+ typejoueur.children[0].source
-        var i = source_player_choice.length - 1
-        var nb_slash = 0
-        while(nb_slash < 2) {
-            if(source_player_choice[i] == '/') 
-                nb_slash += 1
-
-            i -= 1
-        }
-        source_player_choice = ".."+source_player_choice.substring(i+1,source_player_choice.length)
-        if ((good != -1) && (source_player_choice == "../images/aventurier_image.png")) {
-            typejoueur.children[0].source = "../images/cerbere_pion.png"
-            var i = 1
-            while( i < 5) {
-                //joueurId.children[0].children[i+4].visible = false 
-                //remplacer la main du joueur (ça commence par les cartes bonus)
-                //puis les cartes action ; niveau serveur c'est defausser_tout ou catch_survivor
-                var new_source = "../images/Cerbere"+i+".png"
-                rowinfos.children[i].children[0].source = new_source
-                i += 1
-            }
-            typejoueur.children[1].children[0].text = "0"
-            
-        }
-        //else if(good != -1 && nb_joueur_restant <= 2) {//eliminer
-            //typejoueur.children[0].source = ""
-            //typejoueur.children[0].color = "black"
-        //}   
-    }
+	property bool adventurer: true
+	property var actions: [true, true, true, true]
+	property int bonusSize: 0
+	property string color: "Cyan"
 
     Rectangle {
         id: typejoueur
@@ -53,7 +20,7 @@ Row {
 
         Image {
             anchors.fill: parent
-            source: "../images/aventurier_image.png"
+            source: adventurer ? "../images/aventurier_image.png" : src+"/images/Cerbere_pion.png"
         }
 
         Rectangle {
@@ -69,71 +36,26 @@ Row {
             Text {
                 anchors.centerIn: parent
                 id: nb_bonus_txt
-                text: "0"
+                text: bonusSize
                 color: "Gold"
             }
         }
     }
 
+	Repeater {
+		model: actions
+		delegate: Rectangle {
+			height: parent.height
+			width: parent.width/5 - 2
+			border.color: "white"
+			color: "transparent"
+			x: parent.width
 
-	Rectangle {
-		id: little_action1_usr
-		height: parent.height
-		width: parent.width/5 -2
-		border.color: "white"
-		color: "transparent"
-		x: parent.width
-		property alias source: img1.source
-
-		Image {
-			id: img1
-			anchors.fill : parent
-			source : ""
-		}
-	}
-
-	Rectangle {
-		id: little_action2_usr
-		height: parent.height
-		width: parent.width/5 -2
-		border.color: "white"
-		color: "transparent"
-		property alias source: img2.source
-
-		Image {
-			id: img2
-			anchors.fill: parent
-			source: ""
-		}
-	}
-
-	Rectangle {
-		id:little_action3_usr
-		height: parent.height
-		width: parent.width/5-2
-		border.color: "white"
-		color: "transparent"
-		property alias source: img3.source
-
-		Image {
-			id: img3
-			anchors.fill: parent
-			source: ""
-		}
-	}
-
-	Rectangle {
-		id: little_action4_usr
-		height: parent.height
-		width: parent.width/5-2
-		border.color: "white"
-		color: "transparent"
-		property alias source: img4.source
-
-		Image {
-			id: img4
-			anchors.fill: parent
-			source: ""
+			Image {
+				anchors.fill: parent
+				source: if(modelData) src+"images/"+(adventurer ? rowinfos.color : "Cerbere")+(index+1)+".png"
+					else src+"images/verso.png"
+			}
 		}
 	}
 }

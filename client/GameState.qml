@@ -263,11 +263,11 @@ Item{
         }
     }
 
-    function useBridge(new_queue) {
-        pont_queue = new_queue
-        parent.board.popupBridge.imgPlayerBridge.source = src + "images/" + pont_queue[0].colour + "_pion.png"
-        parent.board.popupBridge.open()
-    }
+	function useBridge(newQueue) {
+		pont_queue = newQueue;
+		parent.board.popupBridge.imgPlayerBridge.player = pont_queue[0].colour;
+		parent.board.popupBridge.open();
+	}
 
     function usePortal(new_queue) {
         portal_queue = new_queue
@@ -298,25 +298,6 @@ Item{
         _updatePlayersOnBar(players)
         _updateActionCards("aventurier")
         globalTimer.start()
-    }
-
-    function changeName(players) {
-        var couleurs = ["Cyan","Blue","Pink","Green","White","Red","Orange"]
-        for(var j = 0 ; j < 7; j++) {//nb_slot
-            var champ_txt = parent.lobby.gridLayout.children[j+4].text
-            if(champ_txt != couleurs[j]) 
-                parent.lobby.gridLayout.children[j+4].text = couleurs[j]
-            
-        }
-
-        for(var i = 0 ; i < players.length;i++) {
-            for(var j = 0 ; j < 7; j++) {//nb_slot
-                var champ_txt = parent.lobby.gridLayout.children[j+4].text
-                if(champ_txt === players[i].colour) 
-                    parent.lobby.gridLayout.children[j+4].text = players[i].name
-
-            }
-        }
     }
     
     Component.onCompleted: {

@@ -38,7 +38,6 @@ ApplicationWindow {
 					game.players = message.players
 					game.visible = true
 					game.rank = message.rank
-					game.state.changeName(game.players)
 					loader.push(game)
 					break
 				case "starter":
@@ -60,7 +59,6 @@ ApplicationWindow {
 						}
 					}
 					game.players = game.players
-					game.state.changeName(game.players)
 					break
 				case "updatePosition":
 					game.state.changePosition(message.player.colour, message.player.position)
@@ -130,8 +128,7 @@ ApplicationWindow {
 					game.board.popupPortal.close()
 					game.board.playersChoice.close()
 					game.board.popupChooseBarquesEffect.close()
-					game.board.popupSwapBarques.close()
-					game.board.popupSeeBarques.close()
+					game.board.popupChooseBarques.close()
 					game.board.popupChooseOppoEffect.close()
 					game.board.popupChooseCardsToDiscard.close()
 					game.board.popupSabotageWhatToDo.close()
