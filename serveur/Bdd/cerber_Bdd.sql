@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `rel_achievement_s_j` (
   `id_session` varchar(255) NOT NULL,
-  `id_joueur` varchar(255) NOT NULL,
+  `login_joueur` varchar(255) NOT NULL,
   `id_achievement` varchar(255) NOT NULL,
   `id_temps_realisaion` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -89,7 +89,7 @@ INSERT INTO `rel_action_effet` (`id_effet_carte`, `id_action_effet`) VALUES
 
 CREATE TABLE `rel_score` (
   `id_session` varchar(255) NOT NULL,
-  `id_joueur` varchar(255) NOT NULL,
+  `login_joueur` varchar(255) NOT NULL,
   `score` int(11) DEFAULT NULL,
   `etat_partie` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -102,7 +102,7 @@ CREATE TABLE `rel_score` (
 
 CREATE TABLE `rel_session_joueur_carte` (
   `id_session` varchar(255) NOT NULL,
-  `id_joueur` varchar(255) NOT NULL,
+  `login_joueur` varchar(255) NOT NULL,
   `id_carte` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -153,7 +153,7 @@ INSERT INTO `tab_achievement` (`id_achievement`, `libelle_achievement`, `descrip
 
 CREATE TABLE `rel_session_joueur_case` (
   `id_session` varchar(255) NOT NULL,
-  `id_joueur` varchar(255) NOT NULL,
+  `login_joueur` varchar(255) NOT NULL,
   `id_case` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -366,9 +366,7 @@ INSERT INTO `tab_effet_carte` (`id_effet_carte`, `libelle_effet_carte`, `cout_ef
 --
 
 CREATE TABLE `tab_joueur` (
-  `id_joueur` varchar(255) NOT NULL,
-  `pseudo_joueur` varchar(255) DEFAULT NULL,
-  `login_joueur` varchar(255) DEFAULT NULL,
+  `login_joueur` varchar(255) NOT NULL,
   `password_joueur` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -492,9 +490,9 @@ INSERT INTO `tab_zone` (`id_zone`, `libelle_zone`, `id_plateau`) VALUES
 -- Index pour les tables déchargées
 --
 ALTER TABLE `rel_achievement_s_j`
-  ADD PRIMARY KEY (`id_session`,`id_joueur`,`id_achievement`,`id_temps_realisaion`),
+  ADD PRIMARY KEY (`id_session`,`login_joueur`,`id_achievement`,`id_temps_realisaion`),
   ADD KEY `id_achievement` (`id_achievement`),
-  ADD KEY `id_joueur` (`id_joueur`),
+  ADD KEY `login_joueur` (`login_joueur`),
   ADD KEY `id_session` (`id_session`),
   ADD KEY `id_temps_realisaion` (`id_temps_realisaion`);
 --
@@ -509,8 +507,8 @@ ALTER TABLE `rel_action_effet`
 -- Index pour la table `rel_score`
 --
 ALTER TABLE `rel_score`
-  ADD PRIMARY KEY (`id_session`,`id_joueur`),
-  ADD KEY `id_joueur` (`id_joueur`),
+  ADD PRIMARY KEY (`id_session`,`login_joueur`),
+  ADD KEY `login_joueur` (`login_joueur`),
   ADD KEY `id_session` (`id_session`);
 
 --
@@ -532,18 +530,18 @@ ALTER TABLE `tab_temps_realisation`
 -- Index pour la table `rel_session_joueur_carte`
 --
 ALTER TABLE `rel_session_joueur_carte`
-  ADD PRIMARY KEY (`id_session`,`id_joueur`,`id_carte`),
+  ADD PRIMARY KEY (`id_session`,`login_joueur`,`id_carte`),
   ADD KEY `id_carte` (`id_carte`),
-  ADD KEY `id_joueur` (`id_joueur`),
+  ADD KEY `login_joueur` (`login_joueur`),
   ADD KEY `id_session` (`id_session`);
 
 --
 -- Index pour la table `rel_session_joueur_case`
 --
 ALTER TABLE `rel_session_joueur_case`
-  ADD PRIMARY KEY (`id_session`,`id_joueur`,`id_case`),
+  ADD PRIMARY KEY (`id_session`,`login_joueur`,`id_case`),
   ADD KEY `id_case` (`id_case`),
-  ADD KEY `id_joueur` (`id_joueur`),
+  ADD KEY `login_joueur` (`login_joueur`),
   ADD KEY `id_session` (`id_session`);
 
 --
@@ -582,8 +580,8 @@ ALTER TABLE `tab_effet_carte`
 -- Index pour la table `tab_joueur`
 --
 ALTER TABLE `tab_joueur`
-  ADD PRIMARY KEY (`id_joueur`),
-  ADD UNIQUE KEY `id_joueur` (`id_joueur`);
+  ADD PRIMARY KEY (`login_joueur`),
+  ADD UNIQUE KEY `login_joueur` (`login_joueur`);
 
 --
 -- Index pour la table `tab_pack_carte`
@@ -629,7 +627,7 @@ ALTER TABLE `tab_zone`
 --
 ALTER TABLE `rel_achievement_s_j`
   ADD CONSTRAINT `rel_achievement_s_j_ibfk_1` FOREIGN KEY (`id_achievement`) REFERENCES `tab_achievement` (`id_achievement`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `rel_achievement_s_j_ibfk_2` FOREIGN KEY (`id_joueur`) REFERENCES `tab_joueur` (`id_joueur`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `rel_achievement_s_j_ibfk_2` FOREIGN KEY (`login_joueur`) REFERENCES `tab_joueur` (`login_joueur`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `rel_achievement_s_j_ibfk_3` FOREIGN KEY (`id_session`) REFERENCES `tab_session` (`id_session`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `rel_achievement_s_j_ibfk_4` FOREIGN KEY (`id_temps_realisaion`) REFERENCES `tab_temps_realisation` (`id_temps_relaisation`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -644,7 +642,7 @@ ALTER TABLE `rel_action_effet`
 -- Contraintes pour la table `rel_score`
 --
 ALTER TABLE `rel_score`
-  ADD CONSTRAINT `rel_score_ibfk_1` FOREIGN KEY (`id_joueur`) REFERENCES `tab_joueur` (`id_joueur`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `rel_score_ibfk_1` FOREIGN KEY (`login_joueur`) REFERENCES `tab_joueur` (`login_joueur`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `rel_score_ibfk_2` FOREIGN KEY (`id_session`) REFERENCES `tab_session` (`id_session`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -652,7 +650,7 @@ ALTER TABLE `rel_score`
 --
 ALTER TABLE `rel_session_joueur_carte`
   ADD CONSTRAINT `rel_session_joueur_carte_ibfk_1` FOREIGN KEY (`id_carte`) REFERENCES `tab_carte` (`id_carte`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `rel_session_joueur_carte_ibfk_2` FOREIGN KEY (`id_joueur`) REFERENCES `tab_joueur` (`id_joueur`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `rel_session_joueur_carte_ibfk_2` FOREIGN KEY (`login_joueur`) REFERENCES `tab_joueur` (`login_joueur`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `rel_session_joueur_carte_ibfk_3` FOREIGN KEY (`id_session`) REFERENCES `tab_session` (`id_session`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -660,7 +658,7 @@ ALTER TABLE `rel_session_joueur_carte`
 --
 ALTER TABLE `rel_session_joueur_case`
   ADD CONSTRAINT `rel_session_joueur_case_ibfk_1` FOREIGN KEY (`id_case`) REFERENCES `tab_case` (`id_case`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `rel_session_joueur_case_ibfk_2` FOREIGN KEY (`id_joueur`) REFERENCES `tab_joueur` (`id_joueur`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `rel_session_joueur_case_ibfk_2` FOREIGN KEY (`login_joueur`) REFERENCES `tab_joueur` (`login_joueur`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `rel_session_joueur_case_ibfk_3` FOREIGN KEY (`id_session`) REFERENCES `tab_session` (`id_session`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
