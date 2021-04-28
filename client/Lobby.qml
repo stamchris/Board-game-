@@ -4,13 +4,11 @@ import QtQuick.Controls 2.12
 import QtWebSockets 1.12
 
 Item {
+	id : lobby
 	property string src: typeof ROOT_URL === "undefined" ? "" : ROOT_URL
-	
-	property Gradient bcolor: Gradient {
-		GradientStop { position: 0; color: "#f58226" }
-		GradientStop { position: 0.09; color: "#ffbb4c" }
-		GradientStop { position: 0.36; color: "#ffffde" }
-	}
+	property alias gridLayout : gridLayout
+
+	property string username: "Not Connected"
 
 	Rectangle {
 		id: wrap_container
@@ -104,7 +102,7 @@ Item {
 		Rectangle{
 			id:empty1
 			Layout.fillWidth: true
-			Layout.minimumHeight: 30
+			Layout.maximumHeight: 30
 			Layout.rightMargin: -50
 			Layout.columnSpan: 3
 			color: "transparent"
@@ -129,91 +127,109 @@ Item {
 			id:empty2
 			Layout.fillWidth: true
 			Layout.columnSpan: 2
-			Layout.minimumHeight: 30
+			Layout.maximumHeight: 30
 			Layout.leftMargin: 30
 			color: "transparent"
 		}
 
+		Text {
+			id: cyanText
+			text: "Cyan"
+			font.pointSize: 15
+			font.family: "Stoneyard"
+			style: Text.Outline
+			color: "#FFF8E4"
+			styleColor: "#21ACBA"
+			Layout.alignment: Qt.AlignCenter
+		}
+		Text {
+			id: blueText
+			text: "Blue" 
+			font.pointSize: 15
+			font.family: "Stoneyard"
+			style: Text.Outline
+			color: "#FFF8E4"
+			styleColor: "#2C4DD6"
+			Layout.alignment: Qt.AlignCenter
+		}
+		Text {
+			id: roseText
+			text: "Pink"
+			font.pointSize: 15
+			font.family: "Stoneyard"
+			style: Text.Outline
+			color: "#FFF8E4"
+			styleColor: "#F2549E"
+			Layout.alignment: Qt.AlignCenter
+			
+		}
+		Text {
+			id: greenText
+			text: "Green"
+			font.pointSize: 15
+			font.family: "Stoneyard"
+			style: Text.Outline
+			color: "#FFF8E4"
+			styleColor: "#3D9519"
+			Layout.alignment: Qt.AlignCenter
+			
+		}
+		Text {
+			id: whiteText
+			text: "White"
+			font.pointSize: 15
+			font.family: "Stoneyard"
+			style: Text.Outline
+			color: "#FFF8E4"
+			styleColor: "black"
+			Layout.alignment: Qt.AlignCenter
+		}
+		Text {
+			id: redText
+			text: "Red"
+			font.pointSize: 15
+			font.family: "Stoneyard"
+			style: Text.Outline
+			color: "#FFF8E4"
+			styleColor: "#D3443B"
+			Layout.alignment: Qt.AlignCenter
+		}
+		Text {
+			id: orangeText
+			text: "Orange"
+			font.pointSize: 15
+			font.family: "Stoneyard"
+			style: Text.Outline
+			color: "#FFF8E4"
+			styleColor: "#BF6B00"
+			Layout.alignment: Qt.AlignCenter
+		}
 
-		BorderImage {
-			width: 100
-			height: width
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-			Layout.maximumWidth: 150
-			Layout.maximumHeight: 150
-			Layout.alignment: Qt.AlignRight
-			source: "images/cyan_icone.png"
-		}
-		BorderImage {
-			width: 100
-			height: width
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-			Layout.maximumWidth: 150
-			Layout.maximumHeight: 150
-			Layout.alignment: Qt.AlignCenter
-			source: "images/bleu_icone.png"
-		}
-		BorderImage {
-			width: 100
-			height: width
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-			Layout.maximumWidth: 150
-			Layout.maximumHeight: 150
-			Layout.alignment: Qt.AlignCenter
-			source: "images/rose_icone.png"
-		}
-		BorderImage {
-			width: 100
-			height: width
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-			Layout.maximumWidth: 150
-			Layout.maximumHeight: 150
-			Layout.alignment: Qt.AlignCenter
-			source: "images/vert_icone.png"
-		}
-		BorderImage {
-			width: 100
-			height: width
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-			Layout.maximumWidth: 150
-			Layout.maximumHeight: 150
-			Layout.alignment: Qt.AlignCenter
-			source: "images/blanc_icone.png"
-		}
-		BorderImage {
-			width: 100
-			height: width
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-			Layout.maximumWidth: 150
-			Layout.maximumHeight: 150
-			Layout.alignment: Qt.AlignCenter
-			source: "images/rouge_icone.png"
-		}
-		BorderImage {
-			width: 100
-			height: width
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-			Layout.maximumWidth: 150
-			Layout.maximumHeight: 150
-			Layout.alignment: Qt.AlignLeft
-			source: "images/orange_icone.png"
+		// Players Icons
+		Repeater{
+			model: ["images/cyan_icone.png","images/bleu_icone.png",
+				"images/rose_icone.png","images/vert_icone.png", "images/blanc_icone.png",
+				"images/rouge_icone.png", "images/orange_icone.png"]
+
+			delegate: BorderImage {
+				width: 100
+				height: width
+				Layout.fillWidth: true
+				Layout.fillHeight: true
+				Layout.maximumWidth: 150
+				Layout.maximumHeight: 150
+				Layout.alignment: Qt.AlignCenter
+				source: modelData
+			}
 		}
 
-		// Pions
 		Button {
 			width: 100
 			height: width
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{80}
-			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{80}
+			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
+			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 			background:
@@ -228,13 +244,15 @@ Item {
 
 				BorderImage {
 					anchors.centerIn: parent
-					height: parent.height
-					width: parent.width
+					height: parent.height/1.5
+					width: parent.width/1.5
 					source: src+"images/cyan_pion.png"
+					rotation: -90
 				}
 
 
 				MouseArea{
+					id : m1
 					anchors.fill:parent
 					hoverEnabled: true
 					onHoveredChanged: {
@@ -247,11 +265,9 @@ Item {
 					}
 					}
 					onClicked: {
-						socket.send({type:"change_colour",colour:"Cyan"})
+						socket.send({type:"change_colour",colour:"Cyan"});
 					}
 				}
-
-
 			}
 		}
 
@@ -265,7 +281,7 @@ Item {
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 
-			background: 
+			background:
 
 			Rectangle{
 				id:rec2
@@ -278,13 +294,15 @@ Item {
 
 				BorderImage {
 					anchors.centerIn: parent
-					height: parent.height
-					width: parent.width
+					height: parent.height/1.5
+					width: parent.width/1.5
 					source: src+"images/bleu_pion.png"
+					rotation: -90
 				}
 
 
 				MouseArea{
+					id : m2
 					anchors.fill:parent
 					hoverEnabled: true
 					onHoveredChanged: {
@@ -312,13 +330,13 @@ Item {
 			height: width
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{80}
-			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{80}
+			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
+			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 
-			background: 
-			
+			background:
+
 			Rectangle{
 				id:rec3
 				height: parent.height*1.5
@@ -329,11 +347,13 @@ Item {
 
 				BorderImage {
 					anchors.centerIn: parent
-					height: parent.height
-					width: parent.width
+					height: parent.height/1.5
+					width: parent.width/1.5
 					source: src+"images/rose_pion.png"
+					rotation: -87
 				}
 				MouseArea{
+					id : m3
 					anchors.fill:parent
 					hoverEnabled: true
 					onHoveredChanged: {
@@ -358,13 +378,13 @@ Item {
 			height: width
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{80}
-			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{80}
+			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
+			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 
-			background: 
-			
+			background:
+
 			Rectangle{
 				id:rec4
 				height: parent.height*1.5
@@ -375,13 +395,15 @@ Item {
 
 				BorderImage {
 					anchors.centerIn: parent
-					height: parent.height
-					width: parent.width
+					height: parent.height/1.5
+					width: parent.width/1.5
 					source: src+"images/vert_pion.png"
+					rotation: -90
 				}
 
 
 				MouseArea{
+					id : m4
 					anchors.fill:parent
 					hoverEnabled: true
 					onHoveredChanged: {
@@ -407,12 +429,12 @@ Item {
 			height: width
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{80}
-			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{80}
+			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
+			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 
-			background: 
+			background:
 
 			Rectangle{
 				id:rec5
@@ -424,14 +446,15 @@ Item {
 
 				BorderImage {
 					anchors.centerIn: parent
-					height: parent.height
-					width: parent.width
+					height: parent.height/1.5
+					width: parent.width/1.5
 					source: src+"images/blanc_pion.png"
-					rotation: -95
+					rotation: -90
 				}
 
 
 				MouseArea{
+					id : m5
 					anchors.fill:parent
 					hoverEnabled: true
 					onHoveredChanged: {
@@ -451,18 +474,19 @@ Item {
 			}
 
 		}
+
 		Button {
 			width: 100
 			height: width
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{80}
-			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{80}
+			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
+			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 
-			background: 
-			
+			background:
+
 			Rectangle{
 				id:rec6
 				height: parent.height*1.5
@@ -473,13 +497,15 @@ Item {
 
 				BorderImage {
 					anchors.centerIn: parent
-					height: parent.height
-					width: parent.width
+					height: parent.height/1.5
+					width: parent.width/1.5
 					source: src+"images/rouge_pion.png"
+					rotation: -90
 				}
 
 
 				MouseArea{
+					id : m6
 					anchors.fill:parent
 					hoverEnabled: true
 					onHoveredChanged: {
@@ -503,13 +529,13 @@ Item {
 			height: width
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {70}else{80}
-			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {70}else{80}
+			Layout.maximumWidth:if(gridLayout.width<950 ||gridLayout.height<650) {80}else{90}
+			Layout.maximumHeight:if(gridLayout.width<950 || gridLayout.height<650) {80}else{90}
 			Layout.alignment: Qt.AlignCenter
 			Layout.topMargin: 20
 
-			background: 
-			
+			background:
+
 			Rectangle{
 				id:rec7
 				height: parent.height*1.5
@@ -520,13 +546,14 @@ Item {
 
 				BorderImage {
 					anchors.centerIn: parent
-					height: parent.height
-					width: parent.width
+					height: parent.height/1.4
+					width: parent.width/1.2
 					source: src+"images/orange_pion.png"
 				}
 
 
 				MouseArea{
+					id : m7
 					anchors.fill:parent
 					hoverEnabled: true
 					onHoveredChanged: {
@@ -541,12 +568,15 @@ Item {
 					}
 					onClicked: {
 						socket.send({type:"change_colour",colour:"Orange"})
+						console.log("yo couleur"+game.players[2].colour)
 					}
 				}
 			}
 
 		}
-}
+	}
+
+
 
 	CheckBox {
 		anchors{horizontalCenter: parent.horizontalCenter;top:gridLayout.bottom;topMargin: 20}
@@ -558,16 +588,11 @@ Item {
 		}
 	}
 
+
 	Chat {
 		width: wrap_container.width/4
 		height: wrap_container.height*0.25
 		anchors{bottom: wrap_container.bottom;left: wrap_container.left}
 	}
 
-
 }
-
-
-
-
-

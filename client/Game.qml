@@ -9,7 +9,9 @@ Item {
 	property var rank: -1
 	property var messages : []
 	property alias board: window
+	property alias lobby : lobby
 	property alias endwindow : endwindow
+
 	
 	function getPlayer()
 	{
@@ -22,6 +24,7 @@ Item {
 	}
 	
 	Lobby {
+		id : lobby
 		anchors.fill: parent
 		visible:view == "Login"
 	}
