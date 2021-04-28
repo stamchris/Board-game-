@@ -56,92 +56,30 @@ Item {
 				Row {
 					id: buttonRow
 					spacing: 10
+					
+					Repeater {
+						model: [3, 4, 5, 6]
+						delegate: Button {
+							id: difficultyButton
+							width:120
+							height: 120
+							flat:false
+							background: Rectangle {
+								anchors.fill:parent
+								color: difficultyButton.focus ? "#58D68D" : "#FEF5E7"
+								radius:60
 
-					Button {
-						id:but1
-						width:120
-						height: 120
-						flat:false
-						background:
-						Rectangle{
-							anchors.fill:parent
-							color: if(but1.focus){return "#58D68D"}else {return "#FEF5E7"}
-							radius:60
-
-							Text {
-								text: "*"
-								anchors.centerIn: parent
-								font.pointSize: 15
-								font.family: "Noto Emoji"
+								Text {
+									text: '*'.repeat(modelData - 2)
+									anchors.centerIn: parent
+									font.pointSize: 15
+									font.family: "Noto Emoji"
 								}
-						}
-						checked: difficulty == 3
-						onClicked: difficulty = 3
-					}
-
-					Button {
-						id:but2
-						width:120
-						height: 120
-						background:
-						Rectangle{
-							anchors.fill:parent
-							color: if(but2.focus){return "#58D68D"}else {return "#FEF5E7"}
-							radius:60
-
-							Text {
-								text: "**"
-								anchors.centerIn: parent
-								font.pointSize: 15
-								font.family: "Noto Emoji"
 							}
+							checked: difficulty === modelData
+							onClicked: difficulty = modelData
 						}
-						checked: difficulty == 4
-						onClicked: difficulty = 4
 					}
-
-					Button {
-						id:but3
-						width:120
-						height: 120
-						background:
-						Rectangle{
-							anchors.fill:parent
-							color: if(but3.focus){return "#58D68D"}else {return "#FEF5E7"}
-							radius:60
-
-							Text {
-								text: "***"
-								anchors.centerIn: parent
-								font.pointSize: 15
-								font.family: "Noto Emoji"
-							}
-						}
-						checked: difficulty == 5
-						onClicked: difficulty = 5
-					}
-
-					Button {
-						id:but4
-						width:120
-						height: 120
-						background:
-						Rectangle{
-							anchors.fill:parent
-							color: if(but4.focus){return "#58D68D"}else {return "#FEF5E7"}
-							radius:60
-
-							Text {
-								text: "****"
-								anchors.centerIn: parent
-								font.pointSize: 15
-								font.family: "Noto Emoji"
-							}
-						}
-						checked: difficulty == 6
-						onClicked: difficulty = 6
-					}
-
 				}
 			}
 
