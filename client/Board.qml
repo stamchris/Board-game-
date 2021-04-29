@@ -23,6 +23,7 @@ Item {
 	property alias popupChooseOppoEffect: popupChooseOppoEffect
 	property alias popupFinish: popupFinish
 	property alias popupSabotageWhatToDo : popupSabotageWhatToDo
+	property alias playedCardId: playedCardId
 	
 	property string src: typeof ROOT_URL === "undefined" ? "" : ROOT_URL
 
@@ -1275,6 +1276,10 @@ Item {
 			}
 			infoRepeater.model = model;
 		}
+	}
+
+	PlayedCard {
+		id: playedCardId
 	}
 
 	Rectangle {

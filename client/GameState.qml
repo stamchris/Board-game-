@@ -43,6 +43,7 @@ Item{
     signal _lockBonus()
     signal _addToBar(string player_color)
     signal _secondPassed(var minutes, var seconds)
+    signal _cardPlayed(string playerName, string playerColor, string cardType, string cardName, var cardEffect)
 
     Timer {
         id: globalTimer
@@ -203,6 +204,11 @@ Item{
 		parent.board.askSabotage(effect);
 	}
 
+    function showPlayedCard(playerName, playerColor, cardType, cardName, cardEffect) {
+        _cardPlayed(playerName, playerColor, cardType, cardName, cardEffect)
+    }
+
+
     function initGame(newPlayers, newDifficulty) {
         players = newPlayers
         _showPlayerPieces(players)
@@ -237,5 +243,6 @@ Item{
         _secondPassed.connect(parent.board.actionId.updateCurrentPlayerTimer)
         _lockAction.connect(parent.board.joueurId.lockActionCards)
         _lockBonus.connect(parent.board.joueurId.lockBonusCards)
+        _cardPlayed.connect(parent.board.playedCardId.displayCard)
     }
 }
