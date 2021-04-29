@@ -883,7 +883,7 @@ Item {
 					}
 				}
 			}
-			model: ["Button", "Son", "Bug", "Effet\nCarte", "Règles"]
+			model: ["Son", "Effet\nCarte", "Règles"]
 			delegate: Rectangle {
 				width: 50
 				height: 50
