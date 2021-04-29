@@ -207,42 +207,42 @@ Item{
     function showPlayedCard(playerName, playerColor, cardType, cardName, cardEffect) {
         _cardPlayed(playerName, playerColor, cardType, cardName, cardEffect)
     }
-
-
-    function initGame(newPlayers, newDifficulty) {
-        players = newPlayers
-        _showPlayerPieces(players)
-        _updatePlayersOnBar(players)
-        _updateActionCards("aventurier")
-        changePlayers(newPlayers, 0)
-        changeDifficulty(newDifficulty)
-        changeRage(8 - newPlayers.length)
-        changeVitesse(3 + newDifficulty)
-        changePosCerbere("0")
-        globalTimer.start()
-    }
-    
-    Component.onCompleted: {
-        _currentPlayerChanged.connect(parent.board.actionId.updateCurrentPlayer)
-        _positionChanged.connect(parent.board.boardId.receiveCounter)
-        _playersChanged.connect(parent.board.infoJoueurId.updatePlayerInfo)
-        _playersChanged.connect(parent.board.joueurId.updatePlayerCards)
-        _showPlayerPieces.connect(parent.board.boardId.pionesId.unhideNonPlayerPieces)
-        _pontChanged.connect(parent.board.boardId.changepont)
-        _rageChanged.connect(parent.board.progressBar.updateRage)
-        _vitesseChanged.connect(parent.board.progressBar.updateVitesse)
-        _updatePlayersOnBar.connect(parent.board.progressBar.updateBar)
-        _newBonus.connect(parent.board.joueurId.updateBonusCard)
-        _discardBonus.connect(parent.board.joueurId.updateBonusCard)
-        _showSwapBarque.connect(parent.board.boardId.swapbarque)
-        _showRevealBarque.connect(parent.board.boardId.revealbarque)
-        _addToBar.connect(parent.board.progressBar.addToBar)
-        _addToBar.connect(parent.board.boardId.pionesId.hidePlayerPiece)
-        _updateActionCards.connect(parent.board.joueurId.loadActionCards)
-        _secondPassed.connect(parent.board.chronoId.updateTime)
-        _secondPassed.connect(parent.board.actionId.updateCurrentPlayerTimer)
-        _lockAction.connect(parent.board.joueurId.lockActionCards)
-        _lockBonus.connect(parent.board.joueurId.lockBonusCards)
-        _cardPlayed.connect(parent.board.playedCardId.displayCard)
-    }
+	
+	function initGame(newPlayers, newDifficulty) {
+		players = newPlayers
+		changePlayers(newPlayers, 0)
+		changeDifficulty(newDifficulty)
+		changeRage(8 - newPlayers.length)
+		changeVitesse(3 + newDifficulty)
+		changePosCerbere("1") //old "0", ne change rien au jeu et ne fait plus bug la place de cerbere sur case 0
+		_showPlayerPieces(players)
+		_updatePlayersOnBar(players)
+		_updateActionCards("aventurier")
+		globalTimer.start()
+	}
+	
+	Component.onCompleted: {
+		_currentPlayerChanged.connect(parent.board.actionId.updateCurrentPlayer)
+		_positionChanged.connect(parent.board.boardId.receiveCounter)
+		_playersChanged.connect(parent.board.infoJoueurId.updatePlayerInfo)
+		_playersChanged.connect(parent.board.joueurId.updatePlayerCards)
+		_showPlayerPieces.connect(parent.board.boardId.pionesId.unhideNonPlayerPieces)
+		_pontChanged.connect(parent.board.boardId.changepont)
+		_rageChanged.connect(parent.board.progressBar.updateRage)
+		_vitesseChanged.connect(parent.board.progressBar.updateVitesse)
+		_updatePlayersOnBar.connect(parent.board.progressBar.updateBar)
+		_newBonus.connect(parent.board.joueurId.updateBonusCard)
+		_discardBonus.connect(parent.board.joueurId.updateBonusCard)
+		_showSwapBarque.connect(parent.board.boardId.swapbarque)
+		_showRevealBarque.connect(parent.board.boardId.revealbarque)
+		_hideSwapBarque.connect(parent.board.boardId.hidebarque)
+		_addToBar.connect(parent.board.progressBar.addToBar)
+		_addToBar.connect(parent.board.boardId.pionesId.hidePlayerPiece)
+		_updateActionCards.connect(parent.board.joueurId.loadActionCards)
+		_secondPassed.connect(parent.board.chronoId.updateTime)
+		_secondPassed.connect(parent.board.actionId.updateCurrentPlayerTimer)
+		_lockAction.connect(parent.board.joueurId.lockActionCards)
+		_lockBonus.connect(parent.board.joueurId.lockBonusCards)
+		_cardPlayed.connect(parent.board.playedCardId.displayCard)
+	}
 }

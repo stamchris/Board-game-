@@ -22,4 +22,12 @@ Rectangle {
 			verticalCenter: parent.verticalCenter
     	}
 	}
+
+	Glow {
+		anchors.fill: imgPionId
+		radius: 8
+		samples: 17
+		color: "white"
+		source: imgPionId
+	}
 }
