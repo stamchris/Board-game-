@@ -833,6 +833,10 @@ Item {
 	Rectangle {
 		id: menuBarId
 		height: 60
+<<<<<<< HEAD
+=======
+		
+>>>>>>> Fixing merging conflicts.
 		anchors { 
 			left: parent.left;
 			right: parent.right;
