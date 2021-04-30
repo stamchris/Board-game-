@@ -19,12 +19,46 @@ Item {
 	}
 	
 	Button {
-		visible: game.getPlayer().owner
-		anchors.top:wrap_container.top
-		anchors.right:wrap_container.right
-		text: "Configuration"
-		onClicked: loader.push(configScreen)
-	}
+			visible: game.getPlayer().owner
+			anchors{top:wrap_container.top;right: wrap_container.right;topMargin: 10;rightMargin: 170}
+			background:
+				Rectangle{
+				id:retButton
+				radius:40
+				height: 80
+				width: 180
+				color: "#F0B27A"
+
+				Text {
+					id:textConfi
+					text: ("Configuration")
+					font.pointSize: 15
+					color: "black"
+					font.family: "Stoneyard"
+					anchors.centerIn: parent
+				}
+
+				MouseArea{
+				anchors.fill:parent
+				enabled: true
+				hoverEnabled: true
+
+				onHoveredChanged: if(hoverEnabled == true)
+						{if (containsMouse == true)
+							{
+								textConfi.color="white"
+								textConfi.font.pointSize = 18
+							}
+						else{
+								textConfi.color="black"
+								textConfi.font.pointSize = 15
+							}
+				}
+				onClicked: loader.push(configScreen)
+				}
+			}
+		}
+
 	
 	Component {
 		id: configScreen
@@ -33,45 +67,6 @@ Item {
 			anchors.fill: parent
 		}
 	}
-
-	ColumnLayout {
-		anchors{bottom: wrap_container.bottom;right: wrap_container.right;bottomMargin: 5;rightMargin: 5}
-		height: 200
-		width: 200
-
-		ListView {
-			id:listView
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-			model: game.players
-			verticalLayoutDirection: ListView.BottomToTop
-
-			delegate:
-
-			Rectangle {
-				id: rectaId
-				width: listView.width
-				height: userText.implicitHeight + 10
-				color: "#D7BDE2"
-				opacity: 0.6
-				radius:1
-
-				Text {
-					id:userText
-					width: parent.width
-					horizontalAlignment: Text.AlignHCenter
-					color:if (modelData.colour === "Cyan")
-						userText.color = "#5DADE2"
-						else
-						userText.color = modelData.colour
-					text: modelData.name + " est connecté"
-					font.pointSize: 12
-					font.family: "Stoneyard"
-				}
-			}
-		}
-	}
-
 
 	GridLayout {
 		id:gridLayout
@@ -176,13 +171,13 @@ Item {
 		
 		Repeater {
 			model: [
-				{img: "cyan", color: "Cyan"},
-				{img: "bleu", color: "Blue"},
-				{img: "rose", color: "Pink"},
-				{img: "vert", color: "Green"},
-				{img: "blanc", color: "White"},
-				{img: "rouge", color: "Red"},
-				{img: "orange", color: "Orange"}
+				{img: "cyan", color: "Cyan", rot: -90},
+				{img: "bleu", color: "Blue", rot: -90},
+				{img: "rose", color: "Pink", rot: -90},
+				{img: "vert", color: "Green", rot: -90},
+				{img: "blanc", color: "White", rot: -90},
+				{img: "rouge", color: "Red", rot: -90},
+				{img: "orange", color: "Orange", rot: 0}
 			]
 			delegate: Button {
 				width: 100
@@ -205,6 +200,7 @@ Item {
 						height: parent.height/1.5
 						width: parent.width/1.5
 						source: src+"images/"+modelData.img+"_pion.png"
+						rotation: modelData.rot
 					}
 
 
