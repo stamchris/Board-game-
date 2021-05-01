@@ -18,7 +18,7 @@ Item {
 		}
 	}
 	
-	Button {
+	Button{
 			visible: game.getPlayer().owner
 			anchors{top:wrap_container.top;right: wrap_container.right;topMargin: 10;rightMargin: 170}
 			background:
@@ -32,32 +32,22 @@ Item {
 				Text {
 					id:textConfi
 					text: ("Configuration")
-					font.pointSize: 15
-					color: "black"
+					font.pointSize: configMA.hoverEnabled && configMA.containsMouse ? 18 : 15
+					color: configMA.hoverEnabled && configMA.containsMouse ? "white" : "black"
 					font.family: "Stoneyard"
 					anchors.centerIn: parent
 				}
 
 				MouseArea{
-				anchors.fill:parent
-				enabled: true
-				hoverEnabled: true
+					id:configMA
+					anchors.fill:parent
+					enabled: true
+					hoverEnabled: true
 
-				onHoveredChanged: if(hoverEnabled == true)
-						{if (containsMouse == true)
-							{
-								textConfi.color="white"
-								textConfi.font.pointSize = 18
-							}
-						else{
-								textConfi.color="black"
-								textConfi.font.pointSize = 15
-							}
-				}
-				onClicked: loader.push(configScreen)
+					onClicked: loader.push(configScreen)
 				}
 			}
-		}
+	}
 
 	
 	Component {
@@ -171,13 +161,13 @@ Item {
 		
 		Repeater {
 			model: [
-				{img: "cyan", color: "Cyan", rot: -90},
-				{img: "bleu", color: "Blue", rot: -90},
-				{img: "rose", color: "Pink", rot: -90},
-				{img: "vert", color: "Green", rot: -90},
-				{img: "blanc", color: "White", rot: -90},
-				{img: "rouge", color: "Red", rot: -90},
-				{img: "orange", color: "Orange", rot: 0}
+				{img: "cyan", color: "Cyan"},
+				{img: "bleu", color: "Blue"},
+				{img: "rose", color: "Pink"},
+				{img: "vert", color: "Green"},
+				{img: "blanc", color: "White"},
+				{img: "rouge", color: "Red"},
+				{img: "orange", color: "Orange"}
 			]
 			delegate: Button {
 				width: 100
@@ -200,7 +190,6 @@ Item {
 						height: parent.height/1.5
 						width: parent.width/1.5
 						source: src+"images/"+modelData.img+"_pion.png"
-						rotation: modelData.rot
 					}
 
 

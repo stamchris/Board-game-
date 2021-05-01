@@ -32,28 +32,18 @@ Item {
 				Text {
 					id:textRetour
 					text: ("Retour")
-					font.pointSize: 15
-					color: "black"
+					font.pointSize: retourMA.hoverEnabled && retourMA.containsMouse ? 18 : 15
+					color: retourMA.hoverEnabled && retourMA.containsMouse ? "white" : "black"
 					font.family: "Stoneyard"
 					anchors.centerIn: parent
 				}
 				MouseArea{
-				anchors.fill:parent
-				enabled: true
-				hoverEnabled: true
+					id: retourMA
+					anchors.fill:parent
+					enabled: true
+					hoverEnabled: true
 
-				onHoveredChanged: if(hoverEnabled == true)
-						{if (containsMouse == true)
-							{
-								textRetour.color="white"
-								textRetour.font.pointSize = 18
-							}
-						else{
-								textRetour.color="black"
-								textRetour.font.pointSize = 15
-							}
-				}
-				onClicked: loader.pop()
+					onClicked: loader.pop()
 				}
 			}
 		}
@@ -152,23 +142,7 @@ Item {
 				Layout.fillWidth: true
 			}
 		}
-		
-//		LobbyOption {
-//			label: "Team Chat"
-			
-//			Layout.fillWidth: true
-//			Layout.fillHeight: true
-//			Layout.maximumHeight: 100
-//			Layout.maximumWidth: 150
-//			Layout.alignment: Qt.AlignLeft
-			
-//			Button {
-//				text: if (teamChat) "v"
-//				      else "x"
-//				checkable: true
-//				onCheckedChanged: teamChat = checked
-//			}
-//		}
+
 		
 		Rectangle{
 			id: submitButton
@@ -178,39 +152,26 @@ Item {
 			Layout.maximumWidth:180
 			Layout.minimumHeight: 80
 			Layout.minimumWidth:90
-			color: "white"
+            color: submitMA.hoverEnabled && submitMA.containsMouse ? "#27AE60" : "white"
 			radius:20
 			Layout.columnSpan: 2
 			
 			Text {
 				id: textSubmit
 				text: "Configurer"
-				font.pointSize: 15
+				font.pointSize: submitMA.hoverEnabled && submitMA.containsMouse ? 18 : 15
 				font.family: "Stoneyard"
+				color: submitMA.hoverEnabled && submitMA.containsMouse ? "white" : "black"
 				anchors.centerIn: parent
 			}
 			MouseArea{
+				id: submitMA
 				anchors.fill:parent
 				enabled: true
 				hoverEnabled: true
-				
-				onHoveredChanged: {
-					if(hoverEnabled){
-						if (containsMouse){
-							submitButton.color="#27AE60"
-							textSubmit.color="white"
-							textSubmit.font.pointSize = 18
-						}else{
-							submitButton.color="white"
-							textSubmit.color="black"
-							textSubmit.font.pointSize = 15
-						}
-					}
-				}
+								
 				onClicked: socket.send({type: "game_config", difficulty:difficulty, maxPlayers:maxPlayers})
 			}
 		}
-	}
-		
-
+	}	
 }
