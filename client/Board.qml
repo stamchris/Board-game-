@@ -140,8 +140,8 @@ Item {
 
 	BorderImage {
 		id: background1
-		source: src+"images/background_image.jpg"
-		anchors.fill:parent
+		source: "images/background_image.jpg"
+		anchors.fill: parent
 	}
 
 	Popup {
