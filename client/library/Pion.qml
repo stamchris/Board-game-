@@ -14,13 +14,9 @@ Rectangle {
 	Image {
 		id: imgPionId
 		source: ""
-		width: parent.width*0.90
-		height: parent.height*0.90
-
-		anchors {
-			horizontalCenter: parent.horizontalCenter
-			verticalCenter: parent.verticalCenter
-    	}
+		width: parent.width*0.85
+		height: parent.height*0.85
+		anchors.centerIn: parent
 	}
 
 	Glow {

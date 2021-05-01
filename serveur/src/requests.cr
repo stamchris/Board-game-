@@ -154,11 +154,6 @@ class Cerbere::Request
 			game.board.play_card(player, true, index_card, effet, new_args)
 			game.action_played = true
 
-			srvr = player.dup()
-			srvr.name = "Server"
-			srvr.colour = nil
-
-			game.send_all(Response::Chat.new(srvr, "Action", "#{player.name} joue l'effet #{effet} de la carte Action #{carte}."))
 			game.send_all(Response::CardPlayed.new("action", carte, effet, player))
 			game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
 
@@ -243,12 +238,7 @@ class Cerbere::Request
 			game.board.play_card(player, false, index_card, effet, new_args)
 			game.bonus_played = true
 
-			srvr = player.dup()
-			srvr.name = "Server"
-			srvr.colour = nil
-
 			player.send(Response::DiscardBonus.new(carte))
-			game.send_all(Response::Chat.new(srvr, "Bonus", "#{player.name} joue l'effet #{effet} de la carte Bonus #{carte}."))
 			game.send_all(Response::CardPlayed.new("bonus", carte, effet, player))
 			game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
 
