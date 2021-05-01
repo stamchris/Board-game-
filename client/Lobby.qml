@@ -19,34 +19,33 @@ Item {
 	}
 	
 	Button{
-			visible: game.getPlayer().owner
-			anchors{top:wrap_container.top;right: wrap_container.right;topMargin: 10;rightMargin: 170}
-			background:
-				Rectangle{
-				id:retButton
-				radius:40
-				height: 80
-				width: 180
-				color: "#F0B27A"
+		visible: game.getPlayer().owner
+		anchors{top:wrap_container.top;right: wrap_container.right;topMargin: 10;rightMargin: 170}
+		background:
+			Rectangle{
+			id:retButton
+			radius:40
+			height: 80
+			width: 180
+			color: "#F0B27A"
 
-				Text {
-					id:textConfi
-					text: ("Configuration")
-					font.pointSize: configMA.hoverEnabled && configMA.containsMouse ? 18 : 15
-					color: configMA.hoverEnabled && configMA.containsMouse ? "white" : "black"
-					font.family: "Stoneyard"
-					anchors.centerIn: parent
-				}
-
-				MouseArea{
-					id:configMA
-					anchors.fill:parent
-					enabled: true
-					hoverEnabled: true
-
-					onClicked: loader.push(configScreen)
-				}
+			Text {
+				id:textConfi
+				text: ("Configuration")
+				font.pointSize: configMA.hoverEnabled && configMA.containsMouse ? 18 : 15
+				color: configMA.hoverEnabled && configMA.containsMouse ? "white" : "black"
+				font.family: "Stoneyard"
+				anchors.centerIn: parent
 			}
+
+			MouseArea{
+				id:configMA
+				anchors.fill:parent
+				enabled: true
+				hoverEnabled: true
+				onClicked: loader.push(configScreen)
+			}
+		}
 	}
 
 	

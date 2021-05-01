@@ -152,7 +152,7 @@ Item {
 			Layout.maximumWidth:180
 			Layout.minimumHeight: 80
 			Layout.minimumWidth:90
-            color: submitMA.hoverEnabled && submitMA.containsMouse ? "#27AE60" : "white"
+			color: submitMA.hoverEnabled && submitMA.containsMouse ? "#27AE60" : "white"
 			radius:20
 			Layout.columnSpan: 2
 			
