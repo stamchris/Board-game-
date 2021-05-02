@@ -1290,18 +1290,18 @@ Item {
 			right: parent.right;
 		}
 
-		Repeater {
-			id: actionCardRepeater
-			property bool blocked: true
-			property string color: "Cyan"
-			model: [true, true, true, true]
-			delegate: Rectangle {
-				width: 1/8*parent.width
-				height: parent.height
-				anchors.left: index === 0 ? parent.left : actionCardRepeater.itemAt(index-1).right
+		Row {
+			id: joueurRow
+			anchors.fill: parent
 
-				Image {
-					anchors.fill: parent
+			Repeater {
+				id: actionCardRepeater
+				property bool blocked: true
+				property string color: "Cyan"
+				model: [true, true, true, true]
+				delegate: Image {
+					width: 1/8*parent.width
+					height: parent.height
 					horizontalAlignment: Image.AlignHCenter
 					z: 1
 					fillMode: Image.Stretch
@@ -1313,72 +1313,71 @@ Item {
 					}
 				}
 			}
-		}
 
-		Rectangle {
-			clip: true
-			height: parent.height
-			width : parent.width/2
-			color: "transparent"
-			anchors.left: actionCardRepeater.itemAt(actionCardRepeater.count-1).right
-
-			ScrollBar{
-				id: scrollBarBonus
-				policy: ScrollBar.AlwaysOn
-				hoverEnabled: true
-				active: hovered || pressed
-				orientation: Qt.Horizontal
-				size: parent.width/rowbonusid.width
-				anchors.left: parent.left
-				anchors.right: parent.right
-				anchors.bottom: parent.bottom
-				z: 10
-				height: parent.height/20
-			}
-
-			Row {
-				id : rowbonusid
+			Rectangle {
+				clip: true
 				height: parent.height
-				width : joueurId.width/8*7
-				x: -scrollBarBonus.position*width
-				
-				Repeater {
-					id: bonusCardsHand
-					model: []
-					property bool blocked: true
-					delegate: Rectangle {
-						id: bonusCard
-						width: parent.width/7
-						height: parent.height
-						property alias blockableBonusCard: blockableBonusCard
+				width : parent.width/2
+				color: "transparent"
 
-						Image {
-							id: imgBonus
-							anchors.fill: parent
-							horizontalAlignment: Image.AlignHCenter
-							z: 1
-							fillMode: Image.Stretch
-							source: "images/Carte_"+modelData.name+".png"
-							
-							CarteBonus {
-								id: blockableBonusCard
-								blocked: bonusCardsHand.blocked
-								name: modelData.name
-							}
-							
-							Rectangle {
-								id: boxNumber_cb
-								height : 30
-								width : 30
-								border.color : "white"
-								color  : "transparent"
-								x : parent.width - (width + 3)
+				ScrollBar{
+					id: scrollBarBonus
+					policy: ScrollBar.AlwaysOn
+					hoverEnabled: true
+					active: hovered || pressed
+					orientation: Qt.Horizontal
+					size: parent.width/rowbonusid.width
+					anchors.left: parent.left
+					anchors.right: parent.right
+					anchors.bottom: parent.bottom
+					z: 10
+					height: parent.height/20
+				}
 
-								Text {
-									id : txtcb1
-									anchors.centerIn : parent
-									text: modelData.nb
-									color : "white"
+				Row {
+					id : rowbonusid
+					height: parent.height
+					width : joueurId.width/8*7
+					x: -scrollBarBonus.position*width
+
+					Repeater {
+						id: bonusCardsHand
+						model: []
+						property bool blocked: true
+						delegate: Rectangle {
+							id: bonusCard
+							width: parent.width/7
+							height: parent.height
+							property alias blockableBonusCard: blockableBonusCard
+
+							Image {
+								id: imgBonus
+								anchors.fill: parent
+								horizontalAlignment: Image.AlignHCenter
+								z: 1
+								fillMode: Image.Stretch
+								source: "images/Carte_"+modelData.name+".png"
+
+								CarteBonus {
+									id: blockableBonusCard
+									blocked: bonusCardsHand.blocked
+									name: modelData.name
+								}
+
+								Rectangle {
+									id: boxNumber_cb
+									height : 30
+									width : 30
+									border.color : "white"
+									color  : "transparent"
+									x : parent.width - (width + 3)
+
+									Text {
+										id : txtcb1
+										anchors.centerIn : parent
+										text: modelData.nb
+										color : "white"
+									}
 								}
 							}
 						}
