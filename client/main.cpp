@@ -15,7 +15,9 @@ int main(int argc, char *argv[])
 	#endif
 
 	bool needs_virtual_keyboard;
+	bool web;
 	#ifdef EMSCRIPTEN
+		web = true;
 		// https://developer.mozilla.org/en-US/docs/Web/HTTP/Browser_detection_using_the_user_agent#Mobile_Device_Detection
 		needs_virtual_keyboard = EM_ASM_INT({
 			let res = false;
@@ -42,6 +44,7 @@ int main(int argc, char *argv[])
 			qputenv("QT_IM_MODULE", "qtvirtualkeyboard");
 		}
 	#else
+		web = false;
 		needs_virtual_keyboard = false;
 	#endif
 
@@ -70,6 +73,7 @@ int main(int argc, char *argv[])
 	#endif
 	engine.rootContext()->setContextProperty("ROOT_URL", root_url);
 	engine.rootContext()->setContextProperty("NEEDS_VIRTUAL_KEYBOARD", needs_virtual_keyboard);
+	engine.rootContext()->setContextProperty("WEB", web);
 	engine.load(url);
 	return app.exec();
 }

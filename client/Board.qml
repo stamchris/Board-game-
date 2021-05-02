@@ -138,12 +138,6 @@ Item {
 		generator.next();
 	}
 
-	BorderImage {
-		id: background1
-		source: "images/background_image.jpg"
-		anchors.fill:parent
-	}
-
 	Popup {
 		id : popupFinish
 		anchors.centerIn: parent
