@@ -41,7 +41,7 @@ class Cerbere::Player
 	property hand : Hand = Hand.new# Classe temporaire representant les utilisateurs provenant du lobby
 	property type : TypeJoueur = TypeJoueur::AVENTURIER
 	property owner = false
-	property password : String
+	property password = ""
 
 	def send(response : Response)
 		unless (@socket.nil?)
@@ -57,27 +57,26 @@ class Cerbere::Player
 
 	def authentification(game)
 		DB.open "mysql://root@localhost/database" do |db|
-			db.query "SELECT * FROM tab_joueur WHERE tab_joueur.login_joueur = ?", @name do |result|
-				if result.column_count == 1
-				 db.query "tab_joueur.password_joueur = ?",@password 
-					#TODO : vérifier que @password == mdp stocké dans la BDD, sinon, refuser la connexion
-				elsif result.column_count == 0
-				db.query "INSERT INTO tab_joueur (login_joueur,password_joueur) VALUES('?','?')", @name,@password
-					#TODO : On a pas le player, donc il faut créer un nouveau joueur avec @name et @password
-				else
-					#TODO : On a plus qu'une colonne, donc on a une duplication dans la BDD, il faut lancer une alerte
+			result = db.query_one? "SELECT * FROM tab_joueur WHERE tab_joueur.login_joueur = ?", @name, as: {login: String , password: String}
+			if result.nil?
+				db.exec "INSERT INTO tab_joueur (login_joueur,password_joueur) VALUES('?','?')", @name,@password
+				result = {login:@name,password:@password}
+			end
+			
+			if result[:password] == @password
+				
+				if game.players.size == 0
+					@owner = true
 				end
+
+				game.send_all Response::NewPlayer.new self
+				game << self
+
+				send(Response::Welcome.new game.players, game.players.size-1)
+			else
+				send(Response::BadLogin.new)
 			end
 		end
-
-		if game.players.size == 0
-			@owner = true
-		end
-
-		game.send_all Response::NewPlayer.new self
-		game << self
-
-		send(Response::Welcome.new game.players, game.players.size-1)
 
 	end
 end

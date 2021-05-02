@@ -79,6 +79,7 @@ Item {
 
 			onHoverEnabledChanged: boutton_rond.background.color = "grey"
 			onClicked: socket.connect(serveurInput.text, loginInput.text, pwdInput.text)
+			}
 		}
 
 		Label {
@@ -89,6 +90,27 @@ Item {
 		Label {
 			id: lMessage
 			visible: false
+		}
+	}
+
+	Rectangle {
+		id: unamused
+		visible: false
+		anchors.fill: parent
+		Label {
+			text: "Mauvais login !"
+			anchors.horizontalCenter: parent.horizontalCenter
+			anchors.verticalCenter: parent.verticalCenter
+		}
+		
+		color: "red"
+		opacity: 0.5
+
+		Button {
+			text: "Ok"
+			onClicked: unamused.visible = false
+			anchors.bottom: parent.bottom
+			anchors.horizontalCenter: parent.horizontalCenter
 		}
 	}
 }

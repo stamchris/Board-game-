@@ -30,6 +30,9 @@ ApplicationWindow {
 
 		function switchMessage(message) {
 			switch(message.type) {
+				case "badLogin":
+					loader.currentItem.unamused.visible=true
+					break
 				case "newPlayer":
 					game.players.push(message.player)
 					game.players = game.players
