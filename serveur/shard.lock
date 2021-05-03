@@ -1,4 +1,4 @@
-version: 1.0
+version: 2.0
 shards:
   db:
     git: https://github.com/crystal-lang/crystal-db.git
@@ -9,7 +9,7 @@ shards:
     version: 0.1.5
 
   kemal:
-    git: https://github.com/sdogruyol/kemal.git
+    git: https://github.com/kemalcr/kemal.git
     version: 1.0.0
 
   kilt:
