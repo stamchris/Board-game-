@@ -18,34 +18,40 @@ Item {
 		}
 	}
 	
-	Button{
+	RoundButton {
+		id: configButton
 		visible: game.getPlayer().owner
-		anchors{top:wrap_container.top;right: wrap_container.right;topMargin: 10;rightMargin: 170}
-		background:
-			Rectangle{
-			id:retButton
-			radius:40
-			height: 80
-			width: 180
-			color: "#F0B27A"
-
-			Text {
-				id:textConfi
-				text: ("Configuration")
-				font.pointSize: configMA.hoverEnabled && configMA.containsMouse ? 18 : 15
-				color: configMA.hoverEnabled && configMA.containsMouse ? "white" : "black"
-				font.family: "Stoneyard"
-				anchors.centerIn: parent
-			}
-
-			MouseArea{
-				id:configMA
-				anchors.fill:parent
+		x: app.width - this.width - 5
+		y: 10
+		width: configText.width + 10
+		radius: 5
+		
+		Text {
+			id: configText
+			x: 5
+			y: 10
+			text: "Configuration"
+		}
+		
+		MouseArea {
+				anchors.fill: parent
 				enabled: true
 				hoverEnabled: true
+				
 				onClicked: loader.push(configScreen)
-			}
-		}
+				
+				onHoveredChanged: {
+					if(hoverEnabled) {
+						if(containsMouse) {
+							configButton.background.color = "#27AE60"
+							configText.color = "black"
+						} else {
+							configButton.background.color = "white"
+							configText.color = "black"
+						}
+					}
+				}
+		}										
 	}
 
 	
