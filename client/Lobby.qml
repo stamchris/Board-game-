@@ -23,12 +23,12 @@ Item {
 		visible: game.getPlayer().owner
 		x: app.width - this.width - 5
 		y: 10
-		width: configText.width + 10
+		width: configText.width + 20
 		radius: 5
 		
 		Text {
 			id: configText
-			x: 5
+			x: 10
 			y: 10
 			text: "Configuration"
 		}
@@ -44,7 +44,7 @@ Item {
 					if(hoverEnabled) {
 						if(containsMouse) {
 							configButton.background.color = "#27AE60"
-							configText.color = "black"
+							configText.color = "white"
 						} else {
 							configButton.background.color = "white"
 							configText.color = "black"
