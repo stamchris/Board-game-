@@ -94,7 +94,7 @@ verif_serveur:
         before_script:
                 - export DEBIAN_FRONTEND=noninteractive # fuck you tzdata
                 - apt-get update
-                - apt-get install --yes --force-yes curl apt-transport-https ca-certificates gnupg
+                - apt-get install --yes --force-yes curl apt-transport-https ca-certificates gnupg git
                 - curl -fsSL https://crystal-lang.org/install.sh | bash
         script:
                 - cd serveur
