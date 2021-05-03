@@ -23,14 +23,16 @@ Item {
 		visible: game.getPlayer().owner
 		x: app.width - this.width - 5
 		y: 10
-		width: configText.width + 20
+		width: configText.width + 40
 		radius: 5
 		
 		Text {
 			id: configText
-			x: 10
+			x: 20
 			y: 10
 			text: "Configuration"
+			font.family: "Stoneyard"
+			font.pointSize: 14
 		}
 		
 		MouseArea {
