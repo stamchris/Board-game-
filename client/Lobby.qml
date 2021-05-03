@@ -44,24 +44,8 @@ Item {
 				enabled: true
 				hoverEnabled: true
 				onClicked: loader.push(configScreen)
-<<<<<<< HEAD
 			}
 		}
-=======
-				
-				onHoveredChanged: {
-					if(hoverEnabled) {
-						if(containsMouse) {
-							configButton.background.color = "#27AE60"
-							configText.color = "white"
-						} else {
-							configButton.background.color = "white"
-							configText.color = "black"
-						}
-					}
-				}
-		}										
->>>>>>> Update Lobby.qml
 	}
 
 	
