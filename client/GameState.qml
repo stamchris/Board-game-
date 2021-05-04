@@ -272,11 +272,11 @@ Item{
 		parent.board.popupBridge.open()
 	}
 
-    function usePortal(new_queue) {
-        portal_queue = new_queue
-        parent.board.popupPortal.imgPlayerPortal.source = src + "images/" + portal_queue[0].colour + "_pion.png"
-        parent.board.popupPortal.open()
-    }
+	function usePortal(new_queue) {
+		portal_queue = new_queue
+		parent.board.popupPortal.imgPlayerPortal.source = src + "images/" + portal_queue[0].colour + "_pion.png"
+		parent.board.popupPortal.open()
+	}
 
 	function lockCards(type) {
 		if (type == "action") {
