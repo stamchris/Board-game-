@@ -20,11 +20,33 @@ Item {
 	}
 	
 	Button {
-		anchors.top: parent.top
-		anchors.left: parent.left
-		text: "Lobby"
-		onClicked: loader.pop()
+		anchors{top: wrap_container.top;left: wrap_container.left;topMargin: 10;leftMargin: 10}
+		background: Rectangle {
+			id:retButton
+			radius:40
+			height: 80
+			width: 100
+			color: "#F0B27A"
+
+			Text {
+				id:textRetour
+				text: ("Retour")
+				font.pointSize: retourMA.hoverEnabled && retourMA.containsMouse ? 18 : 15
+				color: retourMA.hoverEnabled && retourMA.containsMouse ? "white" : "black"
+				font.family: "Stoneyard"
+				anchors.centerIn: parent
+			}
+			MouseArea{
+				id: retourMA
+				anchors.fill:parent
+				enabled: true
+				hoverEnabled: true
+
+				onClicked: loader.pop()
+			}
+		}
 	}
+
 	
 	Rectangle{
 		id:backgroundRect
@@ -36,12 +58,14 @@ Item {
 		radius:20
 	}
 	
-	ColumnLayout {
+	GridLayout {
 		id: leftColumn
 		height: 0.5*parent.height
 		width:0.6*parent.width
 		anchors.centerIn: parent
-		spacing:5
+		columns: 2
+		columnSpacing:5
+		rowSpacing:5
 		
 		LobbyOption {
 			label: "Difficulté"
@@ -82,6 +106,19 @@ Item {
 				}
 			}
 		}
+		UsersView {
+			Layout.fillWidth: true
+			Layout.maximumHeight: 250
+			Layout.maximumWidth: 300
+			Layout.minimumHeight: 250
+			Layout.minimumWidth: 300
+			Layout.alignment: Qt.AlignRight
+			users: game.players
+			showKickButtons: true
+			gameOwnerLogin: "???"
+
+			onKickClicked: console.log("unimplemented: kick clicked for " + user.login)
+		}
 		
 		LobbyOption {
 			label: "Nombre des Joueurs"
@@ -92,6 +129,7 @@ Item {
 			Layout.minimumHeight: 100
 			Layout.minimumWidth: 150
 			Layout.alignment: Qt.AlignLeft
+			Layout.columnSpan: 2
 			
 			SpinBox {
 				id:spinBox
@@ -103,23 +141,7 @@ Item {
 				Layout.fillWidth: true
 			}
 		}
-		
-		LobbyOption {
-			label: "Team Chat"
-			
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-			Layout.maximumHeight: 100
-			Layout.maximumWidth: 150
-			Layout.alignment: Qt.AlignLeft
-			
-			Button {
-				text: if (teamChat) "v"
-				      else "x"
-				checkable: true
-				onCheckedChanged: teamChat = checked
-			}
-		}
+
 		
 		Rectangle{
 			id: submitButton
@@ -129,47 +151,26 @@ Item {
 			Layout.maximumWidth:180
 			Layout.minimumHeight: 80
 			Layout.minimumWidth:90
-			color: "white"
+			color: submitMA.hoverEnabled && submitMA.containsMouse ? "#27AE60" : "white"
 			radius:20
+			Layout.columnSpan: 2
 			
 			Text {
 				id: textSubmit
 				text: "Configurer"
-				font.pointSize: 15
+				font.pointSize: submitMA.hoverEnabled && submitMA.containsMouse ? 18 : 15
 				font.family: "Stoneyard"
+				color: submitMA.hoverEnabled && submitMA.containsMouse ? "white" : "black"
 				anchors.centerIn: parent
 			}
 			MouseArea{
+				id: submitMA
 				anchors.fill:parent
 				enabled: true
 				hoverEnabled: true
-				
-				onHoveredChanged: {
-					if(hoverEnabled){
-						if (containsMouse){
-							submitButton.color="#27AE60"
-							textSubmit.color="white"
-							textSubmit.font.pointSize = 18
-						}else{
-							submitButton.color="white"
-							textSubmit.color="black"
-							textSubmit.font.pointSize = 15
-						}
-					}
-				}
+								
 				onClicked: socket.send({type: "game_config", difficulty:difficulty, maxPlayers:maxPlayers})
 			}
 		}
-	}
-		
-	UsersView {
-		width: 300
-		height: 400
-		users: game.players
-		showKickButtons: true
-		gameOwnerLogin: "???"
-		anchors{right: wrap_container.right;top: wrap_container.top}
-		
-		onKickClicked: console.log("unimplemented: kick clicked for " + user.login)
-	}
+	}	
 }
