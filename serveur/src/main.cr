@@ -17,7 +17,7 @@ else
 	end
 end
 
-if(connection_string != ""
+if(connection_string != "")
 	puts "Base de données détectée !"
 else
 	puts "Base de données introuvable !"
