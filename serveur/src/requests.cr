@@ -16,7 +16,8 @@ class Cerbere::Request
 		skip_turn: SkipTurn,
 		changeColour: ChangeColour,
 		chatMessage: ChatMessage,
-		answerSabotage: AnswerSabotage
+		answerSabotage: AnswerSabotage,
+		password: Password
 	}
 
 	def handle(game : Game, player : Player)
