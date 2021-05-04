@@ -20,32 +20,31 @@ Item {
 	}
 	
 	Button {
-			anchors{top: wrap_container.top;left: wrap_container.left;topMargin: 10;leftMargin: 10}
-			background:
-				Rectangle{
-					id:retButton
-					radius:40
-					height: 80
-					width: 100
-					color: "#F0B27A"
+		anchors{top: wrap_container.top;left: wrap_container.left;topMargin: 10;leftMargin: 10}
+		background: Rectangle {
+			id:retButton
+			radius:40
+			height: 80
+			width: 100
+			color: "#F0B27A"
 
-					Text {
-						id:textRetour
-						text: ("Retour")
-						font.pointSize: retourMA.hoverEnabled && retourMA.containsMouse ? 18 : 15
-						color: retourMA.hoverEnabled && retourMA.containsMouse ? "white" : "black"
-						font.family: "Stoneyard"
-						anchors.centerIn: parent
-					}
-					MouseArea{
-						id: retourMA
-						anchors.fill:parent
-						enabled: true
-						hoverEnabled: true
+			Text {
+				id:textRetour
+				text: ("Retour")
+				font.pointSize: retourMA.hoverEnabled && retourMA.containsMouse ? 18 : 15
+				color: retourMA.hoverEnabled && retourMA.containsMouse ? "white" : "black"
+				font.family: "Stoneyard"
+				anchors.centerIn: parent
+			}
+			MouseArea{
+				id: retourMA
+				anchors.fill:parent
+				enabled: true
+				hoverEnabled: true
 
-						onClicked: loader.pop()
-					}
-				}
+				onClicked: loader.pop()
+			}
+		}
 	}
 
 	
