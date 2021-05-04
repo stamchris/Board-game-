@@ -60,7 +60,7 @@ class Cerbere::Player
 		if !(db.nil?)
 			result = db.query_one? "SELECT * FROM tab_joueur WHERE tab_joueur.login_joueur = ?", @name, as: {login: String , password: String}
 			if result.nil?
-				db.exec "INSERT INTO tab_joueur (login_joueur,password_joueur) VALUES('?','?')", @name,@password
+				db.exec "INSERT INTO tab_joueur (login_joueur,password_joueur) VALUES(?,?)", @name,@password
 				result = {login:@name,password:@password}
 			end
 			
