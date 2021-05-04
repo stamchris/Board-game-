@@ -107,26 +107,30 @@ Rectangle {
 			onClicked: {
 				showPlayedCardId.complete()
 			}
-		}
+		} 
 	}
 
-	SequentialAnimation on x {
+	SequentialAnimation {
 		id: showPlayedCardId
 		running: false
 
-		NumberAnimation {
+		XAnimator {
+			target: cardPlayedId
+			from: -parent.width*0.20
 			to: 0
-			duration: 1000
+			duration: 750
 			easing.type: Easing.OutQuad
 		}
 
 		PauseAnimation {
-			duration: 5000
+			duration: 3500
 		}
 		
-		NumberAnimation {
+		XAnimator {
+			target: cardPlayedId
+			from: 0
 			to: -parent.width*0.20
-			duration: 1000
+			duration: 750
 			easing.type: Easing.InQuad
 		}
 	}
