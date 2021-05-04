@@ -204,8 +204,13 @@ Item{
 		parent.board.askSabotage(effect);
 	}
 
+<<<<<<< HEAD
     function showPlayedCard(playerName, playerColor, cardType, cardName, cardEffect) {
         _cardPlayed(playerName, playerColor, cardType, cardName, cardEffect)
+=======
+	function showPlayedCard(playerName, playerColor, cardType, cardName, cardEffect) {
+		_cardPlayed(playerName, playerColor, cardType, cardName, cardEffect)
+>>>>>>> Fix indentations (oops).
     }
 	
 	function initGame(newPlayers, newDifficulty) {
