@@ -36,23 +36,23 @@ Item {
 		}
 		
 		MouseArea {
-				anchors.fill: parent
-				enabled: true
-				hoverEnabled: true
+			anchors.fill: parent
+			enabled: true
+			hoverEnabled: true
 				
-				onClicked: loader.push(configScreen)
+			onClicked: loader.push(configScreen)
 				
-				onHoveredChanged: {
-					if(hoverEnabled) {
-						if(containsMouse) {
-							configButton.background.color = "#27AE60"
-							configText.color = "white"
-						} else {
-							configButton.background.color = "white"
-							configText.color = "black"
-						}
+			onHoveredChanged: {
+				if(hoverEnabled) {
+					if(containsMouse) {
+						configButton.background.color = "#27AE60"
+						configText.color = "white"
+					} else {
+						configButton.background.color = "white"
+						configText.color = "black"
 					}
 				}
+			}
 		}										
 	}
 
