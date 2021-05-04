@@ -627,8 +627,7 @@ class Cerbere::Board
 			new_rage : Int32 = @rage_cerbere + effect.force
 			return new_rage >= 1 + @nombre_pions_jauge && new_rage <= 10
 		when Evenement::DEPLACER_MOI
-			new_position : Int32 = who.position + effect.force
-			return new_position >= 1 && new_position <= nodes.size()
+			return true
 		when Evenement::DEPLACER_AUTRE
 			# Ca devrait théoriquement être toujours vrai car ce coût n'affecte
 			# que les Cerbères, et s'il n'y aurait plus aucun survivant, la
