@@ -1,148 +1,143 @@
 import QtQuick 2.10
 
 Item{
-    property string login: "login"
-    property string color: "#000000"
-    property string playerType: "aventurier"
-    property string difficulty: "0"
-    property string rage: "0"
-    property string vitesse: "0"
-    property string posCerbere: "0"
-    property string pont: "1"
-    property variant players: []
-    property string currentPlayer : "0"
-    property string currentPlayerColor : ""
-    property var showfinish_player: []
-    property var pont_queue: []
-    property var portal_queue: []
-    property var barque_revealed: false
+	property string login: "login"
+	property string color: "#000000"
+	property string playerType: "aventurier"
+	property string difficulty: "0"
+	property string rage: "0"
+	property string vitesse: "0"
+	property string posCerbere: "0"
+	property string pont: "1"
+	property variant players: []
+	property string currentPlayer : "0"
+	property string currentPlayerColor : ""
+	property var showfinish_player: []
+	property var pont_queue: []
+	property var portal_queue: []
+	property var barque_revealed: false
 
-    property string src: typeof ROOT_URL === "undefined" ? "" : ROOT_URL
-   
+	property string src: typeof ROOT_URL === "undefined" ? "" : ROOT_URL
 
-    signal _currentPlayerChanged(string newCurrentPlayer, string newCurrentPlayerColor)
-    signal _difficultyChanged()
-    signal _rageChanged()
-    signal _vitesseChanged()
-    signal _playersChanged(variant players, string newTurn)
-    signal _positionChanged(string newPosition, string color)
-    signal _pontChanged()
-    signal _showPlayerPieces(variant players)
-    signal _updatePlayersOnBar(variant players)
-    signal _newBonus(string newBonus, string type)
-    signal _discardBonus(string discardedBonus, string type)
-    signal _showSwapBarque(string barques)
-    signal _showRevealBarque(string barque)
+
+	signal _currentPlayerChanged(string newCurrentPlayer, string newCurrentPlayerColor)
+	signal _difficultyChanged()
+	signal _rageChanged()
+	signal _vitesseChanged()
+	signal _playersChanged(variant players, string newTurn)
+	signal _positionChanged(string newPosition, string color)
+	signal _pontChanged()
+	signal _showPlayerPieces(variant players)
+	signal _updatePlayersOnBar(variant players)
+	signal _newBonus(string newBonus, string type)
+	signal _discardBonus(string discardedBonus, string type)
+	signal _showSwapBarque(string barques)
+	signal _showRevealBarque(string barque)
 	signal _hideSwapBarque()
-    /*signal _showAWinner(variant player)
-    signal _showALoser(variant player)
-    signal _showSWinner(variant player)
-    signal _showSLoser(variant player)
-    signal _showEliminate(variant player)*/
-    signal _updateActionCards(string playerType)
-    signal _lockAction()
-    signal _lockBonus()
-    signal _addToBar(string player_color)
-    signal _secondPassed(var minutes, var seconds)
-    signal _cardPlayed(string playerName, string playerColor, string cardType, string cardName, var cardEffect)
+	signal _updateActionCards(string playerType)
+	signal _lockAction()
+	signal _lockBonus()
+	signal _addToBar(string player_color)
+	signal _secondPassed(var minutes, var seconds)
+	signal _cardPlayed(string playerName, string playerColor, string cardType, string cardName, var cardEffect)
 
-    Timer {
-        id: globalTimer
-        property var seconds: 0
-        property var minutes: 0
+	Timer {
+		id: globalTimer
+		property var seconds: 0
+		property var minutes: 0
 
-        interval: 1000
-        repeat: true
-        running: false
+		interval: 1000
+		repeat: true
+		running: false
 
-        onTriggered: {
-            seconds += 1
+		onTriggered: {
+			seconds += 1
 
-            if(seconds == 60){
-                seconds = 0
-                minutes += 1
-            }
-            
-            _secondPassed(minutes, seconds)
-        }
-    }
+			if(seconds == 60){
+				seconds = 0
+				minutes += 1
+			}
+			
+			_secondPassed(minutes, seconds)
+		}
+	}
 
-    function changeDifficulty(newDifficulty) {
-        difficulty = newDifficulty
-        _difficultyChanged()
-    }
+	function changeDifficulty(newDifficulty) {
+		difficulty = newDifficulty
+		_difficultyChanged()
+	}
 
-    function changeRage(newRage) {
-        rage = newRage
-        _rageChanged()
-    }
+	function changeRage(newRage) {
+		rage = newRage
+		_rageChanged()
+	}
 
-    function changeVitesse(newVitesse) {
-        vitesse = newVitesse
-        _vitesseChanged()
-    }
+	function changeVitesse(newVitesse) {
+		vitesse = newVitesse
+		_vitesseChanged()
+	}
 
-    function changePosCerbere(newPosCerbere) {
-        posCerbere = newPosCerbere
-        _positionChanged(posCerbere, "Black")
-    }
+	function changePosCerbere(newPosCerbere) {
+		posCerbere = newPosCerbere
+		_positionChanged(posCerbere, "Black")
+	}
 
-    function changePlayers(newPlayers, newCurrentPlayer) {
-        for (var i = 0; i < newPlayers.length; i++) {
-            if (newPlayers[i].type != players[i].type) {
-                _addToBar(newPlayers[i].colour)
-            }
-        }
+	function changePlayers(newPlayers, newCurrentPlayer) {
+		for (var i = 0; i < newPlayers.length; i++) {
+			if (newPlayers[i].type != players[i].type) {
+				_addToBar(newPlayers[i].colour)
+			}
+		}
 
-        players = newPlayers
+		players = newPlayers
 
-        if (players[newCurrentPlayer].type == "aventurier") {
-            _currentPlayerChanged(players[newCurrentPlayer].name, players[newCurrentPlayer].colour)
-        } else if (players[newCurrentPlayer].type == "cerbere") {
-            _currentPlayerChanged(players[newCurrentPlayer].name, "Black")   
-        }
-        _playersChanged(players, newCurrentPlayer)
-    }
+		if (players[newCurrentPlayer].type == "aventurier") {
+			_currentPlayerChanged(players[newCurrentPlayer].name, players[newCurrentPlayer].colour)
+		} else if (players[newCurrentPlayer].type == "cerbere") {
+			_currentPlayerChanged(players[newCurrentPlayer].name, "Black")   
+		}
+		_playersChanged(players, newCurrentPlayer)
+	}
 
-    function changeType(new_type) {
-        playerType = new_type
-        _updateActionCards(playerType)
-    }
+	function changeType(new_type) {
+		playerType = new_type
+		_updateActionCards(playerType)
+	}
 
-    function changePosition(color, newPosition) {
-        for (var i = 0; i < players.length; i++) {
-            if (players[i].colour == color) {
-                players[i].position = newPosition
-                _positionChanged(newPosition, players[i].colour)
-            }
-        }
-    }
+	function changePosition(color, newPosition) {
+		for (var i = 0; i < players.length; i++) {
+			if (players[i].colour == color) {
+				players[i].position = newPosition
+				_positionChanged(newPosition, players[i].colour)
+			}
+		}
+	}
 
-    function changePont(msg_pont) {
-        if (pont == 1 && msg_pont == 0) { 
-            pont = 0
-            _pontChanged()
-        }
-    }
+	function changePont(msg_pont) {
+		if (pont == 1 && msg_pont == 0) { 
+			pont = 0
+			_pontChanged()
+		}
+	}
 
-    function newBonus(new_bonus) {
-        _newBonus(new_bonus, "add")
-    }
+	function newBonus(new_bonus) {
+		_newBonus(new_bonus, "add")
+	}
 
-    function discardBonus(discardedBonus) {
-        _discardBonus(discardedBonus, "remove")
-    }
+	function discardBonus(discardedBonus) {
+		_discardBonus(discardedBonus, "remove")
+	}
 
-    function showSwapBarque(choices) {
-        _showSwapBarque(choices)
-    }
+	function showSwapBarque(choices) {
+		_showSwapBarque(choices)
+	}
 
-    function showRevealBarque(barque) {
-        barque_revealed = true
-        _showRevealBarque(barque)
-    }
+	function showRevealBarque(barque) {
+		barque_revealed = true
+		_showRevealBarque(barque)
+	}
 
-    function hideSwapBarque() {
+	function hideSwapBarque() {
 		_hideSwapBarque()
 	}
 
@@ -271,11 +266,11 @@ Item{
 
 
 
-    function useBridge(new_queue) {
-        pont_queue = new_queue
-        parent.board.popupBridge.imgPlayerBridge.source = src + "images/" + pont_queue[0].colour + "_pion.png"
-        parent.board.popupBridge.open()
-    }
+	function useBridge(new_queue) {
+		pont_queue = new_queue
+		parent.board.popupBridge.imgPlayerBridge.source = src + "images/" + pont_queue[0].colour + "_pion.png"
+		parent.board.popupBridge.open()
+	}
 
     function usePortal(new_queue) {
         portal_queue = new_queue
@@ -283,13 +278,13 @@ Item{
         parent.board.popupPortal.open()
     }
 
-    function lockCards(type) {
-        if (type == "action") {
-            _lockAction()
-        } else if (type == "bonus") {
-            _lockBonus()
-        }
-    }
+	function lockCards(type) {
+		if (type == "action") {
+			_lockAction()
+		} else if (type == "bonus") {
+		_lockBonus()
+		}
+	}
 
 	function askSabotage(effect) {
 		parent.board.askSabotage(effect);
@@ -297,7 +292,7 @@ Item{
 
 	function showPlayedCard(playerName, playerColor, cardType, cardName, cardEffect) {
 		_cardPlayed(playerName, playerColor, cardType, cardName, cardEffect)
-    }
+	}
 	
 	function initGame(newPlayers, newDifficulty) {
 		players = newPlayers
