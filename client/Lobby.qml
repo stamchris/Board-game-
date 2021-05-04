@@ -129,7 +129,7 @@ Item {
 					if(player){
 						player.name;
 					}else{
-						modelData.name;
+						" ";
 					}
 				}
 				font.pointSize: 15
