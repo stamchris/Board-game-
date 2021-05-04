@@ -57,7 +57,7 @@ class Cerbere::Player
 
 	def authentification(game)
 		if game.connection_string != ""
-			DB.open "mysql://root@localhost/database" do |db|
+			DB.open game.connection_string do |db|
 				result = db.query_one? "SELECT * FROM tab_joueur WHERE tab_joueur.login_joueur = ?", @name, as: {login: String , password: String}
 				if result.nil?
 					db.exec "INSERT INTO tab_joueur (login_joueur,password_joueur) VALUES('?','?')", @name,@password

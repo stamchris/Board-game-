@@ -12,9 +12,9 @@ class Cerbere::Game
 	property action_played : Bool = false
 	property bonus_played : Bool = false
 	property finished : Bool = false
-	property connection_string : String = ""
+	property connection_string : String
 
-	def initialize()
+	def initialize(@connection_string)
 		@players = [] of Player
 	end
 	

@@ -41,7 +41,7 @@ class Cerbere::Request
 
 		def handle(game : Game, player : Player)
 			sha256 = OpenSSL::Digest.new("sha256")
-			player.password = sha256.update(@password).final.hexdigest
+			player.password = sha256.update(@password).final.hexstring
 
 			if player.name != ""
 				player.authentification(game)
