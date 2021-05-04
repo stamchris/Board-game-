@@ -18,13 +18,36 @@ Item {
 		}
 	}
 	
-	Button {
+	Button{
 		visible: game.getPlayer().owner
-		anchors.top:wrap_container.top
-		anchors.right:wrap_container.right
-		text: "Configuration"
-		onClicked: loader.push(configScreen)
+		anchors{top:wrap_container.top;right: wrap_container.right;topMargin: 10;rightMargin: 170}
+		background:
+			Rectangle{
+			id:retButton
+			radius:40
+			height: 80
+			width: 180
+			color: "#F0B27A"
+
+			Text {
+				id:textConfi
+				text: ("Configuration")
+				font.pointSize: configMA.hoverEnabled && configMA.containsMouse ? 18 : 15
+				color: configMA.hoverEnabled && configMA.containsMouse ? "white" : "black"
+				font.family: "Stoneyard"
+				anchors.centerIn: parent
+			}
+
+			MouseArea{
+				id:configMA
+				anchors.fill:parent
+				enabled: true
+				hoverEnabled: true
+				onClicked: loader.push(configScreen)
+			}
+		}
 	}
+
 	
 	Component {
 		id: configScreen
@@ -33,45 +56,6 @@ Item {
 			anchors.fill: parent
 		}
 	}
-
-	ColumnLayout {
-		anchors{bottom: wrap_container.bottom;right: wrap_container.right;bottomMargin: 5;rightMargin: 5}
-		height: 200
-		width: 200
-
-		ListView {
-			id:listView
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-			model: game.players
-			verticalLayoutDirection: ListView.BottomToTop
-
-			delegate:
-
-			Rectangle {
-				id: rectaId
-				width: listView.width
-				height: userText.implicitHeight + 10
-				color: "#D7BDE2"
-				opacity: 0.6
-				radius:1
-
-				Text {
-					id:userText
-					width: parent.width
-					horizontalAlignment: Text.AlignHCenter
-					color:if (modelData.colour === "Cyan")
-						userText.color = "#5DADE2"
-						else
-						userText.color = modelData.colour
-					text: modelData.name + " est connecté"
-					font.pointSize: 12
-					font.family: "Stoneyard"
-				}
-			}
-		}
-	}
-
 
 	GridLayout {
 		id:gridLayout
@@ -145,7 +129,7 @@ Item {
 					if(player){
 						player.name;
 					}else{
-						modelData.name;
+						" ";
 					}
 				}
 				font.pointSize: 15

@@ -40,6 +40,7 @@ ListView {
 		id: kickButton
 
 		Button {
+			height: 28
 			width: 32
 			text: "X"
 			font.family: "Noto Emoji"
@@ -47,24 +48,30 @@ ListView {
 	}
 
 	delegate: RowLayout {
-		Layout.fillWidth: true
+		spacing: 15
 		Text {
+			Layout.minimumHeight: 40
 			Layout.fillWidth: true
-			color: modelData.colour
-			text: modelData.name + " est connecté"
-			font.pointSize: 12
+			text: modelData.name
+			font.pointSize: 15
 			font.family: "Stoneyard"
-			Layout.alignment: Qt.AlignHCenter
+			style: Text.Outline
+			color: "#FFF8E4"
+			styleColor: modelData.colour
+			leftPadding: 10
+			Layout.alignment: Qt.AlignCenter
 		}
 
 		Loader {
 			sourceComponent: if (modelData.login == gameOwnerLogin)
 				crownButton
+			Layout.alignment: Qt.AlignTop
 		}
 
 		Loader {
 			sourceComponent: if (showKickButtons)
 				kickButton
+			Layout.alignment: Qt.AlignTop
 		}
 	}
 }
