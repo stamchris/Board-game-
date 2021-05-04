@@ -1,5 +1,4 @@
 require "./game.cr"
-require "openssl/digest/digest.cr"
 
 class Cerbere::Request
 	include JSON::Serializable
@@ -42,7 +41,7 @@ class Cerbere::Request
 
 		def handle(game : Game, player : Player)
 			sha256 = OpenSSL::Digest.new("sha256")
-			player.password = sha256.update(@password).digest.hexstring
+			player.password = sha256.update(@password).final.hexdigest
 
 			if player.name != ""
 				player.authentification(game)
