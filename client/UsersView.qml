@@ -57,7 +57,7 @@ ListView {
 			font.family: "Stoneyard"
 			style: Text.Outline
 			color: "#FFF8E4"
-			styleColor: "Red"
+            styleColor: modelData.colour
 			leftPadding: 10
 			Layout.alignment: Qt.AlignCenter
 		}
