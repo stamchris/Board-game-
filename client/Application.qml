@@ -92,11 +92,11 @@ ApplicationWindow {
 				case "chatResponse":
 					game.addMessage(message.player, message.timestamp, message.message)
 					break
-				case "actionPlayed":
-					game.state.lockCards("action")
-					break
-				case "bonusPlayed":
-					game.state.lockCards("bonus")
+				case "cardPlayed":
+					if (message.player.name == login)
+						game.state.lockCards(message.cardType)
+					var playerColor = message.player.type == "cerbere" ? "Cerbere" : message.player.colour
+					game.state.showPlayedCard(message.player.name, playerColor, message.cardType, message.cardName, message.cardEffect)
 					break
 				case "gameConfigUpdated":
 					console.log("Received config")

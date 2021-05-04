@@ -16,6 +16,7 @@
 		<file>Game.qml</file>
 		<file>library/movePions.js</file>
 		<file>library/ShowEffect.qml</file>
+		<file>library/PlayedCard.qml</file>
 		<file>GameState.qml</file>
 		<file>Chat.qml</file>
 		<file>UsersView.qml</file>

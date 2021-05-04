@@ -4,14 +4,26 @@ import QtQuick.Layouts 1.10
 import QtQuick.Controls 2.10
 
 Rectangle {
-	property int positionCounter: 1
-	property alias yPosition: pionId.y
-	property alias xPosition: pionId.x
 	id: pionId
-	width: parent.width/3
-	height: parent.height/5
-	color: "white"
-	radius: 15
-	y: 0
-	x: 0
+	width: 25
+	height: 25
+	visible: false
+	color: "transparent"
+	property alias imgPionId: imgPionId
+
+	Image {
+		id: imgPionId
+		source: ""
+		width: parent.width*0.85
+		height: parent.height*0.85
+		anchors.centerIn: parent
+	}
+
+	Glow {
+		anchors.fill: imgPionId
+		radius: 8
+		samples: 17
+		color: "white"
+		source: imgPionId
+	}
 }

@@ -23,6 +23,7 @@ Item {
 	property alias popupChooseOppoEffect: popupChooseOppoEffect
 	property alias popupFinish: popupFinish
 	property alias popupSabotageWhatToDo : popupSabotageWhatToDo
+	property alias playedCardId: playedCardId
 	
 	property string src: typeof ROOT_URL === "undefined" ? "" : ROOT_URL
 
@@ -139,7 +140,7 @@ Item {
 
 	BorderImage {
 		id: background1
-		source: src+"images/background_image.jpg"
+		source: "images/background_image.jpg"
 		anchors.fill:parent
 	}
 
@@ -832,6 +833,7 @@ Item {
 	Rectangle {
 		id: menuBarId
 		height: 60
+		
 		anchors { 
 			left: parent.left;
 			right: parent.right;
@@ -1039,7 +1041,8 @@ Item {
 				height: parent.height - 4
 				width: parent.width - 4
 				anchors.centerIn: parent
-				
+				color: "transparent"
+
 				Rectangle {
 					height: parent.height/2
 					width:  parent.width - parent.height
@@ -1186,6 +1189,8 @@ Item {
 		width: parent.width*8/10
 		height: 40
 		color: "transparent"
+		border.color: "#740912"
+		border.width: 1
 
 		anchors {
 			top: plateauId.bottom;
@@ -1274,6 +1279,10 @@ Item {
 		}
 	}
 
+	PlayedCard {
+		id: playedCardId
+	}
+
 	Rectangle {
 		id: joueurId
 		width: parent.width*8/10
@@ -1316,7 +1325,7 @@ Item {
 			clip: true
 			height: parent.height
 			width : parent.width/2
-			color: "#e8e1cd"
+			color: "transparent"
 			anchors.left: actionCardRepeater.itemAt(actionCardRepeater.count-1).right
 
 			ScrollBar{
@@ -1331,12 +1340,6 @@ Item {
 				anchors.bottom: parent.bottom
 				z: 10
 				height: parent.height/20
-			}
-			
-			BorderImage {
-				id: background2
-				source: src+"images/background_image.jpg"
-				anchors.fill:parent
 			}
 
 			Row {
