@@ -141,7 +141,7 @@ Item {
 	BorderImage {
 		id: background1
 		source: "images/background_image.jpg"
-		anchors.fill: parent
+		anchors.fill:parent
 	}
 
 	Popup {
@@ -833,10 +833,7 @@ Item {
 	Rectangle {
 		id: menuBarId
 		height: 60
-<<<<<<< HEAD
-=======
 		
->>>>>>> Fixing merging conflicts.
 		anchors { 
 			left: parent.left;
 			right: parent.right;
