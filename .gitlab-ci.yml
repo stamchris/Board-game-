@@ -125,3 +125,20 @@ verif_indentation:
                 - little-indentation-checker/little-indentation-checker --tab client/main.cpp client/*.qrc client/{,library/}*.qml serveur/src/*.cr
         only:
                 - merge_requests
+
+verif_qml:
+        image: archlinux
+        before_script:
+                - pacman --noconfirm -Syu
+                - pacman --noconfirm -S qt5-declarative git make gcc qt5-quickcontrols2 qt5-websockets qt5-graphicaleffects
+        script:
+                - git clone --depth=1 https://github.com/LcsTen/qml-validator.git
+                - cd qml-validator
+                - qmake && make
+                - cd ..
+                - qml-validator/qml-validator client/Application.qml
+        only:
+                refs:
+                        - merge_requests
+                changes:
+                        - client/**/*
