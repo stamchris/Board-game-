@@ -38,7 +38,10 @@ pages:
                 paths:
                         - public
         only:
-                - master
+                refs:
+                        - master
+                changes:
+                        - client/**/*
 
 verif_client:
         before_script:
@@ -50,7 +53,10 @@ verif_client:
                 - qmake
                 - make
         only:
-                - merge_requests
+                refs:
+                        - merge_requests
+                changes:
+                        - client/**/*
 
 verif_client_wasm:
         before_script:
@@ -88,7 +94,10 @@ verif_client_wasm:
                 paths:
                         - public
         only:
-                - merge_requests
+                refs:
+                        - merge_requests
+                changes:
+                        - client/**/*
 
 verif_serveur:
         before_script:
@@ -100,7 +109,10 @@ verif_serveur:
                 - cd serveur
                 - shards build
         only:
-                - merge_requests
+                refs:
+                        - merge_requests
+                changes:
+                        - serveur/**/*
 
 verif_indentation:
         before_script:
