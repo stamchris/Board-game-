@@ -6,17 +6,6 @@ import QtWebSockets 1.12
 Item {
 	id : lobby
 	property string src: typeof ROOT_URL === "undefined" ? "" : ROOT_URL
-
-	Rectangle {
-		id: wrap_container
-		anchors.fill: parent
-
-		BorderImage {
-			id: background
-			source: "images/background_image.jpg"
-			anchors.fill:parent
-		}
-	}
 	
 	RoundButton {
 		id: configButton
@@ -69,7 +58,7 @@ Item {
 		id:gridLayout
 		height: parent.height*0.7
 		width: parent.width *0.8
-		anchors{horizontalCenter: wrap_container.horizontalCenter;top: wrap_container.top}
+		anchors{horizontalCenter: parent.horizontalCenter;top: parent.top}
 		columns: 7
 		columnSpacing: 10
 		rowSpacing: 10
@@ -228,9 +217,9 @@ Item {
 
 
 	Chat {
-		width: wrap_container.width/4
-		height: wrap_container.height*0.25
-		anchors{bottom: wrap_container.bottom;left: wrap_container.left}
+		width: parent.width/4
+		height: parent.height*0.25
+		anchors{bottom: parent.bottom;left: parent.left}
 	}
 
 }

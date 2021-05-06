@@ -8,17 +8,6 @@ Item {
 	property string boardType: "default"
 	property bool teamChat: false // not bound in its widget, careful
 	
-	Rectangle {
-		id: wrap_container
-		anchors.fill: parent
-		
-		BorderImage {
-			id: background
-			source: "images/background_image.jpg"
-			anchors.fill:parent
-		}
-	}
-	
 	Button {
 		anchors{top: wrap_container.top;left: wrap_container.left;topMargin: 10;leftMargin: 10}
 		background: Rectangle {
