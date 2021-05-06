@@ -28,7 +28,7 @@ pages:
                 - em++ --version
                 - cd ..
                 - cd client
-                - $qmake_wasm -d
+                - $qmake_wasm
                 - make
                 - sed -n "s+<file>\(.*\)</file>+\1+p" Images.qrc | xargs rm
                 - cd ..
@@ -85,7 +85,7 @@ verif_client_wasm:
                 - em++ --version
                 - cd ..
                 - cd client
-                - $qmake_wasm -d
+                - $qmake_wasm
                 - make
                 - cd ..
                 - mkdir public
