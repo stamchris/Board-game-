@@ -6,9 +6,8 @@ require "./game.cr"
 require	"mysql"
 
 
-game = Cerbere::Game.new
+connection_string = ""
 
-connection_string : String = ""
 if(ARGV.size() >= 1)
 	connection_string = ARGV[0]
 else
@@ -19,14 +18,14 @@ else
 end
 
 if(connection_string != "")
-	DB.open(connection_string) do |db|
-		puts typeof(db) #DB::Database
-		puts "connection ok"
-		db.close
-	end
+	puts "Base de données détectée !"
 else
-	puts "Avertissement: Pas d'arguments et variable d'environnement CERBERE_BDD vide. BDD désactivée."
+	puts "Base de données introuvable !"
 end
+
+
+game = Cerbere::Game.new(connection_string)
+
 
 ws "/" do |socket|
 
@@ -41,3 +40,4 @@ ws "/" do |socket|
 end
 
 Kemal.run
+

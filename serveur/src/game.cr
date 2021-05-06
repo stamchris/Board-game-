@@ -12,8 +12,12 @@ class Cerbere::Game
 	property action_played : Bool = false
 	property bonus_played : Bool = false
 	property finished : Bool = false
-	
-	def initialize()
+	property db : DB::Database | Nil = nil
+
+	def initialize(connection_string)
+		if connection_string != ""
+			@db = DB.open(connection_string)
+		end
 		@players = [] of Player
 	end
 	
