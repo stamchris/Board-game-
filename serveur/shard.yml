@@ -3,7 +3,11 @@ version: 0.1.0
 
 dependencies:
   kemal:
-    github: sdogruyol/kemal
+    github: kemalcr/kemal
+  db:
+    github: crystal-lang/crystal-db
+  mysql:
+    github: crystal-lang/crystal-mysql
 
   mysql:
     github: crystal-lang/crystal-mysql
