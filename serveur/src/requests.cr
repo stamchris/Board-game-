@@ -154,7 +154,7 @@ class Cerbere::Request
 			game.board.play_card(player, true, index_card, effet, new_args)
 			game.action_played = true
 
-			player.send(Response::ActionPlayed.new())
+			game.send_all(Response::CardPlayed.new("action", carte, effet, player))
 			game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
 
 
@@ -237,8 +237,9 @@ class Cerbere::Request
 
 			game.board.play_card(player, false, index_card, effet, new_args)
 			game.bonus_played = true
+
 			player.send(Response::DiscardBonus.new(carte))
-			player.send(Response::BonusPlayed.new())
+			game.send_all(Response::CardPlayed.new("bonus", carte, effet, player))
 			game.send_all(Response::UpdateBoard.new(game.players, game.board.position_cerbere, game.board.vitesse_cerbere, game.board.rage_cerbere, game.board.pont, game.active_player))
 
 			players_queue : Array(Player) = [] of Player
@@ -509,17 +510,14 @@ class Cerbere::Response
 		end
 	end
 
-	class ActionPlayed < Response
-		property type = "actionPlayed"
+	class CardPlayed < Response
+		property type = "cardPlayed"
+		property cardType : String
+		property cardName : String
+		property cardEffect : Int32
+		property player : Player
 		
-		def initialize()
-		end
-	end
-
-	class BonusPlayed < Response
-		property type = "bonusPlayed"
-		
-		def initialize()
+		def initialize(@cardType, @cardName, @cardEffect, @player)
 		end
 	end
 
