@@ -141,19 +141,20 @@ Item{
 		_hideSwapBarque()
 	}
 
-	function showAWinner(player,pop) {
+	function showAWinner(player,pop,french_color) {
 		if(pop == 1) {
 			parent.board.popupFinish.finalstateplayer.color = player[0].colour
-			parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name + " tu a gagne jeune aventurier courageux !"
+			parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name + " tu as gagné jeune aventurier courageux !"
 		}
 		var component = Qt.createComponent("../library/StatutFin.qml")
 		if(component.status == Component.Ready){
 			var window = component.createObject("imageStatusid")
 			console.log(window.width)
-			window.parent = parent.endwindow.adventurercolumn//endcolumnid.children[0].children[0]
+			window.parent = parent.endwindow.winnerscolumn
 			window.imagestatut.source = src + "images/aventurier_image.png"
 			window.imagestatut.width = Qt.binding(function() { return window.imagestatut.parent.width/3})
 			window.imagestatut.height = Qt.binding(function() { return window.imagestatut.parent.height/2})
+			window.imagesicone.source = src + "images/"+french_color+"_icone.png"
 		}else if(component.status == Component.Error){
 			console.error(component.errorString());
 		}
@@ -162,20 +163,21 @@ Item{
 		parent.board.popupFinish.open()
 	}
 	
-	function showSWinner(player,pop) {
+	function showSWinner(player,pop,french_color) {
 		if(pop == 1) {
 			parent.board.popupFinish.finalstateplayer.color = player[0].colour
-			parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name + " tu a gagne jeune survivant malicieux ! "
+			parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name + " tu as gagné jeune survivant malicieux ! "
 		}
 		
 		var component = Qt.createComponent("../library/StatutFin.qml")
 		if(component.status == Component.Ready){
 			var window = component.createObject("imageStatusid")
 			console.log(window.width)
-			window.parent = parent.endwindow.cerberecolumn//endcolumnid.children[1].children[0]
+			window.parent = parent.endwindow.winnerscolumn
 			window.imagestatut.source = src + "images/cerbere_finaly.png"
 			window.imagestatut.width = Qt.binding(function() { return window.imagestatut.parent.width/2})
 			window.imagestatut.height = Qt.binding(function() { return window.imagestatut.parent.height/(1.5)})
+			window.imagesicone.source = src + "images/"+french_color+"_icone.png"
 		}else if(component.status == Component.Error){
 			console.error(component.errorString());
 		}
@@ -184,20 +186,21 @@ Item{
 		
 	}
 	
-	function showSLoser(player,pop) {
+	function showSLoser(player,pop,french_color) {
 		if(pop == 1) {
 			parent.board.popupFinish.finalstateplayer.color = player[0].colour
-			parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name + " tu a perdu jeune survivant !"
+			parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name + " tu as perdu jeune survivant !"
 		}
 		
 		var component = Qt.createComponent("../library/StatutFin.qml")
 		if(component.status == Component.Ready){
 			var window = component.createObject("imageStatusid")
 			console.log(window.width)
-			window.parent = parent.endwindow.cerberecolumn//endcolumnid.children[1].children[0]
+			window.parent = parent.endwindow.loserscolumn
 			window.imagestatut.source = src + "images/cerbere_finaly.png"
 			window.imagestatut.width = Qt.binding(function() { return window.imagestatut.parent.width/2})
 			window.imagestatut.height = Qt.binding(function() { return window.imagestatut.parent.height/1.5})
+			window.imagesicone.source = src + "images/"+french_color+"_icone.png"
 		}else if(component.status == Component.Error){
 			console.error(component.errorString());
 		}
@@ -206,19 +209,20 @@ Item{
 		
 	}
 	
-	function showEliminate(player,pop) {
+	function showEliminate(player,pop,french_color) {
 		if(pop == 1) {
 			parent.board.popupFinish.finalstateplayer.color = player[0].colour
-			parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name + " tu a etait eliminer !"
+			parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name + " tu as été eliminé !"
 		}
 		var component = Qt.createComponent("../library/StatutFin.qml")
 		if(component.status == Component.Ready){
 			var window = component.createObject("imageStatusid")
 			console.log(window.width)
-			window.parent = parent.endwindow.adventurercolumn//endcolumnid.children[0].children[0]
+			window.parent = parent.endwindow.loserscolumn
 			window.imagestatut.source = src + "images/tombe.png"
 			window.imagestatut.width = Qt.binding(function() { return window.imagestatut.parent.width/2})
 			window.imagestatut.height = Qt.binding(function() { return window.imagestatut.parent.height/1.5})
+			window.imagesicone.source = src + "images/"+french_color+"_icone.png"
 		}else if(component.status == Component.Error){
 			console.error(component.errorString());
 		}
@@ -229,7 +233,7 @@ Item{
 	
 	
 	function showPlayersEnd(newPlayers, status,player) {
-		//status[0] survivants_status , status[1] cerbere_status
+		//status[0] cerbere_status , status[1] survivants_status
 		// 0 win aventuriers, 1 win cerbere
 		if(status[0] == 0) {
 			parent.endwindow.titleend.text += "a perdu !"
@@ -242,26 +246,55 @@ Item{
 			if(newPlayers[i].colour == player.colour)
 				pop = 1 //on ouvre le popup
 				
+				var color_player = translateColor(newPlayers[i].colour)
 				if (newPlayers[i].type == "aventurier") {
 					if(status[i+1] == 0){ //gagner aventurier
-						showAWinner([newPlayers[i]],pop) 
+						showAWinner([newPlayers[i]],pop,color_player) 
 					}else {
-						showEliminate([newPlayers[i]],pop)
+						showEliminate([newPlayers[i]],pop,color_player)
 					}		
 				}
 				else if (newPlayers[i].type == "cerbere") {
 					if(status[i+1] == 1){ //gagner cerbere
-						showSWinner([newPlayers[i]],pop) 
+						showSWinner([newPlayers[i]],pop,color_player) 
 					}else {
-						showSLoser([newPlayers[i]],pop)
+						showSLoser([newPlayers[i]],pop,color_player)
 					}
 				}
 				else {
-					showEliminate([newPlayers[i]],pop)
+					showEliminate([newPlayers[i]],pop,color_player)
 				}
 				
 				pop = 0  
 		}
+	}
+
+	function translateColor(color) {
+		var french_color = ""
+		switch(color) {
+			case "Green":
+				french_color = "vert"
+				break
+			case "Orange":
+				french_color = "orange"
+				break
+			case "Blue":
+				french_color = "bleu"
+				break
+			case "Cyan":
+				french_color = "cyan"
+				break
+			case "Red":
+				french_color = "rouge"
+				break
+			case "Pink":
+				french_color = "rose"
+				break
+			case "White":
+				french_color = "blanc"
+				break
+		}
+		return french_color
 	}
 
 
