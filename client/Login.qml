@@ -58,7 +58,6 @@ Item {
 			echoMode: TextInput.Password
 		}
 
-		Label {
 		RoundButton {
 			id: boutton_rond
 			anchors.horizontalCenter: parent.horizontalCenter
@@ -68,7 +67,6 @@ Item {
 
 			onHoverEnabledChanged: boutton_rond.background.color = "grey"
 			onClicked: socket.connect(serveurInput.text, loginInput.text, pwdInput.text)
-			}
 		}
 
 		Label {
