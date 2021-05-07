@@ -4,31 +4,21 @@ import QtQuick.Controls 2.10
 import QtWebSockets 1.0
 
 
-Rectangle{
-	id: rectRoot
-	width: parent.width/3
-	height: parent.height/7
-	opacity: 0.7
-	color: "#566573"
-	visible: false
+Rectangle {
+	width: rowId.width/10
+	height: rowId.height/7
 	radius: 10
+	color: "#AA000000"
+	visible: false
+	anchors.horizontalCenter: parent.horizontalCenter
 	property alias msgText: message.text
-
-	anchors {
-		top: parent.top;
-		horizontalCenter: parent.horizontalCenter
-	}
 
 	Text {
 		id: message
-		font.weight: Font.Black
+		anchors.fill: parent
 		fontSizeMode: Text.Fit
-		color: "#CCD1D1"
-		style: Text.Outline
-		styleColor: "red"
+		color: "White"
 		horizontalAlignment: Text.AlignHCenter
 		verticalAlignment: Text.AlignVCenter
-		text: qsTr("Checkpoint\nCerbere")
-		anchors.fill: parent
 	}
 }
