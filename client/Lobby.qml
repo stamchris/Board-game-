@@ -10,8 +10,7 @@ Item {
 	Button{
 		visible: game.getPlayer().owner
 		anchors{top:parent.top;right: parent.right;topMargin: 10;rightMargin: 170}
-		background:
-			Rectangle{
+		background: Rectangle {
 			id:retButton
 			radius:5
 			height: 40
