@@ -142,9 +142,11 @@ Rectangle {
 
 						Text {
 							visible: index === rageBarRepeater.rageLevel-1
-							color: "Black"
+							color: "#EE111111"
 							text: index+1
 							anchors.centerIn: parent
+							font.family: "Stoneyard"
+							font.pixelSize: parent.height*0.75
 						}
 
 						Image {
