@@ -19,7 +19,6 @@ Item {
 	property alias winnerscolumn : winnerscolumn
 	property alias loserscolumn : loserscolumn
 
-
 	Column {
 		anchors.horizontalCenter: parent.horizontalCenter
 		spacing : 5
@@ -71,28 +70,14 @@ Item {
 						border.color: "white"
 						border.width: 3
 						color : "black"
-						radius: 10
-						clip : true
-
-						ScrollBar{
-							id: scrollBarFinA
-							policy: ScrollBar.AlwaysOn
-							hoverEnabled: true
-							active: hovered || pressed
-							orientation: Qt.Vertical
-							anchors.right: parent.right
-							size : 1 - ((0.42)*(winnerscolumn.children.length/10))
-							z: 10
-							height: parent.height
-							width: 15
-						}   
+						radius: 10  
 
 						Column {
 							id : winnerscolumn
-							width : parent.width
+							width : parent.width - 15
 							height : parent.height
 							x : 5/100*width
-							y :-scrollBarFinA.position*height + height/10
+							y : height/10
 							spacing : parent.height/20
 						} 
 							
@@ -126,13 +111,13 @@ Item {
 						y: 15/100*height
 						anchors.horizontalCenter : parent.horizontalCenter
 						border.color: "white"
-						border.width: 2.5
+						border.width: 3
 						color : "black"
 						radius: 10
 						clip : true
 
 						ScrollBar{
-							id: scrollBarFinC
+							id: scrollBarFinP
 							policy: ScrollBar.AlwaysOn
 							hoverEnabled: true
 							active: hovered || pressed
@@ -148,12 +133,12 @@ Item {
 							width : parent.width
 							height : parent.height
 							x : 5/100*width
-							y :-scrollBarFinC.position*height + height/10
+							y :-scrollBarFinP.position*height + height/10
 							spacing : parent.height/20
 						}
 
 						gradient: Gradient {
-							GradientStop { position: 0.0; color: Qt.rgba(0,0, 0,0.5)}
+							GradientStop { position: 0.0; color: Qt.rgba(0,0,0,0.5)}
 							GradientStop { position: 0.6; color: "transparent"; }
 							GradientStop { position: 1.0; color: Qt.rgba(255,255,255,0.5); }
 						}

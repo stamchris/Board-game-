@@ -152,8 +152,8 @@ Item{
 			console.log(window.width)
 			window.parent = parent.endwindow.winnerscolumn
 			window.imagestatut.source = src + "images/aventurier_image.png"
-			window.imagestatut.width = Qt.binding(function() { return window.imagestatut.parent.width/3})
-			window.imagestatut.height = Qt.binding(function() { return window.imagestatut.parent.height/2})
+			window.imagestatut.width = Qt.binding(function() { return window.imagestatut.parent.width/2.2})
+			window.imagestatut.height = Qt.binding(function() { return window.imagestatut.parent.height/1.5})
 			window.imagesicone.source = src + "images/"+french_color+"_icone.png"
 		}else if(component.status == Component.Error){
 			console.error(component.errorString());
@@ -175,8 +175,6 @@ Item{
 			console.log(window.width)
 			window.parent = parent.endwindow.winnerscolumn
 			window.imagestatut.source = src + "images/cerbere_finaly.png"
-			window.imagestatut.width = Qt.binding(function() { return window.imagestatut.parent.width/2})
-			window.imagestatut.height = Qt.binding(function() { return window.imagestatut.parent.height/(1.5)})
 			window.imagesicone.source = src + "images/"+french_color+"_icone.png"
 		}else if(component.status == Component.Error){
 			console.error(component.errorString());
@@ -198,8 +196,6 @@ Item{
 			console.log(window.width)
 			window.parent = parent.endwindow.loserscolumn
 			window.imagestatut.source = src + "images/cerbere_finaly.png"
-			window.imagestatut.width = Qt.binding(function() { return window.imagestatut.parent.width/2})
-			window.imagestatut.height = Qt.binding(function() { return window.imagestatut.parent.height/1.5})
 			window.imagesicone.source = src + "images/"+french_color+"_icone.png"
 		}else if(component.status == Component.Error){
 			console.error(component.errorString());
