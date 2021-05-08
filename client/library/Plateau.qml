@@ -22,7 +22,7 @@ Rectangle {
 	}
 	
 	function revealBarque(barqueNum) {
-		caseBarque1Id.children[0].source = "../images/barque_"+barqueNum+"places.png"
+		caseBarque1Id.children[0].source = "../images/barque_"+barqueNum+"place.png"
 		caseBarque2Id.visible = false
 		caseBarque3Id.visible = false
 	}
@@ -277,19 +277,6 @@ Rectangle {
 		x: parent.width*0.3497
 		y: parent.height*0.2311
 		color: "transparent"
-	}
-
-	Rectangle {
-		id: casePontId 
-		height: parent.height*0.0950
-		width: parent.width*0.0718
-		x: parent.width*0.3730
-		y: parent.height*0.5831
-	
-		Image {
-			anchors.fill: parent
-			source: "../images/pontv2.png"
-		}
 	}
 
 	Rectangle {
@@ -609,6 +596,7 @@ Rectangle {
 		width: parent.width*0.0374
 		x: parent.width*0.8687
 		y: parent.height*0.3045
+		z: -1
 		color: "transparent"
 		
 		Image {
@@ -645,10 +633,23 @@ Rectangle {
 		}
 	}
 
-		Piones {
+	Rectangle {
+		id: casePontId 
+		height: parent.height*0.0950
+		width: parent.width*0.0718
+		x: parent.width*0.3730
+		y: parent.height*0.5831
+	
+		Image {
+			anchors.fill: parent
+			source: "../images/pontv2.png"
+		}
+	}
+
+	Piones {
 		id: pionesId
 	}
-		
+
 	Column {
 		height: parent.height
 		width: parent.width*0.1313

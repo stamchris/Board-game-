@@ -130,13 +130,13 @@ Rectangle {
 				
 				Repeater {
 					id: rageBarRepeater
-					property string color: "indianred"
+					property string color: "#AA000000"
 					property int rageLevel: 1
 					model: ["", "", "", "", "", "", "", "", "", ""]
 					delegate: Rectangle {
 						height: parent.height
 						width: parent.width/10
-						color: index < rageBarRepeater.rageLevel ? rageBarRepeater.color : "indianred"
+						color: index < rageBarRepeater.rageLevel ? rageBarRepeater.color : "#AA000000"
 						border.color: "#740912"
 						border.width: 1
 
