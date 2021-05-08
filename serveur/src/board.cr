@@ -754,14 +754,22 @@ class Cerbere::Board
 		if(action)
 			who.hand.action[index_card] = false
 		end
+
+		# On sauvegarde le type du joueur avant de modifier l'etat du plateau
+		saved_player_type = who.type
+
+		# On joue la carte
 		faire_action(who, choice.cout, args[0])
 		choice.effets.each_index do |i|
 			faire_action(who, choice.effets[i], args[i+1])
 		end
+
 		# On défausse la carte bonus après que ses effets soient
 		# appliqués et on calcule sa nouvelle position, pour éviter les
 		# problèmes de décalage des index
-		if(!action)
+		# Si le joueur a changé de type, il ne possède plus la carte, pas 
+		# besoin de défausser
+		if(!action)&&(saved_player_type == who.type)
 			new_card_index : Int32? = who.hand.bonus.index(card)
 			if(new_card_index == nil)
 				raise "La carte jouée n'est plus dans la main du joueur !"
