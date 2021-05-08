@@ -23,15 +23,9 @@ ApplicationWindow {
 		app.maximumHeight = Math.floor(app.width/16*9)
 	}
 
-	/* Dans la version bureau, on utilise l'image comme background.
-	 * L'image comme background pose problème dans version web (des éléments
-	 * s'affichent mal, etc...), donc dans la version web, on utilise une
-	 * couleur unie comme background.
-	 */
 	background: Image {
-		source: if(!WEB) "images/background_image.jpg"
+		source: "images/background_image.jpg"
 	}
-	color: if(WEB) "#e8e1cd"
 
 	FontLoader {
 		id: stoneyard
