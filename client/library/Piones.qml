@@ -83,10 +83,10 @@ Rectangle {
 	
 	Pion {
 		id: cerbere
-		xOffset: 0.25
-		yOffset: 0.0
-		heightRatio: 0.50
-		widthRatio: 1.00
+		xOffset: 0.0
+		yOffset: 0.25
+		heightRatio: 0.55
+		widthRatio: 1.10
 		imgPionId.source: src+"images/Cerbere_pion.png"
 	}
 	
@@ -127,14 +127,14 @@ Rectangle {
 		
 	Pion {
 		id: player6
-		xOffset: 0.25
+		xOffset: 0.50
 		yOffset: 0.375
 		imgPionId.source: src+"images/Blue_pion.png"
 	}
 	
 	Pion {
 		id: player7
-		xOffset: 0.25
+		xOffset: 0.50
 		yOffset: 0.625
 		imgPionId.source: src+"images/Red_pion.png"
 	}
