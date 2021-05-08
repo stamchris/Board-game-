@@ -37,8 +37,16 @@ Rectangle {
 		anchors.fill: imgPionId
 		radius: 8
 		samples: 17
-		color: "white"
+		color: "White"
 		source: imgPionId
+	}
+
+	InnerShadow {
+		anchors.fill: imgPionId
+		spread: 0.33
+		fast: true
+		color: "Black"
+		source: imgPionId	
 	}
 
 	SequentialAnimation {
