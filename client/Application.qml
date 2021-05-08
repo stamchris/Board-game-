@@ -8,6 +8,8 @@ ApplicationWindow {
 	id: app
 	width: 1600
 	height: width/16*9
+	minimumWidth: 1024
+	minimumHeight: 576
 	visible: true
 	property alias game: game
 	property alias socket: socket
