@@ -10,135 +10,137 @@ Item {
 	height : 400
 	width : 700
 
-	Image {        
-		source: "images/background_fin.jpg"
+	Image {
+		source: "images/background_image.jpg"
 		anchors.fill:parent
 	}
 	property alias endcolumnid : endcolumnid
 	property alias titleend : titleend
-	property alias adventurercolumn : adventurercolumn
-	property alias cerberecolumn : cerberecolumn
+	property alias winnerscolumn : winnerscolumn
+	property alias loserscolumn : loserscolumn
 
-	Rectangle {
-		height : parent.height
+	Column {
+		anchors.horizontalCenter: parent.horizontalCenter
+		spacing : 5
 		width : parent.width
-		color : "transparent"
-		Rectangle {
-			width : parent.width/5
-			x : 74/100*parent.width/2
-			y : 40
-			height : 80
-			color : "transparent"
-			Row {
-				width : parent.width
-				height : parent.height
-				spacing : 3
-				Rectangle {
-					width : parent.width/3
-					height : parent.height/3
-					color : "transparent"
-					Text {
-						id : titleend
-						height : 50
-						width : 30
-						text : "Cerbère "
-						anchors.centerIn: parent 
-						font.pointSize: 36
-						font.family: "Stoneyard"
-					}
-				}
-			}
+		height : parent.height
+		y : 15
+
+		Label {
+			id : titleend
+			anchors.horizontalCenter: parent.horizontalCenter
+			height : 1/15*parent.height
+			text: "Cerbère "
+			font.pointSize: 36
+			font.family: "Stoneyard"
 		}
 
 		Rectangle {
 			width : parent.width
 			height : 9/10*parent.height
-			y : 2/10*height
-			x : 1/20*width
 			color : "transparent"
+
 			Row {
 				id : endcolumnid
 				width : parent.width
 				height : parent.height
 				Rectangle {
-					width : 4/10*parent.width
+					width : parent.width/2
 					height : parent.height 
-					x: 1/10*parent.width
 					color : "transparent"
-					Column {
-						id : adventurercolumn
-						width : parent.width
-						height : parent.height
-						x : 20/100*width
-						spacing : parent.height/20
-						Rectangle {
-							width : parent.width/2
-							height : parent.height/8
-							color : "transparent"
-							x : 1.5*parent.x
-							Text {
-								text : "Aventuriers " 
-								font.pointSize: 30
-								font.family: "Stoneyard"
-							}
-						}      
-					}
 
 					Rectangle {
-						width : parent.width/1.1
-						height : parent.height/1.3
-						x : 20/100*width
-						y: 10/100*height
+						width : parent.width/2
+						height : parent.height/10
+						color : "transparent"
+						anchors.horizontalCenter : parent.horizontalCenter
+						
+						Text {
+							anchors.centerIn : parent
+							text : "Gagnants " 
+							font.pointSize: 30
+							font.family: "Stoneyard"
+						}
+					}    
+					Rectangle {
+						width : 0.8*parent.width
+						height : 0.8*parent.height
+						y: 15/100*height
+						anchors.horizontalCenter : parent.horizontalCenter
 						border.color: "white"
 						border.width: 3
 						color : "black"
-						opacity: 0.5
-						radius: 10
+						radius: 10  
+
+						Column {
+							id : winnerscolumn
+							width : parent.width - 15
+							height : parent.height
+							x : 5/100*width
+							y : height/10
+							spacing : parent.height/20
+						} 
+							
 						gradient: Gradient {
-							GradientStop { position: 0.0; color: "black"; }
+							GradientStop { position: 0.0; color: Qt.rgba(0,0, 0,0.5)}
 							GradientStop { position: 0.6; color: "transparent"; }
-							GradientStop { position: 1.0; color: "white"; }
+							GradientStop { position: 1.0; color: Qt.rgba(255,255,255,0.5); }
 						}
-					}  
+					}
 				}
 
 				Rectangle {
-					width : 4/10*parent.width
+					width : parent.width/2
 					height : parent.height 
 					color : "transparent"
-					Column {
-						id : cerberecolumn
-						width : parent.width
-						height : parent.height
-						x : 20/100*width
-						spacing : parent.height/20
-						Rectangle {
-							width : parent.width/2
-							height : parent.height/8
-							color : "transparent"
-							x : 1.5*parent.x
-
-							Text {
-								text : "Cerbere " 
-								font.pointSize: 30
-								font.family: "Stoneyard"
-							}
+					Rectangle {
+						width : parent.width/2
+						height : parent.height/10
+						color : "transparent"
+						anchors.horizontalCenter : parent.horizontalCenter
+						Text {
+							anchors.centerIn : parent
+							text : "Perdants " 
+							font.pointSize: 30
+							font.family: "Stoneyard"
 						}
-					}
-					Rectangle{
-						width : parent.width/1.1
-						height : parent.height/1.3
-						x : 20/100*width
-						y: 10/100*height
+					}    
+					Rectangle {
+						width : 0.8*parent.width
+						height : 0.8*parent.height
+						y: 15/100*height
+						anchors.horizontalCenter : parent.horizontalCenter
 						border.color: "white"
-						border.width: 2.5
+						border.width: 3
 						color : "black"
-						opacity: 0.5
 						radius: 10
+						clip : true
+
+						ScrollBar{
+							id: scrollBarFinP
+							policy: ScrollBar.AlwaysOn
+							hoverEnabled: true
+							active: hovered || pressed
+							orientation: Qt.Vertical
+							anchors.right: parent.right
+							size : 1 - ((0.42)*(loserscolumn.children.length/10))
+							z: 10
+							height: parent.height
+							width : 15
+						}   
+						Column {
+							id : loserscolumn
+							width : parent.width
+							height : parent.height
+							x : 5/100*width
+							y :-scrollBarFinP.position*height + height/10
+							spacing : parent.height/20
+						}
+
 						gradient: Gradient {
-							GradientStop { position: 0.0; color: "black"; }
+							GradientStop { position: 0.0; color: Qt.rgba(0,0,0,0.5)}
 							GradientStop { position: 0.6; color: "transparent"; }
-							GradientStop { position: 1.0; color: "white"; }
+							GradientStop { position: 1.0; color: Qt.rgba(255,255,255,0.5); }
 						}
 					}
 				}

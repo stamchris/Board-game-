@@ -141,7 +141,7 @@ Item {
 	Popup {
 		id : popupFinish
 		anchors.centerIn: parent
-		width: 400
+		width: 600
 		height: 100
 		modal: true
 		closePolicy:  Popup.CloseOnEscape | Popup.CloseOnPressOutside //default
@@ -158,7 +158,7 @@ Item {
 			text : "O"
 			height : parent.height/2
 			width : parent.width/2
-			x : 50
+			x : 120
 			horizontalAlignment: Text.AlignHCenter
 			font.weight: Font.DemiBold
 			fontSizeMode:Text.Fit
