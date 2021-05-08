@@ -1139,6 +1139,7 @@ Item {
 		height: parent.height*34/100
 		width: parent.width*2/10
 		color: "transparent"
+		clip: true
 		border.color: "#740912"
 		border.width: 2
 
