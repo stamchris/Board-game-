@@ -83,4 +83,19 @@ Rectangle {
 			}
 		}
 	}
+	
+	Component {
+		id: glow
+		Glow {
+			radius: 8
+			samples: 17
+			color: "white"
+			source: imgPionId
+		}
+	}
+
+	Loader {
+		anchors.fill: imgPionId
+		sourceComponent: if(!WEB) glow
+	}
 }
