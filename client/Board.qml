@@ -1206,6 +1206,7 @@ Item {
 					color: modelData.adventurer ? modelData.color : "Black"
 					border.color: "#740912"
 					border.width: 1
+					property alias infoLogin: infoLogin
 					
 					Row {
 						id: infoRow
@@ -1221,8 +1222,13 @@ Item {
 
 							Text {
 								text: modelData.name
+								height: parent.height
+								width: parent.width*0.95
 								anchors.centerIn: parent
-								font.pixelSize: 15
+								elide: Text.ElideRight
+								horizontalAlignment: Text.AlignHCenter
+								verticalAlignment: Text.AlignVCenter
+								font.pixelSize: 12
 								color: modelData.adventurer ? "Black" : "White"
 							}
 						}
@@ -1235,11 +1241,49 @@ Item {
 							color: modelData.color
 						}
 					}
+
+					MouseArea{
+						anchors.fill: parent
+						hoverEnabled: true
+
+						onHoveredChanged: {
+							if (containsMouse == true) {
+								infoLogin.visible = true
+							} else {
+								infoLogin.visible = false
+							}
+						}
+					}
+
+					Rectangle {
+						id: infoLogin
+						width: parent.width
+						height: parent.height
+						visible: false
+						color: modelData.adventurer ? modelData.color : "Black"
+						//color: "#AA000000"
+						anchors.bottom: parent.top
+						anchors.right: parent.right
+
+						Text {
+							text: modelData.name
+							height: parent.height
+							width: parent.width*0.95
+							anchors.centerIn: parent
+							elide: Text.ElideRight
+							horizontalAlignment: Text.AlignHCenter
+							verticalAlignment: Text.AlignVCenter
+							font.pixelSize: 15
+							color: modelData.adventurer ? "Black" : "White"
+							//color: "White"
+						}
+					}
 					
 					Component.onCompleted: {
 						if(modelData.me){
 							width = infoRect.width;
 							infoRect.width = width;
+							infoLogin.width = width*5
 						}
 					}
 				}
