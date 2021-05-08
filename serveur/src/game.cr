@@ -159,7 +159,7 @@ class Cerbere::Game
 		loop do
 			@active_player += 1
 			@active_player %= players.size
-			break if players[active_player].type != TypeJoueur::MORT
+			break if players[active_player].type != TypeJoueur::MORT && !players[active_player].socket.nil?
 		end
 		@nb_turns += 1
 		@action_played = false
@@ -185,7 +185,7 @@ class Cerbere::Game
 		send_all(Response::UpdateBoard.new(players, board.position_cerbere, board.vitesse_cerbere, board.rage_cerbere, board.pont, active_player))
 		spawn do 
 			save = @nb_turns
-			sleep(30)
+			sleep(60)
 			if !@finished && save == @nb_turns
 				new_turn()
 			end
