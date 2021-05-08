@@ -120,21 +120,29 @@ Item {
 				{name: "Red", color: "#D3443B"},
 				{name: "Orange", color: "#BF6B00"}
 			]
-			delegate: Text {
-				text: {
-					let player = game.players.find(player => player.colour === modelData.name);
-					if(player){
-						player.name;
-					}else{
-						" ";
+			delegate: Rectangle {
+				height: 20
+				width: 190
+				color: "transparent"
+				Text {
+					anchors.fill: parent
+					width: parent.widht
+					text: {
+						let player = game.players.find(player => player.colour === modelData.name);
+						if(player){
+							player.name;
+						}else{
+							" ";
+						}
 					}
+					font.pointSize: 15
+					font.family: "Stoneyard"
+					style: Text.Outline
+					color: "#FFF8E4"
+					styleColor: modelData.color
+					elide: Text.ElideRight
+					Layout.alignment: Qt.AlignCenter
 				}
-				font.pointSize: 15
-				font.family: "Stoneyard"
-				style: Text.Outline
-				color: "#FFF8E4"
-				styleColor: modelData.color
-				Layout.alignment: Qt.AlignCenter
 			}
 		}
 
