@@ -14,6 +14,10 @@ ApplicationWindow {
 	property alias game: game
 	property alias socket: socket
 	title : "Cerbere"
+	
+	onClosing: {
+		socket.send({type:"warnDisconnect"})
+	}
 
 	onWidthChanged: {
 		app.maximumHeight = Math.floor(app.width/16*9)

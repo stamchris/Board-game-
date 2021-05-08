@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.14
 import QtQuick 2.14
 
 ListView {
+	id: widget
 	property var users: [
 		{
 			"login": "???",
@@ -38,7 +39,7 @@ ListView {
 
 	Component {
 		id: kickButton
-
+		
 		Button {
 			height: 28
 			width: 32
@@ -69,9 +70,16 @@ ListView {
 		}
 
 		Loader {
+			id: kickLoader
 			sourceComponent: if (showKickButtons)
 				kickButton
 			Layout.alignment: Qt.AlignTop
+		}
+		
+		Connections {target: kickLoader.item
+			function onClicked(mouse) {
+				kickClicked(modelData.name)
+			}
 		}
 	}
 }
