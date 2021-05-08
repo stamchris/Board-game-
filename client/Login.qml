@@ -66,7 +66,10 @@ Item {
 			radius: 5
 
 			onHoverEnabledChanged: boutton_rond.background.color = "grey"
-			onClicked: socket.connect(serveurInput.text, loginInput.text, pwdInput.text)
+			onClicked: {
+				popupErrorMsgLogin.close()
+				socket.connect(serveurInput.text, loginInput.text, pwdInput.text)
+			}
 		}
 
 		Label {
