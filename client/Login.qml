@@ -80,24 +80,40 @@ Item {
 		}
 	}
 
-	Rectangle {
-		id: unamused
-		visible: false
-		anchors.fill: parent
-		Label {
-			text: "Mauvais login !"
-			anchors.horizontalCenter: parent.horizontalCenter
-			anchors.verticalCenter: parent.verticalCenter
-		}
-		
-		color: "red"
-		opacity: 0.5
+	Popup {
+		id: popupErrorMsgLogin
+		anchors.centerIn: parent
+		width: txtErrorMsgLogin.width*1.125
+		height: txtErrorMsgLogin.height*2
+		closePolicy: Popup.NoAutoClose
+		property alias msg: txtErrorMsgLogin.text
 
-		Button {
-			text: "Ok"
-			onClicked: unamused.visible = false
-			anchors.bottom: parent.bottom
-			anchors.horizontalCenter: parent.horizontalCenter
+		background: Rectangle {
+			color: "red"
+			radius: 3
 		}
+
+		Text {
+			id: txtErrorMsgLogin
+			color: "white"
+			font.pointSize: 16
+			anchors.horizontalCenter : parent.horizontalCenter
+		}
+
+		Timer {
+			id: errorMsgTimerLogin
+			interval: 5000
+			onTriggered: popupErrorMsgLogin.close()
+		}
+
+		function restartTimer(){
+			errorMsgTimerLogin.restart();
+		}
+	}
+
+	function showErrorMsgLogin(msg){
+		popupErrorMsgLogin.msg = msg;
+		popupErrorMsgLogin.open();
+		popupErrorMsgLogin.restartTimer();
 	}
 }
