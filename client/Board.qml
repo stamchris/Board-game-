@@ -823,6 +823,10 @@ Item {
 			}
 		}				
 	}
+
+	ReglesDuJeu {
+		id: reglesDuJeuId
+	}
 	
 	Rectangle {
 		id: menuBarId
@@ -870,13 +874,7 @@ Item {
 					imgEffetDeCarteId.visible ^= true
 				},
 				"Règles": () => {
-					var component = Qt.createComponent("library/ReglesDuJeu.qml")
-					if(component.status == Component.Ready){
-						var window = component.createObject("window2")
-						window.show()
-					}else if(component.status == Component.Error){
-						console.error(component.errorString());
-					}
+					reglesDuJeuId.visible = true
 				}
 			}
 			model: ["Son", "Effet\nCarte", "Règles"]
