@@ -448,7 +448,9 @@ class Cerbere::Request
 			if (player.owner==true && game.players.size>1)
 				game.players[1].owner=true
 			end
-			game.players.delete(player)
+			if !(game.active)
+				game.players.delete(player)
+			end
 			player.send(Response::Disconnect.new())
 			game.send_all(Response::UpdateAllPlayers.new(game.players))
 			game.send_all(Response::UpdatePlayer.new(game.players[0]))
