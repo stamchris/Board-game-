@@ -122,11 +122,11 @@ Item {
 			]
 			delegate: Rectangle {
 				height: 20
-				width: 190
+				width: 100
 				color: "transparent"
 				Text {
-					anchors.fill: parent
-					width: parent.widht
+					anchors.centerIn: parent
+					width: parent.width
 					text: {
 						let player = game.players.find(player => player.colour === modelData.name);
 						if(player){
@@ -141,8 +141,9 @@ Item {
 					color: "#FFF8E4"
 					styleColor: modelData.color
 					elide: Text.ElideRight
-					Layout.alignment: Qt.AlignCenter
+					horizontalAlignment: Text.AlignHCenter
 				}
+				Layout.alignment: Qt.AlignCenter
 			}
 		}
 

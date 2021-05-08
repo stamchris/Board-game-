@@ -1047,15 +1047,16 @@ Item {
 					
 					Text {
 						id: currentPlayerId
+						width: parent.width*0.90
 						text: ""
 						color: "Black"
+						elide: Text.ElideRight
+						style: Text.Outline
+						styleColor: "Black"
 						font.pixelSize: 22
 						font.bold: true
-
-						anchors {
-							verticalCenter: parent.verticalCenter
-							horizontalCenter: parent.horizontalCenter
-						}
+						horizontalAlignment: Text.AlignHCenter
+						verticalAlignment: Text.AlignVCenter
 					}
 				}
 
@@ -1223,7 +1224,7 @@ Item {
 							Text {
 								text: modelData.name
 								height: parent.height
-								width: parent.width*0.95
+								width: parent.width*0.90
 								anchors.centerIn: parent
 								elide: Text.ElideRight
 								horizontalAlignment: Text.AlignHCenter
