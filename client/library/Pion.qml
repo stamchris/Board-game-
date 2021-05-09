@@ -33,22 +33,6 @@ Rectangle {
 		fillMode: Image.PreserveAspectFit
 	}
 
-	Glow {
-		anchors.fill: imgPionId
-		radius: 8
-		samples: 17
-		color: "White"
-		source: imgPionId
-	}
-
-	InnerShadow {
-		anchors.fill: imgPionId
-		spread: 0.33
-		fast: true
-		color: "Black"
-		source: imgPionId	
-	}
-
 	SequentialAnimation {
 		id: pionMoveId
 		running: false
