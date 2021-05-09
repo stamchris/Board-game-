@@ -44,6 +44,7 @@ ApplicationWindow {
 					let msglogin = "Le couple login/mot de passe contient une erreur"
 					console.log(msglogin);
 					loader.currentItem.showErrorMsgLogin(msglogin);
+					socket.active = false
 					break
 				case "newPlayer":
 					game.players.push(message.player)
