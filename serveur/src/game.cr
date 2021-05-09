@@ -159,7 +159,7 @@ class Cerbere::Game
 		loop do
 			@active_player += 1
 			@active_player %= players.size
-			break if players[active_player].type != TypeJoueur::MORT && !players[active_player].socket.nil?
+			break if players[active_player].type != TypeJoueur::MORT
 		end
 		@nb_turns += 1
 		@action_played = false
@@ -177,6 +177,10 @@ class Cerbere::Game
 		end
 		#a chaque fin de tour il faut checker la fin de la partie
 		finish(@players)
+
+		if players[active_player].socket.nil?
+			new_turn()
+		end
 	end
 	
 	def start(@difficulty, @players)
