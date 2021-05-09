@@ -7,11 +7,17 @@ import QtQuick.Window 2.12
 ApplicationWindow {
 	id: app
 	width: 1600
-	height: width/16*9
+	height: Math.floor(app.width/16*9)
+	minimumWidth: 1024
+	minimumHeight: 576
 	visible: true
 	property alias game: game
 	property alias socket: socket
 	title : "Cerbere"
+
+	onWidthChanged: {
+		app.maximumHeight = Math.floor(app.width/16*9)
+	}
 
 	/* Dans la version bureau, on utilise l'image comme background.
 	 * L'image comme background pose problème dans version web (des éléments
