@@ -10,8 +10,8 @@
 		<file>images/effetDeCarte.png</file>
 		<file>images/cerbere_logo.png</file>
 		<file>images/barque_1place.png</file>
-		<file>images/barque_2places.png</file>
-		<file>images/barque_3places.png</file>
+		<file>images/barque_2place.png</file>
+		<file>images/barque_3place.png</file>
 		<file>images/barque_unknown.png</file>
 		<file>images/pontv2.png</file>
 		<file>images/Carte_Arro.png</file>
@@ -41,7 +41,6 @@
 		<file>images/blanc_icone.png</file>
 		<file>images/Stoneyard.ttf</file>
 		<file>images/background_image.jpg</file>
-		<file>images/background_fin.jpg</file>
 		<file>images/client_images_Stoneyard.ttf</file>
 	</qresource>
 </RCC>

@@ -141,7 +141,7 @@ Item {
 	Popup {
 		id : popupFinish
 		anchors.centerIn: parent
-		width: 400
+		width: 600
 		height: 100
 		modal: true
 		closePolicy:  Popup.CloseOnEscape | Popup.CloseOnPressOutside //default
@@ -158,7 +158,7 @@ Item {
 			text : "O"
 			height : parent.height/2
 			width : parent.width/2
-			x : 50
+			x : 120
 			horizontalAlignment: Text.AlignHCenter
 			font.weight: Font.DemiBold
 			fontSizeMode:Text.Fit
@@ -823,6 +823,10 @@ Item {
 			}
 		}				
 	}
+
+	ReglesDuJeu {
+		id: reglesDuJeuId
+	}
 	
 	Rectangle {
 		id: menuBarId
@@ -870,13 +874,7 @@ Item {
 					imgEffetDeCarteId.visible ^= true
 				},
 				"Règles": () => {
-					var component = Qt.createComponent("library/ReglesDuJeu.qml")
-					if(component.status == Component.Ready){
-						var window = component.createObject("window2")
-						window.show()
-					}else if(component.status == Component.Error){
-						console.error(component.errorString());
-					}
+					reglesDuJeuId.visible = true
 				}
 			}
 			model: ["Son", "Effet\nCarte", "Règles"]
@@ -1049,15 +1047,16 @@ Item {
 					
 					Text {
 						id: currentPlayerId
+						width: parent.width*0.90
 						text: ""
 						color: "Black"
+						elide: Text.ElideRight
+						style: Text.Outline
+						styleColor: "Black"
 						font.pixelSize: 22
 						font.bold: true
-
-						anchors {
-							verticalCenter: parent.verticalCenter
-							horizontalCenter: parent.horizontalCenter
-						}
+						horizontalAlignment: Text.AlignHCenter
+						verticalAlignment: Text.AlignVCenter
 					}
 				}
 
@@ -1139,6 +1138,7 @@ Item {
 		height: parent.height*34/100
 		width: parent.width*2/10
 		color: "transparent"
+		clip: true
 		border.color: "#740912"
 		border.width: 2
 
@@ -1207,6 +1207,7 @@ Item {
 					color: modelData.adventurer ? modelData.color : "Black"
 					border.color: "#740912"
 					border.width: 1
+					property alias infoLogin: infoLogin
 					
 					Row {
 						id: infoRow
@@ -1222,8 +1223,13 @@ Item {
 
 							Text {
 								text: modelData.name
+								height: parent.height
+								width: parent.width*0.90
 								anchors.centerIn: parent
-								font.pixelSize: 15
+								elide: Text.ElideRight
+								horizontalAlignment: Text.AlignHCenter
+								verticalAlignment: Text.AlignVCenter
+								font.pixelSize: 12
 								color: modelData.adventurer ? "Black" : "White"
 							}
 						}
@@ -1236,11 +1242,49 @@ Item {
 							color: modelData.color
 						}
 					}
+
+					MouseArea{
+						anchors.fill: parent
+						hoverEnabled: true
+
+						onHoveredChanged: {
+							if (containsMouse == true) {
+								infoLogin.visible = true
+							} else {
+								infoLogin.visible = false
+							}
+						}
+					}
+
+					Rectangle {
+						id: infoLogin
+						width: parent.width
+						height: parent.height
+						visible: false
+						color: modelData.adventurer ? modelData.color : "Black"
+						//color: "#AA000000"
+						anchors.bottom: parent.top
+						anchors.right: parent.right
+
+						Text {
+							text: modelData.name
+							height: parent.height
+							width: parent.width*0.95
+							anchors.centerIn: parent
+							elide: Text.ElideRight
+							horizontalAlignment: Text.AlignHCenter
+							verticalAlignment: Text.AlignVCenter
+							font.pixelSize: 15
+							color: modelData.adventurer ? "Black" : "White"
+							//color: "White"
+						}
+					}
 					
 					Component.onCompleted: {
 						if(modelData.me){
 							width = infoRect.width;
 							infoRect.width = width;
+							infoLogin.width = width*5
 						}
 					}
 				}
