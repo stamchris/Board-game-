@@ -33,7 +33,8 @@ Item {
 				hoverEnabled: true
 				onClicked: loader.push(configScreen)
 			}
-		}										
+		}
+	}										
 	
 	Disconnect {
 		anchors.top: parent.top
