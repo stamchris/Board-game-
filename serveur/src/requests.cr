@@ -461,6 +461,13 @@ end
 class Cerbere::Response
 	include JSON::Serializable
 
+	class BadLogin < Response
+		property type = "badLogin"
+
+		def initialize()
+		end
+	end
+
 	class UpdateAllPlayers < Response
 		property type = "updateAllPlayers"
 		property players : Array(Player)
