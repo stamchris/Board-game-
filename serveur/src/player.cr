@@ -45,7 +45,11 @@ class Cerbere::Player
 
 	def send(response : Response)
 		unless (@socket.nil?)
-			@socket.not_nil!.send(response.to_json)
+			begin
+				@socket.not_nil!.send(response.to_json)
+			rescue
+				@socket = nil
+			end
 		end
 	end
 

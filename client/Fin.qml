@@ -11,7 +11,7 @@ Item {
 	width : 700
 
 	Image {        
-		source: "images/background_fin.jpg"
+		source: "images/background_image.jpg"
 		anchors.fill:parent
 	}
 	property alias endcolumnid : endcolumnid
