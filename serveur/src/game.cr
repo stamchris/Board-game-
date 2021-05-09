@@ -177,6 +177,10 @@ class Cerbere::Game
 		end
 		#a chaque fin de tour il faut checker la fin de la partie
 		finish(@players)
+
+		if players[active_player].socket.nil?
+			new_turn()
+		end
 	end
 	
 	def start(@difficulty, @players)
@@ -185,7 +189,7 @@ class Cerbere::Game
 		send_all(Response::UpdateBoard.new(players, board.position_cerbere, board.vitesse_cerbere, board.rage_cerbere, board.pont, active_player))
 		spawn do 
 			save = @nb_turns
-			sleep(30)
+			sleep(60)
 			if !@finished && save == @nb_turns
 				new_turn()
 			end
