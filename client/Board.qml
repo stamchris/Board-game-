@@ -139,81 +139,109 @@ Item {
 	}
 
 	Popup {
-		id : popupFinish
-		anchors.centerIn: parent
-		width: 600
-		height: 100
-		modal: true
-		closePolicy:  Popup.CloseOnEscape | Popup.CloseOnPressOutside //default
+			id : popupFinish
+			anchors.centerIn: parent
+			width: 500
+			height: 180
+			modal: true
+			closePolicy:  Popup.CloseOnEscape | Popup.CloseOnPressOutside //default
 
-		property alias finalstateplayer : finalstateplayer
-		property alias finalstateplayertext : finalstateplayertext
-		property alias backgroundpopupf : backgroundpopupf
-		
-		background: Rectangle {
-			id : backgroundpopupf
-			color: "#ffd194"
-			radius: 3
-		}
+			property alias finalstateplayer : finalstateplayer
+			property alias finalstateplayertext : finalstateplayertext
+			property alias backgroundpopupf : backgroundpopupf
 
-		Row {
-			x : 3
-			height : parent.height/2
-			width : parent.width
-			Rectangle {
-				width :parent.width/2
-				height : parent.height
-				color : "transparent"
-				Text {
-					id: finalstateplayer
-					text : ""
-					height : parent.height
-					width : parent.width
-					horizontalAlignment : Text.AlignRight
-					elide: Text.ElideRight
-					font.weight: Font.DemiBold
-					fontSizeMode:Text.Fit
-				}
-			}
-			Rectangle {
-				width : parent.width/2
-				height : parent.height
-				color : "transparent"
-				Text {
-					id: finalstateplayertext
-					text : ""
-					height : parent.height
-					width : parent.width
-					font.weight: Font.DemiBold
-					fontSizeMode:Text.Fit
-				}
-			}
-		}
-
-		Button {
-			width : parent.width/2
-			height : parent.height/2
-			x : parent.width/2
-			y : parent.height/2
-			Rectangle {
-				anchors.fill : parent
-				Text {
-					anchors.centerIn : parent
-					text : "Voir resultat final"
-				}
+			background: Rectangle {
+				id : backgroundpopupf
+				color: "#ffd194"
+				opacity: 0.3
+				radius: 3
 			}
 
-			onClicked : {
-				popupFinish.close()
-				window.parent.view = "Fin"
-			}
-		}
+			ColumnLayout {
+				width: popupFinish.width
+				height: popupFinish.height
+				anchors.centerIn: popupFinish
+				spacing: 5
 
-		onAboutToHide: {
-			popupFinish.close()
-			window.parent.view = "Fin"
+					Text {
+						id: finalstateplayer
+						Layout.fillWidth: true
+						Layout.fillHeight: true
+						Layout.maximumWidth: 400
+						Layout.maximumHeight: 50
+						Layout.minimumWidth: 100
+						Layout.minimumHeight: 50
+						Layout.alignment: Qt.AlignCenter
+						text : ""
+						font.pointSize: 20
+						fontSizeMode:Text.Fit
+						font.family: "Stoneyard"
+						style: Text.Outline
+						color: "#FFF8E4"
+						styleColor: "Black"
+					}
+
+
+					Text {
+						id: finalstateplayertext
+						Layout.fillWidth: true
+						Layout.fillHeight: true
+						Layout.maximumWidth: 400
+						Layout.maximumHeight: 50
+						Layout.minimumWidth: 100
+						Layout.minimumHeight: 50
+						Layout.alignment: Qt.AlignCenter
+						font.pointSize: 15
+						text : ""
+						font.family: "Stoneyard"
+						style: Text.Outline
+						color: "#FFF8E4"
+						styleColor: "Black"
+					}
+
+					Button{
+						Layout.maximumWidth: 50
+						Layout.maximumHeight: 50
+							Layout.fillHeight: true
+							Layout.alignment: Qt.AlignCenter
+							Layout.bottomMargin: 20
+							background: Rectangle {
+								id:retButton
+								radius:10
+								height: 40
+								width: textConfi.width + 40
+								color: configMA.hoverEnabled && configMA.containsMouse ? "#27AE60" : "white"
+
+								Text {
+									id:textConfi
+									text: ("Voir les resultats")
+									font.pointSize: 14
+									color: configMA.hoverEnabled && configMA.containsMouse ? "white" : "black"
+									font.family: "Stoneyard"
+									anchors.centerIn: parent
+								}
+
+								MouseArea{
+									id:configMA
+									anchors.fill:parent
+									enabled: true
+									hoverEnabled: true
+									onClicked : {
+										popupFinish.close()
+										window.parent.view = "Fin"
+									}
+								}
+							}
+					}
+
+			}
+
+			onAboutToHide: {
+					popupFinish.close()
+					window.parent.view = "Fin"
+			}
+
 		}
-	}
 	
 	Timer {
 		id: dummyPlayersTimer
@@ -230,7 +258,7 @@ Item {
 			// Si ce joueur a le type voulu et que ce n'est pas
 			// nous, on peut le choisir.
 			if(player.type === playersType
-			   && player.colour !== window.parent.state.color){
+				&& player.colour !== window.parent.state.color){
 				choosablePlayers.push(player.colour);
 			}
 		});
