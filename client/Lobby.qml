@@ -7,51 +7,40 @@ Item {
 	id : lobby
 	property string src: typeof ROOT_URL === "undefined" ? "" : ROOT_URL
 	
-	RoundButton {
-		id: configButton
+	Button{
 		visible: game.getPlayer().owner
-		x: app.width - this.width - 5
-		y: 10
-		width: configText.width + 40
-		radius: 5
-		
-		Text {
-			id: configText
-			x: 20
-			y: 10
-			text: "Configuration"
-			font.family: "Stoneyard"
-			font.pointSize: 14
-		}
-		
-		MouseArea {
-			anchors.fill: parent
-			enabled: true
-			hoverEnabled: true
-				
-			onClicked: loader.push(configScreen)
-				
-			onHoveredChanged: {
-				if(hoverEnabled) {
-					if(containsMouse) {
-						configButton.background.color = "#27AE60"
-						configText.color = "white"
-					} else {
-						configButton.background.color = "white"
-						configText.color = "black"
-					}
-				}
+		anchors{top:parent.top;right: parent.right;topMargin: 10;rightMargin: 170}
+		background: Rectangle {
+			id:retButton
+			radius:5
+			height: 40
+			width: textConfi.width + 40
+			color: configMA.hoverEnabled && configMA.containsMouse ? "#27AE60" : "white"
+
+			Text {
+				id:textConfi
+				text: ("Configuration")
+				font.pointSize: 14
+				color: configMA.hoverEnabled && configMA.containsMouse ? "white" : "black"
+				font.family: "Stoneyard"
+				anchors.centerIn: parent
 			}
-		}										
+
+			MouseArea{
+				id:configMA
+				anchors.fill:parent
+				enabled: true
+				hoverEnabled: true
+				onClicked: loader.push(configScreen)
+			}
+		}
 	}
 
 	
 	Component {
 		id: configScreen
 		
-		GameCreation {
-			anchors.fill: parent
-		}
+		GameCreation {}
 	}
 
 	GridLayout {

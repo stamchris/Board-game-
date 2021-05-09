@@ -9,18 +9,18 @@ Item {
 	property bool teamChat: false // not bound in its widget, careful
 	
 	Button {
-		anchors{top: wrap_container.top;left: wrap_container.left;topMargin: 10;leftMargin: 10}
+		anchors{top: parent.top;left: parent.left;topMargin: 10;leftMargin: 10}
 		background: Rectangle {
 			id:retButton
-			radius:40
-			height: 80
-			width: 100
-			color: "#F0B27A"
+			radius:10
+			height: 40
+			width: textRetour.width + 40
+			color: retourMA.hoverEnabled && retourMA.containsMouse ? "#27AE60" : "white"
 
 			Text {
 				id:textRetour
-				text: ("Retour")
-				font.pointSize: retourMA.hoverEnabled && retourMA.containsMouse ? 18 : 15
+				text: ("Lobby")
+				font.pointSize: 14
 				color: retourMA.hoverEnabled && retourMA.containsMouse ? "white" : "black"
 				font.family: "Stoneyard"
 				anchors.centerIn: parent
