@@ -145,9 +145,11 @@ Item{
 		if(pop == 1) {
 			if((player[0].colour != "White") && (player[0].colour != "Pink")) 
 				parent.board.popupFinish.finalstateplayer.styleColor = player[0].colour
-			//parent.board.popupFinish.finalstateplayer.styleColor = player[0].colour
+			
+			if(player[0].colour == "Pink")
+				parent.board.popupFinish.finalstateplayer.color = "pink"
+
 			parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name
-			//parent.board.popupFinish.finalstateplayertext.color = player[0].colour
 			parent.board.popupFinish.finalstateplayertext.text = " tu as gagné jeune aventurier courageux ! "
 		}
 		var component = Qt.createComponent("../library/StatutFin.qml")
@@ -171,9 +173,10 @@ Item{
 		if(pop == 1) {
 			if((player[0].colour != "White") && (player[0].colour != "Pink")) 
 				parent.board.popupFinish.finalstateplayer.styleColor = player[0].colour
-			//parent.board.popupFinish.finalstateplayer.styleColor = player[0].colour
+			if(player[0].colour == "Pink")
+				parent.board.popupFinish.finalstateplayer.color = "pink"
+			
 			parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name
-			//parent.board.popupFinish.finalstateplayertext.color = player[0].colour
 			parent.board.popupFinish.finalstateplayertext.text = " tu as gagné jeune survivant malicieux ! "
 		}
 		
@@ -196,9 +199,10 @@ Item{
 		if(pop == 1) {
 			if((player[0].colour != "White") && (player[0].colour != "Pink")) 
 				parent.board.popupFinish.finalstateplayer.styleColor = player[0].colour
-			//parent.board.popupFinish.finalstateplayer.styleColor = player[0].colour
+			if(player[0].colour == "Pink")
+				parent.board.popupFinish.finalstateplayer.color = "pink"
+
 			parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name
-			//parent.board.popupFinish.finalstateplayertext.color = player[0].colour
 			parent.board.popupFinish.finalstateplayertext.text = "      tu as perdu jeune survivant !"
 		}
 		
@@ -221,9 +225,10 @@ Item{
 		if(pop == 1) {
 			if((player[0].colour != "White") && (player[0].colour != "Pink")) 
 				parent.board.popupFinish.finalstateplayer.styleColor = player[0].colour
-			//parent.board.popupFinish.finalstateplayer.styleColor = player[0].colour
+			if(player[0].colour == "Pink")
+				parent.board.popupFinish.finalstateplayer.color = "pink"
+
 			parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name
-			//parent.board.popupFinish.finalstateplayertext.color = player[0].colour
 			parent.board.popupFinish.finalstateplayertext.text = " tu as été éliminé  !"
 		}
 		var component = Qt.createComponent("../library/StatutFin.qml")
