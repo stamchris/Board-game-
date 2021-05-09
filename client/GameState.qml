@@ -143,8 +143,10 @@ Item{
 
 	function showAWinner(player,pop,french_color) {
 		if(pop == 1) {
-			parent.board.popupFinish.finalstateplayer.styleColor = player[0].colour
-			parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name 
+			if((player[0].colour != "White") && (player[0].colour != "Pink")) 
+				parent.board.popupFinish.finalstateplayer.styleColor = player[0].colour
+			//parent.board.popupFinish.finalstateplayer.styleColor = player[0].colour
+			parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name
 			//parent.board.popupFinish.finalstateplayertext.color = player[0].colour
 			parent.board.popupFinish.finalstateplayertext.text = " tu as gagné jeune aventurier courageux ! "
 		}
@@ -167,7 +169,9 @@ Item{
 	
 	function showSWinner(player,pop,french_color) {
 		if(pop == 1) {
-			parent.board.popupFinish.finalstateplayer.styleColor = player[0].colour
+			if((player[0].colour != "White") && (player[0].colour != "Pink")) 
+				parent.board.popupFinish.finalstateplayer.styleColor = player[0].colour
+			//parent.board.popupFinish.finalstateplayer.styleColor = player[0].colour
 			parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name
 			//parent.board.popupFinish.finalstateplayertext.color = player[0].colour
 			parent.board.popupFinish.finalstateplayertext.text = " tu as gagné jeune survivant malicieux ! "
@@ -190,7 +194,9 @@ Item{
 	
 	function showSLoser(player,pop,french_color) {
 		if(pop == 1) {
-			parent.board.popupFinish.finalstateplayer.styleColor = player[0].colour
+			if((player[0].colour != "White") && (player[0].colour != "Pink")) 
+				parent.board.popupFinish.finalstateplayer.styleColor = player[0].colour
+			//parent.board.popupFinish.finalstateplayer.styleColor = player[0].colour
 			parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name
 			//parent.board.popupFinish.finalstateplayertext.color = player[0].colour
 			parent.board.popupFinish.finalstateplayertext.text = "      tu as perdu jeune survivant !"
@@ -213,7 +219,9 @@ Item{
 	
 	function showEliminate(player,pop,french_color) {
 		if(pop == 1) {
-			parent.board.popupFinish.finalstateplayer.styleColor = player[0].colour
+			if((player[0].colour != "White") && (player[0].colour != "Pink")) 
+				parent.board.popupFinish.finalstateplayer.styleColor = player[0].colour
+			//parent.board.popupFinish.finalstateplayer.styleColor = player[0].colour
 			parent.board.popupFinish.finalstateplayer.text = ""+ player[0].name
 			//parent.board.popupFinish.finalstateplayertext.color = player[0].colour
 			parent.board.popupFinish.finalstateplayertext.text = " tu as été éliminé  !"
@@ -248,8 +256,8 @@ Item{
 		var pop = 0
 		for (var i = 0; i < newPlayers.length; i++) {
 			if(newPlayers[i].colour == player.colour) {
-				if((player.colour == "White") || (player.colour == "Pink"))
-					parent.board.popupFinish.backgroundpopupf.color = "brown"
+				/*if((player.colour == "White") || (player.colour == "Pink"))
+					parent.board.popupFinish.backgroundpopupf.color = "brown"*/
 				pop = 1 //on ouvre le popup
 			}
 				
