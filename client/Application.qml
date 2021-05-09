@@ -7,11 +7,17 @@ import QtQuick.Window 2.12
 ApplicationWindow {
 	id: app
 	width: 1600
-	height: width/16*9
+	height: Math.floor(app.width/16*9)
+	minimumWidth: 1024
+	minimumHeight: 576
 	visible: true
 	property alias game: game
 	property alias socket: socket
 	title : "Cerbere"
+
+	onWidthChanged: {
+		app.maximumHeight = Math.floor(app.width/16*9)
+	}
 
 	/* Dans la version bureau, on utilise l'image comme background.
 	 * L'image comme background pose problème dans version web (des éléments
@@ -41,7 +47,10 @@ ApplicationWindow {
 		function switchMessage(message) {
 			switch(message.type) {
 				case "badLogin":
-					loader.currentItem.unamused.visible=true
+					let msglogin = "Le couple login/mot de passe contient une erreur"
+					console.log(msglogin);
+					loader.currentItem.showErrorMsgLogin(msglogin);
+					socket.active = false
 					break
 				case "newPlayer":
 					game.players.push(message.player)
@@ -162,7 +171,10 @@ ApplicationWindow {
 			console.log(status)
 
 			if (status == WebSocket.Error) {
-				console.log(socket.errorString)
+				//console.log(socket.errorString)
+				let msgloginserver = "La machine à l'adresse que vous avez entré n'existe pas"
+				console.log(msgloginserver);
+				loader.currentItem.showErrorMsgLogin(msgloginserver);
 			}
 
 			if (status == WebSocket.Open && socket.waiting4Connect) {
