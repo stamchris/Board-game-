@@ -19,7 +19,7 @@ Item {
 
 			Text {
 				id:textRetour
-				text: ("Lobby")
+				text: ("Retour")
 				font.pointSize: 14
 				color: retourMA.hoverEnabled && retourMA.containsMouse ? "white" : "black"
 				font.family: "Stoneyard"
