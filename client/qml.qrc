@@ -21,7 +21,7 @@
 		<file>Chat.qml</file>
 		<file>UsersView.qml</file>
 		<file>GameCreation.qml</file>
-		<file>KickButton.qml</file>
+		<file>Disconnect.qml</file>
 		<file>LobbyOption.qml</file>
 		<file>library/cards.js</file>
 		<file>Fin.qml</file>

@@ -6,7 +6,7 @@ import QtWebSockets 1.0
 Item {
 	property var players:[]
 	property var view:"Login"
-	property var rank: -1
+	property var playerName: ""
 	property var messages : []
 	property alias board: window
 	property alias lobby : lobby
@@ -14,8 +14,9 @@ Item {
 
 	
 	function getPlayer()
-	{
-		return players[rank]
+	{	
+		console.log(playerName)
+		return(players.find(player => player.name == playerName))
 	}
 
 	function addMessage(player,timestamp, message) {

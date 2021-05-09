@@ -106,7 +106,10 @@ Item {
 			showKickButtons: true
 			gameOwnerLogin: "???"
 
-			onKickClicked: console.log("unimplemented: kick clicked for " + user.login)
+			onKickClicked: {
+				socket.send({type: "kick",name:login})
+			}
+
 		}
 		
 		LobbyOption {

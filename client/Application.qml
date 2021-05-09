@@ -14,6 +14,10 @@ ApplicationWindow {
 	property alias game: game
 	property alias socket: socket
 	title : "Cerbere"
+	
+	onClosing: {
+		socket.send({type:"warnDisconnect"})
+	}
 
 	onWidthChanged: {
 		app.maximumHeight = Math.floor(app.width/16*9)
@@ -47,10 +51,10 @@ ApplicationWindow {
 		function switchMessage(message) {
 			switch(message.type) {
 				case "badLogin":
+					socket.active = false
 					let msglogin = "Le couple login/mot de passe contient une erreur"
 					console.log(msglogin);
 					loader.currentItem.showErrorMsgLogin(msglogin);
-					socket.active = false
 					break
 				case "newPlayer":
 					game.players.push(message.player)
@@ -60,7 +64,7 @@ ApplicationWindow {
 					app.title = "Cerbere : " + login
 					game.players = message.players
 					game.visible = true
-					game.rank = message.rank
+					game.playerName = message.players[message.rank].name
 					loader.push(game)
 					break
 				case "starter":
@@ -156,6 +160,13 @@ ApplicationWindow {
 					game.board.popupChooseCardsToDiscard.close()
 					game.board.popupSabotageWhatToDo.close()
 					break
+				case "disconnect":
+					socket.active = false
+					break
+				case "updateAllPlayers":
+					console.log(message.players)
+					game.players = message.players
+					break
 			}
 		}
 
@@ -187,6 +198,13 @@ ApplicationWindow {
 					type: "password",
 					password: socket.password
 				}))
+			}
+
+			if (status == WebSocket.Closed) {
+				loader.clear()
+				loader.push("Login.qml")
+				socket.active = false
+
 			}
 		}
 		

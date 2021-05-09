@@ -17,12 +17,39 @@ class Cerbere::Request
 		changeColour: ChangeColour,
 		chatMessage: ChatMessage,
 		answerSabotage: AnswerSabotage,
-		password: Password
+		password: Password,
+		warnDisconnect: WarnDisconnect,
+		kick: Kick
 	}
 
 	def handle(game : Game, player : Player)
 	end
+	
+	class Kick < Request
+		property type = "kick"
+		property name : String
 
+		def handle(game : Game, player : Player)
+			pp player.owner
+			pp player.name
+
+			if player.owner
+				kicked = game.players.find() do |player|
+					player.name == @name
+				end
+
+				unless kicked.nil?
+					if kicked != player		
+						game.players.delete(kicked)
+						kicked.send(Response::Disconnect.new())
+						game.send_all(Response::UpdateAllPlayers.new(game.players))
+						game.send_all(Response::UpdatePlayer.new(game.players[0]))
+					end
+				end
+			end
+		end
+	end
+			
 	class Login < Request
 		property type = "login"
 		property name : String
@@ -410,6 +437,25 @@ class Cerbere::Request
 			game.new_turn_if_all_set(currentPlayer)
 		end
 	end
+		
+	class WarnDisconnect < Request
+		property type = "warnDisconnect"
+		
+		def initialize()
+		end
+
+		def handle(game : Game, player : Player)
+			if (player.owner==true && game.players.size>1)
+				game.players[1].owner=true
+			end
+			if !(game.active)
+				game.players.delete(player)
+			end
+			player.send(Response::Disconnect.new())
+			game.send_all(Response::UpdateAllPlayers.new(game.players))
+			game.send_all(Response::UpdatePlayer.new(game.players[0]))
+		end
+	end
 end
 
 class Cerbere::Response
@@ -417,6 +463,21 @@ class Cerbere::Response
 
 	class BadLogin < Response
 		property type = "badLogin"
+
+		def initialize()
+		end
+	end
+
+	class UpdateAllPlayers < Response
+		property type = "updateAllPlayers"
+		property players : Array(Player)
+
+		def initialize(@players)
+		end
+	end
+
+	class Disconnect < Response
+		property type = "disconnect"
 
 		def initialize()
 		end
