@@ -37,6 +37,13 @@ ws "/" do |socket|
 
 		request.handle(game, player)
 	end
+
+	socket.on_close do |_|
+		puts("Déconnexion de : #{socket}")
+		request = Cerbere::Request::WarnDisconnect.new()
+		request.handle(game,player)
+	end
+
 end
 
 Kemal.run
