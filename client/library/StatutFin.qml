@@ -28,12 +28,16 @@ Rectangle {
 			color : "transparent"
 			y : height
 			Text {
-				anchors.centerIn : parent
 				id : textname
+				anchors.centerIn : parent
+				width : parent.width
 				y : 1/4*parent.height
 				text : "" 
 				font.pointSize: 24
 				font.family: "Stoneyard"
+				horizontalAlignment: Text.AlignHCenter
+				verticalAlignment: Text.AlignVCenter
+				elide: Text.ElideRight
 			}
 		}
 
