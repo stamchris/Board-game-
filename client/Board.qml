@@ -147,21 +147,47 @@ Item {
 		closePolicy:  Popup.CloseOnEscape | Popup.CloseOnPressOutside //default
 
 		property alias finalstateplayer : finalstateplayer
+		property alias finalstateplayertext : finalstateplayertext
+		property alias backgroundpopupf : backgroundpopupf
 		
 		background: Rectangle {
+			id : backgroundpopupf
 			color: "#ffd194"
 			radius: 3
 		}
-		
-		Text {
-			id: finalstateplayer
-			text : "O"
+
+		Row {
+			x : 3
 			height : parent.height/2
-			width : parent.width/2
-			x : 120
-			horizontalAlignment: Text.AlignHCenter
-			font.weight: Font.DemiBold
-			fontSizeMode:Text.Fit
+			width : parent.width
+			Rectangle {
+				width :parent.width/2
+				height : parent.height
+				color : "transparent"
+				Text {
+					id: finalstateplayer
+					text : ""
+					height : parent.height
+					width : parent.width
+					horizontalAlignment : Text.AlignRight
+					elide: Text.ElideRight
+					font.weight: Font.DemiBold
+					fontSizeMode:Text.Fit
+				}
+			}
+			Rectangle {
+				width : parent.width/2
+				height : parent.height
+				color : "transparent"
+				Text {
+					id: finalstateplayertext
+					text : ""
+					height : parent.height
+					width : parent.width
+					font.weight: Font.DemiBold
+					fontSizeMode:Text.Fit
+				}
+			}
 		}
 
 		Button {
