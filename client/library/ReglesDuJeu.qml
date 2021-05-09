@@ -2,29 +2,24 @@ import QtQuick 2.10
 import QtQuick.Controls 2.5
 import QtQuick.Window 2.5
 
-Window {
+Rectangle {
 	id: window2
-	width: 1500
-	height: 1100
-	visible: true
-	title: qsTr("Règles du jeu")
+	height: parent.height*0.75
+	width: parent.width*0.75
+	anchors.centerIn: parent
+	color: "#AA000000"
+	z: 100
+	clip: true
+	visible: false
 	
-	// Quand c'est compilé, l'URL est relative à l'emplacement de l'exécutable,
-	// si c'est exécuté avec qmlscene, elle est relative au dossier library
 	property string src: typeof ROOT_URL === "undefined" ? "../" : ROOT_URL
-	
-	BorderImage {
-		id: background
-		source: "/images/background_image.jpg"
-		anchors.fill:parent
-	}
-	
+
 	Button {
 		id: btnQuitter
-		text: "Quitter"
-		onClicked: window2.close()
-		x : 5
-		y : 5
+		text: "X"
+		anchors.top: parent.top
+		anchors.right: parent.right
+		onClicked: window2.visible = false
 	}
 	
 	ScrollView {
@@ -33,7 +28,6 @@ Window {
 		height: parent.height - 100 //sinon sur Window on voit pas la fin
 		anchors.top: btnQuitter.bottom
 		ScrollBar.vertical.policy: ScrollBar.AlwaysOn
-		
 		
 		ListView {
 			anchors.centerIn: parent
@@ -56,8 +50,8 @@ Window {
 			}
 			
 			delegate: Rectangle {
-				width: 1200
-				height: 1200
+				width: window2.width*0.90
+				height: window2.width*0.90
 				anchors.horizontalCenter: parent.horizontalCenter
 				
 				Image {

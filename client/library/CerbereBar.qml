@@ -130,21 +130,23 @@ Rectangle {
 				
 				Repeater {
 					id: rageBarRepeater
-					property string color: "indianred"
+					property string color: "#AA000000"
 					property int rageLevel: 1
 					model: ["", "", "", "", "", "", "", "", "", ""]
 					delegate: Rectangle {
 						height: parent.height
 						width: parent.width/10
-						color: index < rageBarRepeater.rageLevel ? rageBarRepeater.color : "indianred"
+						color: index < rageBarRepeater.rageLevel ? rageBarRepeater.color : "#AA000000"
 						border.color: "#740912"
 						border.width: 1
 
 						Text {
 							visible: index === rageBarRepeater.rageLevel-1
-							color: "Black"
+							color: "#EE111111"
 							text: index+1
 							anchors.centerIn: parent
+							font.family: "Stoneyard"
+							font.pixelSize: parent.height*0.75
 						}
 
 						Image {
