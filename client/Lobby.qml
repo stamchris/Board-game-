@@ -38,8 +38,7 @@ Item {
 	}										
 	
 	Disconnect {
-		anchors.top: parent.top
-		anchors.left: parent.left
+		anchors{top:parent.top;left: parent.left;topMargin: 10;leftMargin: 30}
 	}
 	
 	
