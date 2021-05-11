@@ -6,6 +6,7 @@ import QtWebSockets 1.12
 Item {
 	id : lobby
 	property string src: typeof ROOT_URL === "undefined" ? "" : ROOT_URL
+	property alias checkready : checkready
 	
 	Button{
 		visible: game.getPlayer().owner
@@ -37,8 +38,7 @@ Item {
 	}										
 	
 	Disconnect {
-		anchors.top: parent.top
-		anchors.left: parent.left
+		anchors{top:parent.top;left: parent.left;topMargin: 10;leftMargin: 30}
 	}
 	
 	
@@ -209,6 +209,7 @@ Item {
 
 
 	CheckBox {
+		id : checkready
 		anchors{horizontalCenter: parent.horizontalCenter;top:gridLayout.bottom;topMargin: 20}
 		text : "Je suis prêt !"
 		font.pointSize: 20

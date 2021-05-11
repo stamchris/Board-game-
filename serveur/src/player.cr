@@ -36,10 +36,8 @@ class Cerbere::Player
 	property type : TypeJoueur = TypeJoueur::AVENTURIER
 	property position : Int32 = 1
 
-	property lobby_id : Int32 = 0
-	#@[JSON::Field(ignore: true)]
-	property hand : Hand = Hand.new# Classe temporaire representant les utilisateurs provenant du lobby
-	property type : TypeJoueur = TypeJoueur::AVENTURIER
+	property lobby_id : Int32 = -1
+	property hand : Hand = Hand.new
 	property owner = false
 	property password = ""
 
@@ -63,19 +61,28 @@ class Cerbere::Player
 		db = game.db
 		if !(db.nil?)
 			result = db.query_one? "SELECT * FROM tab_joueur WHERE tab_joueur.login_joueur = ?", @name, as: {login: String , password: String}
+
+			game.players.each do |player|
+				if(player.name == @name)
+					send(Response::AlreadyIngame.new)
+					return 
+				end
+			end
+
 			if result.nil?
 				db.exec "INSERT INTO tab_joueur (login_joueur,password_joueur) VALUES(?,?)", @name,@password
 				result = {login:@name,password:@password}
 			end
-			
+
 			if result[:password] == @password
 				
 				if game.players.size == 0
 					@owner = true
 				end
 
-				game.send_all Response::NewPlayer.new self
+				@password = "RS TEAM"
 				game << self
+				game.send_all Response::NewPlayer.new self
 
 				send(Response::Welcome.new game.players, game.players.size-1)
 			else
@@ -86,9 +93,11 @@ class Cerbere::Player
 				@owner = true
 			end
 
-			game.send_all Response::NewPlayer.new self
-			game << self
+			@password = "RS TEAM"
 
+			game << self
+			game.send_all Response::NewPlayer.new self
+		
 			send(Response::Welcome.new game.players, game.players.size-1)
 		end
 

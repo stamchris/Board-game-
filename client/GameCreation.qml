@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.14
 import QtQuick 2.14
 
 Item {
-	property int difficulty: 3
+	property int difficulty: 0
 	property int maxPlayers: 3
 	property string boardType: "default"
 	property bool teamChat: false // not bound in its widget, careful
@@ -71,7 +71,7 @@ Item {
 				spacing: 10
 				
 				Repeater {
-					model: [3, 4, 5, 6]
+					model: [0, 1, 2, 3]
 					delegate: Button {
 						id: difficultyButton
 						width:120
@@ -83,7 +83,7 @@ Item {
 							radius: 60
 							
 							Text {
-								text: '*'.repeat(modelData - 2)
+								text: '*'.repeat(modelData + 1)
 								anchors.centerIn: parent
 								font.pointSize: 15
 								font.family: "Noto Emoji"
