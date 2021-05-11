@@ -61,13 +61,21 @@ class Cerbere::Player
 		db = game.db
 		if !(db.nil?)
 			result = db.query_one? "SELECT * FROM tab_joueur WHERE tab_joueur.login_joueur = ?", @name, as: {login: String , password: String}
+
+			present = 0
+			game.players.each do |player|
+				if(player.name == @name)
+					send(Response::BadLogin.new)
+					return 
+				end
+			end
+
 			if result.nil?
 				db.exec "INSERT INTO tab_joueur (login_joueur,password_joueur) VALUES(?,?)", @name,@password
 				result = {login:@name,password:@password}
 			end
-			
+
 			if result[:password] == @password
-				#puts " password : #{@password}"
 				
 				if game.players.size == 0
 					@owner = true
@@ -76,8 +84,6 @@ class Cerbere::Player
 				@password = "RS TEAM"
 				game << self
 				game.send_all Response::NewPlayer.new self
-				#game << self
-				#game.send_all(Response::UpdatePlayer.new(self))
 
 				send(Response::Welcome.new game.players, game.players.size-1)
 			else
@@ -88,13 +94,11 @@ class Cerbere::Player
 				@owner = true
 			end
 
-			#puts " password : #{@password}"
 			@password = "RS TEAM"
 
 			game << self
 			game.send_all Response::NewPlayer.new self
-			#game << self
-
+		
 			send(Response::Welcome.new game.players, game.players.size-1)
 		end
 
