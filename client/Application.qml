@@ -44,6 +44,12 @@ ApplicationWindow {
 
 		function switchMessage(message) {
 			switch(message.type) {
+				case "alreadyingame":
+					socket.active = false
+					let msgloginalready = "Ce joueur est déja présent dans la salle d'attente"
+					console.log(msgloginalready);
+					loader.currentItem.showErrorMsgLogin(msgloginalready);
+					break
 				case "badLogin":
 					socket.active = false
 					let msglogin = "Le couple login/mot de passe contient une erreur"
@@ -80,9 +86,6 @@ ApplicationWindow {
 						}
 					}
 					game.players = game.players
-					break
-				case "updatePosition":
-					game.state.changePosition(message.player.colour, message.player.position)
 					break
 				case "updateBoard":
 					for (var i = 0; i < game.players.length; i++) {
@@ -155,6 +158,7 @@ ApplicationWindow {
 					game.board.popupSabotageWhatToDo.close()
 					break
 				case "disconnect":
+					game.lobby.checkready.checked = false
 					socket.active = false
 					break
 				case "updateAllPlayers":

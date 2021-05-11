@@ -5,7 +5,7 @@ class Cerbere::Game
 	getter players : Array(Player)
 	getter active = false
 	property board : Board = Board.new(0, [] of Player)
-	property difficulty : Int32 = 3
+	property difficulty : Int32 = 0
 	property number_players : Int32 = 3
 	property active_player : Int32 = 0
 	property nb_turns : Int32 = 1
@@ -110,6 +110,7 @@ class Cerbere::Game
 		if (!@action_played)
 			board.play_card(players[active_player], true, 0, 0, [[0],[0],[0]])
 			@action_played = true
+			send_all(Response::CardPlayed.new("action", "1", 0, players[active_player]))
 		end
 
 		# Les aventuriers sabotés ont le droit à 30 secondes
@@ -170,7 +171,7 @@ class Cerbere::Game
 		send_all(Response::NextTurn.new())
 		spawn do 
 			save = @nb_turns
-			sleep(60)
+			sleep(120)
 			if !@finished && save == @nb_turns
 				new_turn()
 			end
@@ -189,7 +190,7 @@ class Cerbere::Game
 		send_all(Response::UpdateBoard.new(players, board.position_cerbere, board.vitesse_cerbere, board.rage_cerbere, board.pont, active_player))
 		spawn do 
 			save = @nb_turns
-			sleep(60)
+			sleep(120)
 			if !@finished && save == @nb_turns
 				new_turn()
 			end

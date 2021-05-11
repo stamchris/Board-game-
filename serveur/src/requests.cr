@@ -10,7 +10,6 @@ class Cerbere::Request
 		game_config: GameConfig,
 		play_action: PlayAction,
 		play_bonus: PlayBonus,
-		change_position: ChangePosition,
 		bridge_confirm: BridgeConfirm,
 		portal_confirm: PortalConfirm,
 		skip_turn: SkipTurn,
@@ -30,6 +29,9 @@ class Cerbere::Request
 		property name : String
 
 		def handle(game : Game, player : Player)
+			if game.active
+				return 
+			end
 			pp player.owner
 			pp player.name
 
@@ -81,6 +83,9 @@ class Cerbere::Request
 		property type = "ready"
 
 		def handle(game : Game, player : Player)
+			if game.active
+				return
+			end
 			player.ready = !player.ready
 			if game.check_players()
 				id = 0
@@ -89,7 +94,7 @@ class Cerbere::Request
 					id += 1
 				end
 				game.send_all(Response::Starter.new(game.players, game.difficulty))
-				game.start(0, game.players)
+				game.start(game.difficulty, game.players)
 			end
 		end
 	end
@@ -100,10 +105,9 @@ class Cerbere::Request
 
 		def handle(game : Game, player : Player)
 			pp game.players.to_json
-			if game.check_colour(@colour)
+			if !game.active && game.check_colour(@colour)
 				player.colour = @colour
 				game.send_all(Response::UpdatePlayer.new(player))
-			#FIXME : envoyer une resynchronisation sinon
 			end
 		end
 	end
@@ -112,31 +116,16 @@ class Cerbere::Request
 		property type = "gameConfig"
 		property difficulty : Int32
 		property maxPlayers : Int32
-		#FIXME : property board
 		
 		def handle(game : Game, player : Player)
-			if player.owner
-				game.difficulty=@difficulty
-				game.number_players=@maxPlayers
-				game.send_all(Response::GameConfigUpdated.new(player))
-				#FIXME : send boards too
-			else
-				#FIXME : raise error
-			end
-		end
-	end
-
-	class ChangePosition < Request
-		property type = "changePosition"
-		property change : Int32
-		property login : String
-
-		def handle(game : Game, player : Player)
-			game.players.each do |player|
-				if (player.name == @login)
-					player.position += change
-					game.send_all(Response::UpdatePosition.new(player))
+			if !game.active && player.owner
+				if @difficulty < 4 && @difficulty >= 0
+					game.difficulty=@difficulty
 				end
+				if @maxPlayers < 8 && @maxPlayers > 2
+					game.number_players=@maxPlayers
+				end
+				game.send_all(Response::GameConfigUpdated.new(player))
 			end
 		end
 	end
@@ -361,7 +350,9 @@ class Cerbere::Request
 		property type = "skipTurn"
 
 		def handle(game : Game, player : Player)
-			game.new_turn_if_all_set(player, true)
+			if player == game.players[game.active_player]
+				game.new_turn_if_all_set(player, true)
+			end
 		end
 	end
 
@@ -452,8 +443,10 @@ class Cerbere::Request
 				game.players.delete(player)
 			end
 			player.send(Response::Disconnect.new())
-			game.send_all(Response::UpdateAllPlayers.new(game.players))
-			game.send_all(Response::UpdatePlayer.new(game.players[0]))
+			if (game.players.size != 0)
+				game.send_all(Response::UpdateAllPlayers.new(game.players))
+				game.send_all(Response::UpdatePlayer.new(game.players[0]))
+			end
 		end
 	end
 end
@@ -529,14 +522,6 @@ class Cerbere::Response
 
 	class GameConfigUpdated < Response
 		property type = "gameConfigUpdated"
-		property player : Player
-
-		def initialize(@player)
-		end
-	end
-
-	class UpdatePosition < Response
-		property type = "updatePosition"
 		property player : Player
 
 		def initialize(@player)
@@ -652,6 +637,13 @@ class Cerbere::Response
 	class NextTurn < Response
 		property type = "nextTurn"
 
+		def initialize()
+		end
+	end
+
+	class AlreadyIngame < Response 
+		property type = "alreadyingame"
+		
 		def initialize()
 		end
 	end

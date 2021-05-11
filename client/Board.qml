@@ -1146,7 +1146,7 @@ Item {
 
 					Text {
 						id: currentPlayerTimerId
-						text: "60"
+						text: "120"
 						color: "Green"
 						font.pixelSize: 22
 						font.bold: true
@@ -1163,7 +1163,7 @@ Item {
 				if (window.parent.state.currentPlayer != newCurrentPlayer) {
 					currentPlayerId.text = newCurrentPlayer    
 					currentPlayerId.color = newCurrentPlayerColor
-					currentPlayerTimer = 61
+					currentPlayerTimer = 121
 					updateCurrentPlayerTimer()
 					window.parent.state.currentPlayer = newCurrentPlayer
 					window.parent.state.currentPlayerColor = newCurrentPlayerColor
