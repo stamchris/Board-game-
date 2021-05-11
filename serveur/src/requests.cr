@@ -30,7 +30,7 @@ class Cerbere::Request
 		property name : String
 
 		def handle(game : Game, player : Player)
-			if player.lobby_id >= 0 
+			if player.lobby_id >= 0 || game.active
 				return 
 			end
 			pp player.owner
@@ -84,6 +84,9 @@ class Cerbere::Request
 		property type = "ready"
 
 		def handle(game : Game, player : Player)
+			if game.active
+				return
+			end
 			player.ready = !player.ready
 			if game.check_players()
 				id = 0
@@ -92,7 +95,7 @@ class Cerbere::Request
 					id += 1
 				end
 				game.send_all(Response::Starter.new(game.players, game.difficulty))
-				game.start(0, game.players)
+				game.start(game.difficulty, game.players)
 			end
 		end
 	end
@@ -103,10 +106,9 @@ class Cerbere::Request
 
 		def handle(game : Game, player : Player)
 			pp game.players.to_json
-			if game.check_colour(@colour)
+			if !game.active && game.check_colour(@colour)
 				player.colour = @colour
 				game.send_all(Response::UpdatePlayer.new(player))
-			#FIXME : envoyer une resynchronisation sinon
 			end
 		end
 	end
@@ -115,16 +117,16 @@ class Cerbere::Request
 		property type = "gameConfig"
 		property difficulty : Int32
 		property maxPlayers : Int32
-		#FIXME : property board
 		
 		def handle(game : Game, player : Player)
-			if player.owner
-				game.difficulty=@difficulty
-				game.number_players=@maxPlayers
+			if !game.active && player.owner
+				if @difficulty < 4 && @difficulty >= 0
+					game.difficulty=@difficulty
+				end
+				if @maxPlayers < 8 && @maxPlayers > 2
+					game.number_players=@maxPlayers
+				end
 				game.send_all(Response::GameConfigUpdated.new(player))
-				#FIXME : send boards too
-			else
-				#FIXME : raise error
 			end
 		end
 	end
@@ -364,7 +366,9 @@ class Cerbere::Request
 		property type = "skipTurn"
 
 		def handle(game : Game, player : Player)
-			game.new_turn_if_all_set(player, true)
+			if player == game.players[game.active_player]
+				game.new_turn_if_all_set(player, true)
+			end
 		end
 	end
 
@@ -455,8 +459,10 @@ class Cerbere::Request
 				game.players.delete(player)
 			end
 			player.send(Response::Disconnect.new())
-			game.send_all(Response::UpdateAllPlayers.new(game.players))
-			game.send_all(Response::UpdatePlayer.new(game.players[0]))
+			if (game.players.size != 0)
+				game.send_all(Response::UpdateAllPlayers.new(game.players))
+				game.send_all(Response::UpdatePlayer.new(game.players[0]))
+			end
 		end
 	end
 end

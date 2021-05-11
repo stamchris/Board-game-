@@ -591,8 +591,8 @@ class Cerbere::Board
 
 		if @vitesse_cerbere > 8
 			@vitesse_cerbere = 8
-		elsif @vitesse_cerbere < 3 #difficulty ici a la place de 3
-			@vitesse_cerbere = 3 #difficulty ici a la place de 3
+		elsif @vitesse_cerbere < @difficulty + 3
+			@vitesse_cerbere = @difficulty + 3
 		end
 	end
 
