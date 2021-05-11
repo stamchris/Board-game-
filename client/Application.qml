@@ -44,6 +44,12 @@ ApplicationWindow {
 
 		function switchMessage(message) {
 			switch(message.type) {
+				case "alreadyingame":
+					socket.active = false
+					let msgloginalready = "Ce joueur est déja présent dans la salle d'attente"
+					console.log(msgloginalready);
+					loader.currentItem.showErrorMsgLogin(msgloginalready);
+					break
 				case "badLogin":
 					socket.active = false
 					let msglogin = "Le couple login/mot de passe contient une erreur"

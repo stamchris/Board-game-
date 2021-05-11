@@ -62,10 +62,9 @@ class Cerbere::Player
 		if !(db.nil?)
 			result = db.query_one? "SELECT * FROM tab_joueur WHERE tab_joueur.login_joueur = ?", @name, as: {login: String , password: String}
 
-			present = 0
 			game.players.each do |player|
 				if(player.name == @name)
-					send(Response::BadLogin.new)
+					send(Response::AlreadyIngame.new)
 					return 
 				end
 			end

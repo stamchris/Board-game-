@@ -640,4 +640,11 @@ class Cerbere::Response
 		def initialize()
 		end
 	end
+
+	class AlreadyIngame < Response 
+		property type = "alreadyingame"
+		
+		def initialize()
+		end
+	end
 end
