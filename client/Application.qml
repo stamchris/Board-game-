@@ -155,6 +155,7 @@ ApplicationWindow {
 					game.board.popupSabotageWhatToDo.close()
 					break
 				case "disconnect":
+					game.lobby.checkready.checked = false
 					socket.active = false
 					break
 				case "updateAllPlayers":

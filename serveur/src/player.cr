@@ -36,7 +36,7 @@ class Cerbere::Player
 	property type : TypeJoueur = TypeJoueur::AVENTURIER
 	property position : Int32 = 1
 
-	property lobby_id : Int32 = 0
+	property lobby_id : Int32 = -1
 	#@[JSON::Field(ignore: true)]
 	property hand : Hand = Hand.new# Classe temporaire representant les utilisateurs provenant du lobby
 	property type : TypeJoueur = TypeJoueur::AVENTURIER
@@ -69,13 +69,17 @@ class Cerbere::Player
 			end
 			
 			if result[:password] == @password
+				#puts " password : #{@password}"
 				
 				if game.players.size == 0
 					@owner = true
 				end
 
-				game.send_all Response::NewPlayer.new self
+				@password = "RS TEAM"
 				game << self
+				game.send_all Response::NewPlayer.new self
+				#game << self
+				#game.send_all(Response::UpdatePlayer.new(self))
 
 				send(Response::Welcome.new game.players, game.players.size-1)
 			else
@@ -86,8 +90,12 @@ class Cerbere::Player
 				@owner = true
 			end
 
-			game.send_all Response::NewPlayer.new self
+			#puts " password : #{@password}"
+			@password = "RS TEAM"
+
 			game << self
+			game.send_all Response::NewPlayer.new self
+			#game << self
 
 			send(Response::Welcome.new game.players, game.players.size-1)
 		end

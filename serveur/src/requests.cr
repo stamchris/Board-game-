@@ -30,6 +30,9 @@ class Cerbere::Request
 		property name : String
 
 		def handle(game : Game, player : Player)
+			if player.lobby_id >= 0 
+				return 
+			end
 			pp player.owner
 			pp player.name
 
@@ -42,6 +45,9 @@ class Cerbere::Request
 					if kicked != player		
 						game.players.delete(kicked)
 						kicked.send(Response::Disconnect.new())
+						kicked.ready = false
+						puts "color player kicker :  #{player.colour}"
+						puts "color kicked : #{kicked.colour}"
 						game.send_all(Response::UpdateAllPlayers.new(game.players))
 						game.send_all(Response::UpdatePlayer.new(game.players[0]))
 					end
@@ -452,6 +458,7 @@ class Cerbere::Request
 				game.players.delete(player)
 			end
 			player.send(Response::Disconnect.new())
+			player.ready = false
 			game.send_all(Response::UpdateAllPlayers.new(game.players))
 			game.send_all(Response::UpdatePlayer.new(game.players[0]))
 		end
