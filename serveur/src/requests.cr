@@ -30,7 +30,7 @@ class Cerbere::Request
 		property name : String
 
 		def handle(game : Game, player : Player)
-			if player.lobby_id >= 0 || game.active
+			if game.active
 				return 
 			end
 			pp player.owner
