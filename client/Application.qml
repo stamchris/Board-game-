@@ -81,9 +81,6 @@ ApplicationWindow {
 					}
 					game.players = game.players
 					break
-				case "updatePosition":
-					game.state.changePosition(message.player.colour, message.player.position)
-					break
 				case "updateBoard":
 					for (var i = 0; i < game.players.length; i++) {
 						if ((game.state.players[i].position != message.players[i].position)) {
